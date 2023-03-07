@@ -7,12 +7,14 @@
 #include "tkFile/TkaFile.h"
 #include "graphics/Shader.h"
 #include "time/FPSLimitter.h"
+#include "RenderingEngine.h"
 
 namespace nsK2EngineLow {
 	class GraphicsEngine;
 	class GameTime;
 	class Texture;
 	class Font;
+	class RenderingEngine;
 
 	class K2EngineLow {
 	public:
@@ -73,7 +75,7 @@ namespace nsK2EngineLow {
 		/// </summary>
 		/// <param name="filePath">ファイルパス</param>
 		/// <param name="tksFile">登録するtksファイル。</param>
-		void RegistTksFileToBank(const char* filePath, TksFile* tksFile) 
+		void RegistTksFileToBank(const char* filePath, TksFile* tksFile)
 		{
 			m_tksFileBank.Regist(filePath, tksFile);
 		}
@@ -200,7 +202,7 @@ namespace nsK2EngineLow {
 			m_frameRateInfo.frameRateMode = frameRateMode;
 			m_frameRateInfo.maxFPS = maxFPS;
 		}
-		
+
 	private:
 #ifdef K2_DEBUG
 		std::unique_ptr<Font> m_fpsFont;
@@ -216,9 +218,9 @@ namespace nsK2EngineLow {
 		GamePad m_pad[GamePad::CONNECT_PAD_MAX];		// ゲームパッド。
 		GameTime m_gameTime;
 		FPSLimitter m_fpsLimitter;						// FPSに制限をかける処理。
-		FrameRateInfo m_frameRateInfo = { enFrameRateMode_Variable , 60};
+		FrameRateInfo m_frameRateInfo = { enFrameRateMode_Variable , 60 };
 	};
-
+	extern RenderingEngine* g_renderingEngine;
 	extern K2EngineLow* g_engine;	// 低レベルK2エンジン。
 	extern GameTime* g_gameTime;
 }
