@@ -34,6 +34,16 @@ namespace nsK2EngineLow
 	void ModelRender::Update()
 	{
 
+		if (m_isEnableInstancingDraw) {
+			return;
+		}
+
+		UpdaterWorldMatrixInModes();
+	}
+
+	void ModelRender::UpdaterWorldMatrixInModes()
+	{
+		m_model.UpdateWorldMatrix(m_position, m_rotation, m_scale);
 	}
 
 	void ModelRender::Draw(RenderContext& rc)
@@ -45,5 +55,4 @@ namespace nsK2EngineLow
 	{
 		m_model.Draw(rc);
 	}
-
 }

@@ -1,4 +1,5 @@
 #pragma once
+
 #include "geometry/AABB.h"
 
 namespace nsK2EngineLow
@@ -39,42 +40,34 @@ namespace nsK2EngineLow
 			m_position = pos;
 		}
 
-		void SetPosition(float x, float y, float z)
-		{
-			SetPosition({ x, y, z });
-		}
-
 		void SetRotation(const Quaternion& rotation)
 		{
 			m_rotation = rotation;
 		}
 
-
 		void SetScale(const Vector3& scale)
 		{
 			m_scale = scale;
 		}
-		void SetScale(float x, float y, float z)
-		{
-			SetScale({ x, y, z });
-		}
 
-		void OnRender(RenderContext& rc);
+		void OnRender(RenderContext& rc) override;
+
+		
 
 	private:
 
-		//void UpdaterWorldMatrixInModes();
-
+		void UpdaterWorldMatrixInModes();
+		
 	private:
 		Model m_model;
 		ModelInitData m_modelInitData;
-		Model m_mainRenderModel;
 
 		Vector3 					m_position = Vector3::Zero;			// 座標。
 		Quaternion	 				m_rotation = Quaternion::Identity;	// 回転。
 		Vector3						m_scale = Vector3::One;				// 拡大率。
 		EnModelUpAxis				m_enFbxUpAxis = enModelUpAxisZ;
 
+		bool						m_isEnableInstancingDraw = false;
 	};
 }
 

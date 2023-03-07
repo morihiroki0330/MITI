@@ -228,6 +228,12 @@
     <ClCompile Include="ModelRender.cpp" />
     <ClCompile Include="RenderingEngine.cpp" />
     <ClCompile Include="Geometry.cpp" />
+    <ClCompile Include="LevelRender.cpp">
+      <Filter>Level3DRender</Filter>
+    </ClCompile>
+    <ClCompile Include="MapChipRender.cpp">
+      <Filter>Level3DRender</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="k2EngineLowPreCompile.h" />
@@ -506,6 +512,12 @@
     <ClInclude Include="ModelRender.h" />
     <ClInclude Include="RenderingEngine.h" />
     <ClInclude Include="Geometry.h" />
+    <ClInclude Include="LevelRender.h">
+      <Filter>Level3DRender</Filter>
+    </ClInclude>
+    <ClInclude Include="MapChipRender.h">
+      <Filter>Level3DRender</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="graphics">
@@ -564,6 +576,9 @@
     </Filter>
     <Filter Include="AI\PathFinding">
       <UniqueIdentifier>{72d94fe6-e599-4523-8e54-81df808c96fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level3DRender">
+      <UniqueIdentifier>{13abcad5-3c3a-49e3-8408-855d4e51412a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
