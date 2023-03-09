@@ -9,5 +9,25 @@ public:
 
 	ModelRender modelRender;
 	Vector3 player_P;
+
+	//移動処理
+	void Move();
+	//回転処理
+	void Rotation();
+
+	//キャラクターコントローラー
+	CharacterController characterController;
+
+	//キャラクターの移動速度
+	Vector3 moveSpeed;
+
+	//クォータニオン
+	Quaternion rotation;
+
+	//プレイヤーの状態を保存する変数
+	int playerState = 0;
+
+	//スティックの入力量を保存する変数
+	Vector3 StickL;
 };
 
