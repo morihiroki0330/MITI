@@ -112,5 +112,8 @@ static const int MAX_BONE = 512;	// ƒ{[ƒ“‚ÌÅ‘å”B
 
 #include "IRender.h"
 #include "ModelRender.h"
+#include "SpriteRender.h"
 #include "RenderingEngine.h"
 #include "Geometry.h"
+//#include "MapChipRender.h"
+//#include "LevelRender.h"

@@ -7,7 +7,8 @@ public:
 	void Update();
 	void Render(RenderContext& rc);
 
-	ModelRender Unity;
+	ModelRender Unity_M;
+	SpriteRender Unity_S;
 	Vector3 Unity_P;
 };
 

@@ -34,7 +34,8 @@ namespace nsK2EngineLow
 	void ModelRender::Update()
 	{
 
-		if (m_isEnableInstancingDraw) {
+		if (m_isEnableInstancingDraw)
+		{
 			return;
 		}
 
@@ -51,7 +52,8 @@ namespace nsK2EngineLow
 		g_renderingEngine->InRenderObject(this);
 	}
 
-	void ModelRender::OnRender(RenderContext& rc)
+
+	void ModelRender::OnRender(RenderContext& rc) 
 	{
 		m_model.Draw(rc);
 	}

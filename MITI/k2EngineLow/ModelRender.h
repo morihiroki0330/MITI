@@ -52,8 +52,6 @@ namespace nsK2EngineLow
 
 		void OnRender(RenderContext& rc) override;
 
-		
-
 	private:
 
 		void UpdaterWorldMatrixInModes();

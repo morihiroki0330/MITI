@@ -228,12 +228,7 @@
     <ClCompile Include="ModelRender.cpp" />
     <ClCompile Include="RenderingEngine.cpp" />
     <ClCompile Include="Geometry.cpp" />
-    <ClCompile Include="LevelRender.cpp">
-      <Filter>Level3DRender</Filter>
-    </ClCompile>
-    <ClCompile Include="MapChipRender.cpp">
-      <Filter>Level3DRender</Filter>
-    </ClCompile>
+    <ClCompile Include="SpriteRender.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="k2EngineLowPreCompile.h" />
@@ -512,12 +507,7 @@
     <ClInclude Include="ModelRender.h" />
     <ClInclude Include="RenderingEngine.h" />
     <ClInclude Include="Geometry.h" />
-    <ClInclude Include="LevelRender.h">
-      <Filter>Level3DRender</Filter>
-    </ClInclude>
-    <ClInclude Include="MapChipRender.h">
-      <Filter>Level3DRender</Filter>
-    </ClInclude>
+    <ClInclude Include="SpriteRender.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="graphics">
