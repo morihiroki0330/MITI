@@ -19,7 +19,8 @@ Player::~Player()
 
 void Player::Update()
 {
-	player_P.z += 1.0f;
+	player_P.x += g_pad[0]->GetLStickXF() * 5.0f;
+	player_P.z += g_pad[0]->GetLStickYF() * 5.0f;
 
 	modelRender.SetPosition(player_P);
 	modelRender.Update();
