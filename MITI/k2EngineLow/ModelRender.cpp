@@ -40,6 +40,7 @@ namespace nsK2EngineLow
 		}
 
 		UpdaterWorldMatrixInModes();
+
 	}
 
 	void ModelRender::UpdaterWorldMatrixInModes()
@@ -57,4 +58,5 @@ namespace nsK2EngineLow
 	{
 		m_model.Draw(rc);
 	}
+
 }
