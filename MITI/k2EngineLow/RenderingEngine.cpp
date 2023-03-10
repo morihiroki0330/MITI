@@ -29,6 +29,11 @@ namespace nsK2EngineLow
 		{
 			objData->OnRender2D(rc);
 		}
+		
+		for (auto& objData : f_renderObjects)
+		{
+			objData->OnRender2D(rc);
+		}
 	}
 
 	void RenderingEngine::Execute(RenderContext& rc)
@@ -36,5 +41,6 @@ namespace nsK2EngineLow
 		AddRenderObject(rc);
 		m_renderObjects.clear();
 		s_renderObjects.clear();
+		f_renderObjects.clear();
 	}
 }

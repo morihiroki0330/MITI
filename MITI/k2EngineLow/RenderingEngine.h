@@ -3,7 +3,9 @@ namespace nsK2EngineLow
 {
 	class ModelRender;
 	class SpriteRender;
+	class FontRender;
 	class RenderContext;
+	
 
 	class RenderingEngine : public Noncopyable
 	{
@@ -52,6 +54,11 @@ namespace nsK2EngineLow
 			s_renderObjects.push_back(renderObject);
 		}
 		
+		void InRenderObject(FontRender* renderObject)
+		{
+			f_renderObjects.push_back(renderObject);
+		}
+		
 		void AddRenderObject(RenderContext& rc);
 
 		void Execute(RenderContext& rc);
@@ -60,6 +67,7 @@ namespace nsK2EngineLow
 
 		std::vector<ModelRender*> m_renderObjects;
 		std::vector<SpriteRender*> s_renderObjects;
+		std::vector<FontRender*> f_renderObjects;
 
 		struct SEventListenerData
 		{
