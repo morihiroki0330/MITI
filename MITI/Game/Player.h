@@ -14,6 +14,13 @@ public:
 	void Move();
 	//回転処理
 	void Rotation();
+	//鉄球処理
+	void Ball();
+	//アニメーション処理
+	void Animation();
+
+	//鉄球の所持数
+	int ironBall = 0;
 
 	//キャラクターコントローラー
 	CharacterController characterController;
