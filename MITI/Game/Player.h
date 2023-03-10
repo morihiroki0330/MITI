@@ -18,6 +18,8 @@ public:
 	void Ball();
 	//アニメーション処理
 	void Animation();
+	//ステータス表示処理
+	void Status();
 
 	//鉄球の所持数
 	int ironBall = 0;
@@ -36,5 +38,8 @@ public:
 
 	//スティックの入力量を保存する変数
 	Vector3 StickL;
+
+	//フォントレンダー
+	FontRender fontRender;
 };
 

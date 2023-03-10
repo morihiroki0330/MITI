@@ -36,6 +36,8 @@ void Player::Update()
 	Ball();
 	//アニメーション処理
 	Animation();
+	//ステータス表示処理
+	Status();
 
 	modelRender.SetPosition(player_P);
 	modelRender.SetRotation(rotation);
@@ -115,7 +117,42 @@ void Player::Animation()
 	}
 }
 
+void Player::Status()
+{
+	//持っている鉄球の数の表示
+	wchar_t iron[256];
+	swprintf_s(iron, 256, L"所持鉄球:%d", int(ironBall));
+	//表示するテキストを設定。
+	fontRender.SetText(iron);
+	//フォントの位置を設定。
+	fontRender.SetPosition(Vector3(-952.0f, 450.0f, 0.0f));
+	//フォントの大きさを設定。
+	fontRender.SetScale(1.0f);
+
+	//座標を確認するためのプログラム
+
+	////プレイヤーの座標の表示
+	//wchar_t playerX[256];
+	//swprintf_s(playerX, 256, L"x座標:%d", int(player_P.x));
+	////表示するテキストを設定。
+	//fontRender.SetText(playerX);
+	////フォントの位置を設定。
+	//fontRender.SetPosition(Vector3(-852.0f, 450.0f, 0.0f));
+	////フォントの大きさを設定。
+	//fontRender.SetScale(1.0f);
+
+	//wchar_t playerZ[256];
+	//swprintf_s(playerZ, 256, L"z座標:%d", int(player_P.z));
+	////表示するテキストを設定。
+	//fontRender.SetText(playerZ);
+	////フォントの位置を設定。
+	//fontRender.SetPosition(Vector3(-852.0f, 450.0f, 0.0f));
+	////フォントの大きさを設定。
+	//fontRender.SetScale(1.0f);
+}
+
 void Player::Render(RenderContext& rc)
 {
 	modelRender.Draw(rc);
+	fontRender.Draw(rc);
 }
