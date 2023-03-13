@@ -13,8 +13,10 @@ public:
 	//“S‹…‚ÌÀ•W‚ğ•Û‚·‚é”z—ñ
 	Vector3 ball_P[5];
 
+	int ballCounter;
+
 	Player* player;
 
-	ModelRender modelRender;
+	ModelRender ironRender[5];
 };
 
