@@ -230,6 +230,8 @@
     <ClCompile Include="Geometry.cpp" />
     <ClCompile Include="SpriteRender.cpp" />
     <ClCompile Include="FontRender.cpp" />
+    <ClCompile Include="CameraCollisionSolver.cpp" />
+    <ClCompile Include="SpringCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="k2EngineLowPreCompile.h" />
@@ -510,6 +512,8 @@
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="SpriteRender.h" />
     <ClInclude Include="FontRender.h" />
+    <ClInclude Include="CameraCollisionSolver.h" />
+    <ClInclude Include="SpringCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="graphics">
