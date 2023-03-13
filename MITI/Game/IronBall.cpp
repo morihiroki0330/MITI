@@ -8,7 +8,8 @@ IronBall::IronBall()
 	{
 		ironRender[i].Init("Assets/modelData/tekyu/tekyu8.tkm");
 
-		ball_P[i] = { 0.0f,-1000.0f,0.0f };
+		ball_P[i] = { 100.0f,0.0f,0.0f };
+		showFlag[i] = true;
 	}
 }
 
@@ -26,32 +27,81 @@ void IronBall::Update()
 	}
 	else/* if(player != NULL)*/
 	{
-		if (g_pad[0]->IsTrigger(enButtonB))
+		//‚ß‚àAƒ}ƒX–Ú‚Í•160
+
+		//“S‹…‚ð’u‚­À•W‚ð“o˜^‚·‚éˆ—
+		if (player->put_Iron == true)
 		{
 			for (int i = 0; i < 5; i++)
 			{
-				if (ball_P[i].y == -1000.0f)
+				if (showFlag[i] == false)
 				{
-					ball_P[i].x = player->player_P.x;
+					/*ball_P[i].x = player->player_P.x;
 					ball_P[i].y = player->player_P.y;
-					ball_P[i].z = player->player_P.z;
+					ball_P[i].z = player->player_P.z;*/
 
+					int x, z;
+					if (player->player_P.x < 0)
+					{
+						x = player->player_P.x / 160 - 1;
+					}
+					else
+					{
+						x = player->player_P.x / 160;
+					}
+
+					z = player->player_P.z / 160;
+
+					ball_P[i].x = 74 + 160 * x;
+					ball_P[i].y = player->player_P.y;
+					ball_P[i].z = 40 + 160 * z;
+
+					showFlag[i] = true;
+
+					player->ironBall--;
+					
 					break;
 				}
 			}
+
+			player->put_Iron = false;
 		}
 
-		if (g_pad[0]->IsTrigger(enButtonA))
+		//’u‚¢‚Ä‚ ‚é“S‹…‚ð‰ñŽû‚·‚éˆ—
+		if (player->get_Iron == true)
 		{
+			int a = 0;
+
 			for (int i = 0; i < 5; i++)
 			{
-				if (ball_P[i].y != -1000)
+				/*if (ball_P[i].y != -1000)
 				{
 					ball_P[i].y = -1000.0f;
 
 					break;
+				}*/
+
+				//
+				if (player->player_P.x < ball_P[i].x + 45 + 30
+					&& player->player_P.x > ball_P[i].x - 45 - 30
+					&& player->player_P.z < ball_P[i].z + 45 + 30
+					&& player->player_P.z > ball_P[i].z - 45 - 30
+					&& showFlag[i] == true)
+				{
+					a = i;
+					showFlag[a] = false;
+					player->ironBall++;
+
+					break;
 				}
 			}
+
+			//if (a != 0)
+			//{
+			//	
+			//}
+
+			player->get_Iron = false;
 		}
 
 		//ballCounter = player->ironBall;
@@ -68,7 +118,7 @@ void IronBall::Render(RenderContext& rc)
 {
 	for (int i = 0; i < 5; i++)
 	{
-		if (ball_P[i].y != -1000.0f)
+		if (showFlag[i] == true)
 		{
 			ironRender[i].Draw(rc);
 		}

@@ -54,6 +54,15 @@ void Player::Move()
 	moveSpeed.x += StickL.x * (0.8f * (6 - ironBall));
 	moveSpeed.z += StickL.y * (0.8f * (6 - ironBall));
 
+	/*if (characterController.IsOnGround())
+	{
+		moveSpeed.y = 0.0f;
+	}
+	else
+	{
+		moveSpeed.y = -2.5f;
+	}*/
+
 	//キャラクターコントローラーを使って座標の移動
 	player_P = characterController.Execute(moveSpeed, 1.0f);
 }
@@ -69,15 +78,15 @@ void Player::Rotation()
 
 void Player::Ball()
 {
-	//とりあえず無条件で鉄球増減
+	//鉄球クラスで鉄球の所持数を変えるためにフラグ変数を変更する
 	if (g_pad[0]->IsTrigger(enButtonA) && ironBall < 5)
 	{
-		ironBall++;
+		get_Iron = true;
 	}
 
 	if (g_pad[0]->IsTrigger(enButtonB) && ironBall > 0)
 	{
-		ironBall--;
+		put_Iron = true;
 	}
 }
 
@@ -131,15 +140,15 @@ void Player::Status()
 
 	//座標を確認するためのプログラム
 
-	////プレイヤーの座標の表示
-	//wchar_t playerX[256];
-	//swprintf_s(playerX, 256, L"x座標:%d", int(player_P.x));
-	////表示するテキストを設定。
-	//fontRender.SetText(playerX);
-	////フォントの位置を設定。
-	//fontRender.SetPosition(Vector3(-852.0f, 450.0f, 0.0f));
-	////フォントの大きさを設定。
-	//fontRender.SetScale(1.0f);
+	//プレイヤーの座標の表示
+	wchar_t playerX[256];
+	swprintf_s(playerX, 256, L"x座標:%d", int(player_P.x));
+	//表示するテキストを設定。
+	fontRender.SetText(playerX);
+	//フォントの位置を設定。
+	fontRender.SetPosition(Vector3(-852.0f, 450.0f, 0.0f));
+	//フォントの大きさを設定。
+	fontRender.SetScale(1.0f);
 
 	//wchar_t playerZ[256];
 	//swprintf_s(playerZ, 256, L"z座標:%d", int(player_P.z));
