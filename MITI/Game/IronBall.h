@@ -1,4 +1,7 @@
 #pragma once
+
+class Player;
+
 class IronBall : public IGameObject
 {
 public:
@@ -7,6 +10,13 @@ public:
 	void Update();
 	void Render(RenderContext& rc);
 
-	ModelRender modelRender;
+	//“S‹…‚ÌÀ•W‚ğ•Û‚·‚é”z—ñ
+	Vector3 ball_P[5];
+
+	int ballCounter;
+
+	Player* player;
+
+	ModelRender ironRender[5];
 };
 
