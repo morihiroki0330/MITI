@@ -5,28 +5,53 @@
 #include "IronBall.h"
 #include "Player.h"
 #include "Gameover.h"
+#include "GameClear.h"
+#include "G_Tekyu.h"
+#include "Stage.h"
 
 Game::Game()
 {
-	//PhysicsWorld::GetInstance()->SetGravity({ 0.0f,-5.0f,0.01f });
-	//PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
-	m_modelRender.Init("Assets/modelData/test4.tkm");
+	//物理に対する重力設定。
+	PhysicsWorld::GetInstance()->SetGravity({ 0.0f,0.0f,0.0f });
+	PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
+
+	m_modelRender.Init("Assets/modelData/test9.tkm");
 	m_modelRender.Update();
+	m_physicsStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix(), 10.0f);
 
 	m_player = NewGO<Player>(1, "player");
+	m_G_tekyu = NewGO<G_Tekyu>(2, "g_tekyu");
+	//m_stage = NewGO<Stage>(0, "stage");
+
 
 }
 Game::~Game()
 {
+	DeleteGO(m_player);
+	DeleteGO(m_ironBall);
+	DeleteGO(m_stage);
+	DeleteGO(m_G_tekyu);
 	DeleteGO(this);
 }
 
 void Game::Update()
 {
+	m_player->moveSpeed.y = -5.0f;
 	//ゲームオーバー条件を設定
-	if (m_player->player_P.z >= 200.0f) {
+	if (m_player->player_P.y<=-200.0f) {
 		NewGO<Gameover>(0, "gameover");
 		DeleteGO(this);
+	}
+
+	//ゲームクリア条件を設定
+	else if (m_player->player_P.z >= 500.0f) {
+		NewGO<GameClear>(0, "gameclear");
+		DeleteGO(this);
+	}
+
+	//大鉄球の再表示(開発用)
+	if (g_pad[0]->IsTrigger(enButtonLB1)) {
+		m_G_tekyu = NewGO<G_Tekyu>(0);
 	}
 
 	// g_renderingEngine->DisableRaytracing();

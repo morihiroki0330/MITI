@@ -5,6 +5,9 @@ class Player;
 class Hole;
 class IronBall;
 class Gameover;
+class GameClear;
+class G_Tekyu;
+class Stage;
 
 class Game : public IGameObject
 {
@@ -16,10 +19,15 @@ public:
 
 private:
 	ModelRender m_modelRender;
-	IronBall* m_ironBall;		//鉄球
+	IronBall* m_ironBall;		//持てる鉄球
 	Hole* hole;					//穴
+	G_Tekyu* m_G_tekyu;			//大鉄球
 	Player* m_player;			//プレイヤー
 	Gameover* m_gameover;		//ゲームオーバー
-	Vector3 m_pos;
+	GameClear* m_gameclear;		//ゲームクリア
+	Stage* m_stage;				//ステージ
+	Vector3 m_pos;				//座標
+
+	PhysicsStaticObject m_physicsStaticObject;
 };
 
