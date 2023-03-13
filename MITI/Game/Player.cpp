@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "Player.h"
-#include "Gameover.h"
 
 Player::Player()
 {
@@ -18,11 +17,13 @@ Player::Player()
 
 Player::~Player()
 {
+	//
 
 }
 
 void Player::Update()
 {
+	//
 
 	//スティックの入力量の取得
 	StickL.x = g_pad[0]->GetLStickXF();
@@ -121,14 +122,13 @@ void Player::Status()
 {
 	//持っている鉄球の数の表示
 	wchar_t iron[256];
-	swprintf_s(iron, 256, L"所持鉄球:%d個", int(ironBall));
+	swprintf_s(iron, 256, L"所持鉄球:%d", int(ironBall));
 	//表示するテキストを設定。
 	fontRender.SetText(iron);
 	//フォントの位置を設定。
 	fontRender.SetPosition(Vector3(-952.0f, 450.0f, 0.0f));
 	//フォントの大きさを設定。
 	fontRender.SetScale(1.0f);
-	//fontRender.SetRotation(20.0f);
 
 	//座標を確認するためのプログラム
 
