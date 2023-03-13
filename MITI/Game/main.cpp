@@ -2,6 +2,7 @@
 #include "system/system.h"
 #include "UNITY.h"
 #include "Player.h"
+#include "IronBall.h"
 
 
 //#include "Game.h"
@@ -24,9 +25,15 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	g_camera3D->SetPosition({ 0.0f, 100.0f, -200.0f });
 	g_camera3D->SetTarget({ 0.0f, 50.0f, 0.0f });
 
+<<<<<<< HEAD
 	//NewGO<UNITY>(0);
 	//NewGO<Player>(0);
 	NewGO<Title>(0,"title");
+=======
+	NewGO<UNITY>(0);
+	NewGO<Player>(0, "player");
+	NewGO<IronBall>(0);
+>>>>>>> 9a8b10c767c40f6d056508bbf32908a844346a70
 
 	// ここからゲームループ。
 	while (DispatchWindowMessage())
