@@ -24,7 +24,7 @@ Game::Game()
 	m_G_tekyu = NewGO<G_Tekyu>(2, "g_tekyu");
 	m_gamecamera = NewGO<GameCamera>(3, "gamecamera");
 	//m_stage = NewGO<Stage>(0, "stage");
-
+	m_ironBall= NewGO<IronBall>(4, "ironball");
 
 }
 Game::~Game()
