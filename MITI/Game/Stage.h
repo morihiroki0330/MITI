@@ -9,5 +9,6 @@ public:
 
 	ModelRender m_modelRender;
 	PhysicsStaticObject m_physicsStaticObject;
+	float stageID[10][10];
 };
 

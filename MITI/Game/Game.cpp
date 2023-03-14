@@ -12,12 +12,12 @@
 Game::Game()
 {
 	//物理に対する重力設定。
-	PhysicsWorld::GetInstance()->SetGravity({ 0.0f,0.0f,0.0f });
+	PhysicsWorld::GetInstance()->SetGravity({ 0.0f,-980.0f,0.0f });
 	PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
 
-	m_modelRender.Init("Assets/modelData/test9.tkm");
+	m_modelRender.Init("Assets/modelData/test10.tkm");
 	m_modelRender.Update();
-	m_physicsStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix(), 10.0f);
+	m_physicsStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
 
 	m_player = NewGO<Player>(1, "player");
 	m_G_tekyu = NewGO<G_Tekyu>(2, "g_tekyu");
@@ -37,14 +37,15 @@ Game::~Game()
 void Game::Update()
 {
 	m_player->moveSpeed.y = -5.0f;
-	//ゲームオーバー条件を設定
-	if (m_player->player_P.y<=-200.0f) {
+
+	//仮のゲームオーバー条件を設定
+	if (m_player->player_P.y<=-300.0f) {
 		NewGO<Gameover>(0, "gameover");
 		DeleteGO(this);
 	}
 
-	//ゲームクリア条件を設定
-	else if (m_player->player_P.z >= 500.0f) {
+	//仮のゲームクリア条件を設定
+	else if (m_player->player_P.z >= 700.0f) {
 		NewGO<GameClear>(0, "gameclear");
 		DeleteGO(this);
 	}
@@ -53,6 +54,10 @@ void Game::Update()
 	if (g_pad[0]->IsTrigger(enButtonLB1)) {
 		m_G_tekyu = NewGO<G_Tekyu>(0);
 	}
+
+	/*if (m_G_tekyu != nullptr) {
+		m_player->characterController.
+	}*/
 
 	// g_renderingEngine->DisableRaytracing();
 	m_modelRender.Update();
