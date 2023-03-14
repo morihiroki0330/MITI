@@ -59,6 +59,8 @@ namespace nsK2EngineLow
 			f_renderObjects.push_back(renderObject);
 		}
 		
+
+
 		void AddRenderObject(RenderContext& rc);
 
 		void Execute(RenderContext& rc);

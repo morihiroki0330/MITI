@@ -1,7 +1,7 @@
 #pragma once
 
 #include "geometry/AABB.h"
-//#include "graphics/ComputeAnimationVertexBuffer.h"
+//#include "AnimationRender.h"
 
 namespace nsK2EngineLow
 {
@@ -10,6 +10,7 @@ namespace nsK2EngineLow
 	class ModelRender : public IRender
 	{
 	public:
+	//コンストラクタ・デストラクタ・初期化・更新。描画
 		//コンストラクタ・デストラクタ
 		ModelRender();
 		~ModelRender();
@@ -26,8 +27,6 @@ namespace nsK2EngineLow
 			bool isFrontCullingOnDrawShadowMap = false
 		);
 
-	
-	
 		//更新
 		void Update();
 
@@ -77,7 +76,6 @@ namespace nsK2EngineLow
 
 //アニメーション
 		
-
 		//アニメーションの再生
 		//引数：（アニメーションクリップの番号）,（補間時間、単位：秒）
 		void PlayAnimation(int animNo, float interpolareTime = 0.0f)
@@ -96,20 +94,26 @@ namespace nsK2EngineLow
 		
 		void SetAnimationSpeed(const float animationSpeed)
 		{
-
+			m_animationSpeed = animationSpeed;
 		}
 
 		//ボーンを取得
 		Bone* GetBone(int boneNo) const
 		{
+			return m_skeleton.GetBone(boneNo);
+		}
 
+		void AddAnimationEvent(AnimationEventListener eventListener)
+		{
+			m_animation.AddAnimationEventListener(eventListener);
 		}
 
 		//ボーン検索
 		int FindBoneID(const wchar_t* boneName)
 		{
-
+			return m_skeleton.FindBoneID(boneName);
 		}
+
 	private:
 
 		void UpdaterWorldMatrixInModes();

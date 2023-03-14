@@ -225,13 +225,27 @@
     <ClCompile Include="graphics\FrameBuffer.cpp">
       <Filter>graphics</Filter>
     </ClCompile>
-    <ClCompile Include="ModelRender.cpp" />
-    <ClCompile Include="RenderingEngine.cpp" />
-    <ClCompile Include="Geometry.cpp" />
-    <ClCompile Include="SpriteRender.cpp" />
-    <ClCompile Include="FontRender.cpp" />
-    <ClCompile Include="CameraCollisionSolver.cpp" />
-    <ClCompile Include="SpringCamera.cpp" />
+    <ClCompile Include="graphicsRender\SpriteRender.cpp">
+      <Filter>graphicsRender</Filter>
+    </ClCompile>
+    <ClCompile Include="graphicsRender\RenderingEngine.cpp">
+      <Filter>graphicsRender</Filter>
+    </ClCompile>
+    <ClCompile Include="graphicsRender\ModelRender.cpp">
+      <Filter>graphicsRender</Filter>
+    </ClCompile>
+    <ClCompile Include="graphicsRender\Geometry.cpp">
+      <Filter>graphicsRender</Filter>
+    </ClCompile>
+    <ClCompile Include="graphicsRender\FontRender.cpp">
+      <Filter>graphicsRender</Filter>
+    </ClCompile>
+    <ClCompile Include="camera\CameraCollisionSolver.cpp">
+      <Filter>camera</Filter>
+    </ClCompile>
+    <ClCompile Include="camera\SpringCamera.cpp">
+      <Filter>camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="k2EngineLowPreCompile.h" />
@@ -506,14 +520,30 @@
     <ClInclude Include="graphics\FrameBuffer.h">
       <Filter>graphics</Filter>
     </ClInclude>
-    <ClInclude Include="IRender.h" />
-    <ClInclude Include="ModelRender.h" />
-    <ClInclude Include="RenderingEngine.h" />
-    <ClInclude Include="Geometry.h" />
-    <ClInclude Include="SpriteRender.h" />
-    <ClInclude Include="FontRender.h" />
-    <ClInclude Include="CameraCollisionSolver.h" />
-    <ClInclude Include="SpringCamera.h" />
+    <ClInclude Include="graphicsRender\SpriteRender.h">
+      <Filter>graphicsRender</Filter>
+    </ClInclude>
+    <ClInclude Include="graphicsRender\RenderingEngine.h">
+      <Filter>graphicsRender</Filter>
+    </ClInclude>
+    <ClInclude Include="graphicsRender\ModelRender.h">
+      <Filter>graphicsRender</Filter>
+    </ClInclude>
+    <ClInclude Include="graphicsRender\IRender.h">
+      <Filter>graphicsRender</Filter>
+    </ClInclude>
+    <ClInclude Include="graphicsRender\Geometry.h">
+      <Filter>graphicsRender</Filter>
+    </ClInclude>
+    <ClInclude Include="graphicsRender\FontRender.h">
+      <Filter>graphicsRender</Filter>
+    </ClInclude>
+    <ClInclude Include="camera\CameraCollisionSolver.h">
+      <Filter>camera</Filter>
+    </ClInclude>
+    <ClInclude Include="camera\SpringCamera.h">
+      <Filter>camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="graphics">
@@ -575,6 +605,12 @@
     </Filter>
     <Filter Include="Level3DRender">
       <UniqueIdentifier>{13abcad5-3c3a-49e3-8408-855d4e51412a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="graphicsRender">
+      <UniqueIdentifier>{7f14ec3b-6646-4284-9ee2-f213f78ed21b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="camera">
+      <UniqueIdentifier>{b3b23e32-2685-423b-8ce6-f9b583bb7398}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

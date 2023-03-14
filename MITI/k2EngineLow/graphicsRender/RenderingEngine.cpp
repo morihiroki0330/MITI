@@ -25,6 +25,11 @@ namespace nsK2EngineLow
 			objData->OnRender(rc);
 		}
 
+		for (auto& objData : m_renderObjects)
+		{
+			objData->OnComputeVertex(rc);
+		}
+
 		for (auto& objData : s_renderObjects)
 		{
 			objData->OnRender2D(rc);
