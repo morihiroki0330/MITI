@@ -26,8 +26,8 @@ void Player::Update()
 	//
 
 	//スティックの入力量の取得
-	StickL.x = g_pad[0]->GetLStickXF();
-	StickL.y = g_pad[0]->GetLStickYF();
+	StickL.x = g_pad[0]->GetLStickYF();
+	StickL.y = g_pad[0]->GetLStickXF();
 
 	//移動処理
 	Move();
@@ -52,7 +52,7 @@ void Player::Move()
 	moveSpeed.z = 0.0f;
 
 	//プレイヤーの移動
-	moveSpeed.x += StickL.x * (0.8f * (6 - ironBall));
+	moveSpeed.x += StickL.x * -(0.8f * (6 - ironBall));
 	moveSpeed.z += StickL.y * (0.8f * (6 - ironBall));
 
 	/*if (characterController.IsOnGround())
@@ -141,15 +141,15 @@ void Player::Status()
 
 	//座標を確認するためのプログラム
 
-	//プレイヤーの座標の表示
-	wchar_t playerX[256];
-	swprintf_s(playerX, 256, L"x座標:%d", int(player_P.x));
-	//表示するテキストを設定。
-	fontRender.SetText(playerX);
-	//フォントの位置を設定。
-	fontRender.SetPosition(Vector3(-852.0f, 450.0f, 0.0f));
-	//フォントの大きさを設定。
-	fontRender.SetScale(1.0f);
+	////プレイヤーの座標の表示
+	//wchar_t playerX[256];
+	//swprintf_s(playerX, 256, L"x座標:%d", int(player_P.x));
+	////表示するテキストを設定。
+	//fontRender.SetText(playerX);
+	////フォントの位置を設定。
+	//fontRender.SetPosition(Vector3(-852.0f, 450.0f, 0.0f));
+	////フォントの大きさを設定。
+	//fontRender.SetScale(1.0f);
 
 	//wchar_t playerZ[256];
 	//swprintf_s(playerZ, 256, L"z座標:%d", int(player_P.z));

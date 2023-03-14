@@ -8,7 +8,7 @@ IronBall::IronBall()
 	{
 		ironRender[i].Init("Assets/modelData/tekyu/tekyu8.tkm");
 
-		ball_P[i] = { 100.0f,0.0f,0.0f };
+		ball_P[i] = { 100.0f,30.0f,0.0f };
 		showFlag[i] = true;
 	}
 }
@@ -27,7 +27,7 @@ void IronBall::Update()
 	}
 	else/* if(player != NULL)*/
 	{
-		//めも、マス目は幅160
+		//めも、マス目は幅190
 
 		//鉄球を置く座標を登録する処理
 		if (player->put_Iron == true)
@@ -41,20 +41,27 @@ void IronBall::Update()
 					ball_P[i].z = player->player_P.z;*/
 
 					int x, z;
-					if (player->player_P.x < 0)
+					if (player->player_P.z < 0)
 					{
-						x = player->player_P.x / 160 - 1;
+						z = player->player_P.z / 190 - 1;
 					}
 					else
 					{
-						x = player->player_P.x / 160;
+						z = player->player_P.z / 190;
 					}
 
-					z = player->player_P.z / 160;
+					if (player->player_P.x < 0)
+					{
+						x = player->player_P.x / 190 - 1;
+					}
+					else
+					{
+						x = player->player_P.x / 190;
+					}
 
-					ball_P[i].x = 74 + 160 * x;
-					ball_P[i].y = player->player_P.y;
-					ball_P[i].z = 40 + 160 * z;
+					ball_P[i].x = 89 + 190 * x;
+					ball_P[i].y = /*player->player_P.y + */25;
+					ball_P[i].z = 95 + 190 * z;
 
 					showFlag[i] = true;
 
