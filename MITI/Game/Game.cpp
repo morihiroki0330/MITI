@@ -8,6 +8,7 @@
 #include "GameClear.h"
 #include "G_Tekyu.h"
 #include "Stage.h"
+#include "GameCamera.h"
 
 Game::Game()
 {
@@ -21,6 +22,7 @@ Game::Game()
 
 	m_player = NewGO<Player>(1, "player");
 	m_G_tekyu = NewGO<G_Tekyu>(2, "g_tekyu");
+	m_gamecamera = NewGO<GameCamera>(3, "gamecamera");
 	//m_stage = NewGO<Stage>(0, "stage");
 
 

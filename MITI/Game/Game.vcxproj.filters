@@ -11,13 +11,31 @@
     <ClCompile Include="system\system.cpp">
       <Filter>system</Filter>
     </ClCompile>
-    <ClCompile Include="UNITY.cpp" />
+    <ClCompile Include="G_Tekyu.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Gameover.cpp" />
+    <ClCompile Include="Hole.cpp" />
+    <ClCompile Include="IronBall.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="Title.cpp" />
+    <ClCompile Include="GameClear.cpp" />
+    <ClCompile Include="GameCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h">
       <Filter>system</Filter>
     </ClInclude>
-    <ClInclude Include="UNITY.h" />
+    <ClInclude Include="G_Tekyu.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="Gameover.h" />
+    <ClInclude Include="Hole.h" />
+    <ClInclude Include="IronBall.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="Stage.h" />
+    <ClInclude Include="Title.h" />
+    <ClInclude Include="GameClear.h" />
+    <ClInclude Include="GameCamera.h" />
   </ItemGroup>
 </Project>

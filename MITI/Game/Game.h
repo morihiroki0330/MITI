@@ -8,6 +8,7 @@ class Gameover;
 class GameClear;
 class G_Tekyu;
 class Stage;
+class GameCamera;
 
 class Game : public IGameObject
 {
@@ -27,6 +28,8 @@ private:
 	GameClear* m_gameclear;		//ゲームクリア
 	Stage* m_stage;				//ステージ
 	Vector3 m_pos;				//座標
+	GameCamera* m_gamecamera;   //カメラ
+
 
 	PhysicsStaticObject m_physicsStaticObject;
 };
