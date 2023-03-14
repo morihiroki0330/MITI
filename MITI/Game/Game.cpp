@@ -9,22 +9,24 @@
 #include "G_Tekyu.h"
 #include "Stage.h"
 #include "GameCamera.h"
+#include "G_BreakFloar.h"
 
 Game::Game()
 {
 	//•¨—‚É‘Î‚·‚éd—ÍÝ’èB
-	PhysicsWorld::GetInstance()->SetGravity({ 0.0f,-980.0f,0.0f });
+	PhysicsWorld::GetInstance()->SetGravity({ 0.0f,-90.0f,0.0f });
 	PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
 
-	m_modelRender.Init("Assets/modelData/test10.tkm");
+	m_modelRender.Init("Assets/modelData/wall2.tkm");
 	m_modelRender.Update();
 	m_physicsStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
 
 	m_player = NewGO<Player>(1, "player");
 	m_G_tekyu = NewGO<G_Tekyu>(2, "g_tekyu");
 	m_gamecamera = NewGO<GameCamera>(3, "gamecamera");
-	//m_stage = NewGO<Stage>(0, "stage");
-	m_ironBall= NewGO<IronBall>(4, "ironball");
+	m_stage = NewGO<Stage>(0, "stage");
+	m_ironBall = NewGO<IronBall>(4, "ironball");
+	m_G_breakfloar = NewGO<G_BreakFloar>(5, "g_breakfloar");
 
 }
 Game::~Game()
@@ -33,6 +35,7 @@ Game::~Game()
 	DeleteGO(m_ironBall);
 	DeleteGO(m_stage);
 	DeleteGO(m_G_tekyu);
+	DeleteGO(m_G_breakfloar);
 	DeleteGO(this);
 }
 
@@ -56,10 +59,6 @@ void Game::Update()
 	if (g_pad[0]->IsTrigger(enButtonLB1)) {
 		m_G_tekyu = NewGO<G_Tekyu>(0);
 	}
-
-	/*if (m_G_tekyu != nullptr) {
-		m_player->characterController.
-	}*/
 
 	// g_renderingEngine->DisableRaytracing();
 	m_modelRender.Update();
