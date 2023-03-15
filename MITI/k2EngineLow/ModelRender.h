@@ -20,14 +20,19 @@ namespace nsK2EngineLow
 			const char* filePath,
 			AnimationClip* animationClips = nullptr,
 			int numAnimationClips = 0,
-			EnModelUpAxis enModelUpAxis = enModelUpAxisZ,
-			bool isShadowReciever = true,
-			int maxInstance = 1,
-			bool isFrontCullingOnDrawShadowMap = false
+			EnModelUpAxis enModelUpAxis = enModelUpAxisZ
+		);
+	
+		//アニメーションの初期化
+		void InitAnimation
+		(
+		AnimationClip* animationClips,
+		int numAnimationClips,
+		EnModelUpAxis enModelUpAxis
 		);
 
-	
-	
+		void InitSkeleton(const char* filePath);
+
 		//更新
 		void Update();
 
@@ -77,7 +82,6 @@ namespace nsK2EngineLow
 
 //アニメーション
 		
-
 		//アニメーションの再生
 		//引数：（アニメーションクリップの番号）,（補間時間、単位：秒）
 		void PlayAnimation(int animNo, float interpolareTime = 0.0f)
@@ -86,14 +90,12 @@ namespace nsK2EngineLow
 		}
 
 		//アニメーションが再生中か？
-		
 		bool IsPlayAnimation() const
 		{
 			return m_animation.IsPlaying();
 		}
 
 		//アニメーションの再生速度設定
-		
 		void SetAnimationSpeed(const float animationSpeed)
 		{
 
@@ -102,14 +104,15 @@ namespace nsK2EngineLow
 		//ボーンを取得
 		Bone* GetBone(int boneNo) const
 		{
-
+			return m_skeleton.GetBone(boneNo);
 		}
 
 		//ボーン検索
 		int FindBoneID(const wchar_t* boneName)
 		{
-
+			return m_skeleton.FindBoneID(boneName);
 		}
+
 	private:
 
 		void UpdaterWorldMatrixInModes();
