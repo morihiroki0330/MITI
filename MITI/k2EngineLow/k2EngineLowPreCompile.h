@@ -123,3 +123,4 @@ static const int MAX_BONE = 512;	// ƒ{[ƒ“‚ÌÅ‘å”B
 //#include "LevelRender.h"
 
 #include "physics/PhysicsSphereObject.h"
+#include "physics/PhysicsStaticObjectPos.h"

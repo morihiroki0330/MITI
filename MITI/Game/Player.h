@@ -24,6 +24,9 @@ public:
 	//鉄球の所持数
 	int ironBall = 0;
 
+	//鉄球置き＆回収のフラグ
+	bool get_Iron = false, put_Iron = false;
+
 	//キャラクターコントローラー
 	CharacterController characterController;
 

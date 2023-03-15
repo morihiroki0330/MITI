@@ -26,8 +26,8 @@ void Player::Update()
 	//
 
 	//スティックの入力量の取得
-	StickL.x = g_pad[0]->GetLStickXF();
-	StickL.y = g_pad[0]->GetLStickYF();
+	StickL.x = g_pad[0]->GetLStickYF();
+	StickL.y = g_pad[0]->GetLStickXF();
 
 	//移動処理
 	Move();
@@ -52,8 +52,17 @@ void Player::Move()
 	moveSpeed.z = 0.0f;
 
 	//プレイヤーの移動
-	moveSpeed.x += StickL.x * (0.8f * (6 - ironBall));
+	moveSpeed.x += StickL.x * -(0.8f * (6 - ironBall));
 	moveSpeed.z += StickL.y * (0.8f * (6 - ironBall));
+
+	/*if (characterController.IsOnGround())
+	{
+		moveSpeed.y = 0.0f;
+	}
+	else
+	{
+		moveSpeed.y = -2.5f;
+	}*/
 
 	//キャラクターコントローラーを使って座標の移動
 	player_P = characterController.Execute(moveSpeed, 1.0f);
@@ -70,15 +79,15 @@ void Player::Rotation()
 
 void Player::Ball()
 {
-	//とりあえず無条件で鉄球増減
+	//鉄球クラスで鉄球の所持数を変えるためにフラグ変数を変更する
 	if (g_pad[0]->IsTrigger(enButtonA) && ironBall < 5)
 	{
-		ironBall++;
+		get_Iron = true;
 	}
 
 	if (g_pad[0]->IsTrigger(enButtonB) && ironBall > 0)
 	{
-		ironBall--;
+		put_Iron = true;
 	}
 }
 

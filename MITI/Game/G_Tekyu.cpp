@@ -13,7 +13,7 @@ G_Tekyu::G_Tekyu()
 	modelRender.Init("Assets/modelData/tekyu/tekyu9.tkm");
 	
 	//球の規定サイズは35.0とする。
-	m_physicsSphereObject.CreateCylinder(34.0f,
+	m_physicsSphereObject.CreateCylinder(35.0f,
 		Tpos, rotation, 0.0f, 1000.0f);
 	m_physicsSphereObject.SetFriction(10.0f);
 }
