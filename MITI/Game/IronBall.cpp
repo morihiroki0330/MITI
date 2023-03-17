@@ -8,7 +8,7 @@ IronBall::IronBall()
 	{
 		ironRender[i].Init("Assets/modelData/tekyu/tekyu8.tkm");
 
-		ball_P[i] = { 100.0f,30.0f,0.0f };
+		ball_P[i] = { rand()%1200-600.0f,30.0f, rand() % 600-300.0f };
 		showFlag[i] = true;
 	}
 }
