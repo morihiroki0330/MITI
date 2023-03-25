@@ -16,6 +16,8 @@ public:
 	void Rotation();
 	//鉄球処理
 	void Ball();
+	//ステート管理
+	void ManageState();
 	//アニメーション処理
 	void Animation();
 	//ステータス表示処理
@@ -44,5 +46,18 @@ public:
 
 	//フォントレンダー
 	FontRender fontRender;
+
+	enum EnAnimationClip {		//アニメーション。
+		enAnimationClip_Idle,
+		enAnimationClip_Walk,
+		enAnimationClip_Jump,
+		enAnimationClip_Run,
+		enAnimationClip_Throw,
+		enAnimationClip_Push,
+		enAnimationClip_Fall,
+		enAnimationClip_Put,
+		enAnimationClip_Num,
+	};
+	AnimationClip m_animationClips[enAnimationClip_Num];		//アニメーションクリップ。
 };
 

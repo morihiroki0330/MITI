@@ -3,7 +3,17 @@
 
 Player::Player()
 {
-	modelRender.Init("Assets/modelData/unityChan.tkm");
+	//アニメーション呼び出し
+	m_animationClips[enAnimationClip_Idle].Load("Assets/animData/idle.tka");
+	m_animationClips[enAnimationClip_Idle].SetLoopFlag(true);
+	m_animationClips[enAnimationClip_Walk].Load("Assets/animData/walk.tka");
+	m_animationClips[enAnimationClip_Walk].SetLoopFlag(true);
+	m_animationClips[enAnimationClip_Jump].Load("Assets/animData/jump.tka");
+	m_animationClips[enAnimationClip_Jump].SetLoopFlag(false);
+	m_animationClips[enAnimationClip_Put].Load("Assets/animData/put.tka");
+	m_animationClips[enAnimationClip_Put].SetLoopFlag(false);
+
+	modelRender.Init("Assets/modelData/unityChan.tkm", m_animationClips, enAnimationClip_Num, enModelUpAxisY);
 
 	player_P.x = 0.0f;
 	player_P.y = 0.0f;
@@ -35,6 +45,8 @@ void Player::Update()
 	Rotation();
 	//鉄球処理
 	Ball();
+	//プレイヤーステート処理
+	ManageState();
 	//アニメーション処理
 	Animation();
 	//ステータス表示処理
@@ -91,35 +103,56 @@ void Player::Ball()
 	}
 }
 
-void Player::Animation()
+void Player::ManageState()
 {
 	//プレイヤーステートの変更
-	if (player_P.y < 0)
+	if (characterController.IsOnGround() == false)
 	{
 		//落下
 		playerState = 2;
 	}
-	else if (StickL.x == 0 && StickL.y == 0)
+	else if (put_Iron == true)
 	{
-		//立ち
-		playerState = 0;
+		//置き
+		playerState = 3;
 	}
-	else
+	else if (get_Iron == true)
+	{
+		//回収
+		playerState = 3;
+	}
+	else if (StickL.x != 0 && StickL.y != 0)
 	{
 		//歩き
 		playerState = 1;
 	}
+	else
+	{
+		//立ち
+		playerState = 0;
+	}
 
+}
+
+void Player::Animation()
+{
 	switch (playerState)
 	{
 	//立ちモーション
 	case 0:
+		modelRender.PlayAnimation(enAnimationClip_Idle, 0.2f);
 		break;
 	//歩きモーション
 	case 1:
+		modelRender.PlayAnimation(enAnimationClip_Walk, 0.2f);
 		break;
 	//落下モーション
 	case 2:
+		modelRender.PlayAnimation(enAnimationClip_Jump, 0.2f);
+		break;
+		//設置モーション
+	case 3:
+		modelRender.PlayAnimation(enAnimationClip_Put);
 		break;
 	//
 	default:
