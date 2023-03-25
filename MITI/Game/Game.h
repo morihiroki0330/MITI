@@ -21,6 +21,7 @@ public:
 
 private:
 	ModelRender m_modelRender;
+	FontRender m_fontRender;
 	IronBall* m_ironBall;			//‚Ä‚é“S‹…
 	Hole* hole;						//ŒŠ
 	G_Tekyu* m_G_tekyu;				//‘å“S‹…
@@ -32,6 +33,9 @@ private:
 	GameCamera* m_gamecamera;		//ƒJƒƒ‰
 	G_BreakFloar* m_G_breakfloar;   //•ö‰ó‚·‚é°
 
+	//ŠÔ‚ğ‘ª‚éŠÖ”
+	int timer;
+	int timelimit = 60;
 
 	PhysicsStaticObject m_physicsStaticObject;
 };
