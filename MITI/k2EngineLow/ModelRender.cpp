@@ -25,8 +25,26 @@ namespace nsK2EngineLow
 		m_modelInitData.m_fxFilePath = "Assets/shader/model.fx";
 		m_modelInitData.m_modelUpAxis = enModelUpAxis;
 
+
 		InitSkeleton(filePath);
 		InitAnimation(animationClips, numAnimationClips, enModelUpAxis);
+			
+
+		directionLight.directionlight.x = 1.0f;
+		directionLight.directionlight.y = -1.0f;
+		directionLight.directionlight.z = -1.0f;
+
+		directionLight.directionlight.Normalize();
+
+		directionLight.lightcolor.x = 1.2f;
+		directionLight.lightcolor.y = 1.2f;
+		directionLight.lightcolor.z = 1.2f;
+		directionLight.lightcolor.w = 1.0f;
+
+		directionLight.eyePos = g_camera3D->GetPosition();
+
+		m_modelInitData.m_expandConstantBuffer = &directionLight;
+		m_modelInitData.m_expandConstantBufferSize = sizeof(directionLight);
 
 		if (m_animationClips != nullptr)
 		{

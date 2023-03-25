@@ -7,6 +7,15 @@ namespace nsK2EngineLow
 {
 	class RenderingEngine;
 
+	struct DirectionLight
+	{
+		Vector3 directionlight;
+		float pad;
+		Vector4 lightcolor;
+		float pad1;
+		Vector3 eyePos;
+	};
+
 	class ModelRender : public IRender
 	{
 	public:
@@ -153,6 +162,8 @@ namespace nsK2EngineLow
 		Vector3						m_scale = Vector3::One;				// ägëÂó¶ÅB
 
 		bool						m_isEnableInstancingDraw = false;
+//ÉâÉCÉg
+		DirectionLight directionLight;
 	};
 }
 

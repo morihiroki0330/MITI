@@ -7,11 +7,20 @@
 // 定数バッファ。
 ////////////////////////////////////////////////
 //モデル用の定数バッファ
-cbuffer ModelCb : register(b0){
+cbuffer ModelCb : register(b0)
+{
 	float4x4 mWorld;
 	float4x4 mView;
 	float4x4 mProj;
+	
 };
+
+cbuffer DirectionLightCb : register(b1)
+{
+	float3 directionlight;
+	float4 lightcolor;
+	float3 eyePos;
+}
 
 ////////////////////////////////////////////////
 // 構造体
@@ -24,19 +33,23 @@ struct SSkinVSIn{
 //頂点シェーダーへの入力。
 struct SVSIn{
 	float4 pos 		: POSITION;		//モデルの頂点座標。
+	float3 normal   :NORMAL;
 	float2 uv 		: TEXCOORD0;	//UV座標。
 	SSkinVSIn skinVert;				//スキン用のデータ。
 };
 //ピクセルシェーダーへの入力。
 struct SPSIn{
 	float4 pos 			: SV_POSITION;	//スクリーン空間でのピクセルの座標。
+	float3 normal       :NORMAL;
 	float2 uv 			: TEXCOORD0;	//uv座標。
+	float3 worldPos     : TEXCOORD1;
 };
 
 ////////////////////////////////////////////////
 // グローバル変数。
 ////////////////////////////////////////////////
 Texture2D<float4> g_albedo : register(t0);				//アルベドマップ
+//Texture2D<float4> g_texture : register(t1);				//アルベドマップ
 StructuredBuffer<float4x4> g_boneMatrix : register(t3);	//ボーン行列。
 sampler g_sampler : register(s0);	//サンプラステート。
 
@@ -75,9 +88,12 @@ SPSIn VSMainCore(SVSIn vsIn, uniform bool hasSkin)
 	}else{
 		m = mWorld;
 	}
+
 	psIn.pos = mul(m, vsIn.pos);
+	psIn.worldPos = vsIn.pos;
 	psIn.pos = mul(mView, psIn.pos);
 	psIn.pos = mul(mProj, psIn.pos);
+	psIn.normal = mul(mWorld, vsIn.normal);
 
 	psIn.uv = vsIn.uv;
 
@@ -101,8 +117,47 @@ SPSIn VSSkinMain( SVSIn vsIn )
 /// <summary>
 /// ピクセルシェーダーのエントリー関数。
 /// </summary>
-float4 PSMain( SPSIn psIn ) : SV_Target0
+float4 PSMain(SPSIn psIn) : SV_Target0
 {
+	//拡散反射
+	
+	float t = dot(psIn.normal,directionlight);
+	t *= -1.0f;
+
+	if (t < 0.0f)
+	{
+		t = 0.0f;
+	}
+	float3 diffuselight = lightcolor * t;
+	
+
+	////鏡面反射光
+	float3 refVec = reflect(directionlight,psIn.normal);
+
+	float3 toEye = eyePos - psIn.worldPos;
+
+	toEye = normalize(toEye);
+
+	t = dot(refVec, toEye);
+
+	if (t < 0.0f)
+	{
+		t = 0.0f;
+	}
+
+	t = pow(t, 15.0f);
+
+	float3 specularlight = lightcolor * t;
+
+	float3 lig = diffuselight + specularlight;
+
+	lig.x += 1.0f;
+	lig.y += 1.0f;
+	lig.z += 1.0f;
+
 	float4 albedoColor = g_albedo.Sample(g_sampler, psIn.uv);
+
+	albedoColor.xyz *= lig;
+
 	return albedoColor;
 }
