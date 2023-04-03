@@ -7,13 +7,38 @@ namespace nsK2EngineLow
 {
 	class RenderingEngine;
 
-	struct DirectionLight
+	struct Light
 	{
-		Vector3 directionlight;
-		float pad;
-		Vector4 lightcolor;
+	//ディレクションライト
+		Vector3 DirectionLight;//ライトの方向
+		float pad0;
+		Vector3 DirectionLight_C;//ライトのカラー
 		float pad1;
-		Vector3 eyePos;
+
+	//ポイントライト
+		Vector3 Point_P;//ライトの位置
+		float pad2;
+		Vector3 Point_C;//カラー
+		float Point_R;//影響範囲
+
+	//スポットライト
+		Vector3 Spot_P;//ライトの位置
+		float pad3;
+		Vector3 Spot_C;//ライトのカラー
+		float Spot_R;//影響範囲
+		Vector3 Spot_D;//ライトの方向
+		float Spot_A;//ライトの角度
+
+	//半球ライト
+		Vector3 Ground_C;//地面のカラー
+		float pad4;
+		Vector3 Sky_C;//ライトのカラー
+		float pad5;
+		Vector3 Ground_N;//地面の法線
+
+	//共通
+		Vector3 eye_P;//視点の位置
+		Vector3 ambientlight;//環境光
 	};
 
 	class ModelRender : public IRender
@@ -163,7 +188,7 @@ namespace nsK2EngineLow
 
 		bool						m_isEnableInstancingDraw = false;
 //ライト
-		DirectionLight directionLight;
+		Light light;
 	};
 }
 
