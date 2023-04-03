@@ -15,9 +15,9 @@ Game::Game()
 {
 	//物理に対する重力設定。
 	PhysicsWorld::GetInstance()->SetGravity({ 0.0f,-90.0f,0.0f });
-	PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
+	//PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
 
-	m_modelRender.Init("Assets/modelData/wall2.tkm");
+	m_modelRender.Init("Assets/modelData/wall3.tkm");
 	m_modelRender.Update();
 	m_physicsStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
 
@@ -26,7 +26,7 @@ Game::Game()
 	m_gamecamera = NewGO<GameCamera>(3, "gamecamera");
 	m_stage = NewGO<Stage>(0, "stage");
 	m_ironBall = NewGO<IronBall>(4, "ironball");
-	m_G_breakfloar = NewGO<G_BreakFloar>(5, "g_breakfloar");
+	//m_G_breakfloar = NewGO<G_BreakFloar>(5, "g_breakfloar");
 
 }
 Game::~Game()
@@ -42,9 +42,10 @@ Game::~Game()
 void Game::Update()
 {
 	m_player->moveSpeed.y = -5.0f;
+	timer++;
 
 	//仮のゲームオーバー条件を設定
-	if (m_player->player_P.y<=-300.0f) {
+	if (m_player->player_P.y <= -300.0f || timer > 60 * 60) {
 		NewGO<Gameover>(0, "gameover");
 		DeleteGO(this);
 	}
@@ -63,9 +64,20 @@ void Game::Update()
 	// g_renderingEngine->DisableRaytracing();
 	m_modelRender.Update();
 
+
+	//時間の表示
+	wchar_t clock[256];
+	swprintf_s(clock, 256, L"残り時間:%d", int(timelimit - timer / 60));
+	//表示するテキストを設定。
+	m_fontRender.SetText(clock);
+	//フォントの位置を設定。
+	m_fontRender.SetPosition(Vector3(-150.0f, 525.0f, 0.0f));
+	//フォントの大きさを設定。
+	m_fontRender.SetScale(1.0f);
 }
 
 void Game::Render(RenderContext& rc)
 {
 	m_modelRender.Draw(rc);
+	m_fontRender.Draw(rc);
 }

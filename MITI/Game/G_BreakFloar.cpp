@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "G_BreakFloar.h"
+#include "Player.h"
 
 G_BreakFloar::G_BreakFloar()
 {
@@ -18,8 +19,10 @@ G_BreakFloar::~G_BreakFloar()
 
 void G_BreakFloar::Update()
 {
+
 	m_modelRender.SetPosition(position);
 	m_physicsStaticObjectpos.SetPosition(position);
+	m_modelRender.Update();
 }
 
 void G_BreakFloar::Render(RenderContext& rc)
