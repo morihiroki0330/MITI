@@ -59,6 +59,8 @@ struct SVSIn{
 	float4 pos 		: POSITION;		//モデルの頂点座標。
 	float3 normal   :NORMAL;
 	float2 uv 		: TEXCOORD0;	//UV座標。
+	float3 tangent  : TANGENT;
+	float3 biNormal : BINORMAL;
 	SSkinVSIn skinVert;				//スキン用のデータ。
 };
 //ピクセルシェーダーへの入力。
@@ -68,13 +70,16 @@ struct SPSIn{
 	float2 uv 			: TEXCOORD0;	//uv座標。
 	float3 worldPos     : TEXCOORD1;
 	float3 normalInView : TEXCOORD2;
+	float3 tangent  : TANGENT;
+	float3 biNormal : BINORMAL;
 };
 
 ////////////////////////////////////////////////
 // グローバル変数。
 ////////////////////////////////////////////////
 Texture2D<float4> g_albedo : register(t0);				//アルベドマップ
-//Texture2D<float4> g_texture : register(t1);				//アルベドマップ
+Texture2D<float4> g_normalMap : register(t1);				//法線マップ
+Texture2D<float4> g_specularMap : register(t2);             //スペキュラマップ
 StructuredBuffer<float4x4> g_boneMatrix : register(t3);	//ボーン行列。
 sampler g_sampler : register(s0);	//サンプラステート。
 
@@ -121,6 +126,8 @@ SPSIn VSMainCore(SVSIn vsIn, uniform bool hasSkin)
 	psIn.normal = mul(mWorld, vsIn.normal);
 	psIn.uv = vsIn.uv;
 	psIn.normalInView = mul(mView, psIn.normal);
+	psIn.tangent = normalize(mul(mWorld, vsIn.tangent));
+	psIn.biNormal = normalize(mul(mWorld, vsIn.biNormal));
 
 	return psIn;
 }
@@ -144,6 +151,23 @@ SPSIn VSSkinMain( SVSIn vsIn )
 /// </summary>
 float4 PSMain(SPSIn psIn) : SV_Target0
 {
+	float3 Normal = psIn.normal;
+
+//法線マップ
+
+	//法線のサンププリング
+	float3 Local_N = g_normalMap.Sample(g_sampler, psIn.uv).xyz;
+
+	//法線の範囲を復元
+	Local_N = (Local_N - 0.5f) * 2.0f;
+
+	//ワールドスペースの変換
+	Normal = psIn.tangent * Local_N.x + psIn.biNormal * Local_N.y * Normal * Local_N.z;
+
+//スペキュラマップ
+	float Spec_P = g_specularMap.Sample(g_sampler, psIn.uv).r;
+
+////////ライト////////
 //拡散反射光
 
 	float t = dot(psIn.normal,DirectionLight);
@@ -155,7 +179,7 @@ float4 PSMain(SPSIn psIn) : SV_Target0
 		t = 0.0f;
 	}
 
-	float3 Diffuse_L = DirectionLight_C * t;
+	float3 Diffuse_L = max(0.0f, dot(Normal, -DirectionLight)) * DirectionLight_C * t;
 
 //鏡面反射光
 
@@ -174,7 +198,7 @@ float4 PSMain(SPSIn psIn) : SV_Target0
 
 	t = pow(t, 10.0f);
 
-	float3 Specular_L = DirectionLight_C * t;
+	float3 Specular_L = DirectionLight_C * t * (Spec_P * 5.0f);
 
 //拡散反射光+鏡面反射光
 	float3 DirectionLight = Diffuse_L + Specular_L;
@@ -294,13 +318,17 @@ float4 PSMain(SPSIn psIn) : SV_Target0
 	//地面カラーとライトカラーを内積で補間
 	float3 HalfLight = lerp(Ground_C, Sky_C, HalfLight_T);
 
+//ポイントライト+スポットライト+リムライト+半球ライト
+
 //最終的な光
 
-	float3 FinalLight = DirectionLight + PointLight + SpotLight+ LimLight;
+	//float3 FinalLight = DirectionLight + PointLight + SpotLight+ LimLight;
 
-	//float3 FinalLight = DirectionLight + PointLight + SpotLight+ LimLight + HalfLight;
+	float3 FinalLight = DirectionLight + PointLight + SpotLight+ LimLight + HalfLight;
 
 	float4 Albedo_C = g_albedo.Sample(g_sampler, psIn.uv);
+
+
 
 	Albedo_C.xyz *= FinalLight;
 

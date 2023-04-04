@@ -85,14 +85,14 @@ namespace nsK2EngineLow
 		//半球ライト
 		
 			//地面のカラー
-			light.Ground_C.x = 0.7f;
-			light.Ground_C.y = 0.5f;
-			light.Ground_C.z = 0.3f;
+			light.Ground_C.x = 1.0f;
+			light.Ground_C.y = 1.0f;
+			light.Ground_C.z = 1.0f;
 
 			//ライトのカラー
-			light.Sky_C.x = 0.15f;
+			light.Sky_C.x = 0.7f;
 			light.Sky_C.y = 0.7f;
-			light.Sky_C.z = 0.95f;
+			light.Sky_C.z = 0.7f;
 
 			//地面の法線
 			light.Ground_N.x = 0.0f;
