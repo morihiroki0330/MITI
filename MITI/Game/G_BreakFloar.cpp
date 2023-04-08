@@ -1,9 +1,9 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "G_BreakFloar.h"
 
 G_BreakFloar::G_BreakFloar()
 {
-	//ƒRƒƒ“ƒgƒAƒEƒg‚·‚éB
+	//ã‚³ãƒ¡ãƒ³ãƒˆã‚¢ã‚¦ãƒˆã™ã‚‹ã€‚
 	//PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
 
 	m_modelRender.Init("Assets/modelData/breakfloar/breakfloar2.tkm");
