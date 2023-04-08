@@ -11,7 +11,7 @@ G_BreakFloar::G_BreakFloar()
 	
 	m_modelRender.Init("Assets/modelData/breakfloar/breakfloar2.tkm");
 	m_modelRender.Update();
-	m_physicsStaticObjectpos.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix(),10.0f);
+	m_physicsStaticObjectpos.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
 }
 
 G_BreakFloar::~G_BreakFloar()
