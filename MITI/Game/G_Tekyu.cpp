@@ -14,8 +14,8 @@ G_Tekyu::G_Tekyu()
 	
 	//球の規定サイズは35.0とする。
 	m_physicsSphereObject.CreateCylinder(35.0f,
-		Tpos, rotation, 0.0f, 1000.0f);
-	m_physicsSphereObject.SetFriction(10.0f);
+		Tpos, rotation, 0.0f, 0.1f);
+	m_physicsSphereObject.SetFriction(0.0f);
 }
 
 G_Tekyu::~G_Tekyu()

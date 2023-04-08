@@ -1,21 +1,20 @@
 #pragma once
 
-class Player;
+class G_WeightBoard;
 
-class G_BreakFloar :public IGameObject
+class G_Wall:public IGameObject
 {
 public:
-	G_BreakFloar();
-	~G_BreakFloar();
+	G_Wall();
+	~G_Wall();
 
 	void Update();
 	void Render(RenderContext& rc);
 
 	Vector3 position;
 	ModelRender m_modelRender;
-	//ModelRender m_hitModelRender;
 	PhysicsStaticObjectPos m_physicsStaticObjectpos;
 
-	Player* player;
+	G_WeightBoard* g_weightBoard;
 };
 

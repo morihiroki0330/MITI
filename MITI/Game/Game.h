@@ -10,6 +10,7 @@ class G_Tekyu;
 class Stage;
 class GameCamera;
 class G_BreakFloar;
+class G_WeightBoard;
 
 class Game : public IGameObject
 {
@@ -31,6 +32,8 @@ private:
 	Vector3 m_pos;					//À•W
 	GameCamera* m_gamecamera;		//ƒJƒƒ‰
 	G_BreakFloar* m_G_breakfloar;   //•ö‰ó‚·‚é°
+	G_WeightBoard* m_G_WeightBoard;
+
 
 
 	PhysicsStaticObject m_physicsStaticObject;
