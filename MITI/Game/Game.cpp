@@ -10,6 +10,7 @@
 #include "Stage.h"
 #include "GameCamera.h"
 #include "G_BreakFloar.h"
+//#include "G_WeightBoard.h"
 
 Game::Game()
 {
@@ -27,6 +28,7 @@ Game::Game()
 	m_stage = NewGO<Stage>(0, "stage");
 	m_ironBall = NewGO<IronBall>(4, "ironball");
 	m_G_breakfloar = NewGO<G_BreakFloar>(5, "g_breakfloar");
+	//m_G_WeightBoard = NewGO<G_WeightBoard>(5, "m_G_WeightBoard");
 
 }
 Game::~Game()
@@ -36,6 +38,7 @@ Game::~Game()
 	DeleteGO(m_stage);
 	DeleteGO(m_G_tekyu);
 	DeleteGO(m_G_breakfloar);
+	//DeleteGO(m_G_WeightBoard);
 	DeleteGO(this);
 }
 
