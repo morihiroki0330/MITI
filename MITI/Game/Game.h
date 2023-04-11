@@ -11,6 +11,7 @@ class Stage;
 class GameCamera;
 class G_BreakFloar;
 class G_WeightBoard;
+class G_Wall;
 
 class Game : public IGameObject
 {
@@ -34,6 +35,7 @@ private:
 	GameCamera* m_gamecamera;		//ƒJƒƒ‰
 	G_BreakFloar* m_G_breakfloar;   //•ö‰ó‚·‚é°
 	G_WeightBoard* m_G_WeightBoard;
+	G_Wall* m_G_Wall;
 
 	//ŠÔ§ŒÀ
 	int timer;

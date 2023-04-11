@@ -98,7 +98,8 @@ void IronBall::Update()
 					a = i;
 					showFlag[a] = false;
 					player->ironBall++;
-
+					ball_P[a].x = 5000;
+					ball_P[a].z = 5000;
 					break;
 				}
 			}

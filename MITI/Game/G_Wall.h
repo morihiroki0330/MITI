@@ -13,6 +13,7 @@ public:
 
 	Vector3 position;
 	ModelRender m_modelRender;
+	PhysicsStaticObject m_physicsStaticObject;
 	PhysicsStaticObjectPos m_physicsStaticObjectpos;
 
 	G_WeightBoard* g_weightBoard;
