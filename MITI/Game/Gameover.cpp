@@ -5,7 +5,7 @@
 Gameover::Gameover()
 {
 	//ゲームクリアの画像を読み込む
-	GAMEOVER.Init("Assets/Sprite/RoM_gameover.dds", 1920.0f, 1080.0f);
+	GAMEOVER.Init("Assets/sprite/RoM_gameover.DDS", 1920.0f, 1080.0f);
 
 }
 
@@ -17,7 +17,6 @@ Gameover::~Gameover()
 //更新処理
 void Gameover::Update()
 {
-
 	//Aボタンが押されたら
 	if (g_pad[0]->IsTrigger(enButtonA))
 	{
