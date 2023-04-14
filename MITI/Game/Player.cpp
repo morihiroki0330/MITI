@@ -59,13 +59,39 @@ void Player::Update()
 
 void Player::Move()
 {
-	//移動速度の初期化
-	moveSpeed.x = 0.0f;
-	moveSpeed.z = 0.0f;
+	if (slipflag == false)
+	{
+		//移動速度の初期化
+		moveSpeed.x = 0.0f;
+		moveSpeed.z = 0.0f;
 
-	//プレイヤーの移動
-	moveSpeed.x += StickL.x * -(0.8f * (6 - ironBall));
-	moveSpeed.z += StickL.y * (0.8f * (6 - ironBall));
+		//プレイヤーの移動
+		moveSpeed.x += StickL.x * -(0.8f * (6 - ironBall));
+		moveSpeed.z += StickL.y * (0.8f * (6 - ironBall));
+	}
+	else
+	{
+		//氷の床に乗った時のプレイヤーの移動
+		moveSpeed.x += StickL.x * -(0.1f * (6 - ironBall));
+		moveSpeed.z += StickL.y * (0.1f * (6 - ironBall));
+	}
+
+	/*if (moveSpeed.x > 4.8)
+	{
+		moveSpeed.x = 4.8;
+	}
+	if (moveSpeed.x < -4.8)
+	{
+		moveSpeed.x = -4.8;
+	}
+	if (moveSpeed.z > 4.8)
+	{
+		moveSpeed.z = 4.8;
+	}
+	if (moveSpeed.z < -4.8)
+	{
+		moveSpeed.z = -4.8;
+	}*/
 
 	/*if (characterController.IsOnGround())
 	{

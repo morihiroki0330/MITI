@@ -12,6 +12,7 @@
 #include "G_BreakFloar.h"
 #include "G_WeightBoard.h"
 #include "G_Wall.h"
+#include "G_IceFloor.h"
 
 Game::Game()
 {
@@ -29,8 +30,9 @@ Game::Game()
 	m_stage = NewGO<Stage>(0, "stage");
 	m_ironBall = NewGO<IronBall>(4, "ironball");
 	m_G_breakfloar = NewGO<G_BreakFloar>(5, "g_breakfloar");
-	m_G_WeightBoard = NewGO<G_WeightBoard>(6, "m_G_WeightBoard");
-	m_G_Wall= NewGO<G_Wall>(7, "m_G_Wall");
+	m_G_WeightBoard = NewGO<G_WeightBoard>(6, "g_WeightBoard");
+	m_G_Wall= NewGO<G_Wall>(7, "g_Wall");
+	m_G_IceFloor = NewGO<G_IceFloor>(8, "g_IceFloor");
 }
 Game::~Game()
 {
@@ -41,6 +43,7 @@ Game::~Game()
 	DeleteGO(m_G_breakfloar);
 	DeleteGO(m_G_WeightBoard);
 	DeleteGO(m_G_Wall);
+	DeleteGO(m_G_IceFloor);
 	DeleteGO(this);
 }
 

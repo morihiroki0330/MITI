@@ -12,6 +12,7 @@ class GameCamera;
 class G_BreakFloar;
 class G_WeightBoard;
 class G_Wall;
+class G_IceFloor;
 
 class Game : public IGameObject
 {
@@ -36,6 +37,7 @@ private:
 	G_BreakFloar* m_G_breakfloar;   //ïˆâÛÇ∑ÇÈè∞
 	G_WeightBoard* m_G_WeightBoard;
 	G_Wall* m_G_Wall;
+	G_IceFloor* m_G_IceFloor;
 
 	//éûä‘êßå¿
 	int timer;

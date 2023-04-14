@@ -16,6 +16,8 @@ public:
 	//ModelRender m_hitModelRender;
 	PhysicsStaticObjectPos m_physicsStaticObjectpos;
 
+	bool SlipFlag = false;
+
 	Player* player;
 };
 
