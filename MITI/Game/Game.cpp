@@ -1,4 +1,4 @@
-//ƒQ[ƒ€‘S‘Ì‚Ìˆ—‚Í‚±‚±‚É‘‚¢‚Ä‚Ë`
+//ï¿½Qï¿½[ï¿½ï¿½ï¿½Sï¿½Ì‚Ìï¿½ï¿½ï¿½ï¿½Í‚ï¿½ï¿½ï¿½ï¿½Éï¿½ï¿½ï¿½ï¿½Ä‚Ë`
 #include "stdafx.h"
 #include "Title.h"
 #include "Game.h"
@@ -10,10 +10,13 @@
 #include "Stage.h"
 #include "GameCamera.h"
 #include "G_BreakFloar.h"
+#include "G_WeightBoard.h"
+#include "G_Wall.h"
+#include "G_IceFloor.h"
 
 Game::Game()
 {
-	//•¨—‚É‘Î‚·‚éd—Íİ’èB
+	//ï¿½ï¿½ï¿½ï¿½ï¿½É‘Î‚ï¿½ï¿½ï¿½dï¿½Íİ’ï¿½B
 	PhysicsWorld::GetInstance()->SetGravity({ 0.0f,-90.0f,0.0f });
 	//PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
 
@@ -26,8 +29,10 @@ Game::Game()
 	m_gamecamera = NewGO<GameCamera>(3, "gamecamera");
 	m_stage = NewGO<Stage>(0, "stage");
 	m_ironBall = NewGO<IronBall>(4, "ironball");
-	//m_G_breakfloar = NewGO<G_BreakFloar>(5, "g_breakfloar");
-
+	m_G_breakfloar = NewGO<G_BreakFloar>(5, "g_breakfloar");
+	m_G_WeightBoard = NewGO<G_WeightBoard>(6, "g_WeightBoard");
+	m_G_Wall= NewGO<G_Wall>(7, "g_Wall");
+	m_G_IceFloor = NewGO<G_IceFloor>(8, "g_IceFloor");
 }
 Game::~Game()
 {
@@ -36,6 +41,9 @@ Game::~Game()
 	DeleteGO(m_stage);
 	DeleteGO(m_G_tekyu);
 	DeleteGO(m_G_breakfloar);
+	DeleteGO(m_G_WeightBoard);
+	DeleteGO(m_G_Wall);
+	DeleteGO(m_G_IceFloor);
 	DeleteGO(this);
 }
 
@@ -44,19 +52,19 @@ void Game::Update()
 	m_player->moveSpeed.y = -5.0f;
 	timer++;
 
-	//‰¼‚ÌƒQ[ƒ€ƒI[ƒo[ğŒ‚ğİ’è
+	//ï¿½ï¿½ï¿½ÌƒQï¿½[ï¿½ï¿½ï¿½Iï¿½[ï¿½oï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½
 	if (m_player->player_P.y <= -300.0f || timer > 60 * 60) {
 		NewGO<Gameover>(0, "gameover");
 		DeleteGO(this);
 	}
 
-	//‰¼‚ÌƒQ[ƒ€ƒNƒŠƒAğŒ‚ğİ’è
+	//ï¿½ï¿½ï¿½ÌƒQï¿½[ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½
 	else if (m_player->player_P.z >= 700.0f) {
 		NewGO<GameClear>(0, "gameclear");
 		DeleteGO(this);
 	}
 
-	//‘å“S‹…‚ÌÄ•\¦(ŠJ”­—p)
+	//ï¿½ï¿½Sï¿½ï¿½ï¿½ÌÄ•\ï¿½ï¿½(ï¿½Jï¿½ï¿½ï¿½p)
 	if (g_pad[0]->IsTrigger(enButtonLB1)) {
 		m_G_tekyu = NewGO<G_Tekyu>(0);
 	}
@@ -65,14 +73,14 @@ void Game::Update()
 	m_modelRender.Update();
 
 
-	//ŠÔ‚Ì•\¦
+	//ï¿½ï¿½ï¿½Ô‚Ì•\ï¿½ï¿½
 	wchar_t clock[256];
-	swprintf_s(clock, 256, L"c‚èŠÔ:%d", int(timelimit - timer / 60));
-	//•¶šİ’è
+	swprintf_s(clock, 256, L"ï¿½cï¿½èï¿½ï¿½:%d", int(timelimit - timer / 60));
+	//ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½eï¿½Lï¿½Xï¿½gï¿½ï¿½İ’ï¿½B
 	m_fontRender.SetText(clock);
-	//êŠİ’è
+	//ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ÌˆÊ’uï¿½ï¿½İ’ï¿½B
 	m_fontRender.SetPosition(Vector3(-150.0f, 525.0f, 0.0f));
-	//‘å‚«‚³İ’è
+	//ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Ì‘å‚«ï¿½ï¿½ï¿½ï¿½İ’ï¿½B
 	m_fontRender.SetScale(1.0f);
 }
 
