@@ -1,4 +1,4 @@
-//�Q�[���S�̂̏����͂����ɏ����Ăˁ`
+//ゲーム全体の処理はここに書いてね～
 #include "stdafx.h"
 #include "Title.h"
 #include "Game.h"
@@ -16,7 +16,7 @@
 
 Game::Game()
 {
-	//�����ɑ΂���d�͐ݒ�B
+	//コメントアウトする。
 	PhysicsWorld::GetInstance()->SetGravity({ 0.0f,-90.0f,0.0f });
 	//PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
 
@@ -52,19 +52,19 @@ void Game::Update()
 	m_player->moveSpeed.y = -5.0f;
 	timer++;
 
-	//���̃Q�[���I�[�o�[�����ݒ�
+	//仮のゲームオーバーの条件を設定
 	if (m_player->player_P.y <= -300.0f || timer > 60 * 60) {
 		NewGO<Gameover>(0, "gameover");
 		DeleteGO(this);
 	}
 
-	//���̃Q�[���N���A�����ݒ�
+	//仮のゲームクリアの条件を設定
 	else if (m_player->player_P.z >= 700.0f) {
 		NewGO<GameClear>(0, "gameclear");
 		DeleteGO(this);
 	}
 
-	//��S���̍ĕ\��(�J���p)
+	//大鉄球の増殖(実験用)
 	if (g_pad[0]->IsTrigger(enButtonLB1)) {
 		m_G_tekyu = NewGO<G_Tekyu>(0);
 	}
@@ -73,14 +73,14 @@ void Game::Update()
 	m_modelRender.Update();
 
 
-	//���Ԃ̕\��
+	//時間制限処理
 	wchar_t clock[256];
-	swprintf_s(clock, 256, L"�c�莞��:%d", int(timelimit - timer / 60));
-	//�\������e�L�X�g��ݒ�B
+	swprintf_s(clock, 256, L"残り時間:%d", int(timelimit - timer / 60));
+	//表示するテキストを設定。
 	m_fontRender.SetText(clock);
-	//�t�H���g�̈ʒu��ݒ�B
+	//フォントの位置を設定。
 	m_fontRender.SetPosition(Vector3(-150.0f, 525.0f, 0.0f));
-	//�t�H���g�̑傫����ݒ�B
+	//フォントの大きさを設定。
 	m_fontRender.SetScale(1.0f);
 }
 
