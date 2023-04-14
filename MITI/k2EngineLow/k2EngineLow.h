@@ -220,6 +220,7 @@ namespace nsK2EngineLow {
 		FPSLimitter m_fpsLimitter;						// FPSに制限をかける処理。
 		FrameRateInfo m_frameRateInfo = { enFrameRateMode_Variable , 60 };
 	};
+
 	extern RenderingEngine* g_renderingEngine;
 	extern K2EngineLow* g_engine;	// 低レベルK2エンジン。
 	extern GameTime* g_gameTime;
