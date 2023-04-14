@@ -10,6 +10,9 @@ class G_Tekyu;
 class Stage;
 class GameCamera;
 class G_BreakFloar;
+class G_WeightBoard;
+class G_Wall;
+class G_IceFloor;
 
 class Game : public IGameObject
 {
@@ -22,18 +25,21 @@ public:
 private:
 	ModelRender m_modelRender;
 	FontRender m_fontRender;
-	IronBall* m_ironBall;			//‚Ä‚é“S‹…
-	Hole* hole;						//ŒŠ
-	G_Tekyu* m_G_tekyu;				//‘å“S‹…
-	Player* m_player;				//ƒvƒŒƒCƒ„[
-	Gameover* m_gameover;			//ƒQ[ƒ€ƒI[ƒo[
-	GameClear* m_gameclear;			//ƒQ[ƒ€ƒNƒŠƒA
-	Stage* m_stage;					//ƒXƒe[ƒW
-	Vector3 m_pos;					//À•W
-	GameCamera* m_gamecamera;		//ƒJƒƒ‰
-	G_BreakFloar* m_G_breakfloar;   //•ö‰ó‚·‚é°
+	IronBall* m_ironBall;			//ï¿½ï¿½ï¿½Ä‚ï¿½Sï¿½ï¿½
+	Hole* hole;						//ï¿½ï¿½
+	G_Tekyu* m_G_tekyu;				//ï¿½ï¿½Sï¿½ï¿½
+	Player* m_player;				//ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[
+	Gameover* m_gameover;			//ï¿½Qï¿½[ï¿½ï¿½ï¿½Iï¿½[ï¿½oï¿½[
+	GameClear* m_gameclear;			//ï¿½Qï¿½[ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½A
+	Stage* m_stage;					//ï¿½Xï¿½eï¿½[ï¿½W
+	Vector3 m_pos;					//ï¿½ï¿½ï¿½W
+	GameCamera* m_gamecamera;		//ï¿½Jï¿½ï¿½ï¿½ï¿½
+	G_BreakFloar* m_G_breakfloar;   //ï¿½ï¿½ï¿½ó‚·‚é°
+	G_WeightBoard* m_G_WeightBoard;
+	G_Wall* m_G_Wall;
+	G_IceFloor* m_G_IceFloor;
 
-	//ŠÔ‚ğ‘ª‚éŠÖ”
+	//ï¿½ï¿½ï¿½Ô‚ğ‘ª‚ï¿½Öï¿½
 	int timer;
 	int timelimit = 60;
 

@@ -35,6 +35,9 @@ public:
 	//キャラクターの移動速度
 	Vector3 moveSpeed;
 
+	//キャラクターが滑っていく時に加算する移動速度
+	Vector3 SlipMoveSpeed;
+
 	//クォータニオン
 	Quaternion rotation;
 
@@ -59,5 +62,7 @@ public:
 		enAnimationClip_Num,
 	};
 	AnimationClip m_animationClips[enAnimationClip_Num];		//アニメーションクリップ。
+
+	bool slipflag;
 };
 
