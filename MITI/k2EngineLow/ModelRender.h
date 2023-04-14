@@ -7,38 +7,45 @@ namespace nsK2EngineLow
 {
 	class RenderingEngine;
 
-	struct Light
+	//ライトの構造体
+	//※Vector型が連続して宣言される場合は間に【float pad(数字)】を入れる
+	//共通ライトは【float pad_(数字)】を使用する
+	struct AllLight
 	{
-	//ディレクションライト
-		Vector3 DirectionLight;//ライトの方向
-		float pad0;
-		Vector3 DirectionLight_C;//ライトのカラー
+		//ディレクションライト
+		Vector3 DirectionLight_D = { 0.0f,0.0f,0.0f };//ライトの方向
 		float pad1;
+		Vector4 DirectionLight_C = { 0.0f,0.0f,0.0f,0.0f };//ライトのカラー
 
-	//ポイントライト
-		Vector3 Point_P;//ライトの位置
+
+		//ポイントライト
+		Vector3 Point_P = { 0.0f,0.0f,0.0f };//ライトの位置
 		float pad2;
-		Vector3 Point_C;//カラー
-		float Point_R;//影響範囲
+		Vector4 Point_C = { 0.0f,0.0f,0.0f,0.0f };//ライトのカラー
+		float Point_R = 0.0f;//ライトの影響範囲
 
-	//スポットライト
-		Vector3 Spot_P;//ライトの位置
+
+		//スポットライト
+		Vector3 Spot_P = { 0.0f,0.0f,0.0f };//ライトの位置
 		float pad3;
-		Vector3 Spot_C;//ライトのカラー
-		float Spot_R;//影響範囲
-		Vector3 Spot_D;//ライトの方向
-		float Spot_A;//ライトの角度
+		Vector4 Spot_C = { 0.0f,0.0f,0.0f,0.0f };//ライトのカラー
+		float Spot_R = 0.0f;;//影響範囲
+		Vector3 Spot_D = { 0.0f,0.0f,0.0f };//ライトの方向
+		float Spot_A = 0.0f;//ライトの角度
 
-	//半球ライト
-		Vector3 Ground_C;//地面のカラー
+
+		//半球ライト
+		Vector3 Ground_C = { 0.0f,0.0f,0.0f };//地面のカラー
 		float pad4;
-		Vector3 Sky_C;//ライトのカラー
+		Vector4 Sky_C;//ライトのカラー
 		float pad5;
-		Vector3 Ground_N;//地面の法線
+		Vector3 Ground_N = { 0.0f,0.0f,0.0f };//地面の法線
+		float pad6;
 
-	//共通
-		Vector3 eye_P;//視点の位置
-		Vector3 ambientlight;//環境光
+		//共通ライト
+		Vector3 eye_P = g_camera3D->GetPosition();//視点の位置
+		float pad_1;
+		Vector3 ambientlight = { 0.0f,0.0f,0.0f };//環境光
 	};
 
 	class ModelRender : public IRender
@@ -52,9 +59,11 @@ namespace nsK2EngineLow
 		void Init
 		(
 			const char* filePath,
+			struct AllLight light,
 			AnimationClip* animationClips = nullptr,
 			int numAnimationClips = 0,
 			EnModelUpAxis enModelUpAxis = enModelUpAxisZ
+			
 		);
 	
 		//アニメーションの初期化
@@ -147,6 +156,16 @@ namespace nsK2EngineLow
 			return m_skeleton.FindBoneID(boneName);
 		}
 
+//ライト
+
+		//ディレクションライトの設定
+		void SetDirectionLight(const Vector3& Direction,const Vector4& Color)
+		{
+			m_light.DirectionLight_D = Direction;
+			m_light.DirectionLight_D.Normalize();
+			m_light.DirectionLight_C = Color;
+		}
+
 	private:
 
 		void UpdaterWorldMatrixInModes();
@@ -187,8 +206,9 @@ namespace nsK2EngineLow
 		Vector3						m_scale = Vector3::One;				// 拡大率。
 
 		bool						m_isEnableInstancingDraw = false;
+
 //ライト
-		Light light;
+		AllLight m_light;
 	};
 }
 

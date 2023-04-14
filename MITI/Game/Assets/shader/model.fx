@@ -15,37 +15,41 @@ cbuffer ModelCb : register(b0)
 	
 };
 
-cbuffer DirectionLightCb : register(b1)
+//ライト用の定数バッファー
+cbuffer AllLightCb : register(b1)
 {
 	//ディレクションライト
-	float3 DirectionLight;
-	float3 DirectionLight_C;
+	float3 DirectionLight_D;//ライトの方向
+	float4 DirectionLight_C;//ライトのカラー
+
 
 	//ポイントライト
-	float3 Point_P;
-	float3 Point_C;
-	float  Point_R;
+	float3 Point_P;//ライトの位置
+	float4 Point_C;//ライトのカラー
+	float Point_R;//ライトの影響範囲
+
 
 	//スポットライト
-	float3 Spot_P;
-	float3 Spot_C;
-	float Spot_R;
-	float3 Spot_D;
-	float Spot_A;
+	float3 Spot_P;//ライトの位置
+	float4 Spot_C;//ライトのカラー
+	float Spot_R;//影響範囲
+	float3 Spot_D;//ライトの方向
+	float Spot_A;//ライトの角度
+
 
 	//半球ライト
-	float3 Ground_C;
-	float3 Sky_C;
-	float3 Ground_N;
+	float3 Ground_C;//地面のカラー
+	float4 Sky_C;//ライトのカラー
+	float3 Ground_N;//地面の法線
 
-	//共通
-	float3 eye_P;
-	float3 ambientlight;
-}
+	//共通ライト
+	float3 eye_P;//視点の位置
+	float3 ambientlight;//環境光
+};
 
-//関数
-float3 CalcLambertDiffuse(float3 DirectionLight, float3 DirectionLight_C, float3 normal);
-float3 CalcPhongSpecular(float3 DirectionLight, float3 DirectionLight_C, float3 worldPos, float3 normal);
+////関数
+float3 CalcLambertDiffuse(float3 DirectionLight_D, float3 DirectionLight_C, float3 normal);
+float3 CalcPhongSpecular(float3 DirectionLight_D, float3 DirectionLight_C, float3 worldPos, float3 normal);
 ////////////////////////////////////////////////
 // 構造体
 ////////////////////////////////////////////////
@@ -152,9 +156,7 @@ SPSIn VSSkinMain( SVSIn vsIn )
 float4 PSMain(SPSIn psIn) : SV_Target0
 {
 	float3 Normal = psIn.normal;
-
 //法線マップ
-
 	//法線のサンププリング
 	float3 Local_N = g_normalMap.Sample(g_sampler, psIn.uv).xyz;
 
@@ -164,26 +166,27 @@ float4 PSMain(SPSIn psIn) : SV_Target0
 	//ワールドスペースの変換
 	Normal = psIn.tangent * Local_N.x + psIn.biNormal * Local_N.y * Normal * Local_N.z;
 
+
 //スペキュラマップ
 	float Spec_P = g_specularMap.Sample(g_sampler, psIn.uv).r;
 
-////////ライト////////
-//拡散反射光
 
-	float t = dot(psIn.normal,DirectionLight);
+//拡散反射光
+	float t = dot(psIn.normal, DirectionLight_D.xyz);
 
 	t *= -1.0f;
 
 	if (t < 0.0f)
 	{
-		t = 0.0f;
+			t = 0.0f;
 	}
 
-	float3 Diffuse_L = max(0.0f, dot(Normal, -DirectionLight)) * DirectionLight_C * t;
+	float3 Diffuse_L = DirectionLight_C.xyz * t;
+
 
 //鏡面反射光
 
-	float3 refVec = reflect(DirectionLight,psIn.normal);
+	float3 refVec = reflect(DirectionLight_D,psIn.normal);
 
 	float3 toEye = eye_P - psIn.worldPos;
 
@@ -200,11 +203,12 @@ float4 PSMain(SPSIn psIn) : SV_Target0
 
 	float3 Specular_L = DirectionLight_C * t * (Spec_P * 5.0f);
 
+
 //拡散反射光+鏡面反射光
-	float3 DirectionLight = Diffuse_L + Specular_L;
+	float3 DirectionLight_D = Diffuse_L + Specular_L;
+
 
 //ポイントライト
-
 	//光の向きを計算
 	float3 Light_D = psIn.worldPos - Point_P;
 
@@ -239,8 +243,8 @@ float4 PSMain(SPSIn psIn) : SV_Target0
 	//ポイントライト
 	float3 PointLight = DiffPoint + SpecPoint;
 
-//スポットライト
 
+//スポットライト
 	//減衰なしの拡散反射
 	float3 DiffSpotPoint = CalcLambertDiffuse(Light_D, Spot_C, psIn.normal);
 
@@ -290,10 +294,10 @@ float4 PSMain(SPSIn psIn) : SV_Target0
 	//スポットライト
 	float3 SpotLight = DiffSpotPoint + SpecSpotPoint;
 
+
 //リムライト
-	
 	//法線と光の入射方向へのリムの強さ
-	float Lim_Power1 = 1.0f - max(0.0f, dot(DirectionLight, psIn.normal));
+	float Lim_Power1 = 1.0f - max(0.0f, dot(DirectionLight_D, psIn.normal));
 
 	//法線と視線へのリムの強さ
 	float Lim_Power2 = 1.0f - max(0.0f, psIn.normalInView.z * -1.0f);
@@ -307,8 +311,8 @@ float4 PSMain(SPSIn psIn) : SV_Target0
 	//リムライトの反射光
 	float3 LimLight = Lim_Power * DirectionLight_C;
 
-//半球ライト
 
+//半球ライト
 	//サーフェースの法線と地面の法線との内積
 	float HalfLight_T = dot(psIn.normal, Ground_N);
 
@@ -318,27 +322,24 @@ float4 PSMain(SPSIn psIn) : SV_Target0
 	//地面カラーとライトカラーを内積で補間
 	float3 HalfLight = lerp(Ground_C, Sky_C, HalfLight_T);
 
-//ポイントライト+スポットライト+リムライト+半球ライト
 
 //最終的な光
 
-	//float3 FinalLight = DirectionLight + PointLight + SpotLight+ LimLight;
-
-	float3 FinalLight = DirectionLight + PointLight + SpotLight+ LimLight + HalfLight;
+	float3 FinalLight = Diffuse_L;
 
 	float4 Albedo_C = g_albedo.Sample(g_sampler, psIn.uv);
 
+	float4 FinalColor = 1.0f;
 
+	FinalColor.xyz = Albedo_C.xyz * FinalLight;
 
-	Albedo_C.xyz *= FinalLight;
-
-	return Albedo_C;
+	return FinalColor;
 }
 
 //減衰なしの拡散反射を求める関数
-float3 CalcLambertDiffuse(float3 DirectionLight, float3 DirectionLight_C, float3 normal)
+float3 CalcLambertDiffuse(float3 DirectionLight_D, float3 DirectionLight_C, float3 normal)
 {
-	float t = dot(normal, DirectionLight) * -1.0f;
+	float t = dot(normal, DirectionLight_D) * -1.0f;
 
 	t = max(0.0f, t);
 
@@ -346,9 +347,9 @@ float3 CalcLambertDiffuse(float3 DirectionLight, float3 DirectionLight_C, float3
 }
 
 //減衰なしの鏡面反射を求める関数
-float3 CalcPhongSpecular(float3 DirectionLight, float3 DirectionLight_C, float3 worldPos, float3 normal)
+float3 CalcPhongSpecular(float3 DirectionLight_D, float3 DirectionLight_C, float3 worldPos, float3 normal)
 {
-	float3 refVec = reflect(DirectionLight, normal);
+	float3 refVec = reflect(DirectionLight_D, normal);
 
 	float3 toEye = eye_P - worldPos;
 	toEye = normalize(toEye);
