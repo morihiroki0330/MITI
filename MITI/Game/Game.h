@@ -33,7 +33,7 @@ private:
 	GameCamera* m_gamecamera;		//ƒJƒƒ‰
 	G_BreakFloar* m_G_breakfloar;   //•ö‰ó‚·‚é°
 
-	//ŠÔ‚ğ‘ª‚éŠÖ”
+	//ŠÔ§ŒÀ
 	int timer;
 	int timelimit = 60;
 

@@ -68,11 +68,11 @@ void Game::Update()
 	//時間の表示
 	wchar_t clock[256];
 	swprintf_s(clock, 256, L"残り時間:%d", int(timelimit - timer / 60));
-	//表示するテキストを設定。
+	//文字設定
 	m_fontRender.SetText(clock);
-	//フォントの位置を設定。
+	//場所設定
 	m_fontRender.SetPosition(Vector3(-150.0f, 525.0f, 0.0f));
-	//フォントの大きさを設定。
+	//大きさ設定
 	m_fontRender.SetScale(1.0f);
 }
 
