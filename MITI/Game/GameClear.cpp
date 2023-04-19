@@ -5,7 +5,7 @@
 GameClear::GameClear()
 {
 	//ƒQ[ƒ€ƒNƒŠƒA‚Ì‰æ‘œ‚ğ“Ç‚İ‚Ş
-	GAMEOVER.Init("Assets/sprite/RoM_gameclear.DDS", 1820.0f, 880.0f);
+	GAMECLEAR.Init("Assets/sprite/RoM_gameclear.DDS", 1820.0f, 880.0f);
 
 }
 
@@ -31,5 +31,5 @@ void GameClear::Update()
 //•`‰æˆ—
 void GameClear::Render(RenderContext& rc)
 {
-	GAMEOVER.Draw(rc);
+	GAMECLEAR.Draw(rc);
 }

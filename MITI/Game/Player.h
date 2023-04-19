@@ -64,5 +64,6 @@ public:
 	AnimationClip m_animationClips[enAnimationClip_Num];		//アニメーションクリップ。
 
 	bool slipflag;
+	AllLight playerLight;
 };
 

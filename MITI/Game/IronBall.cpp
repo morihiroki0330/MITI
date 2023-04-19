@@ -6,7 +6,7 @@ IronBall::IronBall()
 {
 	for (int i = 0; i < 5; i++)
 	{
-		ironRender[i].Init("Assets/modelData/tekyu/tekyu8.tkm");
+		ironRender[i].Init("Assets/modelData/tekyu/tekyu8.tkm",ironLight);
 
 		ball_P[i] = { rand()%1200-600.0f,30.0f, rand() % 600-300.0f };
 		showFlag[i] = true;

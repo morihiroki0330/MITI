@@ -12,6 +12,6 @@ public:
 	void Render(RenderContext& rc);
 
 	//メンバ変数	
-	SpriteRender GAMEOVER;   //スプライトレンダー
+	SpriteRender GAMECLEAR;   //スプライトレンダー
 };
 

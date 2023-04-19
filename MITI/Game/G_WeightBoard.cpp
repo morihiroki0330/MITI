@@ -6,7 +6,7 @@
 
 G_WeightBoard::G_WeightBoard()
 {
-	m_modelRender.Init("Assets/modelData/WeightBoard.tkm");
+	m_modelRender.Init("Assets/modelData/WeightBoard.tkm",boardLight);
 
 	position = { -300,10,475 };
 }

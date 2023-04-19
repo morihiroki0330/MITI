@@ -1,4 +1,7 @@
 #pragma once
+
+class Player;
+
 class G_BreakFloar :public IGameObject
 {
 public:
@@ -11,5 +14,9 @@ public:
 	Vector3 position;
 	ModelRender m_modelRender;
 	PhysicsStaticObjectPos m_physicsStaticObjectpos;
+
+	Player* player;
+
+	AllLight breakLight;
 };
 
