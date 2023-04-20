@@ -3,6 +3,7 @@
 
 G_Tekyu::G_Tekyu()
 {
+	AllLight Light;
 	srand((unsigned int)time(NULL));
 	//modelRender.SetRaytracingWorld(false);
 	//ballState = rand() % 2;
@@ -10,7 +11,7 @@ G_Tekyu::G_Tekyu()
 	//開発用座標
 	Tpos = (Vector3(50.565, 35.0, 230.0));
 
-	modelRender.Init("Assets/modelData/tekyu/tekyu9.tkm");
+	modelRender.Init("Assets/modelData/tekyu/tekyu9.tkm",Light);
 	
 	//球の規定サイズは35.0とする。
 	m_physicsSphereObject.CreateCylinder(35.0f,

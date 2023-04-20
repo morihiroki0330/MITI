@@ -3,6 +3,9 @@
 
 Player::Player()
 {
+	AllLight Light;
+	Light.DirectionLight_D = { 1.0f,-1.0f,-1.0f };
+	Light.DirectionLight_C = { 1.0f,1.0f,1.0f,0.0f };
 	//アニメーション呼び出し
 	m_animationClips[enAnimationClip_Idle].Load("Assets/animData/idle.tka");
 	m_animationClips[enAnimationClip_Idle].SetLoopFlag(true);
@@ -13,7 +16,7 @@ Player::Player()
 	m_animationClips[enAnimationClip_Put].Load("Assets/animData/put.tka");
 	m_animationClips[enAnimationClip_Put].SetLoopFlag(false);
 
-	modelRender.Init("Assets/modelData/unityChan.tkm", m_animationClips, enAnimationClip_Num, enModelUpAxisY);
+	modelRender.Init("Assets/modelData/unityChan.tkm",Light, m_animationClips, enAnimationClip_Num, enModelUpAxisY);
 
 	player_P.x = 0.0f;
 	player_P.y = 0.0f;

@@ -1,13 +1,13 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "G_BreakFloar.h"
 #include "Player.h"
 
 G_BreakFloar::G_BreakFloar()
 {
-	//ƒRƒƒ“ƒgƒAƒEƒg‚·‚éB
+	//ã‚³ãƒ¡ãƒ³ãƒˆã‚¢ã‚¦ãƒˆã™ã‚‹ã€‚
 	//PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
-
-	m_modelRender.Init("Assets/modelData/breakfloar/breakfloar2.tkm");
+	AllLight Light;
+	m_modelRender.Init("Assets/modelData/breakfloar/breakfloar2.tkm",Light);
 	m_modelRender.Update();
 	m_physicsStaticObjectpos.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
 }

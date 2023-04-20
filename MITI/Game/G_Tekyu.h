@@ -28,14 +28,14 @@ public:
 		moveSpeed += addMoveSpeed;
 	}
 
-
+	Vector3 Tpos;			//座標。
 	int ballState = 0;	//プレイヤーのステート(状態)を表す変数。
 private:
 
 	void Move();
 	//メンバ変数。
 	ModelRender modelRender;	//モデルレンダ―。
-	Vector3 Tpos;			//座標。
+	
 	FontRender tekyupos;
 
 

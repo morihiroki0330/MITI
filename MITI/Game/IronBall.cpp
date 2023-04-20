@@ -4,9 +4,12 @@
 
 IronBall::IronBall()
 {
+	AllLight Light;
+	Light.DirectionLight_D = { 1.0f,1.0f,-1.0f };
+	Light.DirectionLight_C = { 1.0f,1.0f,1.0f,0.0f };
 	for (int i = 0; i < 5; i++)
 	{
-		ironRender[i].Init("Assets/modelData/tekyu/tekyu8.tkm");
+		ironRender[i].Init("Assets/modelData/tekyu/tekyu8.tkm",Light);
 
 		ball_P[i] = { rand()%1200-600.0f,30.0f, rand() % 600-300.0f };
 		showFlag[i] = true;

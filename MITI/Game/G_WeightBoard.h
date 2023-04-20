@@ -15,6 +15,7 @@ class G_WeightBoard:public IGameObject
 
 		Vector3 position;
 		ModelRender m_modelRender;
+		Model model;
 		PhysicsStaticObjectPos m_physicsStaticObjectpos;
 
 		Player* player;
