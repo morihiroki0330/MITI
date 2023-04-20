@@ -9,7 +9,11 @@ IronBall::IronBall()
 	Light.DirectionLight_C = { 1.0f,1.0f,1.0f,0.0f };
 	for (int i = 0; i < 5; i++)
 	{
+<<<<<<< HEAD
 		ironRender[i].Init("Assets/modelData/tekyu/tekyu8.tkm",Light);
+=======
+		ironRender[i].Init("Assets/modelData/tekyu/tekyu8.tkm",ironLight);
+>>>>>>> 83cd96e40d24a972325bca99c8dc0ccef7eb3aec
 
 		ball_P[i] = { rand()%1200-600.0f,30.0f, rand() % 600-300.0f };
 		showFlag[i] = true;

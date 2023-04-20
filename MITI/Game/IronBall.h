@@ -21,5 +21,7 @@ public:
 	Player* player;
 
 	ModelRender ironRender[5];
+
+	AllLight ironLight;
 };
 

@@ -20,9 +20,9 @@ Game::Game()
 	PhysicsWorld::GetInstance()->SetGravity({ 0.0f,-90.0f,0.0f });
 	//PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
 
-	m_modelRender.Init("Assets/modelData/wall3.tkm");
+	/*m_modelRender.Init("Assets/modelData/wall3.tkm",stagewallLight);
 	m_modelRender.Update();
-	m_physicsStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
+	m_physicsStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());*/
 
 	m_player = NewGO<Player>(1, "player");
 	m_G_tekyu = NewGO<G_Tekyu>(2, "g_tekyu");
@@ -70,12 +70,12 @@ void Game::Update()
 	}
 
 	// g_renderingEngine->DisableRaytracing();
-	m_modelRender.Update();
+	//m_modelRender.Update();
 
 
 	//時間制限処理
 	wchar_t clock[256];
-	swprintf_s(clock, 256, L"残り時間:%d", int(timelimit - timer / 60));
+	swprintf_s(clock, 256, L"%d", int(timelimit - timer / 60));
 	//表示するテキストを設定。
 	m_fontRender.SetText(clock);
 	//フォントの位置を設定。
@@ -86,6 +86,6 @@ void Game::Update()
 
 void Game::Render(RenderContext& rc)
 {
-	m_modelRender.Draw(rc);
+	//m_modelRender.Draw(rc);
 	m_fontRender.Draw(rc);
 }

@@ -17,5 +17,7 @@ public:
 	PhysicsStaticObjectPos m_physicsStaticObjectpos;
 
 	G_WeightBoard* g_weightBoard;
+
+	AllLight wallLight;
 };
 

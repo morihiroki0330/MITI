@@ -42,6 +42,8 @@ private:
 	int timer;
 	int timelimit = 60;
 
+	AllLight stagewallLight;
+
 	PhysicsStaticObject m_physicsStaticObject;
 };
 

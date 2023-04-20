@@ -16,13 +16,18 @@ Player::Player()
 	m_animationClips[enAnimationClip_Put].Load("Assets/animData/put.tka");
 	m_animationClips[enAnimationClip_Put].SetLoopFlag(false);
 
+<<<<<<< HEAD
 	modelRender.Init("Assets/modelData/unityChan.tkm",Light, m_animationClips, enAnimationClip_Num, enModelUpAxisY);
+=======
+	modelRender.Init("Assets/modelData/unityChan.tkm",playerLight, m_animationClips, enAnimationClip_Num, enModelUpAxisY);
+>>>>>>> 83cd96e40d24a972325bca99c8dc0ccef7eb3aec
 
 	player_P.x = 0.0f;
 	player_P.y = 0.0f;
 	player_P.z = 0.0f;
 
 	modelRender.SetPosition(player_P);
+	modelRender.SetScale({ 2.5f,2.5f,2.5f });
 
 	//キャラクターコントローラーの初期化
 	characterController.Init(25.0f, 75.0f, player_P);
@@ -69,8 +74,8 @@ void Player::Move()
 		moveSpeed.z = 0.0f;
 
 		//プレイヤーの移動
-		moveSpeed.x += StickL.x * -(0.8f * (6 - ironBall));
-		moveSpeed.z += StickL.y * (0.8f * (6 - ironBall));
+		moveSpeed.x += StickL.x * (-5.0f + ironBall / 4)/*-(0.8f * (6 - ironBall))*/;
+		moveSpeed.z += StickL.y * (5.0f - ironBall / 4)/*(0.8f * (6 - ironBall))*/;
 	}
 	else
 	{
@@ -150,7 +155,7 @@ void Player::ManageState()
 		//回収
 		playerState = 3;
 	}
-	else if (StickL.x != 0 && StickL.y != 0)
+	else if (StickL.x != 0 || StickL.y != 0)
 	{
 		//歩き
 		playerState = 1;

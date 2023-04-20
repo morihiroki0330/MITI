@@ -24,5 +24,7 @@ class G_WeightBoard:public IGameObject
 
 		//ã‚É‰½‚©æ‚Á‚Ä‚éƒtƒ‰ƒO
 		bool putFlag;
+
+		AllLight boardLight;
 };
 

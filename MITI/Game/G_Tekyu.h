@@ -29,13 +29,20 @@ public:
 	}
 
 	Vector3 Tpos;			//座標。
+<<<<<<< HEAD
+=======
+
+>>>>>>> 83cd96e40d24a972325bca99c8dc0ccef7eb3aec
 	int ballState = 0;	//プレイヤーのステート(状態)を表す変数。
 private:
 
 	void Move();
 	//メンバ変数。
 	ModelRender modelRender;	//モデルレンダ―。
+<<<<<<< HEAD
 	
+=======
+>>>>>>> 83cd96e40d24a972325bca99c8dc0ccef7eb3aec
 	FontRender tekyupos;
 
 
@@ -46,4 +53,5 @@ private:
 
 	PhysicsSphereObject m_physicsSphereObject;
 
+	AllLight tekyuLight;
 };
