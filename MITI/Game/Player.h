@@ -29,6 +29,9 @@ public:
 	//鉄球置き＆回収のフラグ
 	bool get_Iron = false, put_Iron = false;
 
+	//鉄球置き＆回収アニメーションのフラグ
+	bool get_IronAnim = false, put_IronAnim = false;
+
 	//キャラクターコントローラー
 	CharacterController characterController;
 
@@ -49,6 +52,8 @@ public:
 
 	//フォントレンダー
 	FontRender fontRender;
+
+	Vector3 savePos;
 
 	enum EnAnimationClip {		//アニメーション。
 		enAnimationClip_Idle,

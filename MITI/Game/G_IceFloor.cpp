@@ -6,7 +6,8 @@ G_IceFloor::G_IceFloor()
 {
 	m_modelRender.Init("Assets/modelData/ice1.tkm",icefloorLight);
 
-	position = {-680,-20,95};
+	//position = {-680,-20,95};
+	position = {-190,-20,0};
 
 	m_modelRender.Update();
 	m_physicsStaticObjectpos.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
@@ -26,12 +27,13 @@ void G_IceFloor::Update()
 	}
 	else
 	{
-		//氷の床にプレイヤーが乗っている時
-		if (player->player_P.x<position.x + 95 && player->player_P.x > position.x - 95
-			&& player->player_P.z<position.z + 95 && player->player_P.z > position.z - 95)
+		    //氷の床にプレイヤーが乗っている時
+		if (player->player_P.x<position.x + 157 && player->player_P.x > position.x - 157
+			&& player->player_P.z<position.z + 157 && player->player_P.z > position.z - 157
+			|| player->slipflag == true)
 		{
 			//プレイヤーが滑っているフラグを立てる
-				player->slipflag = true;
+			player->slipflag = true;
 		}
 		else
 		{

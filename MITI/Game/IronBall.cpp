@@ -8,6 +8,7 @@ IronBall::IronBall()
 	{
 		ironRender[i].Init("Assets/modelData/tekyu/tekyu8.tkm",ironLight);
 		ball_P[i] = { rand()%1200-600.0f,30.0f, rand() % 600-300.0f };
+		ironRender[i].SetScale({ 1.5f, 1.5f, 1.5f });
 		showFlag[i] = true;
 	}
 }
@@ -65,6 +66,7 @@ void IronBall::Update()
 					showFlag[i] = true;
 
 					player->ironBall--;
+					player->put_IronAnim = true;
 					
 					break;
 				}
@@ -97,7 +99,7 @@ void IronBall::Update()
 					a = i;
 					showFlag[a] = false;
 					player->ironBall++;
-
+					player->get_IronAnim = true;
 					break;
 				}
 			}

@@ -7,7 +7,7 @@ GameCamera::GameCamera()
 	player = FindGO<Player>("player");
 
 	//’Ž‹“_
-	Target_P = player->player_P;
+	Target_P = { 0.0f,0.0f,0.0f };
 	g_camera3D->SetTarget(Target_P);
 
 	//Ž‹“_

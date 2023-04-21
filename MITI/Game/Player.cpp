@@ -15,15 +15,15 @@ Player::Player()
 
 	modelRender.Init("Assets/modelData/unityChan.tkm",playerLight, m_animationClips, enAnimationClip_Num, enModelUpAxisY);
 
-	player_P.x = 0.0f;
+	player_P.x = -680.0f;
 	player_P.y = 0.0f;
-	player_P.z = 0.0f;
+	player_P.z = -840.0f;
 
 	modelRender.SetPosition(player_P);
 	modelRender.SetScale({ 2.5f,2.5f,2.5f });
 
 	//キャラクターコントローラーの初期化
-	characterController.Init(25.0f, 75.0f, player_P);
+	characterController.Init(50.0f, 150.0f, player_P);
 }
 
 Player::~Player()
@@ -40,10 +40,14 @@ void Player::Update()
 	StickL.x = g_pad[0]->GetLStickYF();
 	StickL.y = g_pad[0]->GetLStickXF();
 
-	//移動処理
-	Move();
-	//回転処理
-	Rotation();
+	//鉄球を回収も置いたりもしていないとき
+	if (get_IronAnim == false || put_IronAnim == false)
+	{
+		//移動処理
+		Move();
+		//回転処理
+		Rotation();
+	}
 	//鉄球処理
 	Ball();
 	//プレイヤーステート処理
@@ -72,9 +76,22 @@ void Player::Move()
 	}
 	else
 	{
-		//氷の床に乗った時のプレイヤーの移動
-		moveSpeed.x += StickL.x * -(0.1f * (6 - ironBall));
-		moveSpeed.z += StickL.y * (0.1f * (6 - ironBall));
+		if (player_P.x == savePos.x && player_P.z == savePos.z)
+		{
+			moveSpeed.x = 0.0f;
+			moveSpeed.z = 0.0f;
+
+
+
+			//プレイヤーの移動
+			moveSpeed.x += StickL.x * (-5.0f + ironBall / 4)/*-(0.8f * (6 - ironBall))*/;
+			moveSpeed.z += StickL.y * (5.0f - ironBall / 4)/*(0.8f * (6 - ironBall))*/;
+			//slipflag = false;
+		}else{
+			savePos.x = player_P.x;
+			savePos.z = player_P.z;
+		}
+
 	}
 
 	/*if (moveSpeed.x > 4.8)
@@ -105,6 +122,8 @@ void Player::Move()
 
 	//キャラクターコントローラーを使って座標の移動
 	player_P = characterController.Execute(moveSpeed, 1.0f);
+
+	slipflag = false;
 }
 
 void Player::Rotation()
@@ -133,32 +152,31 @@ void Player::Ball()
 void Player::ManageState()
 {
 	//プレイヤーステートの変更
-	if (characterController.IsOnGround() == false)
-	{
-		//落下
-		playerState = 2;
-	}
-	else if (put_Iron == true)
-	{
-		//置き
-		playerState = 3;
-	}
-	else if (get_Iron == true)
-	{
-		//回収
-		playerState = 3;
-	}
-	else if (StickL.x != 0 || StickL.y != 0)
-	{
-		//歩き
-		playerState = 1;
-	}
-	else
-	{
-		//立ち
-		playerState = 0;
-	}
-
+		if (characterController.IsOnGround() == false)
+		{
+			//落下
+			playerState = 2;
+		}
+		else if (put_IronAnim == true)
+		{
+			//置き
+			playerState = 3;
+		}
+		else if (get_IronAnim == true)
+		{
+			//回収
+			playerState = 3;
+		}
+		else if (StickL.x != 0 || StickL.y != 0)
+		{
+			//歩き
+			playerState = 1;
+		}
+		else
+		{
+			//立ち
+			playerState = 0;
+		}
 }
 
 void Player::Animation()
@@ -180,6 +198,14 @@ void Player::Animation()
 		//設置モーション
 	case 3:
 		modelRender.PlayAnimation(enAnimationClip_Put);
+		if (put_IronAnim == true)
+		{
+			put_IronAnim = false;
+		}
+		if (get_IronAnim == true)
+		{
+			get_IronAnim = false;
+		}
 		break;
 	//
 	default:

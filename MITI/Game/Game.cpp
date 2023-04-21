@@ -25,14 +25,14 @@ Game::Game()
 	m_physicsStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());*/
 
 	m_player = NewGO<Player>(1, "player");
-	m_G_tekyu = NewGO<G_Tekyu>(2, "g_tekyu");
+	//m_G_tekyu = NewGO<G_Tekyu>(2, "g_tekyu");
 	m_gamecamera = NewGO<GameCamera>(3, "gamecamera");
 	m_stage = NewGO<Stage>(0, "stage");
 	m_ironBall = NewGO<IronBall>(4, "ironball");
-	m_G_breakfloar = NewGO<G_BreakFloar>(5, "g_breakfloar");
-	m_G_WeightBoard = NewGO<G_WeightBoard>(6, "g_WeightBoard");
+	//m_G_breakfloar = NewGO<G_BreakFloar>(5, "g_breakfloar");
+	//m_G_WeightBoard = NewGO<G_WeightBoard>(6, "g_WeightBoard");
 	m_G_Wall= NewGO<G_Wall>(7, "g_Wall");
-	m_G_IceFloor = NewGO<G_IceFloor>(8, "g_IceFloor");
+	//m_G_IceFloor = NewGO<G_IceFloor>(8, "g_IceFloor");
 }
 Game::~Game()
 {
@@ -75,7 +75,7 @@ void Game::Update()
 
 	//時間制限処理
 	wchar_t clock[256];
-	swprintf_s(clock, 256, L"%d", int(timelimit - timer / 60));
+	swprintf_s(clock, 256, L"残り時間%d",float(timelimit - timer / 60));
 	//表示するテキストを設定。
 	m_fontRender.SetText(clock);
 	//フォントの位置を設定。
