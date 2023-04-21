@@ -7,8 +7,9 @@
 G_WeightBoard::G_WeightBoard()
 {
 	m_modelRender.Init("Assets/modelData/WeightBoard.tkm",boardLight);
-
 	position = { -300,10,475 };
+	m_modelRender.SetScale({ 0.6f,0.6f,0.6f });
+	m_physicsStaticObjectpos.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
 }
 
 G_WeightBoard::~G_WeightBoard()
@@ -61,7 +62,7 @@ void G_WeightBoard::Update()
 		}
 	}
 	m_modelRender.SetPosition(position);
-	//m_physicsStaticObjectpos.SetPosition(position);
+	m_physicsStaticObjectpos.SetPosition(position);
 	m_modelRender.Update();
 }
 

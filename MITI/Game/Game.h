@@ -24,6 +24,7 @@ public:
 private:
 	ModelRender m_modelRender;
 	FontRender m_fontRender;
+	FontRender a_fontRender;
 	IronBall* m_ironBall;			//鉄球
 	G_Tekyu* m_G_tekyu;				//大鉄球
 	Player* m_player;				//プレイヤー

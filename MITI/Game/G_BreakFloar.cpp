@@ -1,12 +1,11 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "G_BreakFloar.h"
 #include "Player.h"
 
 G_BreakFloar::G_BreakFloar()
 {
-	//ƒRƒƒ“ƒgƒAƒEƒg‚·‚éB
+	//ã‚³ãƒ¡ãƒ³ãƒˆã‚¢ã‚¦ãƒˆã™ã‚‹ã€‚
 	//PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
-
 	m_modelRender.Init("Assets/modelData/breakfloar/breakfloar6.tkm",breakLight);
 
 	position = { -300,-60,285 };
@@ -24,7 +23,6 @@ void G_BreakFloar::Update()
 {
 	if (player == NULL)
 	{
-		//ƒvƒŒƒCƒ„[ƒNƒ‰ƒX‚ğ’T‚µ‚Ä‚­‚é
 		player = FindGO<Player>("player");
 	}
 	else

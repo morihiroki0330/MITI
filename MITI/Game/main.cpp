@@ -17,7 +17,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 {
 	// ゲームの初期化。
 	InitGame(hInstance, hPrevInstance, lpCmdLine, nCmdShow, TEXT("Ruins of Memory"));
-	
+
 	// k2EngineLowの初期化。
 	g_k2EngineLow = new K2EngineLow();
 	g_k2EngineLow->Init(g_hWnd, FRAME_BUFFER_W, FRAME_BUFFER_H);
@@ -27,9 +27,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//NewGO<UNITY>(0);
 	//NewGO<Player>(0);
 	NewGO<Title>(0,"title");
-	/*NewGO<UNITY>(0);
-	NewGO<Player>(0, "player");
-	NewGO<IronBall>(0);*/
+	//NewGO<UNITY>(0);
+	//NewGO<Player>(0, "player");
+	//NewGO<IronBall>(0);
 
 
 	// ここからゲームループ。
