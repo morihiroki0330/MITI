@@ -6,7 +6,7 @@ G_IceFloor::G_IceFloor()
 {
 	m_modelRender.Init("Assets/modelData/ice1.tkm",icefloorLight);
 
-	position = {-680,-20,95};
+	position = {-870,-20,95};
 
 	m_modelRender.Update();
 	m_physicsStaticObjectpos.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());

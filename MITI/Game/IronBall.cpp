@@ -66,7 +66,7 @@ void IronBall::Update()
 					showFlag[i] = true;
 
 					player->ironBall--;
-					
+					player->put_IronAnim = true;
 					break;
 				}
 			}
@@ -98,15 +98,10 @@ void IronBall::Update()
 					a = i;
 					showFlag[a] = false;
 					player->ironBall++;
-
+					player->get_IronAnim = true;
 					break;
 				}
 			}
-
-			//if (a != 0)
-			//{
-			//	
-			//}
 
 			player->get_Iron = false;
 		}
