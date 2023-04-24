@@ -5,8 +5,10 @@ class G_BreakFloar;
 class G_WeightBoard;
 class G_Wall;
 class Hole;
+class G_Block;
+class G_Kaidan;
 
-struct Map
+struct MapData
 {
 	bool ice_on;
 	G_IceFloor* ice;
@@ -14,7 +16,10 @@ struct Map
 	bool breakfloar_on;
 	G_BreakFloar* breakfloar;
 
-	bool weightboard_on;
+	bool weightboard_map;
+	int weightboard_block_map[10][10];
+	bool weightboard_block_link;
+	
 	G_WeightBoard* weightboard;
 
 	bool wall_on;
@@ -22,6 +27,24 @@ struct Map
 
 	bool hole_on;
 	Hole* hole;
+
+	bool block_on;
+	G_Block* block;
+
+	bool kaidan_on;
+	G_Kaidan* kaidan;
+
+};
+
+struct Map 
+{
+	G_IceFloor* ice;
+	G_BreakFloar* breakfloar;
+	G_WeightBoard* weightboard;
+	G_Wall* wall;
+	Hole* hole;
+	G_Block* block;
+	G_Kaidan* kaidan;
 };
 
 class Stage : public IGameObject
@@ -45,9 +68,12 @@ public:
 	//’n–Ê
 	ModelRender Ground[10][10];
 	Vector3 Ground_P[10][10];
-	Map map[10][10];
+	MapData mapdata[10][10];
+	Map map;
 
 	PhysicsStaticObjectPos k_physicsStaticObjectpos;
 	PhysicsStaticObjectPos g_physicsStaticObjectpos[10][10];
+	
+	bool weightblock_create;
 };
 
