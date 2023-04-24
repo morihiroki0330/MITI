@@ -12,6 +12,7 @@ class G_BreakFloar;
 class G_WeightBoard;
 class G_Wall;
 class G_IceFloor;
+//class G_laser;
 
 class Game : public IGameObject
 {
@@ -37,6 +38,7 @@ private:
 	G_WeightBoard* m_G_WeightBoard;
 	G_Wall* m_G_Wall;
 	G_IceFloor* m_G_IceFloor;
+	//G_laser* m_G_laser;
 
 	//時間制限
 	int timer;

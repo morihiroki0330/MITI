@@ -15,7 +15,7 @@ Stage::Stage()
 	m_modelRender.Update();
 	m_physicsStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());*/
 
-	Kabe.Init("Assets/test/hekiga.tkm", stageLight);
+	Kabe.Init("Assets/modelData/hekiga.tkm", stageLight);
 	Kabe_P = { 0.0f,82.0f,0.0f };
 	k_physicsStaticObjectpos.CreateFromModel(Kabe.GetModel(), Kabe.GetModel().GetWorldMatrix());
 	Kabe.Update();
@@ -179,11 +179,11 @@ Stage::Stage()
 				map[i][j].weightboard = NewGO<G_WeightBoard>(0);
 				map[i][j].weightboard->position = Ground_P[i][j];
 				map[i][j].weightboard->position.y = -20.0f;
-				Ground[i][j].Init("Assets/test/ground.tkm", stageLight);
+				Ground[i][j].Init("Assets/modelData/ground.tkm", stageLight);
 				Ground[i][j].SetPosition(Ground_P[i][j]);
 				Ground[i][j].Update();
 			}else {
-				Ground[i][j].Init("Assets/test/ground.tkm", stageLight);
+				Ground[i][j].Init("Assets/modelData/ground.tkm", stageLight);
 				g_physicsStaticObjectpos[i][j].CreateFromModel(Ground[i][j].GetModel(), Ground[i][j].GetModel().GetWorldMatrix());
 				g_physicsStaticObjectpos[i][j].SetPosition(Ground_P[i][j]);
 				Ground[i][j].SetPosition(Ground_P[i][j]);

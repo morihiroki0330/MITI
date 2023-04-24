@@ -1,4 +1,4 @@
-//ゲーム全体の処理はここに書いてね～
+﻿//ゲーム全体の処理はここに書いてね～
 #include "stdafx.h"
 #include "Title.h"
 #include "Game.h"
@@ -13,6 +13,7 @@
 #include "G_WeightBoard.h"
 #include "G_Wall.h"
 #include "G_IceFloor.h"
+//#include "G_laser.h"
 
 Game::Game()
 {
@@ -33,6 +34,7 @@ Game::Game()
 	//m_G_WeightBoard = NewGO<G_WeightBoard>(6, "g_WeightBoard");
 	m_G_Wall= NewGO<G_Wall>(7, "g_Wall");
 	//m_G_IceFloor = NewGO<G_IceFloor>(8, "g_IceFloor");
+	//m_G_laser = NewGO<G_laser>(9, "g_laser");
 }
 Game::~Game()
 {
@@ -44,6 +46,7 @@ Game::~Game()
 	DeleteGO(m_G_WeightBoard);
 	DeleteGO(m_G_Wall);
 	DeleteGO(m_G_IceFloor);
+	//DeleteGO(m_G_laser);
 	DeleteGO(this);
 }
 
@@ -75,7 +78,7 @@ void Game::Update()
 
 	//時間制限処理
 	wchar_t clock[256];
-	swprintf_s(clock, 256, L"残り時間%d",float(timelimit - timer / 60));
+	swprintf_s(clock, 256, L"残り時間:%d",int(timelimit - timer / 60));
 	//表示するテキストを設定。
 	m_fontRender.SetText(clock);
 	//フォントの位置を設定。
