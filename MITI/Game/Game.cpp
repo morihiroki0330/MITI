@@ -15,6 +15,7 @@
 #include "G_IceFloor.h"
 #include "G_Kaidan.h"
 #include "UI.h"
+//#include "G_laser.h"
 
 Game::Game()
 {
@@ -37,7 +38,9 @@ Game::Game()
 	//m_G_WeightBoard = NewGO<G_WeightBoard>(6, "g_WeightBoard");
 	//m_G_Wall= NewGO<G_Wall>(7, "g_Wall");
 	//m_G_IceFloor = NewGO<G_IceFloor>(8, "g_IceFloor");
+	//m_G_laser = NewGO<G_laser>(9, "g_laser");
 }
+
 Game::~Game()
 {
 	DeleteGO(m_player);
@@ -49,6 +52,12 @@ Game::~Game()
 	//DeleteGO(m_G_WeightBoard);
 	//DeleteGO(m_G_Wall);
 	//DeleteGO(m_G_IceFloor);
+	/*DeleteGO(m_G_tekyu);
+	DeleteGO(m_G_breakfloar);
+	DeleteGO(m_G_WeightBoard);
+	DeleteGO(m_G_Wall);
+	DeleteGO(m_G_IceFloor);*/
+	//DeleteGO(m_G_laser);
 	DeleteGO(this);
 }
 

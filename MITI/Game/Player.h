@@ -68,6 +68,5 @@ public:
 
 	bool slipflag;
 	AllLight playerLight;
-	Vector3 savePos;
 };
 
