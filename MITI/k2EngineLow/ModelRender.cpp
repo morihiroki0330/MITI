@@ -38,15 +38,6 @@ namespace nsK2EngineLow
 
 		//ライトのパス
 		SetDirectionLight(light.DirectionLight_D, light.DirectionLight_C);
-		/*m_light.DirectionLight_D.x = 1.0f;
-		m_light.DirectionLight_D.y = -1.0f;
-		m_light.DirectionLight_D.z = -1.0f;
-
-		m_light.DirectionLight_D.Normalize();
-
-		m_light.DirectionLight_C.x = 1.0f;
-		m_light.DirectionLight_C.y = 1.0f;
-		m_light.DirectionLight_C.z = 1.0f;*/
 
 		m_modelInitData.m_expandConstantBuffer = &m_light;
 		m_modelInitData.m_expandConstantBufferSize = sizeof(m_light);

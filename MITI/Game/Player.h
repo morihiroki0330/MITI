@@ -53,8 +53,6 @@ public:
 	//フォントレンダー
 	FontRender fontRender;
 
-	Vector3 savePos;
-
 	enum EnAnimationClip {		//アニメーション。
 		enAnimationClip_Idle,
 		enAnimationClip_Walk,

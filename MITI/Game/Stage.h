@@ -4,9 +4,10 @@ class G_IceFloor;
 class G_BreakFloar;
 class G_WeightBoard;
 class G_Wall;
-class Hole;
+class G_Hole;
 class G_Block;
 class G_Kaidan;
+class G_Ground;
 
 struct MapData
 {
@@ -26,7 +27,7 @@ struct MapData
 	G_Wall* wall;
 
 	bool hole_on;
-	Hole* hole;
+	G_Hole* hole;
 
 	bool block_on;
 	G_Block* block;
@@ -34,17 +35,20 @@ struct MapData
 	bool kaidan_on;
 	G_Kaidan* kaidan;
 
+	G_Ground* ground;
+
 };
 
 struct Map 
 {
-	G_IceFloor* ice;
-	G_BreakFloar* breakfloar;
-	G_WeightBoard* weightboard;
-	G_Wall* wall;
-	Hole* hole;
-	G_Block* block;
-	G_Kaidan* kaidan;
+	G_IceFloor* Ice;
+	G_BreakFloar* Breakfloar;
+	G_WeightBoard* Weightboard;
+	G_Wall* Wall;
+	G_Hole* Hole;
+	G_Block* Block;
+	G_Kaidan* Kaidan;
+	G_Ground* Ground;
 };
 
 class Stage : public IGameObject
@@ -74,6 +78,19 @@ public:
 	PhysicsStaticObjectPos k_physicsStaticObjectpos;
 	PhysicsStaticObjectPos g_physicsStaticObjectpos[10][10];
 	
-	bool weightblock_create;
+	//地面の生成【穴・氷・床・破壊床】
+	bool hole_create;
+	bool ice_create;
+	bool ground_create;
+	bool break_create;
+
+	//床上の設置物【ゴール用の階段・感圧板・障壁ブロック・ゴール解放の扉】
+	bool kaidan_create;
+	bool weightboard_create;
+	bool block_create;
+	bool wall_create;
+	
+	
+	
 };
 

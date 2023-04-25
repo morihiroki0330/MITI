@@ -13,10 +13,9 @@ class G_WeightBoard:public IGameObject
 		void Update();
 		void Render(RenderContext& rc);
 
-		Vector3 position;
-		ModelRender m_modelRender;
-		Model model;
-		PhysicsStaticObjectPos m_physicsStaticObjectpos;
+		Vector3 position[10][10];
+		ModelRender m_modelRender[10][10];
+		PhysicsStaticObjectPos m_physicsStaticObjectpos[10][10];
 
 		Player* player;
 		IronBall* ironBall;
@@ -26,5 +25,7 @@ class G_WeightBoard:public IGameObject
 		bool putFlag;
 
 		AllLight boardLight;
+
+		bool WeightBoard_on[10][10];
 };
 

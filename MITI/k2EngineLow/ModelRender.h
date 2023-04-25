@@ -166,6 +166,33 @@ namespace nsK2EngineLow
 			m_light.DirectionLight_C = Color;
 		}
 
+		void SetPositionLight(const Vector4& Color , const Vector3& Position , const float Range)
+		{
+			m_light.Point_P = Position;
+			m_light.Point_C = Color;
+			m_light.Point_R = Range;
+		}
+
+		void SetSpotLight(const Vector3& Direction , const Vector4& Color , const Vector3 Position , const float Range , const float Angle)
+		{
+			m_light.Spot_D = Direction;
+			m_light.Spot_D.Normalize();
+			m_light.Spot_C = Color;
+			m_light.Spot_P = Position;
+			m_light.Spot_R = Range;
+			m_light.Spot_A = Angle;
+		}
+
+		void SetHalfLight(const Vector4& GroundColor, const Vector4& Color)
+		{
+			
+		}
+
+		void SetCommonLight(const Vector3& Direction, const Vector4& Color)
+		{
+
+		}
+
 	private:
 
 		void UpdaterWorldMatrixInModes();

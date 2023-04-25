@@ -6,12 +6,14 @@ G_BreakFloar::G_BreakFloar()
 {
 	//コメントアウトする。
 	//PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
-	m_modelRender.Init("Assets/modelData/breakfloar/breakfloar6.tkm",breakLight);
-
-	position = { -300,-60,285 };
-
-	m_modelRender.Update();
-	m_physicsStaticObjectpos.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
+	for (int L = 0; L < 10; L++)
+	{
+		for (int R = 0; R < 10; R++)
+		{
+			m_modelRender[L][R].Init("Assets/test/hole.tkm", breakLight);
+			m_physicsStaticObjectpos[L][R].CreateFromModel(m_modelRender[L][R].GetModel(), m_modelRender[L][R].GetModel().GetWorldMatrix());
+		}
+	}
 }
 
 G_BreakFloar::~G_BreakFloar()
@@ -21,26 +23,45 @@ G_BreakFloar::~G_BreakFloar()
 
 void G_BreakFloar::Update()
 {
-	if (player == NULL)
+	for (int L = 0; L < 10; L++)
 	{
-		player = FindGO<Player>("player");
-	}
-	else
-	{
-		if (player->ironBall > 3
-			&& player->player_P.x < position.x + 73 && player->player_P.x > position.x - 73
-			&& player->player_P.z < position.z + 73 && player->player_P.z > position.z - 73)
+		for (int R = 0; R < 10; R++)
 		{
-			DeleteGO(this);
+
+			if (player == NULL)
+			{
+				player = FindGO<Player>("player");
+			}
+			else
+			{
+				if (player->ironBall > 3
+					&& player->player_P.x < position[L][R].x + 73 && player->player_P.x > position[L][R].x - 73
+					&& player->player_P.z < position[L][R].z + 73 && player->player_P.z > position[L][R].z - 73)
+				{
+					DeleteGO(this);
+				}
+			}
+
+			if (break_on[L][R] == true)
+			{
+				m_modelRender[L][R].SetPosition(position[L][R]);
+				m_physicsStaticObjectpos[L][R].SetPosition(position[L][R]);
+				m_modelRender[L][R].Update();
+			}
 		}
 	}
-
-	m_modelRender.SetPosition(position);
-	m_physicsStaticObjectpos.SetPosition(position);
-	m_modelRender.Update();
 }
 
 void G_BreakFloar::Render(RenderContext& rc)
 {
-	m_modelRender.Draw(rc);
+	for (int L = 0; L < 10; L++)
+	{
+		for (int R = 0; R < 10; R++)
+		{
+			if (break_on[L][R] == true)
+			{
+				m_modelRender[L][R].Draw(rc);
+			}
+		}
+	}
 }
