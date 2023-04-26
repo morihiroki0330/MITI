@@ -47,7 +47,7 @@ private:
 
 	//時間制限
 	int timer;
-	int timelimit = 60;
+	int timelimit = 90;
 
 	AllLight stagewallLight;
 

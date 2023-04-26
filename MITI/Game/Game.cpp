@@ -67,7 +67,7 @@ void Game::Update()
 	timer++;
 
 	//仮のゲームオーバーの条件を設定
-	if (m_player->player_P.y <= -250.0f || timer > 60 * 60) {
+	if (m_player->player_P.y <= -250.0f || timer > 90 * 60) {
 		NewGO<Gameover>(0, "gameover");
 		DeleteGO(this);
 	}

@@ -29,6 +29,9 @@ public:
 	//鉄球置き＆回収のフラグ
 	bool get_Iron = false, put_Iron = false;
 
+	//UIフラグ
+	bool get_Ui = false, put_Ui = false;
+
 	//鉄球置き＆回収アニメーションのフラグ
 	bool get_IronAnim = false, put_IronAnim = false;
 
@@ -67,6 +70,7 @@ public:
 	AnimationClip m_animationClips[enAnimationClip_Num];		//アニメーションクリップ。
 
 	bool slipflag;
+	Vector3 savePos;
 	AllLight playerLight;
 };
 

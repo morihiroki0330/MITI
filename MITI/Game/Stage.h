@@ -18,8 +18,6 @@ struct MapData
 	G_BreakFloar* breakfloar;
 
 	bool weightboard_map;
-	int weightboard_block_map[10][10];
-	bool weightboard_block_link;
 	
 	G_WeightBoard* weightboard;
 
@@ -90,7 +88,8 @@ public:
 	bool block_create;
 	bool wall_create;
 	
-	
+	int l = 0;
+	int r = 0;
 	
 };
 

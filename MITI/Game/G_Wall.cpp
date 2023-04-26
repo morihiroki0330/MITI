@@ -20,7 +20,7 @@ G_Wall::~G_Wall()
 
 void G_Wall::Update()
 {
-	if (g_weightBoard == NULL)
+	/*if (g_weightBoard == NULL)
 	{
 		g_weightBoard = FindGO<G_WeightBoard>("g_WeightBoard");
 	}
@@ -34,7 +34,7 @@ void G_Wall::Update()
 		{
 			position = { 95,0,510 };
 		}
-	}
+	}*/
 
 	m_modelRender.SetPosition(position);
 	m_physicsStaticObjectpos.SetPosition(position);

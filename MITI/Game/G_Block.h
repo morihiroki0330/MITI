@@ -13,13 +13,13 @@ public:
 
 	PhysicsStaticObjectPos m_physicsStaticObjectpos[10][10];
 
-	G_WeightBoard* g_weightBoard;
+	G_WeightBoard* weightboard;
 
 	AllLight light;
 
 	//ŠK’i‚ð•\Ž¦‚·‚é‚©‚µ‚È‚¢‚©
 	bool Block_on[10][10];
 
-	int blockcount;
+	bool Block_only[10][10];
 };
 

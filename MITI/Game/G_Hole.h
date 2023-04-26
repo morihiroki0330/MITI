@@ -7,11 +7,11 @@ public:
 	void Update();
 	void Render(RenderContext& rc);
 
-	ModelRender Hole[10][10];
-	Vector3 Hole_P[10][10];
-	PhysicsStaticObjectPos m_physicsStaticObjectpos[10][10];
+	ModelRender Hole;
+	Vector3 Hole_P;
+	PhysicsStaticObjectPos m_physicsStaticObjectpos;
 
-	bool Hole_on[10][10];
+	bool Hole_on;
 
 	AllLight Hole_L;
 };

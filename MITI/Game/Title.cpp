@@ -5,7 +5,7 @@
 
 Title::Title()
 {
-	TITLE.Init("Assets/sprite/RoM_Title.DDS", 1920.0f, 1080.0f);
+	TITLE.Init("Assets/sprite/RoM_Title2.DDS", 1920.0f, 900.0f);
 
 }
 

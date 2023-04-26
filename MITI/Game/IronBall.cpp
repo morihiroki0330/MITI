@@ -7,7 +7,7 @@ IronBall::IronBall()
 	for (int i = 0; i < 5; i++)
 	{
 		ironRender[i].Init("Assets/modelData/tekyu/tekyu8.tkm",ironLight);
-		ball_P[i] = { rand()%1200-600.0f,30.0f, rand() % 600-864.0f };
+		ball_P[i] = { rand() % 1200-600.0f,30.0f, rand() % 600-864.0f };
 		ironRender[i].SetScale({ 1.5f, 1.5f, 1.5f });
 		showFlag[i] = true;
 	}
@@ -90,16 +90,18 @@ void IronBall::Update()
 				}*/
 
 				//
-				if (player->player_P.x < ball_P[i].x + 45 + 30
-					&& player->player_P.x > ball_P[i].x - 45 - 30
-					&& player->player_P.z < ball_P[i].z + 45 + 30
-					&& player->player_P.z > ball_P[i].z - 45 - 30
+				if (player->player_P.x < ball_P[i].x + 75
+					&& player->player_P.x > ball_P[i].x - 75
+					&& player->player_P.z < ball_P[i].z + 75
+					&& player->player_P.z > ball_P[i].z - 75
 					&& showFlag[i] == true)
 				{
 					a = i;
 					showFlag[a] = false;
 					player->ironBall++;
 					player->get_IronAnim = true;
+					ball_P[i].x = -2000.0f;
+					ball_P[i].z = -2000.0f;
 					break;
 				}
 			}

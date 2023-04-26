@@ -8,8 +8,9 @@ G_IceFloor::G_IceFloor()
 	{
 		for (int R = 0; R < 10; R++)
 		{
-			m_modelRender[L][R].Init("Assets/modelData/ice1.tkm", icefloorLight);
+			m_modelRender[L][R].Init("Assets/test/ice1.tkm", icefloorLight);
 			m_physicsStaticObjectpos[L][R].CreateFromModel(m_modelRender[L][R].GetModel(), m_modelRender[L][R].GetModel().GetWorldMatrix());
+			m_physicsStaticObjectpos[L][R].SetPosition({ -2000.0f,-2000.0f,-2000.0f });
 		}
 	}
 }
@@ -31,8 +32,8 @@ void G_IceFloor::Update()
 				player = FindGO<Player>("player");
 			}else{
 				//氷の床にプレイヤーが乗っている時
-			if (player->player_P.x<position[L][R].x + 157 && player->player_P.x > position[L][R].x - 157
-				&& player->player_P.z<position[L][R].z + 157 && player->player_P.z > position[L][R].z - 157
+			if (player->player_P.x<position[L][R].x + 130 && player->player_P.x > position[L][R].x - 130
+				&& player->player_P.z<position[L][R].z + 130 && player->player_P.z > position[L][R].z - 130
 				|| player->slipflag == true)
 			{
 				//プレイヤーが滑っているフラグを立てる

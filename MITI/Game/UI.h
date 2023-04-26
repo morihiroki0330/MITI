@@ -20,7 +20,7 @@ public:
 	SpriteRender Non;
 
 	//“S‹…
-	SpriteRender Iron[2];
+	SpriteRender Iron[6];
 
 	Player* player;
 };

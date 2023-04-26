@@ -3,6 +3,7 @@
 class Player;
 class IronBall;
 class G_Tekyu;
+class G_Block;
 
 class G_WeightBoard:public IGameObject
 {
@@ -20,12 +21,19 @@ class G_WeightBoard:public IGameObject
 		Player* player;
 		IronBall* ironBall;
 		G_Tekyu* g_tekyu;
+		G_Block* block;
 
 		//上に何か乗ってるフラグ
-		bool putFlag;
+		bool putFlag[10][10];
 
 		AllLight boardLight;
 
 		bool WeightBoard_on[10][10];
+		//1.行　2.列　3.行列
+		int link_number[10][10][10];
+		int link_count[10][10];
+
+		bool link;
+		bool block_link;
 };
 
