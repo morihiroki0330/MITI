@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "G_Block.h"
 #include "G_WeightBoard.h"
+#include "Box.h"
 
 G_Block::G_Block()
 {
@@ -11,9 +12,10 @@ G_Block::G_Block()
 		{
 			Block[L][R].Init("Assets/test/isi.tkm", light);
 			m_physicsStaticObjectpos[L][R].CreateFromModel(Block[L][R].GetModel(), Block[L][R].GetModel().GetWorldMatrix());
-			m_physicsStaticObjectpos[L][R].SetPosition({ -2000.0f,-2000.0f,-2000.0f });
+			m_physicsStaticObjectpos[L][R].SetPosition({-2000.0f,-2000.0f,-2000.0f});
 		}
 	}
+	
 }	
 
 G_Block::~G_Block()
@@ -28,6 +30,11 @@ void G_Block::Update()
 	{
 		weightboard = FindGO<G_WeightBoard>("weightboard");
 	}
+	
+	if (box == NULL)
+	{
+		box = FindGO<Box>("box");
+	}
 
 	for (int L = 0; L < 10; L++)
 	{
@@ -37,6 +44,7 @@ void G_Block::Update()
 			{
 				Block[L][R].SetPosition(Block_P[L][R]);
 				m_physicsStaticObjectpos[L][R].SetPosition(Block_P[L][R]);
+				box->box[L][R].SetPosition(Block_P[L][R]);
 				Block[L][R].Update();
 			}else {
 
@@ -50,6 +58,7 @@ void G_Block::Update()
 						{
 							Block[weightboard->link_number[L][R][count / 10]][weightboard->link_number[L][R][count % 10]].SetPosition(Block_P[weightboard->link_number[L][R][count / 10]][weightboard->link_number[L][R][count % 10]]);
 							m_physicsStaticObjectpos[weightboard->link_number[L][R][count / 10]][weightboard->link_number[L][R][count % 10]].SetPosition(Block_P[weightboard->link_number[L][R][count / 10]][weightboard->link_number[L][R][count % 10]]);
+							box->box[weightboard->link_number[L][R][count / 10]][weightboard->link_number[L][R][count % 10]].SetPosition(Block_P[weightboard->link_number[L][R][count / 10]][weightboard->link_number[L][R][count % 10]]);
 							Block[weightboard->link_number[L][R][count / 10]][weightboard->link_number[L][R][count % 10]].Update();
 						}
 					}else {
@@ -58,6 +67,7 @@ void G_Block::Update()
 						for (int count = 1; count <= weightboard->link_count[L][R]; count++)
 						{
 							m_physicsStaticObjectpos[weightboard->link_number[L][R][count / 10]][weightboard->link_number[L][R][count % 10]].SetPosition({ -2000.0f,-2000.0f,-2000.0f });
+							box->box[weightboard->link_number[L][R][count / 10]][weightboard->link_number[L][R][count % 10]].SetPosition({ -2000.0f,-2000.0f,-2000.0f });
 						}
 					}
 					}

@@ -113,6 +113,7 @@ Stage::Stage()
 		{
 			//四行目
 			mapdata[3][4].ice_on = true;
+			mapdata[3][5].ice_on = true;
 			mapdata[3][7].ice_on = true;
 			mapdata[3][8].ice_on = true;
 		}
@@ -163,6 +164,7 @@ Stage::Stage()
 
 		//一行目
 		mapdata[0][5].block_on = true;
+		mapdata[0][7].block_on = true;
 		mapdata[0][8].block_on = true;
 
 		//二行目
@@ -171,11 +173,13 @@ Stage::Stage()
 		mapdata[1][8].block_on = true;
 
 		//三行目
+		mapdata[2][5].block_on = true;
 		mapdata[2][6].block_on = true;
 		map.Block->Block_only[2][6] = true;
 		mapdata[2][8].block_on = true;
 
 		//四行目
+		mapdata[3][5].block_on = true;
 		mapdata[3][6].block_on = true;
 		map.Block->Block_only[3][6] = true;
 		mapdata[3][9].block_on = true;
@@ -187,9 +191,12 @@ Stage::Stage()
 		//六行目
 		mapdata[5][5].block_on = true;
 		mapdata[5][6].block_on = true;
+		mapdata[5][7].block_on = true;
+		mapdata[5][8].block_on = true;
 
 		//七行目
 
+		mapdata[6][6].block_on = true;
 		mapdata[6][7].block_on = true;
 		map.Block->Block_only[6][7] = true;
 		mapdata[6][8].block_on = true;
@@ -207,7 +214,9 @@ Stage::Stage()
 		map.Block->Block_only[8][9] = true;
 
 		//十行目
+		mapdata[9][4].block_on = true;
 		mapdata[9][6].block_on = true;
+		mapdata[9][7].block_on = true;
 		mapdata[9][9].block_on = true;
 
 	}
@@ -228,7 +237,7 @@ Stage::Stage()
 		mapdata[2][6].hole_on = true;
 
 		//四行目
-		mapdata[3][5].hole_on = true;
+		//mapdata[3][5].hole_on = true;
 		mapdata[3][6].hole_on = true;
 		mapdata[3][9].hole_on = true;
 
@@ -274,8 +283,8 @@ Stage::Stage()
 
 		mapdata[3][0].weightboard_map = true;
 		map.Weightboard->link_number[3][0][1] = 16;
-		map.Weightboard->link_number[3][0][2] = 47;
-		map.Weightboard->link_number[3][0][3] = 46;
+		map.Weightboard->link_number[3][0][2] = 7;
+		map.Weightboard->link_number[3][0][3] = 58;
 		map.Weightboard->link_count[3][0] = 3;
 
 		mapdata[3][2].weightboard_map = true;
@@ -286,14 +295,14 @@ Stage::Stage()
 
 		mapdata[5][0].weightboard_map = true;
 		map.Weightboard->link_number[5][0][1] = 28;
-		map.Weightboard->link_number[5][0][2] = 88;
-		map.Weightboard->link_number[5][0][3] = 14;
+		map.Weightboard->link_number[5][0][2] = 97;
+		map.Weightboard->link_number[5][0][3] = 35;
 		map.Weightboard->link_count[5][0] = 3;
 
 		mapdata[5][2].weightboard_map = true;
 		map.Weightboard->link_number[5][2][1] = 68;
-		map.Weightboard->link_number[5][2][2] = 75;
-		map.Weightboard->link_number[5][2][3] = 79;
+		map.Weightboard->link_number[5][2][2] = 57;
+		map.Weightboard->link_number[5][2][3] = 94;
 		map.Weightboard->link_count[5][2] = 3;
 
 		mapdata[7][0].weightboard_map = true;
@@ -310,8 +319,8 @@ Stage::Stage()
 
 		mapdata[9][0].weightboard_map = true;
 		map.Weightboard->link_number[9][0][1] = 87;
-		map.Weightboard->link_number[9][0][2] = 14;
-		map.Weightboard->link_number[9][0][3] = 76;
+		map.Weightboard->link_number[9][0][2] = 25;
+		map.Weightboard->link_number[9][0][3] = 66;
 		map.Weightboard->link_count[9][0] = 3;
 
 		mapdata[9][2].weightboard_map = true;
@@ -330,6 +339,9 @@ Stage::Stage()
 	{
 		
 	}
+
+//マップの取得
+
 
 //座標の設定
 	for (int L = 0; L < 10; L++)
@@ -353,7 +365,7 @@ Stage::Stage()
 		//穴
 		if (mapdata[L][R].hole_on == true)
 		{
-			
+			mapdata[L][R].grounddata = HOLE;
 		}else {
 		//氷
 		if (mapdata[L][R].ice_on == true)
@@ -361,17 +373,20 @@ Stage::Stage()
 			map.Ice->ice_on[L][R] = true;
 			map.Ice->position[L][R] = Ground_P[L][R];
 			map.Ice->position[L][R].y -= 50.0f;
+			mapdata[L][R].grounddata = ICE;
 		}else {
 		//破壊床
 		if (mapdata[L][R].breakfloar_on == true)
 		{
 			map.Breakfloar->break_on[L][R] = true;
 			map.Breakfloar->position[L][R] = Ground_P[L][R];
+			mapdata[L][R].grounddata = BREAKFLOOR;
 		}else {
 		//床
 			map.Ground->Ground_on[L][R] = true;
 			map.Ground->Ground_P[L][R] = Ground_P[L][R];
 			map.Ground->Ground_P[L][R].y -= 50.0f;
+			mapdata[L][R].grounddata = GROUND;
 		}
 		}
 		}
@@ -382,6 +397,7 @@ Stage::Stage()
 		{
 			map.Kaidan->Kaidan_P = Ground_P[L][R];
 			map.Kaidan->Kaidan_P.y = 20.0f;
+			mapdata[L][R].grounddata = KAIDAN;
 		}else {
 		//感圧板
 		if (mapdata[L][R].weightboard_map == true)
@@ -389,6 +405,7 @@ Stage::Stage()
 			map.Weightboard->WeightBoard_on[L][R] = true;
 			map.Weightboard->position[L][R] = Ground_P[L][R];
 			map.Weightboard->position[L][R].y = -20.0f;
+			mapdata[L][R].grounddata = WEIGHTBOARD;
 		}else {
 		//障壁ブロック
 		if (mapdata[L][R].block_on == true)
@@ -396,10 +413,12 @@ Stage::Stage()
 			map.Block->Block_on[L][R] = true;
 			map.Block->Block_P[L][R] = Ground_P[L][R];
 			map.Block->Block_P[L][R].y = 150.0f;
+			mapdata[L][R].grounddata = BLOCK;
 		}else {
 		//ゴール解放の扉
 			/*map.Ground->Ground_on[L][R] = true;
 			map.Ground->Ground_P[L][R] = Ground_P[L][R];*/
+			//mapdata[L][R].grounddata = WALL;
 		}
 		}
 		}

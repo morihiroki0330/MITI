@@ -1,5 +1,7 @@
 #pragma once
+
 class G_WeightBoard;
+class Box;
 class G_Block : public IGameObject
 {
 public:
@@ -16,6 +18,8 @@ public:
 	G_WeightBoard* weightboard;
 
 	AllLight light;
+
+	Box* box;
 
 	//ŠK’i‚ð•\Ž¦‚·‚é‚©‚µ‚È‚¢‚©
 	bool Block_on[10][10];

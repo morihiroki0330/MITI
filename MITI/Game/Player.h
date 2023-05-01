@@ -1,4 +1,14 @@
 #pragma once
+class Box;
+class Stage;
+
+enum Direction
+{
+	Up,
+	Down,
+	Right,
+	Left
+};
 class Player : public IGameObject
 {
 public:
@@ -56,6 +66,10 @@ public:
 	//フォントレンダー
 	FontRender fontRender;
 
+	Box* box;
+
+	Stage* stage;
+
 	enum EnAnimationClip {		//アニメーション。
 		enAnimationClip_Idle,
 		enAnimationClip_Walk,
@@ -69,8 +83,15 @@ public:
 	};
 	AnimationClip m_animationClips[enAnimationClip_Num];		//アニメーションクリップ。
 
-	bool slipflag;
+	bool slipflag = false;
+	bool hitflag = false;
 	Vector3 savePos;
+	Vector3 SetPosition[10][10];
+	int player_map;
+	FontRender as;
+	FontRender asb;
+	int EnterDirection;
+
 	AllLight playerLight;
 };
 

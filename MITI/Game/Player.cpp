@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "Player.h"
+#include "Box.h"
+#include "Stage.h"
 
 Player::Player()
 {
@@ -15,9 +17,17 @@ Player::Player()
 
 	modelRender.Init("Assets/modelData/unityChan.tkm",playerLight, m_animationClips, enAnimationClip_Num, enModelUpAxisY);
 
-	player_P.x = -680.0f;
-	player_P.y = 0.0f;
-	player_P.z = -840.0f;
+	for (int L = 0; L < 10; L++)
+	{
+		for (int R = 0; R < 10; R++)
+		{
+			SetPosition[L][R].x = (L * 192.0f) + -865.0f;
+			SetPosition[L][R].y = 0.0f;
+			SetPosition[L][R].z = (R * 192.0f) + -865.0f;
+		}
+	}
+
+	player_P = SetPosition[0][1];
 
 	modelRender.SetPosition(player_P);
 	modelRender.SetScale({ 2.5f,2.5f,2.5f });
@@ -28,17 +38,11 @@ Player::Player()
 
 Player::~Player()
 {
-	//
 
 }
 
 void Player::Update()
 {
-	//
-
-	//スティックの入力量の取得
-	StickL.x = g_pad[0]->GetLStickYF();
-	StickL.y = g_pad[0]->GetLStickXF();
 
 	//鉄球を回収も置いたりもしていないとき
 	if (get_IronAnim == false || put_IronAnim == false)
@@ -64,6 +68,120 @@ void Player::Update()
 
 void Player::Move()
 {
+	if (box == NULL)
+	{
+		box = FindGO<Box>("box");
+	}
+
+	if (stage == NULL)
+	{
+		stage = FindGO<Stage>("stage");
+	}
+
+	//スティックの入力量の取得
+	StickL.x = g_pad[0]->GetLStickYF();
+	StickL.y = g_pad[0]->GetLStickXF();
+
+	stage->mapdata[(player_map / 10) - 1][(player_map % 10)].grounddata == ICE;
+
+	hitflag = false;
+	/*PhysicsWorld::GetInstance()->ContactTest(characterController, [&](const btCollisionObject& contactObject) {
+	if (
+		box->box[(player_map/10)-1][(player_map%10)].IsSelf(contactObject) == true ||
+		box->box[(player_map/10)+1][(player_map%10)].IsSelf(contactObject) == true ||
+		box->box[(player_map/10)][(player_map % 10)+1].IsSelf(contactObject) == true ||
+		box->box[(player_map/10)][(player_map % 10)-1].IsSelf(contactObject) == true  ||
+		hitflag == true
+		) 
+	{
+		hitflag = false;
+		slipflag = false;
+	}else {
+	if (
+		box->box[(player_map / 10) - 1][(player_map % 10)].IsSelf(contactObject) == true ||
+		box->box[(player_map / 10) + 1][(player_map % 10)].IsSelf(contactObject) == true ||
+		box->box[(player_map / 10)][(player_map % 10) + 1].IsSelf(contactObject) == true ||
+		box->box[(player_map / 10)][(player_map % 10) - 1].IsSelf(contactObject) == true
+		)
+	{
+		hitflag = true;
+		slipflag = false;
+	}
+	}
+	});*/
+
+	PhysicsWorld::GetInstance()->ContactTest(characterController, [&](const btCollisionObject& contactObject) {
+	//右から左
+	if (EnterDirection == Left)
+	{
+		if (box->box[(player_map / 10)][(player_map % 10) - 1].IsSelf(contactObject) == true)
+		{
+			hitflag = true;
+			slipflag = false;
+		}else {
+		if (box->box_soto[3].IsSelf(contactObject) == true)
+		{
+			hitflag = true;
+			slipflag = false;
+		}
+		}
+	} else {
+	//左から右
+	if (EnterDirection == Right)
+	{
+		if (box->box[(player_map / 10)][(player_map % 10) + 1].IsSelf(contactObject) == true)
+		{
+			hitflag = true;
+			slipflag = false;
+		}else {
+		if (box->box_soto[2].IsSelf(contactObject) == true)
+		{
+			hitflag = true;
+			slipflag = false;
+		}
+		}
+	}else {
+	//下から上
+	if (EnterDirection == Up)
+	{
+		if (box->box[(player_map / 10) - 1][(player_map % 10)].IsSelf(contactObject) == true)
+		{ 
+			hitflag = true;
+			slipflag = false;
+		}else {
+		if (box->box_soto[0].IsSelf(contactObject) == true)
+		{
+			hitflag = true;
+			slipflag = false;
+		}
+		}
+	}else {
+	//上から下
+	if (EnterDirection == Down)
+	{
+		if (box->box[(player_map / 10) + 1][(player_map % 10)].IsSelf(contactObject) == true)
+		{
+			hitflag = true;
+			slipflag = false;
+		}
+		else {
+		if (box->box_soto[1].IsSelf(contactObject) == true)
+		{
+			hitflag = true;
+			slipflag = false;
+		}
+		}
+	}
+	}
+	}
+	}
+	});
+
+	if (stage->mapdata[(player_map / 10)][(player_map % 10)].grounddata == GROUND)
+	{
+		slipflag = false;
+	}
+
 	if (slipflag == false)
 	{
 		//移動速度の初期化
@@ -73,25 +191,74 @@ void Player::Move()
 		//プレイヤーの移動
 		moveSpeed.x += StickL.x * (-5.0f + ironBall / 4)/*-(0.8f * (6 - ironBall))*/;
 		moveSpeed.z += StickL.y * (5.0f - ironBall / 4)/*(0.8f * (6 - ironBall))*/;
-	}
-	else
+	}else{
+	if (slipflag == true)
 	{
-		if (player_P.x == savePos.x && player_P.z == savePos.z)
+		if (EnterDirection == Up)
 		{
-			moveSpeed.x = 0.0f;
-			moveSpeed.z = 0.0f;
-
-
-
-			//プレイヤーの移動
-			moveSpeed.x += StickL.x * (-5.0f + ironBall / 4)/*-(0.8f * (6 - ironBall))*/;
-			moveSpeed.z += StickL.y * (5.0f - ironBall / 4)/*(0.8f * (6 - ironBall))*/;
-			//slipflag = false;
-		}else{
-			savePos.x = player_P.x;
-			savePos.z = player_P.z;
+			if (stage->mapdata[(player_map / 10) - 1][(player_map % 10)].grounddata == ICE && stage->mapdata[(player_map / 10) - 1][(player_map % 10)].grounddata == HOLE)
+			{
+				slipflag = true;
+			}
+		}else {
+		if (EnterDirection == Down)
+		{
+			if (stage->mapdata[(player_map / 10) + 1][(player_map % 10)].grounddata == ICE && stage->mapdata[(player_map / 10) + 1][(player_map % 10)].grounddata == HOLE)
+			{
+				slipflag = true;
+			}
+		}else {
+		if (EnterDirection == Right)
+		{
+			if (stage->mapdata[(player_map / 10)][(player_map % 10) + 1].grounddata == ICE && stage->mapdata[(player_map / 10) + 1][(player_map % 10)].grounddata == HOLE)
+			{
+				slipflag = true;
+			}
+		}else {
+		if (EnterDirection == Left)
+		{
+			if (stage->mapdata[(player_map / 10)][(player_map % 10) - 1].grounddata == ICE && stage->mapdata[(player_map / 10) - 1][(player_map % 10)].grounddata == HOLE)
+			{
+				slipflag = true;
+			}
 		}
+		}
+		}
+		}
+	}
+		//if (player_P.x == savePos.x && player_P.z == savePos.z)
+		//{
+		//	moveSpeed.x = 0.0f;
+		//	moveSpeed.z = 0.0f;
+		//	//プレイヤーの移動
 
+		//	moveSpeed.x += StickL.x * (-5.0f + ironBall / 4)/*-(0.8f * (6 - ironBall))*/;
+		//	moveSpeed.z += StickL.y * (5.0f - ironBall / 4)/*(0.8f * (6 - ironBall))*/;
+		//	//slipflag = false;
+		//}else{
+		//	savePos.x = player_P.x;
+		//	savePos.z = player_P.z;
+		//}
+	}
+
+	if (moveSpeed.x < 0.0f)
+	{
+		EnterDirection = Up;
+	}else {
+	if (moveSpeed.x > 0.0f)
+	{
+		EnterDirection = Down;
+	}else {
+	if (moveSpeed.z > 0.0f)
+	{
+		EnterDirection = Right;
+	}else {
+	if (moveSpeed.z < 0.0f)
+	{
+		EnterDirection = Left;
+	}
+	}
+	}
 	}
 
 	/*if (moveSpeed.x > 4.8)
@@ -121,9 +288,9 @@ void Player::Move()
 	}*/
 
 	//キャラクターコントローラーを使って座標の移動
-	player_P = characterController.Execute(moveSpeed, 1.0f);
+	player_P = characterController.Execute(moveSpeed, 1.0);
 
-	slipflag = false;
+	//slipflag = false;
 }
 
 void Player::Rotation()
@@ -188,7 +355,7 @@ void Player::ManageState()
 			//回収
 			playerState = 3;
 		}
-		else if (StickL.x != 0 || StickL.y != 0)
+		else if (StickL.x != 0 || StickL.y != 0 && slipflag == false)
 		{
 			//歩き
 			playerState = 1;
@@ -236,26 +403,58 @@ void Player::Animation()
 
 void Player::Status()
 {
+	////座標を確認するためのプログラム
+	for (int L = 0; L < 10; L++)
+	{
+		for (int R = 0; R < 10; R++)
+		{
+			if (
+				player_P.x < SetPosition[L][R].x + 96 &&
+				player_P.x > SetPosition[L][R].x - 96 &&
+				player_P.z < SetPosition[L][R].z + 96 &&
+				player_P.z > SetPosition[L][R].z - 96
+				)
+			{
+				player_map = (L * 10) + R;
+			}
+		}
+	}
 	
 
-	////座標を確認するためのプログラム
-
-	////プレイヤーの座標の表示
-	//wchar_t playerX[256];
+	//プレイヤーの座標の表示
+	wchar_t playerX[256];
+	//swprintf_s(playerX, 256, L"%d",player_map);
+	if (slipflag == true)
+	{
+		swprintf_s(playerX, 256, L"滑っている:%d", player_map);
+	}else {
+	{
+	if (slipflag == false)
+		swprintf_s(playerX, 256, L"滑っていない:%d", player_map);
+	}
+	}
 	//swprintf_s(playerX, 256, L"残り時間:%d", int(player_P.x));
-	////表示するテキストを設定。
-	//fontRender.SetText(playerX);
-	////フォントの位置を設定。
-	//fontRender.SetPosition(Vector3(-852.0f, 450.0f, 0.0f));
-	////フォントの大きさを設定。
-	//fontRender.SetScale(1.0f);
+	//表示するテキストを設定。
+	fontRender.SetText(playerX);
+	//フォントの位置を設定。
+	fontRender.SetPosition(Vector3(-852.0f, 450.0f, 0.0f));
+	//フォントの大きさを設定。
+	fontRender.SetScale(1.0f);
+
+	
+	//表示するテキストを設定。
+	as.SetText(L"衝突");
+	//フォントの位置を設定。
+	as.SetPosition(Vector3(-852.0f, 350.0f, 0.0f));
+	//フォントの大きさを設定。
+	as.SetScale(1.0f);
 
 	//wchar_t playerZ[256];
 	//swprintf_s(playerZ, 256, L"z座標:%d", int(player_P.z));
 	////表示するテキストを設定。
 	//fontRender.SetText(playerZ);
 	////フォントの位置を設定。
-	//fontRender.SetPosition(Vector3(-852.0f, 450.0f, 0.0f));
+	//fontRender.SetPosition(Vector3(-852.0f, 250.0f, 0.0f));
 	////フォントの大きさを設定。
 	//fontRender.SetScale(1.0f);
 }
@@ -263,4 +462,10 @@ void Player::Status()
 void Player::Render(RenderContext& rc)
 {
 	modelRender.Draw(rc);
+	fontRender.Draw(rc);
+	if (hitflag == true)
+	{
+		as.Draw(rc);
+	}
+
 }

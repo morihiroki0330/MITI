@@ -12,29 +12,23 @@ class G_Ground;
 struct MapData
 {
 	bool ice_on;
-	G_IceFloor* ice;
 
 	bool breakfloar_on;
-	G_BreakFloar* breakfloar;
 
 	bool weightboard_map;
 	
-	G_WeightBoard* weightboard;
 
 	bool wall_on;
-	G_Wall* wall;
 
 	bool hole_on;
-	G_Hole* hole;
 
 	bool block_on;
-	G_Block* block;
 
 	bool kaidan_on;
-	G_Kaidan* kaidan;
 
-	G_Ground* ground;
+	int grounddata;
 
+	int skydata;
 };
 
 struct Map 
@@ -47,6 +41,19 @@ struct Map
 	G_Block* Block;
 	G_Kaidan* Kaidan;
 	G_Ground* Ground;
+};
+
+enum Mapchip
+{
+	HOLE,//0
+	ICE,//1
+	GROUND,//2
+	BREAKFLOOR,//3
+
+	KAIDAN,//4
+	WEIGHTBOARD,//5
+	BLOCK,//6
+	WALL//7
 };
 
 class Stage : public IGameObject
@@ -91,5 +98,6 @@ public:
 	int l = 0;
 	int r = 0;
 	
+	Mapchip chip;
 };
 

@@ -120,8 +120,28 @@ void UI::Update()
 	}
 	}
 
-	B[0].Update();
-	Non.Update();
+	if (player->moveSpeed.x < 0.0f)
+	{
+		Up.Update();
+	}else {
+	if (player->moveSpeed.x > 0.0f)
+	{
+		Down.Update();
+	}else {
+	if (player->moveSpeed.z > 0.0f)
+	{
+		Right.Update();
+	}else {
+	if (player->moveSpeed.z < 0.0f)
+	{
+		Left.Update();
+	}else {
+		Non.Update();
+	}
+	}
+	}
+	}
+
 	Iron[player->ironBall].Update();
 }
 
@@ -147,7 +167,27 @@ void UI::Render(RenderContext& rc)
 	}
 	}
 
-	B[0].Draw(rc);
-	Non.Draw(rc);
 	Iron[player->ironBall].Draw(rc);
+
+	if (player->moveSpeed.x < 0.0f)
+	{
+		Up.Draw(rc);
+	}else {
+	if (player->moveSpeed.x > 0.0f)
+	{
+		Down.Draw(rc);
+	}else {
+	if (player->moveSpeed.z > 0.0f)
+	{
+		Right.Draw(rc);
+	}else {
+	if (player->moveSpeed.z < 0.0f)
+	{
+		Left.Draw(rc);;
+	}else {
+		Non.Draw(rc);
+	}
+	}
+	}
+	}
 }
