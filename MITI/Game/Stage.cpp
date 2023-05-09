@@ -567,6 +567,7 @@ Level[2][9][7].hole_on = true;
 			Level[3][5][8].ice_on = true;
 			Level[3][5][9].ice_on = true;
 
+			Level[3][6][4].ice_on = true;
 			Level[3][6][5].ice_on = true;
 			Level[3][6][6].ice_on = true;
 			Level[3][6][7].ice_on = true;
@@ -584,8 +585,8 @@ Level[2][9][7].hole_on = true;
 			Level[3][9][5].ice_on = true;
 			Level[3][9][6].ice_on = true;
 			Level[3][9][7].ice_on = true;
-			/*Level[3][9][8].ice_on = true;
-			Level[3][9][9].ice_on = true;*/
+			Level[3][9][8].ice_on = true;
+			Level[3][9][9].ice_on = true;
 		}
 
 		//Š´ˆ³”Â
