@@ -22,4 +22,6 @@ Box::Box()
 	box_soto[2].CreateBox(Vector3(0.0f, 0.0, 1057.0f), Quaternion(0.0f, 90.0f, 0.0f, 1.0f), Vector3(1920.0f, 270.0f, 270.0f));
 	//ç∂
 	box_soto[3].CreateBox(Vector3(0.0f, 0.0, -1057.0f), Quaternion(0.0f, 90.0f, 0.0f, 1.0f), Vector3(1920.0f, 270.0f, 270.0f));
+	
+	box_kaidan.CreateBox(Vector3(-2000.0f, -2000.0f, -2000.0f), Quaternion::Identity, Vector3::One * 150.0f);
 }

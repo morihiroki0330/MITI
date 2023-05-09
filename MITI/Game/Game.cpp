@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "Gameover.h"
 #include "GameClear.h"
+#include "StageClear.h"
 #include "G_Tekyu.h"
 #include "Stage.h"
 #include "GameCamera.h"
@@ -16,6 +17,7 @@
 #include "G_Kaidan.h"
 #include "UI.h"
 #include "Box.h"
+#include "Bgm.h"
 //#include "G_laser.h"
 
 Game::Game()
@@ -36,11 +38,7 @@ Game::Game()
 	m_ironBall = NewGO<IronBall>(4, "ironball");
 	Ui = NewGO<UI>(0, "ui");
 	box = NewGO<Box>(0, "box");
-	//m_G_breakfloar = NewGO<G_BreakFloar>(5, "g_breakfloar");
-	//m_G_WeightBoard = NewGO<G_WeightBoard>(6, "g_WeightBoard");
-	//m_G_Wall= NewGO<G_Wall>(7, "g_Wall");
-	//m_G_IceFloor = NewGO<G_IceFloor>(8, "g_IceFloor");
-	//m_G_laser = NewGO<G_laser>(9, "g_laser");
+	bgm = NewGO<Bgm>(0, "bgm");
 }
 
 Game::~Game()
@@ -50,6 +48,7 @@ Game::~Game()
 	DeleteGO(m_stage);
 	DeleteGO(Ui);
 	DeleteGO(box);
+	DeleteGO(bgm);
 	//DeleteGO(m_G_tekyu);
 	//DeleteGO(m_G_breakfloar);
 	//DeleteGO(m_G_WeightBoard);
@@ -66,69 +65,58 @@ Game::~Game()
 
 void Game::Update()
 {
-	m_player->moveSpeed.y = -5.0f;
-	timer++;
-
 	//仮のゲームオーバーの条件を設定
-	if (m_player->player_P.y <= -250.0f || timer > 90 * 60) {
+	if (GameOverFlag == true) {
+		GameOverFlag = false;
 		NewGO<Gameover>(0, "gameover");
 		DeleteGO(this);
 	}
 
-	//仮のゲームクリアの条件を設定
-	if (m_G_Kaidan == NULL)
+	//ステージクリア
+	if (ClearFlag == true)
 	{
-		//プレイヤーを探す
-		m_G_Kaidan = FindGO<G_Kaidan>("kaidan");
+		NewGO<StageClear>(0, "stageclear");
+		Delete();
+		ClearFlag = false;
 	}
-	if (m_G_Kaidan->clearflag == true)
+
+	//ステージ制作
+	if (CreateFlag == true)
+	{
+		Create();
+		CreateFlag = false;
+	}
+
+	//ゲームクリア
+	if (Level_Max < Level)
 	{
 		NewGO<GameClear>(0, "gameclear");
 		DeleteGO(this);
 	}
+}
 
-	//大鉄球の増殖(実験用)
-	if (g_pad[0]->IsTrigger(enButtonLB1)) {
-		m_G_tekyu = NewGO<G_Tekyu>(0);
-	}
+void Game::Create()
+{
+	m_player = NewGO<Player>(1, "player");
+	m_gamecamera = NewGO<GameCamera>(3, "gamecamera");
+	m_stage = NewGO<Stage>(0, "stage");
+	m_ironBall = NewGO<IronBall>(4, "ironball");
+	Ui = NewGO<UI>(0, "ui");
+	box = NewGO<Box>(0, "box");
+	bgm = NewGO<Bgm>(0, "bgm");
+}
 
-	// g_renderingEngine->DisableRaytracing();
-	//m_modelRender.Update();
-
-
-	//時間制限処理
-	wchar_t clock[256];
-	swprintf_s(clock, 256, L"残り時間:%d",int(timelimit - timer / 60));
-	//表示するテキストを設定。
-	m_fontRender.SetText(clock);
-	//フォントの位置を設定。
-	m_fontRender.SetPosition(Vector3(600.0f, 400.0f, 0.0f));
-	//フォントの大きさを設定。
-	m_fontRender.SetScale(1.0f);
-
-	wchar_t tips[256];
-	swprintf_s(tips, 256, L"Tip:ゴールを目指せ");
-	//表示するテキストを設定。
-	a_fontRender.SetText(tips);
-	//フォントの位置を設定。
-	a_fontRender.SetPosition(Vector3(570.0f, 350.0f, 0.0f));
-	//フォントの大きさを設定。
-	a_fontRender.SetScale({ 0.8f});
-	
-	wchar_t stage[256];
-	swprintf_s(stage, 256, L"1階層目");
-	//表示するテキストを設定。
-	s_fontRender.SetText(stage);
-	//フォントの位置を設定。
-	s_fontRender.SetPosition(Vector3(650.0f, 450.0f, 0.0f));
-	//フォントの大きさを設定。
-	s_fontRender.SetScale({ 1.0f});
+void Game::Delete()
+{
+	DeleteGO(m_player);
+	DeleteGO(m_ironBall);
+	DeleteGO(m_stage);
+	DeleteGO(Ui);
+	DeleteGO(box);
+	DeleteGO(bgm);
 }
 
 void Game::Render(RenderContext& rc)
 {
-	//m_modelRender.Draw(rc);
-	m_fontRender.Draw(rc);
-	a_fontRender.Draw(rc);
-	s_fontRender.Draw(rc);
+	
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 class Player;
+class Game;
 
 class IronBall : public IGameObject
 {
@@ -16,9 +17,14 @@ public:
 	//•\Ž¦‚·‚é“S‹…‚ð•\‚·”z—ñ
 	int showFlag[5];
 
-	//int ballCounter;
+	bool boxFlag = false;
 
 	Player* player;
+	Game* game;
+
+	ModelRender IronBox;
+	Vector3 IronBox_P;
+	Vector3 SetPosition[10][10];
 
 	ModelRender ironRender[5];
 

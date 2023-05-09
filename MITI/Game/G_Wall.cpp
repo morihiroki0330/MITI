@@ -7,7 +7,6 @@ G_Wall::G_Wall()
 	m_modelRender.Init("Assets/modelData/miniWall.tkm", wallLight);
 
 	//position = { 95,0,510 };
-
 	//m_modelRender.SetPosition(position);
 	m_modelRender.Update();
 	m_physicsStaticObjectpos.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());

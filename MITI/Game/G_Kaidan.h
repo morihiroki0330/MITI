@@ -1,5 +1,7 @@
 #pragma once
 class Player;
+class Stage;
+class Box;
 class G_Kaidan : public IGameObject
 {
 public:
@@ -19,6 +21,10 @@ public:
 	AllLight light;
 
 	Player* player;
+
+	Stage* stage;
+
+	Box* box;
 
 	bool clearflag = false;
 };

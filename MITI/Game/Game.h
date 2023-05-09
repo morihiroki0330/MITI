@@ -5,6 +5,7 @@ class Player;
 class IronBall;
 class Gameover;
 class GameClear;
+class StageClear;
 class G_Tekyu;
 class Stage;
 class GameCamera;
@@ -15,6 +16,7 @@ class G_IceFloor;
 class G_Kaidan;
 class UI;
 class Box;
+class Bgm;
 //class G_laser;
 
 class Game : public IGameObject
@@ -23,18 +25,28 @@ public:
 	Game();
 	~Game();
 	void Update();
+	void Create();
+	void Delete();
 	void Render(RenderContext& rc);
+
+	int Level = 2;
+
+	int Level_Max = 2;
+
+	bool ClearFlag = false;
+
+	bool GameOverFlag = false;
+
+	bool CreateFlag = false;
 
 private:
 	ModelRender m_modelRender;
-	FontRender m_fontRender;
-	FontRender a_fontRender;
-	FontRender s_fontRender;
 	IronBall* m_ironBall;			//鉄球
 	G_Tekyu* m_G_tekyu;				//大鉄球
 	Player* m_player;				//プレイヤー
 	Gameover* m_gameover;			//ゲームオーバー
 	GameClear* m_gameclear;			//ゲームクリア
+	StageClear* m_stageclear;
 	Stage* m_stage;					//ステージ
 	Vector3 m_pos;					//座標
 	GameCamera* m_gamecamera;		//カメラ
@@ -45,6 +57,7 @@ private:
 	G_Kaidan* m_G_Kaidan;
 	UI* Ui;
 	Box* box;
+	Bgm* bgm;
 	//G_laser* m_G_laser;
 
 	//時間制限

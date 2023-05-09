@@ -1,15 +1,44 @@
 #include "stdafx.h"
 #include "IronBall.h"
 #include "Player.h"
+#include "Game.h"
 
 IronBall::IronBall()
 {
+	game = FindGO<Game>("game");
+
+	IronBox.Init("Assets/test/tekyu-box.tkm", ironLight);
+
+	for (int L = 0; L < 10; L++)
+	{
+		for (int R = 0; R < 10; R++)
+		{
+			SetPosition[L][R].x = (L * 192.0f) + -865.0f;
+			SetPosition[L][R].y = 0.0f;
+			SetPosition[L][R].z = (R * 192.0f) + -865.0f;
+		}
+	}
+
+	/*if (game->Level == 1)
+	{
+		IronBox_P = SetPosition[1][1];
+	}
+
+	if (game->Level == 2)
+	{
+		IronBox_P = SetPosition[3][0];
+	}*/
+
+	IronBox_P = SetPosition[3][0];
+
+	IronBox.SetPosition(IronBox_P);
+	IronBox.Update();
 	for (int i = 0; i < 5; i++)
 	{
 		ironRender[i].Init("Assets/modelData/tekyu/tekyu8.tkm",ironLight);
-		ball_P[i] = { rand() % 1200-600.0f,30.0f, rand() % 600-864.0f };
+		//ball_P[i] = { rand() % 1200-600.0f,30.0f, rand() % 600-864.0f };
 		ironRender[i].SetScale({ 1.5f, 1.5f, 1.5f });
-		showFlag[i] = true;
+		//showFlag[i] = true;
 	}
 }
 
@@ -27,6 +56,18 @@ void IronBall::Update()
 	}
 	else/* if(player != NULL)*/
 	{
+
+		if (
+			player->player_P.x < IronBox_P.x + 60 &&
+			player->player_P.x > IronBox_P.x - 60 &&
+			player->player_P.z < IronBox_P.z + 60 &&
+			player->player_P.z > IronBox_P.z - 60 &&
+			boxFlag == false
+			)
+		{
+			player->ironBall = 5;
+			boxFlag = true;
+		}
 		//めも、マス目は幅190
 
 		//鉄球を置く座標を登録する処理
@@ -126,11 +167,18 @@ void IronBall::Update()
 
 void IronBall::Render(RenderContext& rc)
 {
+	if (boxFlag == false)
+	{
+		IronBox.Draw(rc);
+	}
 	for (int i = 0; i < 5; i++)
 	{
 		if (showFlag[i] == true)
 		{
-			ironRender[i].Draw(rc);
+			if (boxFlag == true)
+			{
+				ironRender[i].Draw(rc);
+			}
 		}
 	}
 }

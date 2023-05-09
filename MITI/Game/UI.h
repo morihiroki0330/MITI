@@ -1,5 +1,6 @@
 #pragma once
 class Player;
+class Game;
 class UI : public IGameObject
 {
 public:
@@ -19,9 +20,18 @@ public:
 	SpriteRender Left;
 	SpriteRender Non;
 
+	FontRender Timer;
+	FontRender Tips;
+	FontRender Stage;
+
+	int timer;
+	int over;
+	int timelimit = 90;
+
 	//“S‹…
 	SpriteRender Iron[6];
 
 	Player* player;
+	Game* game;
 };
 

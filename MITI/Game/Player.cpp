@@ -2,9 +2,15 @@
 #include "Player.h"
 #include "Box.h"
 #include "Stage.h"
+#include "Game.h"
 
 Player::Player()
 {
+	if (game == NULL)
+	{
+		game = FindGO<Game>("game");
+	}
+
 	//アニメーション呼び出し
 	m_animationClips[enAnimationClip_Idle].Load("Assets/animData/idle.tka");
 	m_animationClips[enAnimationClip_Idle].SetLoopFlag(true);
@@ -27,7 +33,17 @@ Player::Player()
 		}
 	}
 
-	player_P = SetPosition[0][1];
+	/*if (game->Level == 1)
+	{
+		player_P = SetPosition[1][0];
+	}
+	
+	if (game->Level == 2)
+	{
+		player_P = SetPosition[2][0];
+	}*/
+	
+	player_P = SetPosition[2][0];
 
 	modelRender.SetPosition(player_P);
 	modelRender.SetScale({ 2.5f,2.5f,2.5f });
@@ -43,6 +59,7 @@ Player::~Player()
 
 void Player::Update()
 {
+	moveSpeed.y = -5.0f;
 
 	//鉄球を回収も置いたりもしていないとき
 	if (get_IronAnim == false || put_IronAnim == false)
@@ -68,6 +85,14 @@ void Player::Update()
 
 void Player::Move()
 {
+
+	if (player_P.y <= -250.0)
+	{
+		game->GameOverFlag = true;
+	}
+
+	moveSpeed.y = -5.0f;
+
 	if (box == NULL)
 	{
 		box = FindGO<Box>("box");
@@ -78,38 +103,16 @@ void Player::Move()
 		stage = FindGO<Stage>("stage");
 	}
 
+	if (game == NULL)
+	{
+		game = FindGO<Game>("game");
+	}
+
 	//スティックの入力量の取得
 	StickL.x = g_pad[0]->GetLStickYF();
 	StickL.y = g_pad[0]->GetLStickXF();
 
-	stage->mapdata[(player_map / 10) - 1][(player_map % 10)].grounddata == ICE;
-
 	hitflag = false;
-	/*PhysicsWorld::GetInstance()->ContactTest(characterController, [&](const btCollisionObject& contactObject) {
-	if (
-		box->box[(player_map/10)-1][(player_map%10)].IsSelf(contactObject) == true ||
-		box->box[(player_map/10)+1][(player_map%10)].IsSelf(contactObject) == true ||
-		box->box[(player_map/10)][(player_map % 10)+1].IsSelf(contactObject) == true ||
-		box->box[(player_map/10)][(player_map % 10)-1].IsSelf(contactObject) == true  ||
-		hitflag == true
-		) 
-	{
-		hitflag = false;
-		slipflag = false;
-	}else {
-	if (
-		box->box[(player_map / 10) - 1][(player_map % 10)].IsSelf(contactObject) == true ||
-		box->box[(player_map / 10) + 1][(player_map % 10)].IsSelf(contactObject) == true ||
-		box->box[(player_map / 10)][(player_map % 10) + 1].IsSelf(contactObject) == true ||
-		box->box[(player_map / 10)][(player_map % 10) - 1].IsSelf(contactObject) == true
-		)
-	{
-		hitflag = true;
-		slipflag = false;
-	}
-	}
-	});*/
-
 	PhysicsWorld::GetInstance()->ContactTest(characterController, [&](const btCollisionObject& contactObject) {
 	//右から左
 	if (EnterDirection == Left)
@@ -123,6 +126,13 @@ void Player::Move()
 		{
 			hitflag = true;
 			slipflag = false;
+		}else {
+		if (box->box_kaidan.IsSelf(contactObject) == true)
+		{
+			game->ClearFlag = true;
+			hitflag = true;
+			slipflag = false;
+		}
 		}
 		}
 	} else {
@@ -138,6 +148,13 @@ void Player::Move()
 		{
 			hitflag = true;
 			slipflag = false;
+		}else {
+		if (box->box_kaidan.IsSelf(contactObject) == true)
+		{
+			game->ClearFlag = true;
+			hitflag = true;
+			slipflag = false;
+		}
 		}
 		}
 	}else {
@@ -153,6 +170,13 @@ void Player::Move()
 		{
 			hitflag = true;
 			slipflag = false;
+		}else {
+		if (box->box_kaidan.IsSelf(contactObject) == true)
+		{
+			game->ClearFlag = true;
+			hitflag = true;
+			slipflag = false;
+		}
 		}
 		}
 	}else {
@@ -169,6 +193,13 @@ void Player::Move()
 		{
 			hitflag = true;
 			slipflag = false;
+		}else {
+		if (box->box_kaidan.IsSelf(contactObject) == true)
+		{
+			game->ClearFlag = true;
+			hitflag = true;
+			slipflag = false;
+		}
 		}
 		}
 	}

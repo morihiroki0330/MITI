@@ -1,11 +1,12 @@
 #include "stdafx.h"
 #include "G_Kaidan.h"
 #include "Player.h"
+#include "Stage.h"
+#include "Box.h"
 
 G_Kaidan::G_Kaidan()
 {
 	Kaidan.Init("Assets/test/kaidan2.tkm", light);
-	m_physicsStaticObjectpos.CreateFromModel(Kaidan.GetModel(), Kaidan.GetModel().GetWorldMatrix());
 	Kaidan.SetScale({ 1.0f,1.0f,2.5f });
 }
 
@@ -16,27 +17,25 @@ G_Kaidan::~G_Kaidan()
 
 void G_Kaidan::Update()
 {
-
+	clearflag = false;
 	if (player == NULL)
 	{
 		//ÉvÉåÉCÉÑÅ[ÇíTÇ∑
 		player = FindGO<Player>("player");
 	}
-	else
+
+	if (stage == NULL)
 	{
-		if (player->player_P.x<Kaidan_P.x + 150 && player->player_P.x > Kaidan_P.x - 150
-			&& player->player_P.z<Kaidan_P.z + 150 && player->player_P.z > Kaidan_P.z - 150)
-		{
-			clearflag = true;
-		}
-		else
-		{
-			clearflag = false;
-		}
+		stage = FindGO<Stage>("stage");
 	}
 
-	m_physicsStaticObjectpos.SetPosition(Kaidan_P);
+	if (box == NULL)
+	{
+		box = FindGO<Box>("box");
+	}
+
 	Kaidan.SetPosition(Kaidan_P);
+	box->box_kaidan.SetPosition(Kaidan_P);
 	//Kaidan.SetRotation(Kaidan_R);
 	Kaidan.Update();
 }

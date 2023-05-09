@@ -4,9 +4,7 @@
 
 GameClear::GameClear()
 {
-	//ゲームクリアの画像を読み込む
-	GAMECLEAR.Init("Assets/sprite/RoM_gameclear.DDS", 1820.0f, 880.0f);
-
+	GAMECLEAR.Init("Assets/sprite/RoM_gameclear.DDS", 1920.0f, 1080.0f);
 }
 
 GameClear::~GameClear()
@@ -14,21 +12,16 @@ GameClear::~GameClear()
 
 }
 
-//更新処理
 void GameClear::Update()
 {
 
-	//Aボタンが押されたら
 	if (g_pad[0]->IsTrigger(enButtonA))
 	{
-		//タイトルのオブジェクトを作る
 		NewGO<Title>(0, "title");
-		//自身を削除する
 		DeleteGO(this);
 	}
 }
 
-//描画処理
 void GameClear::Render(RenderContext& rc)
 {
 	GAMECLEAR.Draw(rc);

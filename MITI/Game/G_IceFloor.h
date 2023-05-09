@@ -2,6 +2,7 @@
 
 class Player;
 class G_Block;
+class Stage;
 
 class G_IceFloor:public IGameObject
 {
@@ -24,6 +25,7 @@ public:
 
 	Player* player;
 	G_Block* block;
+	Stage* stage;
 
 	AllLight icefloorLight;
 };

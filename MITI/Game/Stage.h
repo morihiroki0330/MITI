@@ -8,6 +8,8 @@ class G_Hole;
 class G_Block;
 class G_Kaidan;
 class G_Ground;
+class Player;
+class Game;
 
 struct MapData
 {
@@ -16,7 +18,10 @@ struct MapData
 	bool breakfloar_on;
 
 	bool weightboard_map;
-	
+
+	int weightboard_linknumber[10];
+
+	int weightboard_count;
 
 	bool wall_on;
 
@@ -24,7 +29,11 @@ struct MapData
 
 	bool block_on;
 
+	bool blockonly_on;
+
 	bool kaidan_on;
+
+	bool ground_on;
 
 	int grounddata;
 
@@ -53,7 +62,8 @@ enum Mapchip
 	KAIDAN,//4
 	WEIGHTBOARD,//5
 	BLOCK,//6
-	WALL//7
+	WALL,//7
+	NULL_A
 };
 
 class Stage : public IGameObject
@@ -61,7 +71,7 @@ class Stage : public IGameObject
 public:
 	Stage();
 	~Stage();
-
+	void Update();
 	void Render(RenderContext& rc);
 
 	ModelRender m_modelRender;
@@ -99,5 +109,22 @@ public:
 	int r = 0;
 	
 	Mapchip chip;
+
+	Player* player;
+
+	//1.レベル　2.行　3.列
+	MapData Level[10][10][10];
+
+	bool Map_SetGround[10][10];
+
+	bool Map_SetSky[10][10];
+
+	bool Level_Set;
+
+	bool Map_Set;
+
+	Vector3 Reset_P;
+
+	Game* game;
 };
 

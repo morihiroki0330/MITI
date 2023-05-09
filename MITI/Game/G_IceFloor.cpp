@@ -2,6 +2,7 @@
 #include "G_IceFloor.h"
 #include "Player.h"
 #include "G_Block.h"
+#include "Stage.h"
 
 G_IceFloor::G_IceFloor()
 {
@@ -35,19 +36,21 @@ void G_IceFloor::Update()
 		block = FindGO<G_Block>("block");
 	}
 
+	if (stage == NULL)
+	{
+		stage = FindGO<Stage>("stage");
+	}
+
 	//氷の床にプレイヤーが乗っている時
 	if (
-		player->player_P.x < position[player -> player_map / 10][player->player_map % 10].x + 110 &&
-		player->player_P.x > position[player -> player_map / 10][player->player_map % 10].x - 110 &&
-		player->player_P.z < position[player -> player_map / 10][player->player_map % 10].z + 110 &&
-		player->player_P.z > position[player -> player_map / 10][player->player_map % 10].z - 110 
+			stage->mapdata[(player->player_map / 10)][(player->player_map % 10)].grounddata == ICE
 		)
 	{
 		//プレイヤーが滑っているフラグを立てる
 		player->slipflag = true;
 	}
 
-	for (int L = 0; L < 10; L++)
+	for (int L = 0; L < 10; L ++)
 	{
 		for (int R = 0; R < 10; R++)
 		{

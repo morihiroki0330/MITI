@@ -1,6 +1,7 @@
 #pragma once
 class Box;
 class Stage;
+class Game;
 
 enum Direction
 {
@@ -70,6 +71,8 @@ public:
 
 	Stage* stage;
 
+	Game* game;
+
 	enum EnAnimationClip {		//アニメーション。
 		enAnimationClip_Idle,
 		enAnimationClip_Walk,
@@ -84,13 +87,24 @@ public:
 	AnimationClip m_animationClips[enAnimationClip_Num];		//アニメーションクリップ。
 
 	bool slipflag = false;
+
 	bool hitflag = false;
+
 	Vector3 savePos;
+
 	Vector3 SetPosition[10][10];
+
 	int player_map;
+
 	FontRender as;
+
 	FontRender asb;
+
 	int EnterDirection;
+
+	int level = 2;
+
+	bool clearflag = false;
 
 	AllLight playerLight;
 };

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "UI.h"
 #include "Player.h"
+#include "Game.h"
 
 UI::UI()
 {
@@ -97,7 +98,11 @@ void UI::Update()
 	{
 		player = FindGO<Player>("player");
 	}
-	
+
+	if (game == NULL)
+	{
+		game = FindGO<Game>("game");
+	}
 
 	if (player->get_Ui == true)
 	{
@@ -143,6 +148,34 @@ void UI::Update()
 	}
 
 	Iron[player->ironBall].Update();
+
+	timer++;
+	
+	over = timelimit - timer / 60;
+
+	if (over <= 0)
+	{
+		game->GameOverFlag = true;
+	}
+
+	//ŽžŠÔ§ŒÀˆ—
+	wchar_t clock[256];
+	swprintf_s(clock, 256, L"Žc‚èŽžŠÔ:%d",over);
+	Timer.SetText(clock);
+	Timer.SetPosition(Vector3(600.0f, 400.0f, 0.0f));
+	Timer.SetScale(1.0f);
+
+	wchar_t tips[256];
+	swprintf_s(tips, 256, L"Tip:ƒS[ƒ‹‚ð–ÚŽw‚¹");
+	Tips.SetText(tips);
+	Tips.SetPosition(Vector3(570.0f, 350.0f, 0.0f));
+	Tips.SetScale({ 0.8f });
+
+	wchar_t stage[256];
+	swprintf_s(stage, 256, L"%dŠK‘w–Ú", game->Level);
+	Stage.SetText(stage);
+	Stage.SetPosition(Vector3(650.0f, 450.0f, 0.0f));
+	Stage.SetScale({ 1.0f });
 }
 
 void UI::Render(RenderContext& rc)
@@ -190,4 +223,8 @@ void UI::Render(RenderContext& rc)
 	}
 	}
 	}
+
+	Timer.Draw(rc);
+	Tips.Draw(rc);
+	Stage.Draw(rc);
 }
