@@ -85,13 +85,12 @@ void Game::Update()
 	{
 		Create();
 		CreateFlag = false;
-	}
-
-	//ゲームクリア
-	if (Level_Max < Level)
+	}else {
+	if (Level_Max == Level)
 	{
 		NewGO<GameClear>(0, "gameclear");
 		DeleteGO(this);
+	}
 	}
 }
 

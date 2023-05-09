@@ -2,6 +2,7 @@
 #include "G_Block.h"
 #include "G_WeightBoard.h"
 #include "Box.h"
+#include "Stage.h"
 
 G_Block::G_Block()
 {
@@ -54,13 +55,18 @@ void G_Block::Update()
 				{
 					if (weightboard->putFlag[L][R] == true)
 					{
+							
 						for (int count = 1; count <= weightboard->link_count[L][R]; count++)
 						{
-							Block[weightboard->link_number[L][R][count / 10]][weightboard->link_number[L][R][count % 10]].SetPosition(Block_P[weightboard->link_number[L][R][count / 10]][weightboard->link_number[L][R][count % 10]]);
-							m_physicsStaticObjectpos[weightboard->link_number[L][R][count / 10]][weightboard->link_number[L][R][count % 10]].SetPosition(Block_P[weightboard->link_number[L][R][count / 10]][weightboard->link_number[L][R][count % 10]]);
-							box->box[weightboard->link_number[L][R][count / 10]][weightboard->link_number[L][R][count % 10]].SetPosition(Block_P[weightboard->link_number[L][R][count / 10]][weightboard->link_number[L][R][count % 10]]);
-							Block[weightboard->link_number[L][R][count / 10]][weightboard->link_number[L][R][count % 10]].Update();
+							if (weightboard->Link[L][R][count] == L_BLOCK)
+							{
+									Block[weightboard->link_number[L][R][count / 10]][weightboard->link_number[L][R][count % 10]].SetPosition(Block_P[weightboard->link_number[L][R][count / 10]][weightboard->link_number[L][R][count % 10]]);
+									m_physicsStaticObjectpos[weightboard->link_number[L][R][count / 10]][weightboard->link_number[L][R][count % 10]].SetPosition(Block_P[weightboard->link_number[L][R][count / 10]][weightboard->link_number[L][R][count % 10]]);
+									box->box[weightboard->link_number[L][R][count / 10]][weightboard->link_number[L][R][count % 10]].SetPosition(Block_P[weightboard->link_number[L][R][count / 10]][weightboard->link_number[L][R][count % 10]]);
+									Block[weightboard->link_number[L][R][count / 10]][weightboard->link_number[L][R][count % 10]].Update();
+							}
 						}
+
 					}else {
 					if (weightboard->putFlag[L][R] == false)
 					{
@@ -69,6 +75,7 @@ void G_Block::Update()
 							m_physicsStaticObjectpos[weightboard->link_number[L][R][count / 10]][weightboard->link_number[L][R][count % 10]].SetPosition({ -2000.0f,-2000.0f,-2000.0f });
 							box->box[weightboard->link_number[L][R][count / 10]][weightboard->link_number[L][R][count % 10]].SetPosition({ -2000.0f,-2000.0f,-2000.0f });
 						}
+	
 					}
 					}
 					}
@@ -107,9 +114,13 @@ void G_Block::Render(RenderContext& rc)
 				{
 					if (weightboard->putFlag[L][R] == true)
 					{
-						for (int count = 1; count <= weightboard->link_count[L][R] ; count++)
-						{
-							Block[weightboard->link_number[L][R][count / 10]] [weightboard->link_number[L][R][count % 10]].Draw(rc);
+						for (int count = 1; count <= weightboard->link_count[L][R]; count++)
+						{	
+							if (weightboard->Link[L][R][count] == L_BLOCK)
+							{
+								Block[weightboard->link_number[L][R][count / 10]][weightboard->link_number[L][R][count % 10]].Draw(rc);
+							}
+							
 						}
 					}
 				}

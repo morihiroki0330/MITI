@@ -29,9 +29,9 @@ public:
 	void Delete();
 	void Render(RenderContext& rc);
 
-	int Level = 2;
+	int Level = 3;
 
-	int Level_Max = 2;
+	int Level_Max = 4;
 
 	bool ClearFlag = false;
 

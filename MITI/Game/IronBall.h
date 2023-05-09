@@ -19,6 +19,8 @@ public:
 
 	bool boxFlag = false;
 
+	bool Set;
+
 	Player* player;
 	Game* game;
 

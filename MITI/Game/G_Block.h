@@ -22,6 +22,7 @@ public:
 	Box* box;
 
 	//ŠK’i‚ð•\Ž¦‚·‚é‚©‚µ‚È‚¢‚©
+
 	bool Block_on[10][10];
 
 	bool Block_only[10][10];

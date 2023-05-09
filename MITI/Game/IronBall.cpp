@@ -5,7 +5,7 @@
 
 IronBall::IronBall()
 {
-	game = FindGO<Game>("game");
+	Set = true;
 
 	IronBox.Init("Assets/test/tekyu-box.tkm", ironLight);
 
@@ -19,20 +19,6 @@ IronBall::IronBall()
 		}
 	}
 
-	/*if (game->Level == 1)
-	{
-		IronBox_P = SetPosition[1][1];
-	}
-
-	if (game->Level == 2)
-	{
-		IronBox_P = SetPosition[3][0];
-	}*/
-
-	IronBox_P = SetPosition[3][0];
-
-	IronBox.SetPosition(IronBox_P);
-	IronBox.Update();
 	for (int i = 0; i < 5; i++)
 	{
 		ironRender[i].Init("Assets/modelData/tekyu/tekyu8.tkm",ironLight);
@@ -49,6 +35,33 @@ IronBall::~IronBall()
 
 void IronBall::Update()
 {
+	game = FindGO<Game>("game");
+
+	if (Set == true)
+	{
+
+		if (game->Level == 1)
+		{
+			IronBox_P = SetPosition[1][1];
+		}
+
+		if (game->Level == 2)
+		{
+			IronBox_P = SetPosition[3][0];
+		}
+		
+		if (game->Level == 3)
+		{
+			IronBox_P = SetPosition[9][1];
+		}
+		IronBox.SetPosition(IronBox_P);
+		IronBox.Update();
+		Set = false;
+	}
+
+	IronBox.SetPosition(IronBox_P);
+	IronBox.Update();
+
 	if (player == NULL)
 	{
 		//プレイヤークラスを探してくる

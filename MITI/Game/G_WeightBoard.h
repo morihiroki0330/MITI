@@ -32,6 +32,7 @@ class G_WeightBoard:public IGameObject
 		//1.行　2.列　3.行列
 		int link_number[10][10][10];
 		int link_count[10][10];
+		int Link[10][10][10];
 
 		bool link;
 		bool block_link;

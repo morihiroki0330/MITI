@@ -21,6 +21,8 @@ struct MapData
 
 	int weightboard_linknumber[10];
 
+	int weightboard_linkobject[5];
+
 	int weightboard_count;
 
 	bool wall_on;
@@ -66,6 +68,20 @@ enum Mapchip
 	NULL_A
 };
 
+enum LinkObject
+{
+	NOON,//0
+	L_HOLE,//1
+	L_ICE,//2
+	L_GROUND,//3
+	L_BREAKFLOOR,//4
+
+	L_KAIDAN,//5
+	L_WEIGHTBOARD,//6
+	L_BLOCK,//7
+	L_WALL//8
+};
+
 class Stage : public IGameObject
 {
 public:
@@ -108,7 +124,7 @@ public:
 	int l = 0;
 	int r = 0;
 	
-	Mapchip chip;
+	LinkObject Link;
 
 	Player* player;
 

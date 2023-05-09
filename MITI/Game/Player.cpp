@@ -6,10 +6,7 @@
 
 Player::Player()
 {
-	if (game == NULL)
-	{
-		game = FindGO<Game>("game");
-	}
+	Set = true;
 
 	//アニメーション呼び出し
 	m_animationClips[enAnimationClip_Idle].Load("Assets/animData/idle.tka");
@@ -33,23 +30,6 @@ Player::Player()
 		}
 	}
 
-	/*if (game->Level == 1)
-	{
-		player_P = SetPosition[1][0];
-	}
-	
-	if (game->Level == 2)
-	{
-		player_P = SetPosition[2][0];
-	}*/
-	
-	player_P = SetPosition[2][0];
-
-	modelRender.SetPosition(player_P);
-	modelRender.SetScale({ 2.5f,2.5f,2.5f });
-
-	//キャラクターコントローラーの初期化
-	characterController.Init(40.0f, 120.0f, player_P);
 }
 
 Player::~Player()
@@ -59,6 +39,34 @@ Player::~Player()
 
 void Player::Update()
 {
+
+	game = FindGO<Game>("game");
+
+	if (Set == true)
+	{
+		if (game->Level == 1)
+		{
+			player_P = SetPosition[1][0];
+		}
+
+		if (game->Level == 2)
+		{
+			player_P = SetPosition[2][0];
+		}
+		
+		if (game->Level == 3)
+		{
+			player_P = SetPosition[9][0];
+		}
+
+		modelRender.SetPosition(player_P);
+		modelRender.SetScale({ 2.5f,2.5f,2.5f });
+
+		characterController.Init(40.0f, 120.0f, player_P);
+		Set = false;
+	}
+
+
 	moveSpeed.y = -5.0f;
 
 	//鉄球を回収も置いたりもしていないとき

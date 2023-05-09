@@ -106,6 +106,8 @@ public:
 
 	bool clearflag = false;
 
+	bool Set;
+
 	AllLight playerLight;
 };
 
