@@ -9,16 +9,16 @@ Player::Player()
 	Set = true;
 
 	//アニメーション呼び出し
-	m_animationClips[enAnimationClip_Idle].Load("Assets/animData/idle.tka");
+	m_animationClips[enAnimationClip_Idle].Load("Assets/character/oriidle.tka");
 	m_animationClips[enAnimationClip_Idle].SetLoopFlag(true);
-	m_animationClips[enAnimationClip_Walk].Load("Assets/animData/walk.tka");
+	m_animationClips[enAnimationClip_Walk].Load("Assets/character/oriwalk.tka");
 	m_animationClips[enAnimationClip_Walk].SetLoopFlag(true);
-	m_animationClips[enAnimationClip_Jump].Load("Assets/animData/jump.tka");
+	m_animationClips[enAnimationClip_Jump].Load("Assets/character/orifall.tka");
 	m_animationClips[enAnimationClip_Jump].SetLoopFlag(false);
-	m_animationClips[enAnimationClip_Put].Load("Assets/animData/put.tka");
+	m_animationClips[enAnimationClip_Put].Load("Assets/character/oriput.tka");
 	m_animationClips[enAnimationClip_Put].SetLoopFlag(false);
 
-	modelRender.Init("Assets/modelData/unityChan.tkm",playerLight, m_animationClips, enAnimationClip_Num, enModelUpAxisY);
+	modelRender.Init("Assets/Character/orichara.tkm",playerLight, m_animationClips, enAnimationClip_Num, enModelUpAxisZ);
 
 	for (int L = 0; L < 10; L++)
 	{
@@ -70,7 +70,7 @@ void Player::Update()
 		}
 
 		modelRender.SetPosition(player_P);
-		modelRender.SetScale({ 2.5f,2.5f,2.5f });
+		modelRender.SetScale({ 1.5f,1.5f,1.5f });
 
 		characterController.Init(40.0f, 120.0f, player_P);
 		Set = false;

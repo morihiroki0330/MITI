@@ -1,5 +1,5 @@
 #pragma once
-
+class Game;
 //ゲームオーバー
 class Gameover :public IGameObject
 {
@@ -13,4 +13,6 @@ public:
 
 	//メンバ変数	
 	SpriteRender GAMEOVER;   //スプライトレンダー
+
+	Game* game;
 };

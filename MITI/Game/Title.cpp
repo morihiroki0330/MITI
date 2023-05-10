@@ -6,12 +6,15 @@
 Title::Title()
 {
 	TITLE.Init("Assets/sprite/RoM_Title2.DDS", 1920.0f, 900.0f);
-
+	g_soundEngine->ResistWaveFileBank(0,"Assets/bgm/Title1.wav");
+	BGM = NewGO<SoundSource>(0);
+	BGM->Init(0);
+	BGM->Play(true);
 }
 
 Title::~Title()
 {
-
+	DeleteGO(BGM);
 }
 
 void Title::Update()
@@ -20,7 +23,7 @@ void Title::Update()
 	{
 		NewGO<Game>(0, "game");
 		DeleteGO(this);
-
+		
 	}
 }
 

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Gameover.h"
 #include "Title.h"
+#include "Game.h"
 
 Gameover::Gameover()
 {
@@ -17,12 +18,11 @@ Gameover::~Gameover()
 //更新処理
 void Gameover::Update()
 {
+	game = FindGO<Game>("game");
 	//Aボタンが押されたら
 	if (g_pad[0]->IsTrigger(enButtonA))
 	{
-		//タイトルのオブジェクトを作る
-		NewGO<Title>(0, "title");
-		//自身を削除する
+		game->CreateFlag = true;
 		DeleteGO(this);
 	}
 }

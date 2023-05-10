@@ -7,6 +7,7 @@ public:
 	~Bgm();
 	void Update();
 
-	SoundSource* bgm;
+	SoundSource* BGM;
+	SoundSource* SE;
 };
 

@@ -902,6 +902,7 @@ Level[2][9][7].hole_on = true;
 			Level[4][4][9].ice_on = true;
 
 			Level[4][5][6].ice_on = true;
+			Level[4][5][7].ice_on = true;
 			Level[4][5][8].ice_on = true;
 			Level[4][5][9].ice_on = true;
 
@@ -941,8 +942,8 @@ Level[2][9][7].hole_on = true;
 			Level[4][3][9].weightboard_map = true;
 			Level[4][3][9].weightboard_linknumber[1] = 35;
 			Level[4][3][9].weightboard_linkobject[1] = L_BLOCK;
-			Level[4][3][9].weightboard_linkobject[2] = 57;
-			Level[4][3][9].weightboard_linkobject[2] = L_BLOCK;
+			Level[4][3][9].weightboard_linknumber[2] = 57;
+			Level[4][3][9].weightboard_linkobject[2] = H_BLOCK;
 			Level[4][3][9].weightboard_linknumber[3] = 95;
 			Level[4][3][9].weightboard_linkobject[3] = G_BLOCK;
 			Level[4][3][9].weightboard_count = 3;

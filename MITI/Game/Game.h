@@ -1,6 +1,5 @@
 #pragma once
 //#include "Level3DRender/LevelRender.h"
-
 class Player;
 class IronBall;
 class Gameover;
@@ -29,7 +28,7 @@ public:
 	void Delete();
 	void Render(RenderContext& rc);
 
-	int Level = 3;
+	int Level = 4;
 
 	int Level_Max = 5;
 
@@ -57,7 +56,6 @@ private:
 	G_Kaidan* m_G_Kaidan;
 	UI* Ui;
 	Box* box;
-	Bgm* bgm;
 	//G_laser* m_G_laser;
 
 	//時間制限
@@ -67,5 +65,6 @@ private:
 	AllLight stagewallLight;
 
 	PhysicsStaticObject m_physicsStaticObject;
+	Bgm* bgm;
 };
 

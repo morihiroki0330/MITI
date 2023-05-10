@@ -39,6 +39,11 @@ Game::Game()
 	Ui = NewGO<UI>(0, "ui");
 	box = NewGO<Box>(0, "box");
 	bgm = NewGO<Bgm>(0, "bgm");
+
+	/*g_soundEngine->ResistWaveFileBank(0,"Assets/bgm/StageBgm.wav");
+	bgm = NewGO<SoundSource>(0);
+	bgm->Init(0);
+	bgm->Play(true);*/
 }
 
 Game::~Game()
@@ -65,11 +70,13 @@ Game::~Game()
 
 void Game::Update()
 {
+	
+
 	//仮のゲームオーバーの条件を設定
 	if (GameOverFlag == true) {
-		GameOverFlag = false;
 		NewGO<Gameover>(0, "gameover");
-		DeleteGO(this);
+		Delete();
+		GameOverFlag = false;
 	}
 
 	//ステージクリア
