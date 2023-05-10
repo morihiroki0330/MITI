@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "G_Block.h"
 #include "Stage.h"
+#include "G_WeightBoard.h"
 
 G_IceFloor::G_IceFloor()
 {
@@ -41,6 +42,11 @@ void G_IceFloor::Update()
 		stage = FindGO<Stage>("stage");
 	}
 
+	if (weightboard == NULL)
+	{
+		weightboard = FindGO<G_WeightBoard>("weightboard");
+	}
+
 	//•X‚Ì°‚ÉƒvƒŒƒCƒ„[‚ªæ‚Á‚Ä‚¢‚éŽž
 	if (
 			stage->mapdata[(player->player_map / 10)][(player->player_map % 10)].grounddata == ICE
@@ -62,7 +68,7 @@ void G_IceFloor::Update()
 			}
 		}
 	}
-	
+
 }
 
 void G_IceFloor::Render(RenderContext& rc)
@@ -78,3 +84,6 @@ void G_IceFloor::Render(RenderContext& rc)
 		}
 	}
 }
+
+
+

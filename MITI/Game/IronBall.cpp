@@ -40,6 +40,11 @@ void IronBall::Update()
 	if (Set == true)
 	{
 
+		if (game->Level == 0)
+		{
+			IronBox_P = SetPosition[1][1];
+		}
+
 		if (game->Level == 1)
 		{
 			IronBox_P = SetPosition[1][1];
@@ -53,6 +58,11 @@ void IronBall::Update()
 		if (game->Level == 3)
 		{
 			IronBox_P = SetPosition[9][1];
+		}
+		
+		if (game->Level == 4)
+		{
+			IronBox_P = SetPosition[3][0];
 		}
 		IronBox.SetPosition(IronBox_P);
 		IronBox.Update();

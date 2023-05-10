@@ -3,6 +3,7 @@
 class Player;
 class G_Block;
 class Stage;
+class G_WeightBoard;
 
 class G_IceFloor:public IGameObject
 {
@@ -26,6 +27,7 @@ public:
 	Player* player;
 	G_Block* block;
 	Stage* stage;
+	G_WeightBoard* weightboard;
 
 	AllLight icefloorLight;
 };

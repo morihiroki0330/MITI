@@ -31,7 +31,7 @@ public:
 
 	int Level = 3;
 
-	int Level_Max = 4;
+	int Level_Max = 5;
 
 	bool ClearFlag = false;
 

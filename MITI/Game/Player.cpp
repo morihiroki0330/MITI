@@ -44,6 +44,11 @@ void Player::Update()
 
 	if (Set == true)
 	{
+		if (game->Level == 0)
+		{
+			player_P = SetPosition[1][0];
+		}
+
 		if (game->Level == 1)
 		{
 			player_P = SetPosition[1][0];
@@ -57,6 +62,11 @@ void Player::Update()
 		if (game->Level == 3)
 		{
 			player_P = SetPosition[9][0];
+		}
+
+		if (game->Level == 4)
+		{
+			player_P = SetPosition[2][0];
 		}
 
 		modelRender.SetPosition(player_P);

@@ -2,6 +2,8 @@
 
 class G_WeightBoard;
 class Box;
+class Stage;
+class Player;
 class G_Block : public IGameObject
 {
 public:
@@ -20,6 +22,10 @@ public:
 	AllLight light;
 
 	Box* box;
+
+	Stage* stage;
+
+	Player* player;
 
 	//ŠK’i‚ð•\Ž¦‚·‚é‚©‚µ‚È‚¢‚©
 

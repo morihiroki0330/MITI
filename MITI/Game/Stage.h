@@ -79,7 +79,10 @@ enum LinkObject
 	L_KAIDAN,//5
 	L_WEIGHTBOARD,//6
 	L_BLOCK,//7
-	L_WALL//8
+	G_BLOCK,//8
+	I_BLOCK,//9
+	H_BLOCK,//10
+	L_WALL//11
 };
 
 class Stage : public IGameObject
