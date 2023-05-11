@@ -3,7 +3,6 @@
 class G_WeightBoard;
 class Box;
 class Stage;
-class Player;
 class G_Block : public IGameObject
 {
 public:
@@ -14,23 +13,14 @@ public:
 
 	ModelRender Block[10][10];
 	Vector3 Block_P[10][10];
-
+	AllLight Light;
 	PhysicsStaticObjectPos m_physicsStaticObjectpos[10][10];
 
 	G_WeightBoard* weightboard;
-
-	AllLight light;
-
 	Box* box;
-
 	Stage* stage;
 
-	Player* player;
-
-	//ŠK’i‚ð•\Ž¦‚·‚é‚©‚µ‚È‚¢‚©
-
 	bool Block_on[10][10];
-
 	bool Block_only[10][10];
 };
 

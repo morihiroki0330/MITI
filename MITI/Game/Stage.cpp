@@ -104,8 +104,8 @@ Stage::Stage()
 		{
 			map.Weightboard = NewGO<G_WeightBoard>(0, "weightboard");
 			weightboard_create = false;
-			map.Weightboard->link = true;
-			map.Weightboard->block_link = true;
+			map.Weightboard->Link_on = true;
+			map.Weightboard->Block_Link = true;
 		}
 
 		//á•ÇƒuƒƒbƒN
@@ -937,7 +937,9 @@ Level[2][9][7].hole_on = true;
 			Level[4][1][7].weightboard_map = true;
 			Level[4][1][7].weightboard_linknumber[1] = 55;
 			Level[4][1][7].weightboard_linkobject[1] = G_BLOCK;
-			Level[4][1][7].weightboard_count = 1;
+			Level[4][1][7].weightboard_linknumber[2] = 83;
+			Level[4][1][7].weightboard_linkobject[2] = G_BLOCK;
+			Level[4][1][7].weightboard_count = 2;
 
 			Level[4][3][9].weightboard_map = true;
 			Level[4][3][9].weightboard_linknumber[1] = 35;
@@ -1162,19 +1164,19 @@ void Stage::Update()
 				//•X
 				if (mapdata[L][R].ice_on == true && Map_SetGround[L][R] == false)
 				{
-					map.Ice->ice_on[L][R] = true;
+					map.Ice->IceFloor_on[L][R] = true;
 					mapdata[L][R].ice_on = false;
-					map.Ice->position[L][R] = Ground_P[L][R];
-					map.Ice->position[L][R].y -= 50.0f;
+					map.Ice->IceFloor_P[L][R] = Ground_P[L][R];
+					map.Ice->IceFloor_P[L][R].y -= 50.0f;
 					mapdata[L][R].grounddata = ICE;
 					Map_SetGround[L][R] = true;
 				}else {
 				//”j‰ó°
 				if (mapdata[L][R].breakfloar_on == true && Map_SetGround[L][R] == false)
 				{
-					map.Breakfloar->break_on[L][R] = true;
+					map.Breakfloar->Break_on[L][R] = true;
 					mapdata[L][R].breakfloar_on = false;
-					map.Breakfloar->position[L][R] = Ground_P[L][R];
+					map.Breakfloar->BreakFloar_P[L][R] = Ground_P[L][R];
 					mapdata[L][R].grounddata = BREAKFLOOR;
 					Map_SetGround[L][R] = true;
 				}else {
@@ -1206,16 +1208,16 @@ void Stage::Update()
 					{
 						for (int W = 1; W < Level[game->Level][L][R].weightboard_count + 1; W++)
 						{
-							map.Weightboard->link_number[L][R][W] = Level[game->Level][L][R].weightboard_linknumber[W];
+							map.Weightboard->Link_Number[L][R][W] = Level[game->Level][L][R].weightboard_linknumber[W];
 							map.Weightboard->Link[L][R][W] = Level[game->Level][L][R].weightboard_linkobject[W];
 						}
-						map.Weightboard->link_count[L][R] = Level[game->Level][L][R].weightboard_count;
+						map.Weightboard->Link_Count[L][R] = Level[game->Level][L][R].weightboard_count;
 					}
 
 					mapdata[L][R].weightboard_map = false;
 					map.Weightboard->WeightBoard_on[L][R] = true;
-					map.Weightboard->position[L][R] = Ground_P[L][R];
-					map.Weightboard->position[L][R].y = -20.0f;
+					map.Weightboard->Weightboard_P[L][R] = Ground_P[L][R];
+					map.Weightboard->Weightboard_P[L][R].y = -20.0f;
 					mapdata[L][R].skydata = WEIGHTBOARD;
 					Map_SetSky[L][R] = true;
 				}else {

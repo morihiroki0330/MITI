@@ -1,17 +1,16 @@
 #pragma once
-
-//ゲームクリア
+class Bgm;
 class GameClear:public IGameObject
 {
 public:
 	GameClear();
 	~GameClear();
-	//更新処理
 	void Update();
-	//描画処理
 	void Render(RenderContext& rc);
 
-	//メンバ変数	
-	SpriteRender GAMECLEAR;   //スプライトレンダー
+	SpriteRender GAMECLEAR;
+
+	Bgm* bgm;
+	bool BgmSet = true;
 };
 

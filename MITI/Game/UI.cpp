@@ -5,6 +5,7 @@
 
 UI::UI()
 {
+
 	//Aƒ{ƒ^ƒ“
 	{
 		//•s‰Â”\
@@ -125,19 +126,19 @@ void UI::Update()
 	}
 	}
 
-	if (player->moveSpeed.x < 0.0f)
+	if (player->MoveSpeed.x < 0.0f)
 	{
 		Up.Update();
 	}else {
-	if (player->moveSpeed.x > 0.0f)
+	if (player->MoveSpeed.x > 0.0f)
 	{
 		Down.Update();
 	}else {
-	if (player->moveSpeed.z > 0.0f)
+	if (player->MoveSpeed.z > 0.0f)
 	{
 		Right.Update();
 	}else {
-	if (player->moveSpeed.z < 0.0f)
+	if (player->MoveSpeed.z < 0.0f)
 	{
 		Left.Update();
 	}else {
@@ -172,7 +173,7 @@ void UI::Update()
 	Tips.SetScale({ 0.8f });
 
 	wchar_t stage[256];
-	swprintf_s(stage, 256, L"%dŠK‘w–Ú", game->Level);
+	swprintf_s(stage, 256, L"%dŠK‘w–Ú", game->Level+1);
 	Stage.SetText(stage);
 	Stage.SetPosition(Vector3(650.0f, 450.0f, 0.0f));
 	Stage.SetScale({ 1.0f });
@@ -202,19 +203,19 @@ void UI::Render(RenderContext& rc)
 
 	Iron[player->ironBall].Draw(rc);
 
-	if (player->moveSpeed.x < 0.0f)
+	if (player->MoveSpeed.x < 0.0f)
 	{
 		Up.Draw(rc);
 	}else {
-	if (player->moveSpeed.x > 0.0f)
+	if (player->MoveSpeed.x > 0.0f)
 	{
 		Down.Draw(rc);
 	}else {
-	if (player->moveSpeed.z > 0.0f)
+	if (player->MoveSpeed.z > 0.0f)
 	{
 		Right.Draw(rc);
 	}else {
-	if (player->moveSpeed.z < 0.0f)
+	if (player->MoveSpeed.z < 0.0f)
 	{
 		Left.Draw(rc);;
 	}else {
@@ -225,6 +226,6 @@ void UI::Render(RenderContext& rc)
 	}
 
 	Timer.Draw(rc);
-	Tips.Draw(rc);
+	//Tips.Draw(rc);
 	Stage.Draw(rc);
 }

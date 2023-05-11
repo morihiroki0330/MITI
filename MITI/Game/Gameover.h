@@ -1,18 +1,17 @@
 #pragma once
 class Game;
-//ゲームオーバー
+class Bgm;
 class Gameover :public IGameObject
 {
 public:
 	Gameover();
 	~Gameover();
-	//更新処理
 	void Update();
-	//描画処理
 	void Render(RenderContext& rc);
 
-	//メンバ変数	
-	SpriteRender GAMEOVER;   //スプライトレンダー
+	SpriteRender GAMEOVER;   
 
 	Game* game;
+	Bgm* bgm;
+	bool BgmSet = true;
 };

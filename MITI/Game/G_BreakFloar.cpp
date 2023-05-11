@@ -10,8 +10,8 @@ G_BreakFloar::G_BreakFloar()
 	{
 		for (int R = 0; R < 10; R++)
 		{
-			m_modelRender[L][R].Init("Assets/test/hole.tkm", breakLight);
-			m_physicsStaticObjectpos[L][R].CreateFromModel(m_modelRender[L][R].GetModel(), m_modelRender[L][R].GetModel().GetWorldMatrix());
+			BreakFloar[L][R].Init("Assets/test/hole.tkm", Light);
+			m_physicsStaticObjectpos[L][R].CreateFromModel(BreakFloar[L][R].GetModel(), BreakFloar[L][R].GetModel().GetWorldMatrix());
 			m_physicsStaticObjectpos[L][R].SetPosition({ -2000.0f,-2000.0f,-2000.0f });
 		}
 	}
@@ -32,22 +32,24 @@ void G_BreakFloar::Update()
 			if (player == NULL)
 			{
 				player = FindGO<Player>("player");
-			}
-			else
+			}else{
+			if (
+				player->ironBall > 3 && 
+				player->Character_P.x < BreakFloar_P[L][R].x + 73 && 
+				player->Character_P.x > BreakFloar_P[L][R].x - 73 && 
+				player->Character_P.z < BreakFloar_P[L][R].z + 73 && 
+				player->Character_P.z > BreakFloar_P[L][R].z - 73
+				)
 			{
-				if (player->ironBall > 3
-					&& player->player_P.x < position[L][R].x + 73 && player->player_P.x > position[L][R].x - 73
-					&& player->player_P.z < position[L][R].z + 73 && player->player_P.z > position[L][R].z - 73)
-				{
-					DeleteGO(this);
-				}
+				DeleteGO(this);
+			}
 			}
 
-			if (break_on[L][R] == true)
+			if (Break_on[L][R] == true)
 			{
-				m_modelRender[L][R].SetPosition(position[L][R]);
-				m_physicsStaticObjectpos[L][R].SetPosition(position[L][R]);
-				m_modelRender[L][R].Update();
+				BreakFloar[L][R].SetPosition(BreakFloar_P[L][R]);
+				m_physicsStaticObjectpos[L][R].SetPosition(BreakFloar_P[L][R]);
+				BreakFloar[L][R].Update();
 			}
 		}
 	}
@@ -59,9 +61,9 @@ void G_BreakFloar::Render(RenderContext& rc)
 	{
 		for (int R = 0; R < 10; R++)
 		{
-			if (break_on[L][R] == true)
+			if (Break_on[L][R] == true)
 			{
-				m_modelRender[L][R].Draw(rc);
+				BreakFloar[L][R].Draw(rc);
 			}
 		}
 	}

@@ -2,24 +2,28 @@
 #include "Gameover.h"
 #include "Title.h"
 #include "Game.h"
-
+#include "Bgm.h"
 Gameover::Gameover()
 {
-	//ゲームクリアの画像を読み込む
 	GAMEOVER.Init("Assets/sprite/RoM_gameover.DDS", 1920.0f, 1080.0f);
-
 }
 
 Gameover::~Gameover()
 {
-
+	bgm->PauseBGM(B_GAMEOVER);
 }
 
-//更新処理
 void Gameover::Update()
 {
 	game = FindGO<Game>("game");
-	//Aボタンが押されたら
+	bgm = FindGO<Bgm>("bgm");
+
+	if (BgmSet == true)
+	{
+		BgmSet = false;
+		bgm->PlayBGM(B_GAMEOVER);
+	}
+
 	if (g_pad[0]->IsTrigger(enButtonA))
 	{
 		game->CreateFlag = true;
@@ -27,7 +31,6 @@ void Gameover::Update()
 	}
 }
 
-//描画処理
 void Gameover::Render(RenderContext& rc)
 {
 	GAMEOVER.Draw(rc);

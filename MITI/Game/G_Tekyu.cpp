@@ -45,9 +45,7 @@ void G_Tekyu::PlayMusic()
 
 }
 
-//•`‰æˆ—B
 void G_Tekyu::Render(RenderContext& rc)
 {
-	//ƒ‚ƒfƒ‹‚ğ•`‰æ‚·‚éB
 	modelRender.Draw(rc);
 }

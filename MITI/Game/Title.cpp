@@ -1,24 +1,25 @@
 #include "stdafx.h"
 #include "Title.h"
 #include "Game.h"
-#include "sound/SoundEngine.h"
+#include "Bgm.h"
 
 Title::Title()
 {
-	TITLE.Init("Assets/sprite/RoM_Title2.DDS", 1920.0f, 900.0f);
-	g_soundEngine->ResistWaveFileBank(0,"Assets/bgm/Title1.wav");
-	BGM = NewGO<SoundSource>(0);
-	BGM->Init(0);
-	BGM->Play(true);
+	Title_s.Init("Assets/sprite/RoM_Title2.DDS", 1920.0f, 1080.0f);
 }
-
 Title::~Title()
 {
-	DeleteGO(BGM);
+	bgm->PauseBGM(B_TITLE);
 }
 
 void Title::Update()
 {
+	bgm = FindGO<Bgm>("bgm");
+	if (BgmSet == true)
+	{
+		BgmSet = false;
+		bgm->PlayBGM(B_TITLE);
+	}
 	if (g_pad[0]->IsTrigger(enButtonA))
 	{
 		NewGO<Game>(0, "game");
@@ -29,5 +30,5 @@ void Title::Update()
 
 void Title::Render(RenderContext& rc)
 {
-	TITLE.Draw(rc);
+	Title_s.Draw(rc);
 }

@@ -10,9 +10,10 @@ public:
 	ModelRender Hole;
 	Vector3 Hole_P;
 	PhysicsStaticObjectPos m_physicsStaticObjectpos;
+	AllLight Light;
 
 	bool Hole_on;
 
-	AllLight Hole_L;
+	
 };
 

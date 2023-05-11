@@ -8,6 +8,8 @@ public:
 	~UI();
 	void Update();
 	void Render(RenderContext& rc);
+	
+	SpriteRender Back;
 
 	//ƒ{ƒ^ƒ“
 	SpriteRender A[2];

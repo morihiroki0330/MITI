@@ -1,10 +1,7 @@
 #pragma once
 
 class Player;
-class G_Block;
 class Stage;
-class G_WeightBoard;
-
 class G_IceFloor:public IGameObject
 {
 public:
@@ -15,20 +12,15 @@ public:
 	void Render(RenderContext& rc);
 
 
-	Vector3 position[10][10];
-	ModelRender m_modelRender[10][10];
-	//ModelRender m_hitModelRender;
+	Vector3 IceFloor_P[10][10];
+	ModelRender IceFloor[10][10];
 	PhysicsStaticObjectPos m_physicsStaticObjectpos[10][10];
+	AllLight Light;
 
-	bool ice_on[10][10];
-
-	bool SlipFlag = false;
+	bool IceFloor_on[10][10];
 
 	Player* player;
-	G_Block* block;
 	Stage* stage;
-	G_WeightBoard* weightboard;
-
-	AllLight icefloorLight;
+	
 };
 

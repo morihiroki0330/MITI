@@ -22,14 +22,7 @@
 
 Game::Game()
 {
-	//コメントアウトする。
-	PhysicsWorld::GetInstance()->SetGravity({ 0.0f,-90.0f,0.0f });
-
-	PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
-
-	/*m_modelRender.Init("Assets/modelData/wall3.tkm",stagewallLight);
-	m_modelRender.Update();
-	m_physicsStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());*/
+	//PhysicsWorld::GetInstance()->SetGravity({ 0.0f,-90.0f,0.0f });
 
 	m_player = NewGO<Player>(1, "player");
 	//m_G_tekyu = NewGO<G_Tekyu>(2, "g_tekyu");
@@ -38,12 +31,6 @@ Game::Game()
 	m_ironBall = NewGO<IronBall>(4, "ironball");
 	Ui = NewGO<UI>(0, "ui");
 	box = NewGO<Box>(0, "box");
-	bgm = NewGO<Bgm>(0, "bgm");
-
-	/*g_soundEngine->ResistWaveFileBank(0,"Assets/bgm/StageBgm.wav");
-	bgm = NewGO<SoundSource>(0);
-	bgm->Init(0);
-	bgm->Play(true);*/
 }
 
 Game::~Game()
@@ -53,51 +40,42 @@ Game::~Game()
 	DeleteGO(m_stage);
 	DeleteGO(Ui);
 	DeleteGO(box);
-	DeleteGO(bgm);
-	//DeleteGO(m_G_tekyu);
-	//DeleteGO(m_G_breakfloar);
-	//DeleteGO(m_G_WeightBoard);
-	//DeleteGO(m_G_Wall);
-	//DeleteGO(m_G_IceFloor);
-	/*DeleteGO(m_G_tekyu);
-	DeleteGO(m_G_breakfloar);
-	DeleteGO(m_G_WeightBoard);
-	DeleteGO(m_G_Wall);
-	DeleteGO(m_G_IceFloor);*/
-	//DeleteGO(m_G_laser);
 	DeleteGO(this);
 }
 
 void Game::Update()
 {
-	
+	bgm = FindGO<Bgm>("bgm");
 
-	//仮のゲームオーバーの条件を設定
+	if (BgmSet == true)
+	{
+		BgmSet = false;
+		bgm->PlayBGM(B_STAGE);
+	}
+	
 	if (GameOverFlag == true) {
 		NewGO<Gameover>(0, "gameover");
 		Delete();
 		GameOverFlag = false;
 	}
 
-	//ステージクリア
+	if (Level_Max == Level && ClearFlag == true)
+	{
+		NewGO<GameClear>(0, "gameclear");
+		DeleteGO(this);
+	}else {
 	if (ClearFlag == true)
 	{
 		NewGO<StageClear>(0, "stageclear");
 		Delete();
 		ClearFlag = false;
 	}
+	}
 
-	//ステージ制作
 	if (CreateFlag == true)
 	{
 		Create();
 		CreateFlag = false;
-	}else {
-	if (Level_Max == Level)
-	{
-		NewGO<GameClear>(0, "gameclear");
-		DeleteGO(this);
-	}
 	}
 }
 
@@ -110,6 +88,7 @@ void Game::Create()
 	Ui = NewGO<UI>(0, "ui");
 	box = NewGO<Box>(0, "box");
 	bgm = NewGO<Bgm>(0, "bgm");
+	bgm->PlayBGM(B_STAGE);
 }
 
 void Game::Delete()
@@ -119,7 +98,7 @@ void Game::Delete()
 	DeleteGO(m_stage);
 	DeleteGO(Ui);
 	DeleteGO(box);
-	DeleteGO(bgm);
+	bgm->PauseBGM(B_STAGE);
 }
 
 void Game::Render(RenderContext& rc)

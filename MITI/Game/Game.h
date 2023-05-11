@@ -28,15 +28,14 @@ public:
 	void Delete();
 	void Render(RenderContext& rc);
 
-	int Level = 4;
-
-	int Level_Max = 5;
+	int Level = 0;
+	int Level_Max = 0;
 
 	bool ClearFlag = false;
-
 	bool GameOverFlag = false;
-
 	bool CreateFlag = false;
+	
+	bool BgmSet = true;
 
 private:
 	ModelRender m_modelRender;
@@ -56,15 +55,7 @@ private:
 	G_Kaidan* m_G_Kaidan;
 	UI* Ui;
 	Box* box;
-	//G_laser* m_G_laser;
-
-	//時間制限
-	int timer;
-	int timelimit = 90;
-
-	AllLight stagewallLight;
-
-	PhysicsStaticObject m_physicsStaticObject;
 	Bgm* bgm;
+	//G_laser* m_G_laser;
 };
 

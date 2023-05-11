@@ -2,39 +2,36 @@
 
 class Player;
 class IronBall;
-class G_Tekyu;
 class G_Block;
-
+class Bgm;
 class G_WeightBoard:public IGameObject
 {
-	public:
-		G_WeightBoard();
-		~G_WeightBoard();
+public:
+	G_WeightBoard();
+	~G_WeightBoard();
+	void Update();
+	void Render(RenderContext& rc);
 
-		void Update();
-		void Render(RenderContext& rc);
+	ModelRender Weightboard[10][10];
+	Vector3 Weightboard_P[10][10];
+	PhysicsStaticObjectPos m_physicsStaticObjectpos[10][10];
+	AllLight Light;
 
-		Vector3 position[10][10];
-		ModelRender m_modelRender[10][10];
-		PhysicsStaticObjectPos m_physicsStaticObjectpos[10][10];
+	Player* player;
+	IronBall* ironBall;
+	G_Block* block;
+	Bgm* bgm;
 
-		Player* player;
-		IronBall* ironBall;
-		G_Tekyu* g_tekyu;
-		G_Block* block;
+	bool BgmSet = false;
+	bool putFlag[10][10];
+		
+	bool WeightBoard_on[10][10];
 
-		//上に何か乗ってるフラグ
-		bool putFlag[10][10];
+	int Link_Number[10][10][10];
+	int Link_Count[10][10];
+	int Link[10][10][10];
 
-		AllLight boardLight;
-
-		bool WeightBoard_on[10][10];
-		//1.行　2.列　3.行列
-		int link_number[10][10][10];
-		int link_count[10][10];
-		int Link[10][10][10];
-
-		bool link;
-		bool block_link;
+	bool Link_on;
+	bool Block_Link;
 };
 

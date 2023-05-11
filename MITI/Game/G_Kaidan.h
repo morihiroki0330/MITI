@@ -1,6 +1,4 @@
 #pragma once
-class Player;
-class Stage;
 class Box;
 class G_Kaidan : public IGameObject
 {
@@ -11,21 +9,11 @@ public:
 	void Render(RenderContext& rc);
 
 	ModelRender Kaidan;
-
 	Vector3 Kaidan_P;
-
-	Quaternion Kaidan_R;
-
 	PhysicsStaticObjectPos m_physicsStaticObjectpos;
-
-	AllLight light;
-
-	Player* player;
-
-	Stage* stage;
+	Quaternion Kaidan_R;
+	AllLight Light;
 
 	Box* box;
-
-	bool clearflag = false;
 };
 

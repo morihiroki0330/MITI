@@ -1,23 +1,17 @@
 #pragma once
 
-class G_WeightBoard;
-
 class G_Wall:public IGameObject
 {
 public:
 	G_Wall();
 	~G_Wall();
-
 	void Update();
 	void Render(RenderContext& rc);
-
-	Vector3 position;
-	ModelRender m_modelRender;
-	PhysicsStaticObject m_physicsStaticObject;
+	
+	ModelRender Wall;
+	Vector3 Wall_P;
 	PhysicsStaticObjectPos m_physicsStaticObjectpos;
+	AllLight Light;
 
-	G_WeightBoard* g_weightBoard;
-
-	AllLight wallLight;
 };
 

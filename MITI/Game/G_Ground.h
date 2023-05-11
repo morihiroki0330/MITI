@@ -13,6 +13,6 @@ public:
 
 	bool Ground_on[10][10];
 
-	AllLight Ground_L;
+	AllLight Light;
 };
 

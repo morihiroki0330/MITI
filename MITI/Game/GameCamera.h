@@ -7,10 +7,7 @@ public:
 	~GameCamera();
 	void Update();
 
-	//’‹“_
 	Vector3 Target_P;
-
-	//‹“_
 	Vector3 Camera_P;
 
 	Player* player;

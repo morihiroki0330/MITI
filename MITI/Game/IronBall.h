@@ -11,25 +11,21 @@ public:
 	void Update();
 	void Render(RenderContext& rc);
 
-	//鉄球の座標を保持する配列
-	Vector3 ball_P[5];
-
-	//表示する鉄球を表す配列
-	int showFlag[5];
-
-	bool boxFlag = false;
-
-	bool Set;
-
-	Player* player;
-	Game* game;
+	ModelRender Ball[5] ;
+	Vector3 Ball_P[5];
 
 	ModelRender IronBox;
 	Vector3 IronBox_P;
 	Vector3 SetPosition[10][10];
+	
+	AllLight Light;
 
-	ModelRender ironRender[5];
+	int ShowFlag[5];
+	bool BoxFlag = false;
+	bool Set;
 
-	AllLight ironLight;
+	Player* player;
+	Game* game;
+	
 };
 
