@@ -4,7 +4,7 @@
 
 G_Kaidan::G_Kaidan()
 {
-	Kaidan.Init("Assets/test/kaidan2.tkm", Light);
+	Kaidan.Init("Assets/modelData/kaidan3.tkm", Light);
 	Kaidan.SetScale({ 1.0f,1.0f,2.5f });
 }
 

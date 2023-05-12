@@ -7,7 +7,7 @@ G_Ground::G_Ground()
 	{
 		for (int R = 0; R < 10; R++)
 		{
-			Ground[L][R].Init("Assets/test/ground1.tkm", Light);
+			Ground[L][R].Init("Assets/modelData/ground1.tkm", Light);
 			m_physicsStaticObjectpos[L][R].CreateFromModel(Ground[L][R].GetModel(), Ground[L][R].GetModel().GetWorldMatrix());
 			m_physicsStaticObjectpos[L][R].SetPosition({ -2000.0f,-2000.0f,-2000.0f });
 		}

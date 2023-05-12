@@ -11,7 +11,7 @@ G_WeightBoard::G_WeightBoard()
 	{
 		for (int R = 0; R < 10; R++)
 		{
-			Weightboard[L][R].Init("Assets/test/ita.tkm", Light);
+			Weightboard[L][R].Init("Assets/modelData/ita.tkm", Light);
 			Weightboard[L][R].SetScale({ 0.6f,0.6f,0.6f });
 			m_physicsStaticObjectpos[L][R].CreateFromModel(Weightboard[L][R].GetModel(), Weightboard[L][R].GetModel().GetWorldMatrix());
 			m_physicsStaticObjectpos[L][R].SetPosition({ -2000.0f,-2000.0f,-2000.0f });

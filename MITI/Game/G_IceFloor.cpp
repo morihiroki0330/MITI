@@ -9,7 +9,7 @@ G_IceFloor::G_IceFloor()
 	{
 		for (int R = 0; R < 10; R++)
 		{
-			IceFloor[L][R].Init("Assets/test/ice1.tkm", Light);
+			IceFloor[L][R].Init("Assets/modelData/ice1.tkm", Light);
 			m_physicsStaticObjectpos[L][R].CreateFromModel(IceFloor[L][R].GetModel(), IceFloor[L][R].GetModel().GetWorldMatrix());
 			m_physicsStaticObjectpos[L][R].SetPosition({ -2000.0f,-2000.0f,-2000.0f });
 		}

@@ -17,7 +17,7 @@ Stage::Stage()
 {
 	//•Ç‰æ
 	{
-		Kabe.Init("Assets/test/hekiga.tkm", stageLight);
+		Kabe.Init("Assets/modelData/hekiga.tkm", stageLight);
 		Kabe_P = { 0.0f,82.0f,0.0f };
 		k_physicsStaticObjectpos.CreateFromModel(Kabe.GetModel(), Kabe.GetModel().GetWorldMatrix());
 		Kabe.Update();

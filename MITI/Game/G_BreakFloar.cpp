@@ -10,7 +10,7 @@ G_BreakFloar::G_BreakFloar()
 	{
 		for (int R = 0; R < 10; R++)
 		{
-			BreakFloar[L][R].Init("Assets/test/hole.tkm", Light);
+			BreakFloar[L][R].Init("Assets/modelData/hole.tkm", Light);
 			m_physicsStaticObjectpos[L][R].CreateFromModel(BreakFloar[L][R].GetModel(), BreakFloar[L][R].GetModel().GetWorldMatrix());
 			m_physicsStaticObjectpos[L][R].SetPosition({ -2000.0f,-2000.0f,-2000.0f });
 		}
