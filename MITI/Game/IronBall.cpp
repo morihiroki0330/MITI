@@ -7,7 +7,7 @@ IronBall::IronBall()
 {
 	Set = true;
 
-	IronBox.Init("Assets/test/tekyu-box.tkm", Light);
+	IronBox.Init("Assets/modelData/tekyu-box.tkm", Light);
 
 	for (int L = 0; L < 10; L++)
 	{
