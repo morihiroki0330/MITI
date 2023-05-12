@@ -29,9 +29,9 @@ Stage::Stage()
 	{
 		for (int R = 0; R < 10; R++)
 		{
-			Ground_P[L][R].x = (L * 192.0f) + -865.0f;
+			Ground_P[L][R].x = (L * 191.0f) + -865.0f;
 			Ground_P[L][R].y = 0.0f;
-			Ground_P[L][R].z = (R * 192.0f) + -865.0f;
+			Ground_P[L][R].z = (R * 191.0f) + -865.0f;
 
 			Reset_P.x = -2000.0f;
 			Reset_P.y = -2000.0f;
@@ -1155,14 +1155,14 @@ void Stage::Update()
 
 				//’n–Ê‚ÌÝ’èyŒŠE•XE°E”j‰ó°z
 				//ŒŠ
-				if (mapdata[L][R].hole_on == true && Map_SetGround[L][R] == false)
+				if (mapdata[L][R].hole_on == true)
 				{
 					mapdata[L][R].grounddata = HOLE;
 					mapdata[L][R].hole_on = false;
 					Map_SetGround[L][R] = true;
 				}else {
 				//•X
-				if (mapdata[L][R].ice_on == true && Map_SetGround[L][R] == false)
+				if (mapdata[L][R].ice_on == true)
 				{
 					map.Ice->IceFloor_on[L][R] = true;
 					mapdata[L][R].ice_on = false;
@@ -1172,7 +1172,7 @@ void Stage::Update()
 					Map_SetGround[L][R] = true;
 				}else {
 				//”j‰ó°
-				if (mapdata[L][R].breakfloar_on == true && Map_SetGround[L][R] == false)
+				if (mapdata[L][R].breakfloar_on == true)
 				{
 					map.Breakfloar->Break_on[L][R] = true;
 					mapdata[L][R].breakfloar_on = false;
@@ -1181,7 +1181,6 @@ void Stage::Update()
 					Map_SetGround[L][R] = true;
 				}else {
 				//°
-				if (Map_SetGround[L][R] == false)
 					map.Ground->Ground_on[L][R] = true;
 					map.Ground->Ground_P[L][R] = Ground_P[L][R];
 					map.Ground->Ground_P[L][R].y -= 50.0f;

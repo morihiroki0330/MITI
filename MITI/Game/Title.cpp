@@ -2,29 +2,26 @@
 #include "Title.h"
 #include "Game.h"
 #include "Bgm.h"
-
+#include "sound/SoundEngine.h"
 Title::Title()
 {
 	Title_s.Init("Assets/sprite/RoM_Title2.DDS", 1920.0f, 1080.0f);
+	BGM = NewGO<SoundSource>(0);
+	BGM->Init(B_TITLE);
+	BGM->SetVolume(0.1f);
+	BGM->Play(true);
 }
 Title::~Title()
 {
-	bgm->PauseBGM(B_TITLE);
+	DeleteGO(BGM);
 }
 
 void Title::Update()
 {
-	bgm = FindGO<Bgm>("bgm");
-	if (BgmSet == true)
-	{
-		BgmSet = false;
-		bgm->PlayBGM(B_TITLE);
-	}
 	if (g_pad[0]->IsTrigger(enButtonA))
 	{
 		NewGO<Game>(0, "game");
 		DeleteGO(this);
-		
 	}
 }
 

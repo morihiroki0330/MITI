@@ -1,5 +1,6 @@
 #pragma once
 //#include "Level3DRender/LevelRender.h"
+#include "sound/SoundSource.h"
 class Player;
 class IronBall;
 class Gameover;
@@ -29,13 +30,15 @@ public:
 	void Render(RenderContext& rc);
 
 	int Level = 0;
-	int Level_Max = 0;
+	int Level_Max = 4;
 
 	bool ClearFlag = false;
 	bool GameOverFlag = false;
 	bool CreateFlag = false;
 	
 	bool BgmSet = true;
+
+	SoundSource* BGM;
 
 private:
 	ModelRender m_modelRender;

@@ -1,6 +1,5 @@
 #pragma once
 class Game;
-class Bgm;
 class StageClear : public IGameObject
 {
 public:
@@ -12,7 +11,6 @@ public:
 	SpriteRender STAGECLEAR;  
 
 	Game* game;
-	Bgm* bgm;
 
 	bool BgmSet = true;
 };

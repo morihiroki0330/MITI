@@ -1,5 +1,4 @@
 #pragma once
-class Bgm;
 class GameClear:public IGameObject
 {
 public:
@@ -10,7 +9,6 @@ public:
 
 	SpriteRender GAMECLEAR;
 
-	Bgm* bgm;
 	bool BgmSet = true;
 };
 

@@ -3,7 +3,7 @@
 class Player;
 class IronBall;
 class G_Block;
-class Bgm;
+class Stage;
 class G_WeightBoard:public IGameObject
 {
 public:
@@ -20,10 +20,11 @@ public:
 	Player* player;
 	IronBall* ironBall;
 	G_Block* block;
-	Bgm* bgm;
+	Stage* stage;
 
-	bool BgmSet = false;
-	bool putFlag[10][10];
+	bool BgmSet[10][10];
+	bool HitFlag[10][10];
+	bool PutFlag[10][10];
 		
 	bool WeightBoard_on[10][10];
 
@@ -33,5 +34,8 @@ public:
 
 	bool Link_on;
 	bool Block_Link;
+
+	FontRender Hit;
+	
 };
 

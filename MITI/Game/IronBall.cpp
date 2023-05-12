@@ -43,6 +43,25 @@ void IronBall::Update()
 {
 	game = FindGO<Game>("game");
 
+	for (int L = 0; L < 10; L++)
+	{
+		for (int R = 0; R < 10; R++)
+		{
+			for (int W = 0; W < 5; W++)
+			{
+				if (
+					Ball_P[W].x < SetPosition[L][R].x + 96 &&
+					Ball_P[W].x > SetPosition[L][R].x - 96 &&
+					Ball_P[W].z < SetPosition[L][R].z + 96 &&
+					Ball_P[W].z > SetPosition[L][R].z - 96
+					)
+				{
+					Ball_map[W] = (L * 10) + R;
+				}
+			}
+		}
+	}
+
 	if (Set == true)
 	{
 

@@ -91,12 +91,12 @@ public:
 
 	int EnterDirection;
 
-	int level = 2;
-
 	bool clearflag = false;
 
 	bool Set;
 
-	
+	SoundSource* WALK;
+
+	SoundSource* ICEWALK;
 };
 

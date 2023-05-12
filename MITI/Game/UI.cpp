@@ -5,7 +5,7 @@
 
 UI::UI()
 {
-
+	Back.Init("Assets/UI/Back.DDS", 1920.0f, 1080.0f);
 	//Aボタン
 	{
 		//不可能
@@ -34,27 +34,27 @@ UI::UI()
 	{
 		//不可能
 		Non.Init("Assets/UI/Controller-Non.DDS", 256.0f, 256.0f);
-		Non.SetPosition({ -620.0f,-300.0f,0.0f });
+		Non.SetPosition({ -750.0f,-400.0f,0.0f });
 		Non.Update();
 
 		//上
 		Up.Init("Assets/UI/Controller-Up.DDS", 256.0f, 256.0f);
-		Up.SetPosition({ -620.0f,-300.0f,0.0f });
+		Up.SetPosition({ -750.0f,-400.0f,0.0f });
 		Up.Update();
 
 		//下
 		Down.Init("Assets/UI/Controller-Down.DDS", 256.0f, 256.0f);
-		Down.SetPosition({ -620.0f,-300.0f,0.0f });
+		Down.SetPosition({ -750.0f,-400.0f,0.0f });
 		Down.Update();
 
 		//左
 		Left.Init("Assets/UI/Controller-Left.DDS", 256.0f, 256.0f);
-		Left.SetPosition({ -620.0f,-300.0f,0.0f });
+		Left.SetPosition({ -750.0f,-400.0f,0.0f });
 		Left.Update();
 
 		//右
 		Right.Init("Assets/UI/Controller-Right.DDS", 256.0f, 256.0f);
-		Right.SetPosition({ -620.0f,-300.0f,0.0f });
+		Right.SetPosition({ -750.0f,-400.0f,0.0f });
 		Right.Update();
 	}
 
@@ -181,6 +181,8 @@ void UI::Update()
 
 void UI::Render(RenderContext& rc)
 {
+	//Back.Draw(rc);
+
 	if (player->get_Ui == true)
 	{
 		A[1].Draw(rc);

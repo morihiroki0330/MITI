@@ -4,8 +4,9 @@
 
 G_Kaidan::G_Kaidan()
 {
-	Kaidan.Init("Assets/test/kaidan2.tkm", Light);
-	Kaidan.SetScale({ 1.0f,1.0f,2.5f });
+	Kaidan.Init("Assets/test/kaidan3.tkm", Light);
+	Kaidan.SetScale({ 1.0f,1.0f,2.0f });
+	Kaidan_R.SetRotationDegY(180.0f);
 }
 
 G_Kaidan::~G_Kaidan()
@@ -19,7 +20,7 @@ void G_Kaidan::Update()
 	{
 		box = FindGO<Box>("box");
 	}
-
+	Kaidan.SetRotation(Kaidan_R);
 	Kaidan.SetPosition(Kaidan_P);
 	box->box_kaidan.SetPosition(Kaidan_P);
 	Kaidan.Update();

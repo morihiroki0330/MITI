@@ -3,12 +3,14 @@
 #include "Box.h"
 #include "Stage.h"
 #include "Game.h"
+#include "Bgm.h"
+#include "sound/SoundEngine.h"
+#include "sound/SoundSource.h"
 
 Player::Player()
 {
 	Set = true;
 
-	//アニメーション呼び出し
 	AnimationClips[enAnimationClip_Idle].Load("Assets/character/oriidle.tka");
 	AnimationClips[enAnimationClip_Idle].SetLoopFlag(true);
 	AnimationClips[enAnimationClip_Walk].Load("Assets/character/oriwalk.tka");
@@ -30,11 +32,20 @@ Player::Player()
 		}
 	}
 
+	WALK = NewGO<SoundSource>(0);
+	WALK->Init(S_WALK);
+	WALK->SetVolume(0.2f);
+	
+	ICEWALK = NewGO<SoundSource>(0);
+	ICEWALK->Init(S_ICEFLOOR);
+	ICEWALK->SetVolume(0.2f);
+
 }
 
 Player::~Player()
 {
-
+	DeleteGO(WALK);
+	DeleteGO(ICEWALK);
 }
 
 void Player::Update()
@@ -243,12 +254,10 @@ void Player::Move()
 	}else{
 	if (slipflag == true)
 	{
-
-		
-		
 		if (EnterDirection == Up)
 		{
-			MoveSpeed.x = (-18.0f + ironBall / 4)/*-(0.8f * (6 - ironBall))*/;
+			MoveSpeed.z = 0.0f;
+			MoveSpeed.x = (-13.0f + ironBall / 4)/*-(0.8f * (6 - ironBall))*/;
 			if (stage->mapdata[(player_map / 10) - 1][(player_map % 10)].grounddata == ICE && stage->mapdata[(player_map / 10) - 1][(player_map % 10)].grounddata == HOLE)
 			{
 				slipflag = true;
@@ -256,7 +265,8 @@ void Player::Move()
 		}else {
 		if (EnterDirection == Down)
 		{
-			MoveSpeed.x = (18.0f + ironBall / 4)/*-(0.8f * (6 - ironBall))*/;
+			MoveSpeed.z = 0.0f;
+			MoveSpeed.x = (13.0f + ironBall / 4)/*-(0.8f * (6 - ironBall))*/;
 			if (stage->mapdata[(player_map / 10) + 1][(player_map % 10)].grounddata == ICE && stage->mapdata[(player_map / 10) + 1][(player_map % 10)].grounddata == HOLE)
 			{
 				slipflag = true;
@@ -264,7 +274,8 @@ void Player::Move()
 		}else {
 		if (EnterDirection == Right)
 		{
-			MoveSpeed.z = (18.0f - ironBall / 4)/*(0.8f * (6 - ironBall))*/;
+			MoveSpeed.x = 0.0f;
+			MoveSpeed.z = (13.0f - ironBall / 4)/*(0.8f * (6 - ironBall))*/;
 			if (stage->mapdata[(player_map / 10)][(player_map % 10) + 1].grounddata == ICE && stage->mapdata[(player_map / 10) + 1][(player_map % 10)].grounddata == HOLE)
 			{
 				slipflag = true;
@@ -272,7 +283,8 @@ void Player::Move()
 		}else {
 		if (EnterDirection == Left)
 		{
-			MoveSpeed.z = (-18.0f - ironBall / 4)/*(0.8f * (6 - ironBall))*/;
+			MoveSpeed.x = 0.0f;
+			MoveSpeed.z = (-13.0f - ironBall / 4)/*(0.8f * (6 - ironBall))*/;
 			if (stage->mapdata[(player_map / 10)][(player_map % 10) - 1].grounddata == ICE && stage->mapdata[(player_map / 10) - 1][(player_map % 10)].grounddata == HOLE)
 			{
 				slipflag = true;
@@ -317,6 +329,29 @@ void Player::Move()
 	}
 	}
 
+	if ((MoveSpeed.x < 0.0f || MoveSpeed.x > 0.0f || MoveSpeed.z > 0.0f || MoveSpeed.z < 0.0f) && slipflag == false)
+	{
+		WALK->Play(true);
+		
+	}else {
+	if (MoveSpeed.x == 0.0f || MoveSpeed.x == 0.0f || MoveSpeed.z == 0.0f || MoveSpeed.z == 0.0f)
+	{
+			WALK->Pause();
+	}
+	}
+	
+	if (slipflag == true)
+	{
+		ICEWALK->Play(true);
+		WALK->Pause();
+	}else {
+	if (slipflag == false)
+	{
+		ICEWALK->Pause();
+	}
+	}
+	
+	
 	/*if (MoveSpeed.x > 4.8)
 	{
 		MoveSpeed.x = 4.8;
@@ -363,6 +398,10 @@ void Player::Ball()
 	//鉄球クラスで鉄球の所持数を変えるためにフラグ変数を変更する
 	if (g_pad[0]->IsTrigger(enButtonA) && ironBall < 5)
 	{
+		SoundSource* SE = NewGO<SoundSource>(0);
+		SE->Init(S_IRONBALLGET);
+		SE->SetVolume(0.1f);
+		SE->Play(false);
 		get_Iron = true;
 	}
 
@@ -378,7 +417,12 @@ void Player::Ball()
 
 	if (g_pad[0]->IsTrigger(enButtonB) && ironBall > 0)
 	{
+		SoundSource* SE = NewGO<SoundSource>(0);
+		SE->Init(S_IRONBALLPUT);
+		SE->SetVolume(0.1f);
+		SE->Play(false);
 		put_Iron = true;
+
 	}
 
 	if (ironBall <= 0)
@@ -497,7 +541,7 @@ void Player::Render(RenderContext& rc)
 	//fontRender.Draw(rc);
 	if (hitflag == true)
 	{
-		//as.Draw(rc);
+		/*as.Draw(rc);*/
 	}
 
 }

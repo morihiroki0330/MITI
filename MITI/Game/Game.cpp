@@ -18,11 +18,14 @@
 #include "UI.h"
 #include "Box.h"
 #include "Bgm.h"
+#include "sound/SoundEngine.h"
 //#include "G_laser.h"
 
 Game::Game()
 {
-	//PhysicsWorld::GetInstance()->SetGravity({ 0.0f,-90.0f,0.0f });
+	PhysicsWorld::GetInstance()->SetGravity({ 0.0f,-180.0f,0.0f });
+
+	PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
 
 	m_player = NewGO<Player>(1, "player");
 	//m_G_tekyu = NewGO<G_Tekyu>(2, "g_tekyu");
@@ -31,6 +34,11 @@ Game::Game()
 	m_ironBall = NewGO<IronBall>(4, "ironball");
 	Ui = NewGO<UI>(0, "ui");
 	box = NewGO<Box>(0, "box");
+
+	BGM = NewGO<SoundSource>(0);
+	BGM->Init(B_STAGE);
+	BGM->SetVolume(0.1f);
+	BGM->Play(true);
 }
 
 Game::~Game()
@@ -45,14 +53,6 @@ Game::~Game()
 
 void Game::Update()
 {
-	bgm = FindGO<Bgm>("bgm");
-
-	if (BgmSet == true)
-	{
-		BgmSet = false;
-		bgm->PlayBGM(B_STAGE);
-	}
-	
 	if (GameOverFlag == true) {
 		NewGO<Gameover>(0, "gameover");
 		Delete();
@@ -62,6 +62,7 @@ void Game::Update()
 	if (Level_Max == Level && ClearFlag == true)
 	{
 		NewGO<GameClear>(0, "gameclear");
+		Delete();
 		DeleteGO(this);
 	}else {
 	if (ClearFlag == true)
@@ -88,7 +89,10 @@ void Game::Create()
 	Ui = NewGO<UI>(0, "ui");
 	box = NewGO<Box>(0, "box");
 	bgm = NewGO<Bgm>(0, "bgm");
-	bgm->PlayBGM(B_STAGE);
+	BGM = NewGO<SoundSource>(0);
+	BGM->Init(B_STAGE);
+	BGM->SetVolume(0.1f);
+	BGM->Play(true);
 }
 
 void Game::Delete()
@@ -98,7 +102,7 @@ void Game::Delete()
 	DeleteGO(m_stage);
 	DeleteGO(Ui);
 	DeleteGO(box);
-	bgm->PauseBGM(B_STAGE);
+	DeleteGO(BGM);
 }
 
 void Game::Render(RenderContext& rc)

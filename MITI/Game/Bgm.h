@@ -7,28 +7,11 @@ enum Play_Bgm
 	B_STAGECLEAR,
 	B_GAMECLEAR,
 	B_GAMEOVER,
-	S_WEIGHTBOARD
-};
-
-struct BGM・SE_LIST
-{
-	//タイトル
-	SoundSource* TITLE_BGM;
-
-	//ステージ
-	SoundSource* STAGE_BGM;
-
-	//ステージクリア
-	SoundSource* STAGECLEAR_BGM;
-
-	//ゲームクリア
-	SoundSource* GAMECLEAR_BGM;
-	
-	//ゲームオーバー
-	SoundSource* GAMEOVER_BGM;
-
-	//感圧板
-	SoundSource* WEIGHTBOARD_SE;
+	S_WEIGHTBOARD,
+	S_ICEFLOOR,
+	S_IRONBALLPUT,
+	S_IRONBALLGET,
+	S_WALK
 };
 
 class Bgm : public IGameObject
@@ -37,10 +20,7 @@ public:
 	Bgm();
 	~Bgm();
 	void Update();
-	void PlayBGM(int BGM_NUMBER);
-	void PauseBGM(int BNG_NUMBER);
-	void PlaySE(int BGM_NUMBER);
 
-	BGM・SE_LIST BGM・SE;
+	SoundSource* BGM_SE;
 };
 

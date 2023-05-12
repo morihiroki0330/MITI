@@ -10,7 +10,6 @@ class G_Kaidan;
 class G_Ground;
 class Player;
 class Game;
-
 struct MapData
 {
 	bool ice_on;

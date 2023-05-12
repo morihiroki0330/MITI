@@ -55,7 +55,7 @@ void G_Block::Update()
 			{
 				if (weightboard->Block_Link == true)
 				{
-					if (weightboard->putFlag[L][R] == true)
+					if (weightboard->PutFlag[L][R] == true)
 					{
 							
 						for (int count = 1; count <= weightboard->Link_Count[L][R]; count++)
@@ -95,7 +95,7 @@ void G_Block::Update()
 							}
 
 					}else {
-					if (weightboard->putFlag[L][R] == false)
+					if (weightboard->PutFlag[L][R] == false)
 					{
 						for (int count = 1; count <= weightboard->Link_Count[L][R]; count++)
 						{
@@ -149,7 +149,7 @@ void G_Block::Render(RenderContext& rc)
 			{
 				if (weightboard->Block_Link == true)
 				{
-					if (weightboard->putFlag[L][R] == true)
+					if (weightboard->PutFlag[L][R] == true)
 					{
 						for (int count = 1; count <= weightboard->Link_Count[L][R]; count++)
 						{	

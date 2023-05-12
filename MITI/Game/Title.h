@@ -1,7 +1,6 @@
 #pragma once
 #include "sound/SoundSource.h"
 class Game;
-class Bgm;
 //タイトル。
 class Title : public IGameObject
 {
@@ -11,7 +10,7 @@ public:
 	void Update();
 	void Render(RenderContext& rc);
 	Game* game;
+	SoundSource* BGM;
 	SpriteRender Title_s;
-	Bgm* bgm;
 	bool BgmSet = true;
 };

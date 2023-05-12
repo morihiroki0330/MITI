@@ -27,8 +27,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 	//NewGO<UNITY>(0);
 	//NewGO<Player>(0);
-	NewGO<Title>(0,"title");
 	NewGO<Bgm>(0, "bgm");
+	NewGO<Title>(0,"title");
 	//NewGO<UNITY>(0);
 	//NewGO<Player>(0, "player");
 	//NewGO<IronBall>(0);

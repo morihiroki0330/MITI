@@ -1,6 +1,5 @@
 #pragma once
 class Game;
-class Bgm;
 class Gameover :public IGameObject
 {
 public:
@@ -12,6 +11,5 @@ public:
 	SpriteRender GAMEOVER;   
 
 	Game* game;
-	Bgm* bgm;
 	bool BgmSet = true;
 };
