@@ -314,11 +314,7 @@ Stage::Stage()
 			Level[1][1][8].block_on = true;
 
 			//二行目
-			Level[1][2][2].block_on = true;
 			Level[1][2][7].block_on = true;
-
-			//三行目
-			Level[1][3][4].block_on = true;
 
 			//四行目
 			Level[1][4][7].block_on = true;
@@ -329,7 +325,6 @@ Stage::Stage()
 
 			//六行目
 			Level[1][6][2].block_on = true;
-			Level[1][6][4].block_on = true;
 
 			//七行目
 			Level[1][7][4].block_on = true;
@@ -371,7 +366,10 @@ Stage::Stage()
 		{
 			for (int L = 1; L < 9; L++)
 			{
-
+				if (L == 1 || L == 8)
+				{
+					continue;
+				}
 				if (L % 2 == 0)
 				{
 					Level[1][L][0].weightboard_map = true;
@@ -388,12 +386,6 @@ Stage::Stage()
 
 			Level[1][6][7].weightboard_map = true;
 			Level[1][9][6].weightboard_map = true;
-
-			Level[1][1][1].weightboard_linknumber[1] = 22;
-			Level[1][1][1].weightboard_linkobject[1] = L_BLOCK;
-			Level[1][1][1].weightboard_linknumber[2] = 34;
-			Level[1][1][1].weightboard_linkobject[2] = L_BLOCK;
-			Level[1][1][1].weightboard_count = 2;
 
 			Level[1][2][0].weightboard_linknumber[1] = 62;
 			Level[1][2][0].weightboard_linkobject[1] = L_BLOCK;
@@ -420,10 +412,6 @@ Stage::Stage()
 			Level[1][7][1].weightboard_linknumber[1] = 76;
 			Level[1][7][1].weightboard_linkobject[1] = L_BLOCK;
 			Level[1][7][1].weightboard_count = 1;
-
-			Level[1][8][0].weightboard_linknumber[1] = 64;
-			Level[1][8][0].weightboard_linkobject[1] = L_BLOCK;
-			Level[1][8][0].weightboard_count = 1;
 
 			Level[1][6][7].weightboard_linknumber[1] = 93;
 			Level[1][6][7].weightboard_linkobject[1] = L_BLOCK;

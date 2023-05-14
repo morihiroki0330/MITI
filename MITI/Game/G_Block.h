@@ -12,6 +12,7 @@ public:
 	void Render(RenderContext& rc);
 
 	ModelRender Block[10][10];
+	ModelRender SkeletonBlock[10][10];
 	Vector3 Block_P[10][10];
 	AllLight Light;
 	PhysicsStaticObjectPos m_physicsStaticObjectpos[10][10];
