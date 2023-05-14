@@ -251,6 +251,23 @@ void Player::Move()
 		//ƒvƒŒƒCƒ„[‚ÌˆÚ“®
 		MoveSpeed.x += StickL.x * (-9.0f + ironBall / 4)/*-(0.8f * (6 - ironBall))*/;
 		MoveSpeed.z += StickL.y * (9.0f - ironBall / 4)/*(0.8f * (6 - ironBall))*/;
+		if (abs(MoveSpeed.x) > abs(MoveSpeed.z))
+		{
+			MoveSpeed.z = 0.0f;
+		}
+
+		if (abs(MoveSpeed.x) < abs(MoveSpeed.z))
+		{
+			MoveSpeed.x = 0.0f;
+		}
+
+		if (abs(MoveSpeed.x) == abs(MoveSpeed.z))
+		{
+			MoveSpeed.x = 0.0f;
+			MoveSpeed.z = 0.0f;
+		}
+		
+
 	}else{
 	if (slipflag == true)
 	{
