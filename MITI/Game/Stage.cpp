@@ -171,6 +171,8 @@ Stage::Stage()
 			Level[0][5][8].block_on = true;
 			Level[0][5][9].block_on = true;
 
+			Level[0][6][4].block_on = true;
+
 			Level[0][7][5].block_on = true;
 
 			Level[0][8][3].block_on = true;
@@ -251,7 +253,9 @@ Stage::Stage()
 			Level[0][8][6].weightboard_linkobject[2] = L_BLOCK;
 			Level[0][8][6].weightboard_linknumber[3] = 95;
 			Level[0][8][6].weightboard_linkobject[3] = L_BLOCK;
-			Level[0][8][6].weightboard_count = 6;
+			Level[0][8][6].weightboard_linknumber[4] = 64;
+			Level[0][8][6].weightboard_linkobject[4] = L_BLOCK;
+			Level[0][8][6].weightboard_count = 4;
 		}
 
 		//ŠK’i

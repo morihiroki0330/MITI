@@ -62,10 +62,14 @@ void G_WeightBoard::Update()
 			for (int W = 0; W < 5; W++)
 			{
 				if (
-						stage->mapdata[(ironBall->Ball_map[W] / 10)][(ironBall->Ball_map[W] % 10)].skydata == WEIGHTBOARD || PutFlag[L][R] == true
+						ironBall->Ball_P[W].x < Weightboard_P[L][R].x + 60 &&
+						ironBall->Ball_P[W].x > Weightboard_P[L][R].x - 60 &&
+						ironBall->Ball_P[W].z < Weightboard_P[L][R].z + 60 &&
+						ironBall->Ball_P[W].z > Weightboard_P[L][R].z - 60 ||
+					    PutFlag[L][R] == true
 					)
 					{
-						PutFlag[(ironBall->Ball_map[W] / 10)][(ironBall->Ball_map[W] % 10)] = true;
+						PutFlag[L][R] = true;
 					}else {
 						PutFlag[L][R] = false;
 					}
