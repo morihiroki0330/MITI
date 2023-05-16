@@ -917,8 +917,8 @@ Level[2][9][7].hole_on = true;
 		{
 			//•Ç
 			Level[4][0][0].weightboard_map = true;
-			Level[4][0][0].weightboard_linknumber[1] = 89;
-			Level[4][0][0].weightboard_linkobject[1] = G_BLOCK;
+			Level[4][0][0].weightboard_linknumber[1] = 67;
+			Level[4][0][0].weightboard_linkobject[1] = L_BLOCK;
 			Level[4][0][0].weightboard_count = 1;
 
 			Level[4][0][2].weightboard_map = true;
@@ -1065,12 +1065,12 @@ Level[2][9][7].hole_on = true;
 			Level[4][5][6].block_on = true;
 			Level[4][5][7].block_on = true;
 
+			Level[4][6][7].block_on = true;
 			Level[4][6][9].block_on = true;
 
 			Level[4][7][1].block_on = true;
 
 			Level[4][8][3].block_on = true;
-			Level[4][8][9].block_on = true;
 
 			Level[4][9][2].block_on = true;
 			Level[4][9][5].block_on = true;

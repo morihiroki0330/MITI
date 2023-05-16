@@ -14,6 +14,15 @@ G_Block::G_Block()
 			SkeletonBlock_ICE[L][R].Init("Assets/modelData/SkeletonBlock/S_Ice.tkm", Light);
 			SkeletonBlock_GROUND[L][R].Init("Assets/modelData/SkeletonBlock/S_Ground.tkm", Light);
 			SkeletonBlock_BLOCK[L][R].Init("Assets/modelData/SkeletonBlock/S_Block.tkm", Light);
+			
+			SkeletonBlock_ICE[L][R].SetPosition({ -2000.0f,-2000.0f,-2000.0f });
+			SkeletonBlock_GROUND[L][R].SetPosition({ -2000.0f,-2000.0f,-2000.0f });
+			SkeletonBlock_BLOCK[L][R].SetPosition({ -2000.0f,-2000.0f,-2000.0f });
+			
+			SkeletonBlock_ICE[L][R].Update();
+			SkeletonBlock_GROUND[L][R].Update();
+			SkeletonBlock_BLOCK[L][R].Update();
+
 			m_physicsStaticObjectpos[L][R].CreateFromModel(Block[L][R].GetModel(), Block[L][R].GetModel().GetWorldMatrix());
 			m_physicsStaticObjectpos[L][R].SetPosition({-2000.0f,-2000.0f,-2000.0f});
 		}
