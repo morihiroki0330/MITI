@@ -11,7 +11,7 @@ G_Block::G_Block()
 		for (int R = 0; R < 10; R++)
 		{
 			Block[L][R].Init("Assets/modelData/isi.tkm", Light);
-			SkeletonBlock[L][R].Init("Assets/test/SkeletonBlock.tkm", Light);
+			SkeletonBlock[L][R].Init("Assets/modelData/SkeletonBlock.tkm", Light);
 			m_physicsStaticObjectpos[L][R].CreateFromModel(Block[L][R].GetModel(), Block[L][R].GetModel().GetWorldMatrix());
 			m_physicsStaticObjectpos[L][R].SetPosition({-2000.0f,-2000.0f,-2000.0f});
 		}

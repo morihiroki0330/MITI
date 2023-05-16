@@ -4,7 +4,7 @@
 
 G_Kaidan::G_Kaidan()
 {
-	Kaidan.Init("Assets/test/kaidan3.tkm", Light);
+	Kaidan.Init("Assets/modelData/kaidan3.tkm", Light);
 	Kaidan.SetScale({ 1.0f,1.0f,2.0f });
 	Kaidan_R.SetRotationDegY(180.0f);
 }
