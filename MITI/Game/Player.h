@@ -40,6 +40,7 @@ public:
 		enAnimationClip_Push,
 		enAnimationClip_Fall,
 		enAnimationClip_Put,
+		enAnimationClip_Slip,
 		enAnimationClip_Num,
 	};
 	AnimationClip AnimationClips[enAnimationClip_Num];		//アニメーションクリップ。

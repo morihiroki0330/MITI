@@ -1181,6 +1181,7 @@ void Stage::Update()
 				}
 				}
 				}
+
 				Map_SetGround[L][R] = true;
 				//床上の設置物【ゴール用の階段・感圧板・障壁ブロック・ゴール解放の扉】
 				//ゴール用の階段
@@ -1232,8 +1233,6 @@ void Stage::Update()
 		}
 		Map_Set = true;
 	}
-
-
 }
 
 void Stage::Render(RenderContext& rc)

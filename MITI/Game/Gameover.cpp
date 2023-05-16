@@ -12,7 +12,7 @@ Gameover::Gameover()
 
 Gameover::~Gameover()
 {
-	
+	game->CreateFlag = true;
 }
 
 void Gameover::Update()
@@ -23,14 +23,13 @@ void Gameover::Update()
 	{
 		BgmSet = false;
 		SoundSource* BGM = NewGO<SoundSource>(0);
-		BGM->Init(B_TITLE);
+		BGM->Init(B_GAMEOVER);
 		BGM->SetVolume(0.1f);
 		BGM->Play(true);
 	}
 
 	if (g_pad[0]->IsTrigger(enButtonA))
 	{
-		game->CreateFlag = true;
 		DeleteGO(this);
 	}
 }

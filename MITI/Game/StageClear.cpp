@@ -11,7 +11,8 @@ StageClear::StageClear()
 
 StageClear::~StageClear()
 {
-
+	game->Level += 1;
+	game->CreateFlag = true;
 }
 
 void StageClear::Update()
@@ -29,8 +30,6 @@ void StageClear::Update()
 
 	if (g_pad[0]->IsTrigger(enButtonA))
 	{
-		game->Level += 1;
-		game->CreateFlag = true;
 		DeleteGO(this);
 	}
 }
