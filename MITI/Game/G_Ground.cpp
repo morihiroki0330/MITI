@@ -49,6 +49,8 @@ void G_Ground::Render(RenderContext& rc)
 			if (Ground_on[L][R] == true)
 			{
 				Ground[L][R].Draw(rc);
+			}else {
+
 			}
 		}
 	}
