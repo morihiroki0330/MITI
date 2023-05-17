@@ -99,5 +99,7 @@ public:
 	SoundSource* WALK;
 
 	SoundSource* ICEWALK;
+
+	bool FallSet = false;
 };
 

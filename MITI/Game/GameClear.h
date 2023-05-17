@@ -1,4 +1,5 @@
 #pragma once
+#include "sound/SoundSource.h"
 class GameClear:public IGameObject
 {
 public:
@@ -8,6 +9,8 @@ public:
 	void Render(RenderContext& rc);
 
 	SpriteRender GAMECLEAR;
+
+	SoundSource* BGM;
 
 	bool BgmSet = true;
 };

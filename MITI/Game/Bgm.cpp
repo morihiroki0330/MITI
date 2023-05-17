@@ -14,6 +14,7 @@ Bgm::Bgm()
 	g_soundEngine->ResistWaveFileBank(7,"Assets/bgm/IronBallPutBgm.wav");
 	g_soundEngine->ResistWaveFileBank(8,"Assets/bgm/IronBallGetBgm.wav");
 	g_soundEngine->ResistWaveFileBank(9,"Assets/bgm/WalkBgm.wav");
+	g_soundEngine->ResistWaveFileBank(10,"Assets/bgm/FallVoice.wav");
 }
 
 Bgm::~Bgm()

@@ -1,4 +1,5 @@
 #pragma once
+#include "sound/SoundSource.h"
 class Game;
 class Gameover :public IGameObject
 {
@@ -11,5 +12,6 @@ public:
 	SpriteRender GAMEOVER;   
 
 	Game* game;
+	SoundSource* BGM;
 	bool BgmSet = true;
 };

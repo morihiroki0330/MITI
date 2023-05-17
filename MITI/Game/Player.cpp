@@ -474,18 +474,27 @@ void Player::ManageState()
 			//‰ñû
 			playerState = 3;
 		}
-		else if (StickL.x != 0 || StickL.y != 0 && slipflag == false)
+		else if (slipflag == true)
 		{
 			//•à‚«
-			playerState = 1;
-		}
-		else if(slipflag == true)
-		{
 			playerState = 4;
+		}
+		else if(StickL.x != 0 || StickL.y != 0 && slipflag == false)
+		{
+			playerState = 1;
 		}
 		else 
 		{
 			playerState = 0;
+		}
+		
+		if (Character_P.y <= -30.0f && FallSet == false)
+		{
+			FallSet = true;
+			SoundSource* SE = NewGO<SoundSource>(0);
+			SE->Init(S_FALL);
+			SE->SetVolume(0.1f);
+			SE->Play(false);
 		}
 }
 
@@ -543,16 +552,6 @@ void Player::Status()
 	}
 	
 
-	wchar_t playerX[256];
-	if (slipflag == true)
-	{
-		swprintf_s(playerX, 256, L"ŠŠ‚Á‚Ä‚¢‚é:%d", player_map);
-	}else {
-	{
-	if (slipflag == false)
-		swprintf_s(playerX, 256, L"ŠŠ‚Á‚Ä‚¢‚È‚¢:%d", player_map);
-	}
-	}
 	
 	as.SetText(L"Õ“Ë");
 	as.SetPosition(Vector3(-852.0f, 350.0f, 0.0f));
@@ -562,10 +561,10 @@ void Player::Status()
 void Player::Render(RenderContext& rc)
 {
 	Character.Draw(rc);
-	//fontRender.Draw(rc);
+	asb.Draw(rc);
 	if (hitflag == true)
 	{
-		/*as.Draw(rc);*/
+		as.Draw(rc);
 	}
 
 }

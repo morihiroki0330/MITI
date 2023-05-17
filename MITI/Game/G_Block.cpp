@@ -84,7 +84,7 @@ void G_Block::Update()
 								Block[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].Init("Assets/modelData/ice1.tkm", Light);
 								stage->mapdata[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].grounddata = ICE;
 								Block[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].SetPosition({ Block_P[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].x,-55.0f,Block_P[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].z });
-								m_physicsStaticObjectpos[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].SetPosition({Block_P[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].x,-55.0f,Block_P[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].z});
+								m_physicsStaticObjectpos[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].SetPosition({Block_P[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].x,-50.0f,Block_P[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].z});
 								Block[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].Update();
 							}else {
 							if (weightboard->Link[L][R][count] == G_BLOCK)
@@ -92,7 +92,7 @@ void G_Block::Update()
 								Block[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].Init("Assets/modelData/ground1.tkm", Light);
 								stage->mapdata[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].grounddata = GROUND;
 								Block[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].SetPosition({ Block_P[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].x,-55.0f,Block_P[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].z });
-								m_physicsStaticObjectpos[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].SetPosition({ Block_P[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].x,-55.0f,Block_P[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].z });
+								m_physicsStaticObjectpos[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].SetPosition({ Block_P[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].x,-50.0f,Block_P[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].z });
 								Block[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].Update();
 							}else
 							{
@@ -120,14 +120,14 @@ void G_Block::Update()
 							}else {
 							if (weightboard->Link[L][R][count] == I_BLOCK)
 							{
-								SkeletonBlock_ICE[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].SetPosition({ Block_P[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].x,-55.0f,Block_P[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].z });
+								SkeletonBlock_ICE[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].SetPosition({ Block_P[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].x,-50.0f,Block_P[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].z });
 								SkeletonBlock_ICE[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].Update();
 								stage->mapdata[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].grounddata = HOLE;
 								m_physicsStaticObjectpos[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].SetPosition({ -2000.0f,-2000.0f,-2000.0f });
 							}else {
 							if (weightboard->Link[L][R][count] == G_BLOCK)
 							{
-								SkeletonBlock_GROUND[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].SetPosition({ Block_P[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].x,-55.0f,Block_P[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].z });
+								SkeletonBlock_GROUND[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].SetPosition({ Block_P[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].x,-50.0f,Block_P[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].z });
 								SkeletonBlock_GROUND[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].Update();
 								stage->mapdata[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].grounddata = HOLE;
 								m_physicsStaticObjectpos[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].SetPosition({ -2000.0f,-2000.0f,-2000.0f });

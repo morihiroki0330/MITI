@@ -11,6 +11,12 @@ G_Ground::G_Ground()
 			m_physicsStaticObjectpos[L][R].CreateFromModel(Ground[L][R].GetModel(), Ground[L][R].GetModel().GetWorldMatrix());
 			m_physicsStaticObjectpos[L][R].SetPosition({ -2000.0f,-2000.0f,-2000.0f });
 			Ground[L][R].SetPosition({ -2000.0f,-2000.0f,-2000.0f });
+
+			SetPosition[L][R].x = (L * 191.0f) + -865.0f;
+			SetPosition[L][R].y = -50.0f;
+			SetPosition[L][R].z = (R * 191.0f) + -865.0f;
+
+			Ground_on[L][R] = false;
 		}
 	}
 }
@@ -28,9 +34,16 @@ void G_Ground::Update()
 		{
 			if (Ground_on[L][R] == true)
 			{
-				Ground[L][R].SetPosition(Ground_P[L][R]);
-				m_physicsStaticObjectpos[L][R].SetPosition(Ground_P[L][R]);
-				Ground[L][R].Update();
+				if (Ground_P[L][R].x == 0.0f)
+				{
+					Ground[L][R].SetPosition(SetPosition[L][R]);
+					m_physicsStaticObjectpos[L][R].SetPosition(SetPosition[L][R]);
+					Ground[L][R].Update();
+				}else {
+					Ground[L][R].SetPosition(Ground_P[L][R]);
+					m_physicsStaticObjectpos[L][R].SetPosition(Ground_P[L][R]);
+					Ground[L][R].Update();
+				}
 			}else {
 				Ground[L][R].SetPosition({ -2000.0f,-2000.0f,-2000.0f });
 				m_physicsStaticObjectpos[L][R].SetPosition({ -2000.0f,-2000.0f,-2000.0f });
@@ -49,8 +62,6 @@ void G_Ground::Render(RenderContext& rc)
 			if (Ground_on[L][R] == true)
 			{
 				Ground[L][R].Draw(rc);
-			}else {
-
 			}
 		}
 	}

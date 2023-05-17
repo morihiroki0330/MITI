@@ -11,7 +11,8 @@ enum Play_Bgm
 	S_ICEFLOOR,
 	S_IRONBALLPUT,
 	S_IRONBALLGET,
-	S_WALK
+	S_WALK,
+	S_FALL
 };
 
 class Bgm : public IGameObject

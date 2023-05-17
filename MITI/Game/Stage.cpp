@@ -1178,6 +1178,7 @@ void Stage::Update()
 					map.Ground->Ground_P[L][R].y -= 50.0f;
 					mapdata[L][R].grounddata = GROUND;
 					Map_SetGround[L][R] = true;
+					Count++;
 				}
 				}
 				}
@@ -1233,11 +1234,18 @@ void Stage::Update()
 		}
 		Map_Set = true;
 	}
+
+	wchar_t clock[256];
+	swprintf_s(clock, 256, L"ínñ ÇÃåƒÇ—èoÇµêî:%d", Count);
+	Count_F.SetText(clock);
+	Count_F.SetPosition(Vector3(-852.0f, 350.0f, 0.0f));
+	Count_F.SetScale(1.0f);
+
 }
 
 void Stage::Render(RenderContext& rc)
 {
 	//m_modelRender.Draw(rc);
 	Kabe.Draw(rc);
-	
+	Count_F.Draw(rc);
 }

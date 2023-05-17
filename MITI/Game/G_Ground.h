@@ -9,6 +9,7 @@ public:
 
 	ModelRender Ground[10][10];
 	Vector3 Ground_P[10][10];
+	Vector3 SetPosition[10][10];
 	PhysicsStaticObjectPos m_physicsStaticObjectpos[10][10];
 
 	bool Ground_on[10][10];

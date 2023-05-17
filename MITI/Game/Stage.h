@@ -144,5 +144,8 @@ public:
 	Vector3 Reset_P;
 
 	Game* game;
+
+	FontRender Count_F;
+	int Count = 0;
 };
 
