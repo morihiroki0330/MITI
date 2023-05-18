@@ -20,7 +20,7 @@ Player::Player()
 	AnimationClips[enAnimationClip_Put].Load("Assets/character/oriput.tka");
 	AnimationClips[enAnimationClip_Put].SetLoopFlag(false);
 	AnimationClips[enAnimationClip_Slip].Load("Assets/character/orislip.tka");
-	AnimationClips[enAnimationClip_Slip].SetLoopFlag(false);
+	AnimationClips[enAnimationClip_Slip].SetLoopFlag(true);
 
 	Character.Init("Assets/Character/orichara.tkm",Light, AnimationClips, enAnimationClip_Num, enModelUpAxisZ);
 
