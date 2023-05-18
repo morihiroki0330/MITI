@@ -476,11 +476,12 @@ void Player::ManageState()
 		}
 		else if (slipflag == true)
 		{
-			//•à‚«
+			//ŠŠ‚è
 			playerState = 4;
 		}
-		else if(StickL.x != 0 || StickL.y != 0 && slipflag == false)
+		else if(StickL.x != 0 || StickL.y != 0)
 		{
+			//•à‚«
 			playerState = 1;
 		}
 		else 
