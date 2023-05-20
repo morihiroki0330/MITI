@@ -86,6 +86,35 @@ UI::UI()
 
 	}
 
+	//ステージ
+	{
+		Stage[1].Init("Assets/UI/Level1.DDS", 1920.0f, 1080.0f);
+		Stage[1].SetPosition({ 0.0f,0.0f,0.0f });
+		Stage[1].Update();
+		
+		Stage[2].Init("Assets/UI/Level2.DDS", 1920.0f, 1080.0f);
+		Stage[2].SetPosition({ 0.0f,0.0f,0.0f });
+		Stage[2].Update();
+		
+		Stage[3].Init("Assets/UI/Level3.DDS", 1920.0f, 1080.0f);
+		Stage[3].SetPosition({ 0.0f,0.0f,0.0f });
+		Stage[3].Update();
+		
+		Stage[4].Init("Assets/UI/Level4.DDS", 1920.0f, 1080.0f);
+		Stage[4].SetPosition({ 0.0f,0.0f,0.0f });
+		Stage[4].Update();
+		
+		Stage[5].Init("Assets/UI/Level5.DDS", 1920.0f, 1080.0f);
+		Stage[5].SetPosition({ 0.0f,0.0f,0.0f });
+		Stage[5].Update();
+		
+		Stage[6].Init("Assets/UI/Level6.DDS", 1920.0f, 1080.0f);
+		Stage[6].SetPosition({ 0.0f,0.0f,0.0f });
+		Stage[6].Update();
+	}
+	STimer.Init("Assets/UI/Timer.DDS", 1920.0f, 1080.0f);
+	STimer.SetPosition({ 0.0f,0.0f,0.0f });
+	STimer.Update();
 }
 
 UI::~UI()
@@ -161,9 +190,9 @@ void UI::Update()
 
 	//時間制限処理
 	wchar_t clock[256];
-	swprintf_s(clock, 256, L"残り時間:%d",over);
+	swprintf_s(clock, 256, L"%d",over);
 	Timer.SetText(clock);
-	Timer.SetPosition(Vector3(600.0f, 400.0f, 0.0f));
+	Timer.SetPosition(Vector3(840.0f, 305.0f, 0.0f));
 	Timer.SetScale(1.0f);
 
 	wchar_t tips[256];
@@ -171,12 +200,6 @@ void UI::Update()
 	Tips.SetText(tips);
 	Tips.SetPosition(Vector3(570.0f, 350.0f, 0.0f));
 	Tips.SetScale({ 0.8f });
-
-	wchar_t stage[256];
-	swprintf_s(stage, 256, L"%d階層目", game->Level+1);
-	Stage.SetText(stage);
-	Stage.SetPosition(Vector3(650.0f, 450.0f, 0.0f));
-	Stage.SetScale({ 1.0f });
 }
 
 void UI::Render(RenderContext& rc)
@@ -227,7 +250,8 @@ void UI::Render(RenderContext& rc)
 	}
 	}
 
+	STimer.Draw(rc);
 	Timer.Draw(rc);
 	//Tips.Draw(rc);
-	Stage.Draw(rc);
+	Stage[game->Level + 1].Draw(rc);
 }
