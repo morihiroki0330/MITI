@@ -109,3 +109,9 @@ void Game::Render(RenderContext& rc)
 {
 	
 }
+
+void Game::Countdown()
+{
+	Count++;
+	
+}

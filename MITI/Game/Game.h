@@ -27,10 +27,13 @@ public:
 	void Update();
 	void Create();
 	void Delete();
+	void Countdown();
 	void Render(RenderContext& rc);
 
 	int Level = 0;
-	int Level_Max = 4;
+	int Level_Max = 5;
+
+	int Count = 0;
 
 	bool ClearFlag = false;
 	bool GameOverFlag = false;

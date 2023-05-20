@@ -67,25 +67,30 @@ void IronBall::Update()
 
 		if (game->Level == 0)
 		{
-			IronBox_P = SetPosition[1][1];
+			IronBox_P = SetPosition[4][1];
 		}
 
 		if (game->Level == 1)
 		{
+			IronBox_P = SetPosition[3][0];
+		}
+		
+		if (game->Level == 2)
+		{
 			IronBox_P = SetPosition[1][1];
 		}
 
-		if (game->Level == 2)
+		if (game->Level == 3)
 		{
 			IronBox_P = SetPosition[3][0];
 		}
 		
-		if (game->Level == 3)
+		if (game->Level == 4)
 		{
 			IronBox_P = SetPosition[9][1];
 		}
 		
-		if (game->Level == 4)
+		if (game->Level == 5)
 		{
 			IronBox_P = SetPosition[3][0];
 		}

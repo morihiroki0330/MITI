@@ -59,25 +59,31 @@ void Player::Update()
 	{
 		if (game->Level == 0)
 		{
-			Character_P = SetPosition[1][0];
+			Character_P = SetPosition[5][1];
+			Character_R.SetRotationY({180.0f});
 		}
 
 		if (game->Level == 1)
 		{
-			Character_P = SetPosition[1][0];
+			Character_P = SetPosition[2][0];
 		}
 
 		if (game->Level == 2)
 		{
+			Character_P = SetPosition[1][0];
+		}
+
+		if (game->Level == 3)
+		{
 			Character_P = SetPosition[2][0];
 		}
 		
-		if (game->Level == 3)
+		if (game->Level == 4)
 		{
 			Character_P = SetPosition[9][0];
 		}
 
-		if (game->Level == 4)
+		if (game->Level == 5)
 		{
 			Character_P = SetPosition[2][0];
 		}
@@ -263,12 +269,11 @@ void Player::Move()
 			MoveSpeed.x = 0.0f;
 		}
 
-		if (abs(MoveSpeed.x) == abs(MoveSpeed.z))
+		if (abs(MoveSpeed.x) == abs(MoveSpeed.z) || put_IronAnim == true || get_IronAnim == true)
 		{
 			MoveSpeed.x = 0.0f;
 			MoveSpeed.z = 0.0f;
 		}
-		
 
 	}else{
 	if (slipflag == true)
@@ -519,11 +524,21 @@ void Player::Animation()
 		Character.PlayAnimation(enAnimationClip_Put);
 		if (put_IronAnim == true)
 		{
-			put_IronAnim = false;
+			Frame++;
+			if (Frame >= 30)
+			{
+				put_IronAnim = false;
+				Frame = 0;
+			}
 		}
 		if (get_IronAnim == true)
 		{
-			get_IronAnim = false;
+			Frame++;
+			if (Frame >= 30)
+			{
+				get_IronAnim = false;
+				Frame = 0;
+			}
 		}
 		break;
 	case 4:
@@ -564,7 +579,7 @@ void Player::Render(RenderContext& rc)
 	asb.Draw(rc);
 	if (hitflag == true)
 	{
-		as.Draw(rc);
+		//as.Draw(rc);
 	}
 
 }

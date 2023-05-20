@@ -20,7 +20,7 @@ struct MapData
 
 	int weightboard_linknumber[10];
 
-	int weightboard_linkobject[5];
+	int weightboard_linkobject[10];
 
 	int weightboard_count;
 
@@ -81,6 +81,7 @@ enum LinkObject
 	G_BLOCK,//8
 	I_BLOCK,//9
 	H_BLOCK,//10
+	S_BLOCK,//10
 	L_WALL//11
 };
 

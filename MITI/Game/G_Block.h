@@ -12,6 +12,8 @@ public:
 	void Render(RenderContext& rc);
 
 	ModelRender Block[10][10];
+	ModelRender IBlock[10][10];
+	ModelRender GBlock[10][10];
 	ModelRender SkeletonBlock_ICE[10][10];
 	ModelRender SkeletonBlock_BLOCK[10][10];
 	ModelRender SkeletonBlock_GROUND[10][10];

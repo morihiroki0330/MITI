@@ -101,5 +101,7 @@ public:
 	SoundSource* ICEWALK;
 
 	bool FallSet = false;
+
+	int Frame = 0;
 };
 

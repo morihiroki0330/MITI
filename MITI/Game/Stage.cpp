@@ -132,14 +132,17 @@ Stage::Stage()
 			Level[0][0][3].ice_on = true;
 			Level[0][0][4].ice_on = true;
 			Level[0][0][5].ice_on = true;
+			Level[0][0][6].ice_on = true;
 
 			Level[0][1][3].ice_on = true;
 			Level[0][1][4].ice_on = true;
 			Level[0][1][5].ice_on = true;
+			Level[0][1][6].ice_on = true;
 
 			Level[0][2][3].ice_on = true;
 			Level[0][2][4].ice_on = true;
 			Level[0][2][5].ice_on = true;
+			Level[0][2][6].ice_on = true;
 
 			Level[0][3][7].ice_on = true;
 			Level[0][3][8].ice_on = true;
@@ -161,38 +164,34 @@ Stage::Stage()
 
 		//ブロック
 		{
-			//四行目
-			Level[0][4][7].block_on = true;
-			Level[0][4][8].block_on = true;
-			Level[0][4][9].block_on = true;
+		//四行目
+		Level[0][4][7].block_on = true;
+		Level[0][4][8].block_on = true;
+		Level[0][4][9].block_on = true;
 
-			//五行目
-			Level[0][5][7].block_on = true;
-			Level[0][5][8].block_on = true;
-			Level[0][5][9].block_on = true;
+		//五行目
+		Level[0][5][7].block_on = true;
+		Level[0][5][8].block_on = true;
+		Level[0][5][9].block_on = true;
 
-			Level[0][6][4].block_on = true;
+		Level[0][6][4].block_on = true;
 
-			Level[0][7][5].block_on = true;
+		Level[0][7][5].block_on = true;
 
-			Level[0][8][3].block_on = true;
+		Level[0][8][3].block_on = true;
 
-			Level[0][9][5].block_on = true;
+		Level[0][9][5].block_on = true;
 		}
 
 		//落とし穴
 		{
-			Level[0][3][0].hole_on = true;
-			Level[0][3][1].hole_on = true;
-			Level[0][3][2].hole_on = true;
+
 			Level[0][3][3].hole_on = true;
 			Level[0][3][4].hole_on = true;
 			Level[0][3][5].hole_on = true;
 			Level[0][3][6].hole_on = true;
 
-			Level[0][4][0].hole_on = true;
-			Level[0][4][1].hole_on = true;
-			Level[0][4][2].hole_on = true;
+
 			Level[0][4][3].hole_on = true;
 			Level[0][4][4].hole_on = true;
 			Level[0][4][5].hole_on = true;
@@ -201,9 +200,6 @@ Stage::Stage()
 			Level[0][4][8].hole_on = true;
 			Level[0][4][9].hole_on = true;
 
-			Level[0][5][0].hole_on = true;
-			Level[0][5][1].hole_on = true;
-			Level[0][5][2].hole_on = true;
 			Level[0][5][3].hole_on = true;
 			Level[0][5][4].hole_on = true;
 			Level[0][5][5].hole_on = true;
@@ -229,7 +225,7 @@ Stage::Stage()
 
 		//感圧板
 		{
-			
+
 			Level[0][2][8].weightboard_map = true;
 			Level[0][8][6].weightboard_map = true;
 
@@ -245,7 +241,7 @@ Stage::Stage()
 			Level[0][2][8].weightboard_linkobject[5] = I_BLOCK;
 			Level[0][2][8].weightboard_linknumber[6] = 59;
 			Level[0][2][8].weightboard_linkobject[6] = I_BLOCK;
-			Level[0][2][1].weightboard_count = 6;
+			Level[0][2][8].weightboard_count = 6;
 
 			Level[0][8][6].weightboard_linknumber[1] = 75;
 			Level[0][8][6].weightboard_linkobject[1] = L_BLOCK;
@@ -262,9 +258,185 @@ Stage::Stage()
 		{
 			Level[0][8][0].kaidan_on = true;
 		}
+
 	}
 
 	//レベル1
+	{
+		//ブロック
+		{
+			for (int L = 0; L < 10; L++)
+			{
+				for (int R = 0; R < 10; R++)
+				{
+					if (L == 0 || L == 2 || L == 3 || L == 4 || L == 5 || L == 6 || L == 7 || L == 9)
+					{
+						continue;
+					}
+					Level[1][L][R].block_on = true;
+					Level[1][L][R].blockonly_on = true;
+				}
+			}
+
+			for (int L = 2; L < 8; L++)
+			{
+				for (int R = 1; R < 3; R++)
+				{
+					Level[1][L][R].block_on = true;
+				}
+			}
+
+			for (int L = 2; L < 8; L++)
+			{
+				for (int R = 4; R < 6; R++)
+				{
+					Level[1][L][R].block_on = true;
+				}
+			}
+
+			for (int L = 2; L < 8; L++)
+			{
+				for (int R = 7; R < 9; R++)
+				{
+					Level[1][L][R].block_on = true;
+				}
+			}
+			
+		}
+
+		//落とし穴
+		{
+			for (int L = 0; L < 10; L++)
+			{
+				for (int R = 0; R < 10; R++)
+				{
+					if (L == 2 || L == 3 || L == 4 || L == 5 || L == 6 || L == 7)
+					{
+						continue;
+
+					}
+					Level[1][L][R].hole_on = true;
+				}
+			}
+
+			for (int L = 2; L < 8; L++)
+			{
+				for (int R = 1; R < 3; R++)
+				{
+					Level[1][L][R].hole_on = true;
+				}
+			}
+			
+			for (int L = 2; L < 8; L++)
+			{
+				for (int R = 4; R < 6; R++)
+				{
+					Level[1][L][R].hole_on = true;
+				}
+			}
+		}
+
+		//感圧板
+		{
+			Level[1][3][0].weightboard_map = true;
+			Level[1][3][0].weightboard_linknumber[1] = 21;
+			Level[1][3][0].weightboard_linkobject[1] = I_BLOCK;
+			Level[1][3][0].weightboard_linknumber[2] = 31;
+			Level[1][3][0].weightboard_linkobject[2] = I_BLOCK;
+			Level[1][3][0].weightboard_linknumber[3] = 41;
+			Level[1][3][0].weightboard_linkobject[3] = I_BLOCK;
+			Level[1][3][0].weightboard_linknumber[4] = 51;
+			Level[1][3][0].weightboard_linkobject[4] = I_BLOCK;
+			Level[1][3][0].weightboard_linknumber[5] = 61;
+			Level[1][3][0].weightboard_linkobject[5] = I_BLOCK;
+			Level[1][3][0].weightboard_linknumber[6] = 71;
+			Level[1][3][0].weightboard_linkobject[6] = I_BLOCK;
+			Level[1][3][0].weightboard_count = 6;
+			
+
+			Level[1][5][0].weightboard_map = true;
+			Level[1][5][0].weightboard_linknumber[1] = 22;
+			Level[1][5][0].weightboard_linkobject[1] = I_BLOCK;
+			Level[1][5][0].weightboard_linknumber[2] = 32;
+			Level[1][5][0].weightboard_linkobject[2] = I_BLOCK;
+			Level[1][5][0].weightboard_linknumber[3] = 42;
+			Level[1][5][0].weightboard_linkobject[3] = I_BLOCK;
+			Level[1][5][0].weightboard_linknumber[4] = 52;
+			Level[1][5][0].weightboard_linkobject[4] = I_BLOCK;
+			Level[1][5][0].weightboard_linknumber[5] = 62;
+			Level[1][5][0].weightboard_linkobject[5] = I_BLOCK;
+			Level[1][5][0].weightboard_linknumber[6] = 72;
+			Level[1][5][0].weightboard_linkobject[6] = I_BLOCK;
+			Level[1][5][0].weightboard_count = 6;
+
+			Level[1][3][3].weightboard_map = true;
+			Level[1][3][3].weightboard_linknumber[1] = 24;
+			Level[1][3][3].weightboard_linkobject[1] = G_BLOCK;
+			Level[1][3][3].weightboard_linknumber[2] = 34;
+			Level[1][3][3].weightboard_linkobject[2] = G_BLOCK;
+			Level[1][3][3].weightboard_linknumber[3] = 44;
+			Level[1][3][3].weightboard_linkobject[3] = G_BLOCK;
+			Level[1][3][3].weightboard_linknumber[4] = 54;
+			Level[1][3][3].weightboard_linkobject[4] = G_BLOCK;
+			Level[1][3][3].weightboard_linknumber[5] = 64;
+			Level[1][3][3].weightboard_linkobject[5] = G_BLOCK;
+			Level[1][3][3].weightboard_linknumber[6] = 74;
+			Level[1][3][3].weightboard_linkobject[6] = G_BLOCK;
+			Level[1][3][3].weightboard_count = 6;
+
+			Level[1][5][3].weightboard_map = true;
+			Level[1][5][3].weightboard_linknumber[1] = 25;
+			Level[1][5][3].weightboard_linkobject[1] = G_BLOCK;
+			Level[1][5][3].weightboard_linknumber[2] = 35;
+			Level[1][5][3].weightboard_linkobject[2] = G_BLOCK;
+			Level[1][5][3].weightboard_linknumber[3] = 45;
+			Level[1][5][3].weightboard_linkobject[3] = G_BLOCK;
+			Level[1][5][3].weightboard_linknumber[4] = 55;
+			Level[1][5][3].weightboard_linkobject[4] = G_BLOCK;
+			Level[1][5][3].weightboard_linknumber[5] = 65;
+			Level[1][5][3].weightboard_linkobject[5] = G_BLOCK;
+			Level[1][5][3].weightboard_linknumber[6] = 75;
+			Level[1][5][3].weightboard_linkobject[6] = G_BLOCK;
+			Level[1][5][3].weightboard_count = 6;
+
+			Level[1][3][6].weightboard_map = true;
+			Level[1][3][6].weightboard_linknumber[1] = 27;
+			Level[1][3][6].weightboard_linkobject[1] = L_BLOCK;
+			Level[1][3][6].weightboard_linknumber[2] = 37;
+			Level[1][3][6].weightboard_linkobject[2] = L_BLOCK;
+			Level[1][3][6].weightboard_linknumber[3] = 47;
+			Level[1][3][6].weightboard_linkobject[3] = L_BLOCK;
+			Level[1][3][6].weightboard_linknumber[4] = 57;
+			Level[1][3][6].weightboard_linkobject[4] = L_BLOCK;
+			Level[1][3][6].weightboard_linknumber[5] = 67;
+			Level[1][3][6].weightboard_linkobject[5] = L_BLOCK;
+			Level[1][3][6].weightboard_linknumber[6] = 77;
+			Level[1][3][6].weightboard_linkobject[6] = L_BLOCK;
+			Level[1][3][6].weightboard_count = 6;
+
+			Level[1][5][6].weightboard_map = true;
+			Level[1][5][6].weightboard_linknumber[1] = 28;
+			Level[1][5][6].weightboard_linkobject[1] = L_BLOCK;
+			Level[1][5][6].weightboard_linknumber[2] = 38;
+			Level[1][5][6].weightboard_linkobject[2] = L_BLOCK;
+			Level[1][5][6].weightboard_linknumber[3] = 48;
+			Level[1][5][6].weightboard_linkobject[3] = L_BLOCK;
+			Level[1][5][6].weightboard_linknumber[4] = 58;
+			Level[1][5][6].weightboard_linkobject[4] = L_BLOCK;
+			Level[1][5][6].weightboard_linknumber[5] = 68;
+			Level[1][5][6].weightboard_linkobject[5] = L_BLOCK;
+			Level[1][5][6].weightboard_linknumber[6] = 78;
+			Level[1][5][6].weightboard_linkobject[6] = L_BLOCK;
+			Level[1][5][6].weightboard_count = 6;
+		}
+
+		//階段
+		{
+			Level[1][2][9].kaidan_on = true;
+		}
+	}
+
+	//レベル2
 	{
 		//氷床
 		{
@@ -277,7 +449,7 @@ Stage::Stage()
 					{
 						continue;
 					}
-					Level[1][L][R].ice_on = true;
+					Level[2][L][R].ice_on = true;
 				}
 			}
 
@@ -285,57 +457,57 @@ Stage::Stage()
 
 		//壁
 		{	
-			Level[1][1][5].block_on = true;
-			Level[1][1][5].blockonly_on = true;
+			Level[2][1][5].block_on = true;
+			Level[2][1][5].blockonly_on = true;
 
-			Level[1][1][9].block_on = true;
-			Level[1][1][9].blockonly_on = true;
+			Level[2][1][9].block_on = true;
+			Level[2][1][9].blockonly_on = true;
 
-			Level[1][3][3].block_on = true;
-			Level[1][3][3].blockonly_on = true;
+			Level[2][3][3].block_on = true;
+			Level[2][3][3].blockonly_on = true;
 
-			Level[1][7][7].block_on = true;
-			Level[1][7][7].blockonly_on = true;
+			Level[2][7][7].block_on = true;
+			Level[2][7][7].blockonly_on = true;
 			
-			Level[1][7][9].block_on = true;
-			Level[1][7][9].blockonly_on = true;
+			Level[2][7][9].block_on = true;
+			Level[2][7][9].blockonly_on = true;
 
-			Level[1][8][2].block_on = true;
-			Level[1][8][2].blockonly_on = true;
+			Level[2][8][2].block_on = true;
+			Level[2][8][2].blockonly_on = true;
 			
-			Level[1][8][7].block_on = true;
-			Level[1][8][7].blockonly_on = true;
+			Level[2][8][7].block_on = true;
+			Level[2][8][7].blockonly_on = true;
 
-			Level[1][8][9].block_on = true;
-			Level[1][8][9].blockonly_on = true;
+			Level[2][8][9].block_on = true;
+			Level[2][8][9].blockonly_on = true;
 			
 
 			//零行目
-			Level[1][0][6].block_on = true;
+			Level[2][0][6].block_on = true;
 
 			//一行目
-			Level[1][1][2].block_on = true;
-			Level[1][1][8].block_on = true;
+			Level[2][1][2].block_on = true;
+			Level[2][1][8].block_on = true;
 
 			//二行目
-			Level[1][2][7].block_on = true;
+			Level[2][2][7].block_on = true;
 
 			//四行目
-			Level[1][4][7].block_on = true;
+			Level[2][4][7].block_on = true;
 
 			//五行目
-			Level[1][5][3].block_on = true;
-			Level[1][5][8].block_on = true;
+			Level[2][5][3].block_on = true;
+			Level[2][5][8].block_on = true;
 
 			//六行目
-			Level[1][6][2].block_on = true;
+			Level[2][6][2].block_on = true;
 
 			//七行目
-			Level[1][7][4].block_on = true;
-			Level[1][7][6].block_on = true;
+			Level[2][7][4].block_on = true;
+			Level[2][7][6].block_on = true;
 
 			//九行目
-			Level[1][9][3].block_on = true;
+			Level[2][9][3].block_on = true;
 		}
 
 		//落とし穴
@@ -344,7 +516,7 @@ Stage::Stage()
 			{
 				for (int R = 0; R < 10; R++)
 				{
-					Level[1][L][R].hole_on = true;
+					Level[2][L][R].hole_on = true;
 				}
 			}
 
@@ -356,14 +528,14 @@ Stage::Stage()
 					{
 						continue;
 					}
-					Level[1][L][R].hole_on = true;
+					Level[2][L][R].hole_on = true;
 				}
 			}
 
-			Level[1][3][5].hole_on = true;
-			Level[1][4][3].hole_on = true;
-			Level[1][5][7].hole_on = true;
-			Level[1][6][9].hole_on = true;
+			Level[2][3][5].hole_on = true;
+			Level[2][4][3].hole_on = true;
+			Level[2][5][7].hole_on = true;
+			Level[2][6][9].hole_on = true;
 		}
 
 		//感圧板
@@ -376,261 +548,83 @@ Stage::Stage()
 				}
 				if (L % 2 == 0)
 				{
-					Level[1][L][0].weightboard_map = true;
+					Level[2][L][0].weightboard_map = true;
 				}
 				else
 				{
 					if (L % 2 == 1)
 					{
-						Level[1][L][1].weightboard_map = true;
+						Level[2][L][1].weightboard_map = true;
 					}
 				}
 
 			}
 
-			Level[1][6][7].weightboard_map = true;
-			Level[1][9][6].weightboard_map = true;
+			Level[2][6][7].weightboard_map = true;
+			Level[2][9][6].weightboard_map = true;
 
-			Level[1][2][0].weightboard_linknumber[1] = 62;
-			Level[1][2][0].weightboard_linkobject[1] = L_BLOCK;
-			Level[1][2][0].weightboard_count = 1;
+			Level[2][2][0].weightboard_linknumber[1] = 62;
+			Level[2][2][0].weightboard_linkobject[1] = L_BLOCK;
+			Level[2][2][0].weightboard_count = 1;
 
-			Level[1][3][1].weightboard_linknumber[1] = 27;
-			Level[1][3][1].weightboard_linkobject[1] = L_BLOCK;
-			Level[1][3][1].weightboard_linknumber[2] = 58;
-			Level[1][3][1].weightboard_linkobject[2] = L_BLOCK;
-			Level[1][3][1].weightboard_count = 2;
+			Level[2][3][1].weightboard_linknumber[1] = 27;
+			Level[2][3][1].weightboard_linkobject[1] = L_BLOCK;
+			Level[2][3][1].weightboard_linknumber[2] = 58;
+			Level[2][3][1].weightboard_linkobject[2] = L_BLOCK;
+			Level[2][3][1].weightboard_count = 2;
 
-			Level[1][4][0].weightboard_linknumber[1] = 74;
-			Level[1][4][0].weightboard_linkobject[1] = L_BLOCK;
-			Level[1][4][0].weightboard_count = 1;
+			Level[2][4][0].weightboard_linknumber[1] = 74;
+			Level[2][4][0].weightboard_linkobject[1] = L_BLOCK;
+			Level[2][4][0].weightboard_count = 1;
 
-			Level[1][5][1].weightboard_linknumber[1] = 47;
-			Level[1][5][1].weightboard_linkobject[1] = L_BLOCK;
-			Level[1][5][1].weightboard_count = 1;
+			Level[2][5][1].weightboard_linknumber[1] = 47;
+			Level[2][5][1].weightboard_linkobject[1] = L_BLOCK;
+			Level[2][5][1].weightboard_count = 1;
 
-			Level[1][6][0].weightboard_linknumber[1] = 53;
-			Level[1][6][0].weightboard_linkobject[1] = L_BLOCK;
-			Level[1][6][0].weightboard_count = 1;
+			Level[2][6][0].weightboard_linknumber[1] = 53;
+			Level[2][6][0].weightboard_linkobject[1] = L_BLOCK;
+			Level[2][6][0].weightboard_count = 1;
 
-			Level[1][7][1].weightboard_linknumber[1] = 76;
-			Level[1][7][1].weightboard_linkobject[1] = L_BLOCK;
-			Level[1][7][1].weightboard_count = 1;
+			Level[2][7][1].weightboard_linknumber[1] = 76;
+			Level[2][7][1].weightboard_linkobject[1] = L_BLOCK;
+			Level[2][7][1].weightboard_count = 1;
 
-			Level[1][6][7].weightboard_linknumber[1] = 93;
-			Level[1][6][7].weightboard_linkobject[1] = L_BLOCK;
-			Level[1][6][7].weightboard_count = 1;
+			Level[2][6][7].weightboard_linknumber[1] = 93;
+			Level[2][6][7].weightboard_linkobject[1] = L_BLOCK;
+			Level[2][6][7].weightboard_count = 1;
 
-			Level[1][9][6].weightboard_linknumber[1] = 6;
-			Level[1][9][6].weightboard_linkobject[1] = L_BLOCK;
-			Level[1][9][6].weightboard_count = 1;
+			Level[2][9][6].weightboard_linknumber[1] = 6;
+			Level[2][9][6].weightboard_linkobject[1] = L_BLOCK;
+			Level[2][9][6].weightboard_count = 1;
 
 		}
 
 		//階段
 		{
-			Level[1][9][8].kaidan_on = true;
+			Level[2][9][8].kaidan_on = true;
 		}
-	}
-
-	//レベル2
-	{
-		//氷床
-		{
-			Level[2][0][1].ice_on = true;
-			Level[2][0][2].ice_on = true;
-			Level[2][0][3].ice_on = true;
-			Level[2][0][4].ice_on = true;
-			Level[2][0][7].ice_on = true;
-			Level[2][0][8].ice_on = true;
-			Level[2][0][9].ice_on = true;
-
-			Level[2][1][0].ice_on = true;
-			Level[2][1][4].ice_on = true;
-			Level[2][1][5].ice_on = true;
-			Level[2][1][7].ice_on = true;
-			Level[2][1][8].ice_on = true;
-			Level[2][1][9].ice_on = true;
-
-			Level[2][2][1].ice_on = true;
-			Level[2][2][2].ice_on = true;
-			Level[2][2][3].ice_on = true;
-			Level[2][2][4].ice_on = true;
-			Level[2][2][5].ice_on = true;
-			Level[2][2][6].ice_on = true;
-			Level[2][2][7].ice_on = true;
-			Level[2][2][8].ice_on = true;
-
-			Level[2][3][6].ice_on = true;
-			Level[2][3][7].ice_on = true;
-			Level[2][3][8].ice_on = true;
-			Level[2][3][9].ice_on = true;
-
-			Level[2][4][6].ice_on = true;
-			Level[2][4][7].ice_on = true;
-			Level[2][4][8].ice_on = true;
-			Level[2][4][9].ice_on = true;
-
-			Level[2][5][5].ice_on = true;
-			Level[2][5][6].ice_on = true;
-			Level[2][5][7].ice_on = true;
-			Level[2][5][9].ice_on = true;
-
-			Level[2][6][5].ice_on = true;
-			Level[2][6][6].ice_on = true;
-			Level[2][6][7].ice_on = true;
-			Level[2][6][8].ice_on = true;
-			Level[2][6][9].ice_on = true;
-
-			Level[2][7][5].ice_on = true;
-			Level[2][7][7].ice_on = true;
-			Level[2][7][8].ice_on = true;
-			Level[2][7][9].ice_on = true;
-
-			Level[2][8][6].ice_on = true;
-			Level[2][8][7].ice_on = true;
-			Level[2][8][8].ice_on = true;
-
-			Level[2][9][5].ice_on = true;
-			Level[2][9][6].ice_on = true;
-			Level[2][9][8].ice_on = true;
-			
-		}
-
-		//壁
-		{
-			Level[2][1][0].block_on = true;
-			Level[2][1][0].blockonly_on = true;
-
-			Level[2][2][6].block_on = true;
-			Level[2][2][6].blockonly_on = true;
-
-			Level[2][3][9].block_on = true;
-			Level[2][3][9].blockonly_on = true;
-
-			Level[2][4][7].block_on = true;
-			Level[2][4][7].blockonly_on = true;
-
-
-			Level[2][0][5].block_on = true;
-
-			Level[2][1][1].block_on = true;
-			Level[2][1][2].block_on = true;
-			Level[2][1][3].block_on = true;
-			Level[2][1][6].block_on = true;
-
-			Level[2][2][9].block_on = true;
-
-			Level[2][3][1].block_on = true;
-			Level[2][3][4].block_on = true;
-			Level[2][3][5].block_on = true;
-
-			Level[2][4][5].block_on = true;
-
-			Level[2][5][8].block_on = true;
-
-			Level[2][7][6].block_on = true;
-
-			Level[2][8][9].block_on = true;
-
-			Level[2][9][7].block_on = true;
-		}
-
-		//落とし穴
-		{
-			Level[2][0][5].hole_on = true;
-
-			Level[2][1][1].hole_on = true;
-			Level[2][1][2].hole_on = true;
-			Level[2][1][3].hole_on = true;
-			Level[2][1][6].hole_on = true;
-
-			Level[2][2][9].hole_on = true;
-
-
-Level[2][3][1].hole_on = true;
-Level[2][3][4].hole_on = true;
-Level[2][3][5].hole_on = true;
-
-Level[2][4][5].hole_on = true;
-
-Level[2][5][8].hole_on = true;
-
-Level[2][7][6].hole_on = true;
-
-Level[2][8][5].hole_on = true;
-Level[2][8][9].hole_on = true;
-
-Level[2][9][7].hole_on = true;
-		}
-
-		//感圧板
-		{
-		Level[2][0][0].weightboard_map = true;
-		Level[2][0][6].weightboard_map = true;
-		Level[2][7][0].weightboard_map = true;
-		Level[2][7][2].weightboard_map = true;
-		Level[2][9][0].weightboard_map = true;
-		Level[2][9][2].weightboard_map = true;
-
-		Level[2][0][0].weightboard_linknumber[1] = 16;
-		Level[2][0][0].weightboard_linkobject[1] = L_BLOCK;
-		Level[2][0][0].weightboard_linknumber[2] = 97;
-		Level[2][0][0].weightboard_linkobject[2] = L_BLOCK;
-		Level[2][0][0].weightboard_count = 2;
-
-		Level[2][0][6].weightboard_linknumber[1] = 76;
-		Level[2][0][6].weightboard_linkobject[1] = L_BLOCK;
-		Level[2][0][6].weightboard_linknumber[2] = 58;
-		Level[2][0][6].weightboard_linkobject[2] = L_BLOCK;
-		Level[2][0][6].weightboard_count = 2;
-
-		Level[2][7][0].weightboard_linknumber[1] = 5;
-		Level[2][7][0].weightboard_linkobject[1] = L_BLOCK;
-		Level[2][7][0].weightboard_count = 1;
-
-		Level[2][7][2].weightboard_linknumber[1] = 13;
-		Level[2][7][2].weightboard_linkobject[1] = L_BLOCK;
-		Level[2][7][2].weightboard_linknumber[2] = 35;
-		Level[2][7][2].weightboard_linkobject[2] = L_BLOCK;
-		Level[2][7][2].weightboard_count = 2;
-
-		Level[2][9][0].weightboard_linknumber[1] = 12;
-		Level[2][9][0].weightboard_linkobject[1] = L_BLOCK;
-		Level[2][9][0].weightboard_linknumber[2] = 45;
-		Level[2][9][0].weightboard_linkobject[2] = L_BLOCK;
-		Level[2][9][0].weightboard_linknumber[3] = 89;
-		Level[2][9][0].weightboard_linkobject[3] = L_BLOCK;
-		Level[2][9][0].weightboard_count = 3;
-
-		Level[2][9][2].weightboard_linknumber[1] = 34;
-		Level[2][9][2].weightboard_linkobject[1] = L_BLOCK;
-		Level[2][9][2].weightboard_linknumber[2] = 29;
-		Level[2][9][2].weightboard_linkobject[2] = L_BLOCK;
-		Level[2][9][2].weightboard_count = 2;
-		}
-
-		//階段
-		{
-			Level[2][9][9].kaidan_on = true;
-		}
-
 	}
 
 	//レベル3
 	{
 		//氷床
 		{
+			Level[3][0][1].ice_on = true;
+			Level[3][0][2].ice_on = true;
+			Level[3][0][3].ice_on = true;
+			Level[3][0][4].ice_on = true;
+			Level[3][0][7].ice_on = true;
+			Level[3][0][8].ice_on = true;
+			Level[3][0][9].ice_on = true;
 
 			Level[3][1][0].ice_on = true;
-			Level[3][1][1].ice_on = true;
-			Level[3][1][2].ice_on = true;
 			Level[3][1][4].ice_on = true;
 			Level[3][1][5].ice_on = true;
-			Level[3][1][6].ice_on = true;
 			Level[3][1][7].ice_on = true;
+			Level[3][1][8].ice_on = true;
+			Level[3][1][9].ice_on = true;
 
-			Level[3][2][0].ice_on = true;
+			Level[3][2][1].ice_on = true;
 			Level[3][2][2].ice_on = true;
 			Level[3][2][3].ice_on = true;
 			Level[3][2][4].ice_on = true;
@@ -638,15 +632,12 @@ Level[2][9][7].hole_on = true;
 			Level[3][2][6].ice_on = true;
 			Level[3][2][7].ice_on = true;
 			Level[3][2][8].ice_on = true;
-			Level[3][2][9].ice_on = true;
 
-			Level[3][3][5].ice_on = true;
 			Level[3][3][6].ice_on = true;
 			Level[3][3][7].ice_on = true;
 			Level[3][3][8].ice_on = true;
 			Level[3][3][9].ice_on = true;
 
-			Level[3][4][5].ice_on = true;
 			Level[3][4][6].ice_on = true;
 			Level[3][4][7].ice_on = true;
 			Level[3][4][8].ice_on = true;
@@ -655,7 +646,6 @@ Level[2][9][7].hole_on = true;
 			Level[3][5][5].ice_on = true;
 			Level[3][5][6].ice_on = true;
 			Level[3][5][7].ice_on = true;
-			Level[3][5][8].ice_on = true;
 			Level[3][5][9].ice_on = true;
 
 			Level[3][6][5].ice_on = true;
@@ -664,202 +654,132 @@ Level[2][9][7].hole_on = true;
 			Level[3][6][8].ice_on = true;
 			Level[3][6][9].ice_on = true;
 
-			Level[3][7][6].ice_on = true;
+			Level[3][7][5].ice_on = true;
 			Level[3][7][7].ice_on = true;
 			Level[3][7][8].ice_on = true;
 			Level[3][7][9].ice_on = true;
 
-			Level[3][8][5].ice_on = true;
 			Level[3][8][6].ice_on = true;
+			Level[3][8][7].ice_on = true;
+			Level[3][8][8].ice_on = true;
 
 			Level[3][9][5].ice_on = true;
 			Level[3][9][6].ice_on = true;
-			Level[3][9][9].ice_on = true;
-		}
-
-		//感圧板
-		{
-			//壁
-			Level[3][0][8].weightboard_map = true;
-			Level[3][0][8].weightboard_linknumber[1] = 15;
-			Level[3][0][8].weightboard_linkobject[1] = L_BLOCK;
-			Level[3][0][8].weightboard_linknumber[2] = 78;
-			Level[3][0][8].weightboard_linkobject[2] = L_BLOCK;
-			Level[3][0][8].weightboard_linknumber[3] = 75;
-			Level[3][0][8].weightboard_linkobject[3] = L_BLOCK;
-			Level[3][0][8].weightboard_count = 3;
-
-			//壁・氷の床
-			Level[3][0][9].weightboard_map = true;
-			Level[3][0][9].weightboard_linknumber[1] = 24;
-			Level[3][0][9].weightboard_linkobject[1] = L_BLOCK;
-			Level[3][0][9].weightboard_linknumber[2] = 64;
-			Level[3][0][9].weightboard_linkobject[2] = I_BLOCK;
-			Level[3][0][9].weightboard_count = 2;
-
-			//壁
-			Level[3][5][0].weightboard_map = true;
-			Level[3][5][0].weightboard_linknumber[1] = 29;
-			Level[3][5][0].weightboard_linkobject[1] = L_BLOCK;
-			Level[3][5][0].weightboard_linknumber[2] = 39;
-			Level[3][5][0].weightboard_linkobject[2] = L_BLOCK;
-			Level[3][5][0].weightboard_count = 2;
-
-			//壁・氷の床
-			Level[3][5][1].weightboard_map = true;
-			Level[3][5][1].weightboard_linknumber[1] = 16;
-			Level[3][5][1].weightboard_linkobject[1] = I_BLOCK;
-			Level[3][5][1].weightboard_linknumber[2] = 98;
-			Level[3][5][1].weightboard_linkobject[2] = I_BLOCK;
-			Level[3][5][1].weightboard_count = 2;
-
-			//壁・穴
-			Level[3][5][3].weightboard_map = true;
-			Level[3][5][3].weightboard_linknumber[1] = 2;
-			Level[3][5][3].weightboard_linkobject[1] = L_BLOCK;
-			Level[3][5][3].weightboard_linknumber[2] = 6;
-			Level[3][5][3].weightboard_linkobject[2] = I_BLOCK;
-			Level[3][5][3].weightboard_count = 2;
-
-			//穴
-			Level[3][6][0].weightboard_map = true;
-			Level[3][6][0].weightboard_linknumber[1] = 0;
-			Level[3][6][0].weightboard_linkobject[1] = I_BLOCK;
-			Level[3][6][0].weightboard_linknumber[2] = 21;
-			Level[3][6][0].weightboard_linkobject[2] = I_BLOCK;
-			Level[3][6][0].weightboard_count = 2;
-
-			//壁・穴
-			Level[3][6][3].weightboard_map = true;
-			Level[3][6][3].weightboard_linknumber[1] = 13;
-			Level[3][6][3].weightboard_linkobject[1] = I_BLOCK;
-			Level[3][6][3].weightboard_linknumber[2] = 30;
-			Level[3][6][3].weightboard_linkobject[2] = L_BLOCK;
-			Level[3][6][3].weightboard_count = 2;
-
-			//壁
-			Level[3][7][0].weightboard_map = true;
-			Level[3][7][0].weightboard_linknumber[1] = 36;
-			Level[3][7][0].weightboard_linkobject[1] = L_BLOCK;
-			Level[3][7][0].weightboard_linknumber[2] = 47;
-			Level[3][7][0].weightboard_linkobject[2] = L_BLOCK;
-			Level[3][7][0].weightboard_count = 2;
-
-			//壁・穴
-			Level[3][7][3].weightboard_map = true;
-			Level[3][7][3].weightboard_linknumber[1] = 34;
-			Level[3][7][3].weightboard_linkobject[1] = I_BLOCK;
-			Level[3][7][3].weightboard_linknumber[2] = 67;
-			Level[3][7][3].weightboard_linkobject[2] = L_BLOCK;
-			Level[3][7][3].weightboard_count = 2;
-
-			//氷の床
-			Level[3][8][0].weightboard_map = true;
-			Level[3][8][0].weightboard_linknumber[1] = 97;
-			Level[3][8][0].weightboard_linkobject[1] = I_BLOCK;
-			Level[3][8][0].weightboard_count = 1;
-
-			//壁
-			Level[3][8][3].weightboard_map = true;
-			Level[3][8][3].weightboard_linknumber[1] = 49;
-			Level[3][8][3].weightboard_linkobject[1] = L_BLOCK;
-			Level[3][8][3].weightboard_linknumber[2] = 79;
-			Level[3][8][3].weightboard_linkobject[2] = L_BLOCK;
-			Level[3][8][3].weightboard_count = 2;
-
-			//壁
-			Level[3][9][2].weightboard_map = true;
-			Level[3][9][2].weightboard_linknumber[1] = 55;
-			Level[3][9][2].weightboard_linkobject[1] = L_BLOCK;
-			Level[3][9][2].weightboard_count = 1;
-
-			//壁
-			Level[3][9][3].weightboard_map = true;
-			Level[3][9][3].weightboard_linknumber[1] = 5;
-			Level[3][9][3].weightboard_linkobject[1] = L_BLOCK;
-			Level[3][9][3].weightboard_linknumber[2] = 7;
-			Level[3][9][3].weightboard_linkobject[2] = L_BLOCK;
-			Level[3][9][3].weightboard_count = 2;
-		};
-
-		//穴
-		{
-			Level[3][0][0].hole_on = true;
-			Level[3][0][1].hole_on = true;
-			Level[3][0][2].hole_on = true;
-			Level[3][0][3].hole_on = true;
-			Level[3][0][4].hole_on = true;
-			Level[3][0][5].hole_on = true;
-			Level[3][0][6].hole_on = true;
-			Level[3][0][7].hole_on = true;
-
-			Level[3][1][3].hole_on = true;
-
-			Level[3][2][1].hole_on = true;
-
-			Level[3][3][0].hole_on = true;
-			Level[3][3][1].hole_on = true;
-			Level[3][3][3].hole_on = true;
-			Level[3][3][4].hole_on = true;
-
-			Level[3][4][0].hole_on = true;
-			Level[3][4][1].hole_on = true;
-			Level[3][4][3].hole_on = true;
-			Level[3][4][4].hole_on = true;
-
-			Level[3][5][4].hole_on = true;
-
-			Level[3][6][4].hole_on = true;
-
-			Level[3][7][4].hole_on = true;
-			Level[3][7][5].hole_on = true;
-
-			Level[3][8][4].hole_on = true;
-			Level[3][8][7].hole_on = true;
-			Level[3][8][8].hole_on = true;
-			Level[3][8][9].hole_on = true;
-
-			Level[3][9][4].hole_on = true;
-			Level[3][9][7].hole_on = true;
-			Level[3][9][8].hole_on = true;
+			Level[3][9][8].ice_on = true;
+			
 		}
 
 		//壁
 		{
-			Level[3][0][0].block_on = true;
-			Level[3][0][2].block_on = true;
-			Level[3][0][5].block_on = true;
-			Level[3][0][6].block_on = true;
-			Level[3][0][7].block_on = true;
+			Level[3][1][0].block_on = true;
+			Level[3][1][0].blockonly_on = true;
 
-			Level[3][1][3].block_on = true;
-			Level[3][1][5].block_on = true;
-			Level[3][1][6].block_on = true;
+			Level[3][2][6].block_on = true;
+			Level[3][2][6].blockonly_on = true;
 
-			Level[3][2][1].block_on = true;
-			Level[3][2][4].block_on = true;
-			Level[3][2][9].block_on = true;
-
-			Level[3][3][0].block_on = true;
-			Level[3][3][4].block_on = true;
-			Level[3][3][6].block_on = true;
 			Level[3][3][9].block_on = true;
+			Level[3][3][9].blockonly_on = true;
 
 			Level[3][4][7].block_on = true;
-			Level[3][4][9].block_on = true;
+			Level[3][4][7].blockonly_on = true;
 
-			Level[3][5][5].block_on = true;
 
-			Level[3][6][4].block_on = true;
-			Level[3][6][7].block_on = true;
+			Level[3][0][5].block_on = true;
 
-			Level[3][7][5].block_on = true;
-			Level[3][7][8].block_on = true;
-			Level[3][7][9].block_on = true;
+			Level[3][1][1].block_on = true;
+			Level[3][1][2].block_on = true;
+			Level[3][1][3].block_on = true;
+			Level[3][1][6].block_on = true;
+
+			Level[3][2][9].block_on = true;
+
+			Level[3][3][1].block_on = true;
+			Level[3][3][4].block_on = true;
+			Level[3][3][5].block_on = true;
+
+			Level[3][4][5].block_on = true;
+
+			Level[3][5][8].block_on = true;
+
+			Level[3][7][6].block_on = true;
+
+			Level[3][8][9].block_on = true;
 
 			Level[3][9][7].block_on = true;
-			Level[3][9][8].block_on = true;
+		}
 
+		//落とし穴
+		{
+			Level[3][0][5].hole_on = true;
+
+			Level[3][1][1].hole_on = true;
+			Level[3][1][2].hole_on = true;
+			Level[3][1][3].hole_on = true;
+			Level[3][1][6].hole_on = true;
+
+			Level[3][2][9].hole_on = true;
+
+
+Level[3][3][1].hole_on = true;
+Level[3][3][4].hole_on = true;
+Level[3][3][5].hole_on = true;
+
+Level[3][4][5].hole_on = true;
+
+Level[3][5][8].hole_on = true;
+
+Level[3][7][6].hole_on = true;
+
+Level[3][8][5].hole_on = true;
+Level[3][8][9].hole_on = true;
+
+Level[3][9][7].hole_on = true;
+		}
+
+		//感圧板
+		{
+		Level[3][0][0].weightboard_map = true;
+		Level[3][0][6].weightboard_map = true;
+		Level[3][7][0].weightboard_map = true;
+		Level[3][7][2].weightboard_map = true;
+		Level[3][9][0].weightboard_map = true;
+		Level[3][9][2].weightboard_map = true;
+
+		Level[3][0][0].weightboard_linknumber[1] = 16;
+		Level[3][0][0].weightboard_linkobject[1] = L_BLOCK;
+		Level[3][0][0].weightboard_linknumber[2] = 97;
+		Level[3][0][0].weightboard_linkobject[2] = L_BLOCK;
+		Level[3][0][0].weightboard_count = 2;
+
+		Level[3][0][6].weightboard_linknumber[1] = 76;
+		Level[3][0][6].weightboard_linkobject[1] = L_BLOCK;
+		Level[3][0][6].weightboard_linknumber[2] = 58;
+		Level[3][0][6].weightboard_linkobject[2] = L_BLOCK;
+		Level[3][0][6].weightboard_count = 2;
+
+		Level[3][7][0].weightboard_linknumber[1] = 5;
+		Level[3][7][0].weightboard_linkobject[1] = L_BLOCK;
+		Level[3][7][0].weightboard_count = 1;
+
+		Level[3][7][2].weightboard_linknumber[1] = 13;
+		Level[3][7][2].weightboard_linkobject[1] = L_BLOCK;
+		Level[3][7][2].weightboard_linknumber[2] = 35;
+		Level[3][7][2].weightboard_linkobject[2] = L_BLOCK;
+		Level[3][7][2].weightboard_count = 2;
+
+		Level[3][9][0].weightboard_linknumber[1] = 12;
+		Level[3][9][0].weightboard_linkobject[1] = L_BLOCK;
+		Level[3][9][0].weightboard_linknumber[2] = 45;
+		Level[3][9][0].weightboard_linkobject[2] = L_BLOCK;
+		Level[3][9][0].weightboard_linknumber[3] = 89;
+		Level[3][9][0].weightboard_linkobject[3] = L_BLOCK;
+		Level[3][9][0].weightboard_count = 3;
+
+		Level[3][9][2].weightboard_linknumber[1] = 34;
+		Level[3][9][2].weightboard_linkobject[1] = L_BLOCK;
+		Level[3][9][2].weightboard_linknumber[2] = 29;
+		Level[3][9][2].weightboard_linkobject[2] = L_BLOCK;
+		Level[3][9][2].weightboard_count = 2;
 		}
 
 		//階段
@@ -874,213 +794,465 @@ Level[2][9][7].hole_on = true;
 		//氷床
 		{
 
-			Level[4][0][6].ice_on = true;
-			Level[4][0][7].ice_on = true;
-			Level[4][0][8].ice_on = true;
-			Level[4][0][9].ice_on = true;
-
+			Level[4][1][0].ice_on = true;
+			Level[4][1][1].ice_on = true;
+			Level[4][1][2].ice_on = true;
+			Level[4][1][4].ice_on = true;
+			Level[4][1][5].ice_on = true;
 			Level[4][1][6].ice_on = true;
-			Level[4][1][8].ice_on = true;
-			Level[4][1][9].ice_on = true;
+			Level[4][1][7].ice_on = true;
 
-			Level[4][3][2].ice_on = true;
+			Level[4][2][0].ice_on = true;
+			Level[4][2][2].ice_on = true;
+			Level[4][2][3].ice_on = true;
+			Level[4][2][4].ice_on = true;
+			Level[4][2][5].ice_on = true;
+			Level[4][2][6].ice_on = true;
+			Level[4][2][7].ice_on = true;
+			Level[4][2][8].ice_on = true;
+			Level[4][2][9].ice_on = true;
+
+			Level[4][3][5].ice_on = true;
 			Level[4][3][6].ice_on = true;
 			Level[4][3][7].ice_on = true;
 			Level[4][3][8].ice_on = true;
+			Level[4][3][9].ice_on = true;
 
+			Level[4][4][5].ice_on = true;
 			Level[4][4][6].ice_on = true;
 			Level[4][4][7].ice_on = true;
 			Level[4][4][8].ice_on = true;
 			Level[4][4][9].ice_on = true;
 
+			Level[4][5][5].ice_on = true;
 			Level[4][5][6].ice_on = true;
 			Level[4][5][7].ice_on = true;
 			Level[4][5][8].ice_on = true;
 			Level[4][5][9].ice_on = true;
 
+			Level[4][6][5].ice_on = true;
+			Level[4][6][6].ice_on = true;
+			Level[4][6][7].ice_on = true;
+			Level[4][6][8].ice_on = true;
+			Level[4][6][9].ice_on = true;
+
+			Level[4][7][6].ice_on = true;
 			Level[4][7][7].ice_on = true;
 			Level[4][7][8].ice_on = true;
 			Level[4][7][9].ice_on = true;
 
-			Level[4][8][2].ice_on = true;
+			Level[4][8][5].ice_on = true;
 			Level[4][8][6].ice_on = true;
-			Level[4][8][7].ice_on = true;
-			Level[4][8][8].ice_on = true;
 
+			Level[4][9][5].ice_on = true;
 			Level[4][9][6].ice_on = true;
-			Level[4][9][7].ice_on = true;
-			Level[4][9][8].ice_on = true;
 			Level[4][9][9].ice_on = true;
 		}
 
 		//感圧板
 		{
 			//壁
-			Level[4][0][0].weightboard_map = true;
-			Level[4][0][0].weightboard_linknumber[1] = 67;
-			Level[4][0][0].weightboard_linkobject[1] = L_BLOCK;
-			Level[4][0][0].weightboard_count = 1;
+			Level[4][0][8].weightboard_map = true;
+			Level[4][0][8].weightboard_linknumber[1] = 15;
+			Level[4][0][8].weightboard_linkobject[1] = L_BLOCK;
+			Level[4][0][8].weightboard_linknumber[2] = 78;
+			Level[4][0][8].weightboard_linkobject[2] = L_BLOCK;
+			Level[4][0][8].weightboard_linknumber[3] = 75;
+			Level[4][0][8].weightboard_linkobject[3] = L_BLOCK;
+			Level[4][0][8].weightboard_count = 3;
 
-			Level[4][0][2].weightboard_map = true;
-			Level[4][0][2].weightboard_linknumber[1] = 71;
-			Level[4][0][2].weightboard_linkobject[1] = G_BLOCK;
-			Level[4][0][2].weightboard_count = 1;
+			//壁・氷の床
+			Level[4][0][9].weightboard_map = true;
+			Level[4][0][9].weightboard_linknumber[1] = 24;
+			Level[4][0][9].weightboard_linkobject[1] = L_BLOCK;
+			Level[4][0][9].weightboard_linknumber[2] = 64;
+			Level[4][0][9].weightboard_linkobject[2] = I_BLOCK;
+			Level[4][0][9].weightboard_count = 2;
 
-			Level[4][1][7].weightboard_map = true;
-			Level[4][1][7].weightboard_linknumber[1] = 55;
-			Level[4][1][7].weightboard_linkobject[1] = G_BLOCK;
-			Level[4][1][7].weightboard_linknumber[2] = 83;
-			Level[4][1][7].weightboard_linkobject[2] = G_BLOCK;
-			Level[4][1][7].weightboard_count = 2;
+			//壁
+			Level[4][5][0].weightboard_map = true;
+			Level[4][5][0].weightboard_linknumber[1] = 29;
+			Level[4][5][0].weightboard_linkobject[1] = L_BLOCK;
+			Level[4][5][0].weightboard_linknumber[2] = 39;
+			Level[4][5][0].weightboard_linkobject[2] = L_BLOCK;
+			Level[4][5][0].weightboard_count = 2;
 
-			Level[4][3][9].weightboard_map = true;
-			Level[4][3][9].weightboard_linknumber[1] = 35;
-			Level[4][3][9].weightboard_linkobject[1] = L_BLOCK;
-			Level[4][3][9].weightboard_linknumber[2] = 57;
-			Level[4][3][9].weightboard_linkobject[2] = H_BLOCK;
-			Level[4][3][9].weightboard_linknumber[3] = 95;
-			Level[4][3][9].weightboard_linkobject[3] = G_BLOCK;
-			Level[4][3][9].weightboard_count = 3;
+			//壁・氷の床
+			Level[4][5][1].weightboard_map = true;
+			Level[4][5][1].weightboard_linknumber[1] = 16;
+			Level[4][5][1].weightboard_linkobject[1] = I_BLOCK;
+			Level[4][5][1].weightboard_linknumber[2] = 98;
+			Level[4][5][1].weightboard_linkobject[2] = I_BLOCK;
+			Level[4][5][1].weightboard_count = 2;
 
-			Level[4][4][0].weightboard_map = true;
-			Level[4][4][0].weightboard_linknumber[1] = 5;
-			Level[4][4][0].weightboard_linkobject[1] = G_BLOCK;
-			Level[4][4][0].weightboard_linknumber[2] = 42;
-			Level[4][4][0].weightboard_linkobject[2] = L_BLOCK;
-			Level[4][4][0].weightboard_count = 2;
+			//壁・穴
+			Level[4][5][3].weightboard_map = true;
+			Level[4][5][3].weightboard_linknumber[1] = 2;
+			Level[4][5][3].weightboard_linkobject[1] = L_BLOCK;
+			Level[4][5][3].weightboard_linknumber[2] = 6;
+			Level[4][5][3].weightboard_linkobject[2] = I_BLOCK;
+			Level[4][5][3].weightboard_count = 2;
 
+			//穴
 			Level[4][6][0].weightboard_map = true;
-			Level[4][6][0].weightboard_linknumber[1] = 21;
-			Level[4][6][0].weightboard_linkobject[1] = G_BLOCK;
-			Level[4][6][0].weightboard_linknumber[2] = 26;
-			Level[4][6][0].weightboard_linkobject[2] = L_BLOCK;
+			Level[4][6][0].weightboard_linknumber[1] = 0;
+			Level[4][6][0].weightboard_linkobject[1] = I_BLOCK;
+			Level[4][6][0].weightboard_linknumber[2] = 21;
+			Level[4][6][0].weightboard_linkobject[2] = I_BLOCK;
 			Level[4][6][0].weightboard_count = 2;
 
-			Level[4][6][4].weightboard_map = true;
-			Level[4][6][4].weightboard_linknumber[1] = 33;
-			Level[4][6][4].weightboard_linkobject[1] = G_BLOCK;
-			Level[4][6][4].weightboard_linknumber[2] = 96;
-			Level[4][6][4].weightboard_linkobject[2] = L_BLOCK;
-			Level[4][6][4].weightboard_count = 2;
+			//壁・穴
+			Level[4][6][3].weightboard_map = true;
+			Level[4][6][3].weightboard_linknumber[1] = 13;
+			Level[4][6][3].weightboard_linkobject[1] = I_BLOCK;
+			Level[4][6][3].weightboard_linknumber[2] = 30;
+			Level[4][6][3].weightboard_linkobject[2] = L_BLOCK;
+			Level[4][6][3].weightboard_count = 2;
 
-			Level[4][7][6].weightboard_map = true;
-			Level[4][7][6].weightboard_linknumber[1] = 10;
-			Level[4][7][6].weightboard_linkobject[1] = G_BLOCK;
-			Level[4][7][6].weightboard_count = 1;
+			//壁
+			Level[4][7][0].weightboard_map = true;
+			Level[4][7][0].weightboard_linknumber[1] = 36;
+			Level[4][7][0].weightboard_linkobject[1] = L_BLOCK;
+			Level[4][7][0].weightboard_linknumber[2] = 47;
+			Level[4][7][0].weightboard_linkobject[2] = L_BLOCK;
+			Level[4][7][0].weightboard_count = 2;
 
+			//壁・穴
+			Level[4][7][3].weightboard_map = true;
+			Level[4][7][3].weightboard_linknumber[1] = 34;
+			Level[4][7][3].weightboard_linkobject[1] = I_BLOCK;
+			Level[4][7][3].weightboard_linknumber[2] = 67;
+			Level[4][7][3].weightboard_linkobject[2] = L_BLOCK;
+			Level[4][7][3].weightboard_count = 2;
+
+			//氷の床
 			Level[4][8][0].weightboard_map = true;
-			Level[4][8][0].weightboard_linknumber[1] = 31;
-			Level[4][8][0].weightboard_linkobject[1] = L_BLOCK;
-			Level[4][8][0].weightboard_linknumber[2] = 69;
-			Level[4][8][0].weightboard_linkobject[2] = L_BLOCK;
-			Level[4][8][0].weightboard_linknumber[3] = 92;
-			Level[4][8][0].weightboard_linkobject[3] = H_BLOCK;
-			Level[4][8][0].weightboard_count = 3;
+			Level[4][8][0].weightboard_linknumber[1] = 97;
+			Level[4][8][0].weightboard_linkobject[1] = I_BLOCK;
+			Level[4][8][0].weightboard_count = 1;
 
-			Level[4][9][1].weightboard_map = true;
-			Level[4][9][1].weightboard_linknumber[1] = 99;
-			Level[4][9][1].weightboard_linkobject[1] = L_BLOCK;
-			Level[4][9][1].weightboard_count = 1;
+			//壁
+			Level[4][8][3].weightboard_map = true;
+			Level[4][8][3].weightboard_linknumber[1] = 49;
+			Level[4][8][3].weightboard_linkobject[1] = L_BLOCK;
+			Level[4][8][3].weightboard_linknumber[2] = 79;
+			Level[4][8][3].weightboard_linkobject[2] = L_BLOCK;
+			Level[4][8][3].weightboard_count = 2;
+
+			//壁
+			Level[4][9][2].weightboard_map = true;
+			Level[4][9][2].weightboard_linknumber[1] = 55;
+			Level[4][9][2].weightboard_linkobject[1] = L_BLOCK;
+			Level[4][9][2].weightboard_count = 1;
+
+			//壁
+			Level[4][9][3].weightboard_map = true;
+			Level[4][9][3].weightboard_linknumber[1] = 5;
+			Level[4][9][3].weightboard_linkobject[1] = L_BLOCK;
+			Level[4][9][3].weightboard_linknumber[2] = 7;
+			Level[4][9][3].weightboard_linkobject[2] = L_BLOCK;
+			Level[4][9][3].weightboard_count = 2;
+		};
+
+		//穴
+		{
+			Level[4][0][0].hole_on = true;
+			Level[4][0][1].hole_on = true;
+			Level[4][0][2].hole_on = true;
+			Level[4][0][3].hole_on = true;
+			Level[4][0][4].hole_on = true;
+			Level[4][0][5].hole_on = true;
+			Level[4][0][6].hole_on = true;
+			Level[4][0][7].hole_on = true;
+
+			Level[4][1][3].hole_on = true;
+
+			Level[4][2][1].hole_on = true;
+
+			Level[4][3][0].hole_on = true;
+			Level[4][3][1].hole_on = true;
+			Level[4][3][3].hole_on = true;
+			Level[4][3][4].hole_on = true;
+
+			Level[4][4][0].hole_on = true;
+			Level[4][4][1].hole_on = true;
+			Level[4][4][3].hole_on = true;
+			Level[4][4][4].hole_on = true;
+
+			Level[4][5][4].hole_on = true;
+
+			Level[4][6][4].hole_on = true;
+
+			Level[4][7][4].hole_on = true;
+			Level[4][7][5].hole_on = true;
+
+			Level[4][8][4].hole_on = true;
+			Level[4][8][7].hole_on = true;
+			Level[4][8][8].hole_on = true;
+			Level[4][8][9].hole_on = true;
+
+			Level[4][9][4].hole_on = true;
+			Level[4][9][7].hole_on = true;
+			Level[4][9][8].hole_on = true;
+		}
+
+		//壁
+		{
+			Level[4][0][0].block_on = true;
+			Level[4][0][2].block_on = true;
+			Level[4][0][5].block_on = true;
+			Level[4][0][6].block_on = true;
+			Level[4][0][7].block_on = true;
+
+			Level[4][1][3].block_on = true;
+			Level[4][1][5].block_on = true;
+			Level[4][1][6].block_on = true;
+
+			Level[4][2][1].block_on = true;
+			Level[4][2][4].block_on = true;
+			Level[4][2][9].block_on = true;
+
+			Level[4][3][0].block_on = true;
+			Level[4][3][4].block_on = true;
+			Level[4][3][6].block_on = true;
+			Level[4][3][9].block_on = true;
+
+			Level[4][4][7].block_on = true;
+			Level[4][4][9].block_on = true;
+
+			Level[4][5][5].block_on = true;
+
+			Level[4][6][4].block_on = true;
+			Level[4][6][7].block_on = true;
+
+			Level[4][7][5].block_on = true;
+			Level[4][7][8].block_on = true;
+			Level[4][7][9].block_on = true;
+
+			Level[4][9][7].block_on = true;
+			Level[4][9][8].block_on = true;
+
+		}
+
+		//階段
+		{
+			Level[4][9][9].kaidan_on = true;
+		}
+
+	}
+
+	//レベル5
+	{
+		//氷床
+		{
+
+			Level[5][0][6].ice_on = true;
+			Level[5][0][7].ice_on = true;
+			Level[5][0][8].ice_on = true;
+			Level[5][0][9].ice_on = true;
+
+			Level[5][1][6].ice_on = true;
+			Level[5][1][8].ice_on = true;
+			Level[5][1][9].ice_on = true;
+
+			Level[5][3][2].ice_on = true;
+			Level[5][3][6].ice_on = true;
+			Level[5][3][7].ice_on = true;
+			Level[5][3][8].ice_on = true;
+
+			Level[5][4][6].ice_on = true;
+			Level[5][4][7].ice_on = true;
+			Level[5][4][8].ice_on = true;
+			Level[5][4][9].ice_on = true;
+
+			Level[5][5][6].ice_on = true;
+			Level[5][5][7].ice_on = true;
+			Level[5][5][8].ice_on = true;
+			Level[5][5][9].ice_on = true;
+
+			Level[5][7][7].ice_on = true;
+			Level[5][7][8].ice_on = true;
+			Level[5][7][9].ice_on = true;
+
+			Level[5][8][2].ice_on = true;
+			Level[5][8][6].ice_on = true;
+			Level[5][8][7].ice_on = true;
+			Level[5][8][8].ice_on = true;
+
+			Level[5][9][6].ice_on = true;
+			Level[5][9][7].ice_on = true;
+			Level[5][9][8].ice_on = true;
+			Level[5][9][9].ice_on = true;
+		}
+
+		//感圧板
+		{
+			//壁
+			Level[5][0][0].weightboard_map = true;
+			Level[5][0][0].weightboard_linknumber[1] = 67;
+			Level[5][0][0].weightboard_linkobject[1] = L_BLOCK;
+			Level[5][0][0].weightboard_count = 1;
+
+			Level[5][0][2].weightboard_map = true;
+			Level[5][0][2].weightboard_linknumber[1] = 71;
+			Level[5][0][2].weightboard_linkobject[1] = G_BLOCK;
+			Level[5][0][2].weightboard_count = 1;
+
+			Level[5][1][7].weightboard_map = true;
+			Level[5][1][7].weightboard_linknumber[1] = 55;
+			Level[5][1][7].weightboard_linkobject[1] = G_BLOCK;
+			Level[5][1][7].weightboard_linknumber[2] = 83;
+			Level[5][1][7].weightboard_linkobject[2] = G_BLOCK;
+			Level[5][1][7].weightboard_count = 2;
+
+			Level[5][3][9].weightboard_map = true;
+			Level[5][3][9].weightboard_linknumber[1] = 35;
+			Level[5][3][9].weightboard_linkobject[1] = L_BLOCK;
+			Level[5][3][9].weightboard_linknumber[2] = 57;
+			Level[5][3][9].weightboard_linkobject[2] = H_BLOCK;
+			Level[5][3][9].weightboard_linknumber[3] = 95;
+			Level[5][3][9].weightboard_linkobject[3] = G_BLOCK;
+			Level[5][3][9].weightboard_count = 3;
+
+			Level[5][4][0].weightboard_map = true;
+			Level[5][4][0].weightboard_linknumber[1] = 5;
+			Level[5][4][0].weightboard_linkobject[1] = G_BLOCK;
+			Level[5][4][0].weightboard_linknumber[2] = 42;
+			Level[5][4][0].weightboard_linkobject[2] = L_BLOCK;
+			Level[5][4][0].weightboard_count = 2;
+
+			Level[5][6][0].weightboard_map = true;
+			Level[5][6][0].weightboard_linknumber[1] = 21;
+			Level[5][6][0].weightboard_linkobject[1] = G_BLOCK;
+			Level[5][6][0].weightboard_linknumber[2] = 26;
+			Level[5][6][0].weightboard_linkobject[2] = L_BLOCK;
+			Level[5][6][0].weightboard_count = 2;
+
+			Level[5][6][4].weightboard_map = true;
+			Level[5][6][4].weightboard_linknumber[1] = 33;
+			Level[5][6][4].weightboard_linkobject[1] = G_BLOCK;
+			Level[5][6][4].weightboard_linknumber[2] = 96;
+			Level[5][6][4].weightboard_linkobject[2] = L_BLOCK;
+			Level[5][6][4].weightboard_count = 2;
+
+			Level[5][7][6].weightboard_map = true;
+			Level[5][7][6].weightboard_linknumber[1] = 10;
+			Level[5][7][6].weightboard_linkobject[1] = G_BLOCK;
+			Level[5][7][6].weightboard_count = 1;
+
+			Level[5][8][0].weightboard_map = true;
+			Level[5][8][0].weightboard_linknumber[1] = 31;
+			Level[5][8][0].weightboard_linkobject[1] = L_BLOCK;
+			Level[5][8][0].weightboard_linknumber[2] = 69;
+			Level[5][8][0].weightboard_linkobject[2] = L_BLOCK;
+			Level[5][8][0].weightboard_linknumber[3] = 92;
+			Level[5][8][0].weightboard_linkobject[3] = H_BLOCK;
+			Level[5][8][0].weightboard_count = 3;
+
+			Level[5][9][1].weightboard_map = true;
+			Level[5][9][1].weightboard_linknumber[1] = 99;
+			Level[5][9][1].weightboard_linkobject[1] = L_BLOCK;
+			Level[5][9][1].weightboard_count = 1;
 
 			
 		};
 
 		//穴
 		{
-			Level[4][0][1].hole_on = true;
-			Level[4][0][3].hole_on = true;
-			Level[4][0][5].hole_on = true;
+			Level[5][0][1].hole_on = true;
+			Level[5][0][3].hole_on = true;
+			Level[5][0][5].hole_on = true;
 
-			Level[4][1][0].hole_on = true;
-			Level[4][1][1].hole_on = true;
-			Level[4][1][3].hole_on = true;
-			Level[4][1][5].hole_on = true;
+			Level[5][1][0].hole_on = true;
+			Level[5][1][1].hole_on = true;
+			Level[5][1][3].hole_on = true;
+			Level[5][1][5].hole_on = true;
 
-			Level[4][2][1].hole_on = true;
-			Level[4][2][3].hole_on = true;
-			Level[4][2][5].hole_on = true;
-			Level[4][2][6].hole_on = true;
-			Level[4][2][7].hole_on = true;
-			Level[4][2][8].hole_on = true;
+			Level[5][2][1].hole_on = true;
+			Level[5][2][3].hole_on = true;
+			Level[5][2][5].hole_on = true;
+			Level[5][2][6].hole_on = true;
+			Level[5][2][7].hole_on = true;
+			Level[5][2][8].hole_on = true;
 
-			Level[4][3][1].hole_on = true;
-			Level[4][3][3].hole_on = true;
-			Level[4][3][5].hole_on = true;
+			Level[5][3][1].hole_on = true;
+			Level[5][3][3].hole_on = true;
+			Level[5][3][5].hole_on = true;
 
-			Level[4][4][1].hole_on = true;
-			Level[4][4][2].hole_on = true;
-			Level[4][4][3].hole_on = true;
-			Level[4][4][4].hole_on = true;
-			Level[4][4][5].hole_on = true;
+			Level[5][4][1].hole_on = true;
+			Level[5][4][2].hole_on = true;
+			Level[5][4][3].hole_on = true;
+			Level[5][4][4].hole_on = true;
+			Level[5][4][5].hole_on = true;
 
-			Level[4][5][1].hole_on = true;
-			Level[4][5][5].hole_on = true;
+			Level[5][5][1].hole_on = true;
+			Level[5][5][5].hole_on = true;
 
-			Level[4][6][1].hole_on = true;
-			Level[4][6][3].hole_on = true;
-			Level[4][6][5].hole_on = true;
-			Level[4][6][6].hole_on = true;
-			Level[4][6][7].hole_on = true;
-			Level[4][6][9].hole_on = true;
+			Level[5][6][1].hole_on = true;
+			Level[5][6][3].hole_on = true;
+			Level[5][6][5].hole_on = true;
+			Level[5][6][6].hole_on = true;
+			Level[5][6][7].hole_on = true;
+			Level[5][6][9].hole_on = true;
 
-			Level[4][7][1].hole_on = true;
-			Level[4][7][3].hole_on = true;
-			Level[4][7][4].hole_on = true;
-			Level[4][7][5].hole_on = true;
+			Level[5][7][1].hole_on = true;
+			Level[5][7][3].hole_on = true;
+			Level[5][7][4].hole_on = true;
+			Level[5][7][5].hole_on = true;
 
-			Level[4][8][3].hole_on = true;
-			Level[4][8][5].hole_on = true;
-			Level[3][8][9].hole_on = true;
+			Level[5][8][3].hole_on = true;
+			Level[5][8][5].hole_on = true;
+			Level[5][8][9].hole_on = true;
 
-			Level[4][9][2].hole_on = true;
-			Level[4][9][3].hole_on = true;
-			Level[4][9][5].hole_on = true;
+			Level[5][9][2].hole_on = true;
+			Level[5][9][3].hole_on = true;
+			Level[5][9][5].hole_on = true;
 		}
 
 		//壁
 		{
-			Level[4][2][9].block_on = true;
-			Level[4][2][9].blockonly_on = true;
+			Level[5][2][9].block_on = true;
+			Level[5][2][9].blockonly_on = true;
 
-			Level[4][6][8].block_on = true;
-			Level[4][6][8].blockonly_on = true;
+			Level[5][6][8].block_on = true;
+			Level[5][6][8].blockonly_on = true;
 
-			Level[4][8][1].block_on = true;
-			Level[4][8][1].blockonly_on = true;
+			Level[5][8][1].block_on = true;
+			Level[5][8][1].blockonly_on = true;
 
-			Level[4][0][5].block_on = true;
+			Level[5][0][5].block_on = true;
 
-			Level[4][1][0].block_on = true;
+			Level[5][1][0].block_on = true;
 
-			Level[4][2][1].block_on = true;
-			Level[4][2][6].block_on = true;
+			Level[5][2][1].block_on = true;
+			Level[5][2][6].block_on = true;
 
-			Level[4][3][1].block_on = true;
-			Level[4][3][3].block_on = true;
-			Level[4][3][5].block_on = true;
+			Level[5][3][1].block_on = true;
+			Level[5][3][3].block_on = true;
+			Level[5][3][5].block_on = true;
 
-			Level[4][4][2].block_on = true;
+			Level[5][4][2].block_on = true;
 
-			Level[4][5][5].block_on = true;
-			Level[4][5][6].block_on = true;
-			Level[4][5][7].block_on = true;
+			Level[5][5][5].block_on = true;
+			Level[5][5][6].block_on = true;
+			Level[5][5][7].block_on = true;
 
-			Level[4][6][7].block_on = true;
-			Level[4][6][9].block_on = true;
+			Level[5][6][7].block_on = true;
+			Level[5][6][9].block_on = true;
 
-			Level[4][7][1].block_on = true;
+			Level[5][7][1].block_on = true;
 
-			Level[4][8][3].block_on = true;
+			Level[5][8][3].block_on = true;
 
-			Level[4][9][2].block_on = true;
-			Level[4][9][5].block_on = true;
-			Level[4][9][6].block_on = true;
-			Level[4][9][9].block_on = true;
+			Level[5][9][2].block_on = true;
+			Level[5][9][5].block_on = true;
+			Level[5][9][6].block_on = true;
+			Level[5][9][9].block_on = true;
 		}
 
 		//階段
 		{
-			Level[4][8][9].kaidan_on = true;
+			Level[5][8][9].kaidan_on = true;
 		}
 
 	}
@@ -1247,5 +1419,5 @@ void Stage::Render(RenderContext& rc)
 {
 	//m_modelRender.Draw(rc);
 	Kabe.Draw(rc);
-	Count_F.Draw(rc);
+	//Count_F.Draw(rc);
 }
