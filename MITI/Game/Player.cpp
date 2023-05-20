@@ -20,7 +20,7 @@ Player::Player()
 	AnimationClips[enAnimationClip_Put].Load("Assets/character/oriput.tka");
 	AnimationClips[enAnimationClip_Put].SetLoopFlag(false);
 	AnimationClips[enAnimationClip_Slip].Load("Assets/character/orislip.tka");
-	AnimationClips[enAnimationClip_Slip].SetLoopFlag(false);
+	AnimationClips[enAnimationClip_Slip].SetLoopFlag(true);
 
 	Character.Init("Assets/Character/orichara.tkm",Light, AnimationClips, enAnimationClip_Num, enModelUpAxisZ);
 
@@ -481,11 +481,12 @@ void Player::ManageState()
 		}
 		else if (slipflag == true)
 		{
-			//•à‚«
+			//ŠŠ‚è
 			playerState = 4;
 		}
-		else if(StickL.x != 0 || StickL.y != 0 && slipflag == false)
+		else if(StickL.x != 0 || StickL.y != 0)
 		{
+			//•à‚«
 			playerState = 1;
 		}
 		else 
