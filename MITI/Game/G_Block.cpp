@@ -99,8 +99,10 @@ void G_Block::Update()
 							{
 							if (weightboard->Link[L][R][count] == H_BLOCK)
 							{
-								stage->mapdata[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].grounddata = HOLE;
+								SkeletonBlock_BLOCK[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].SetPosition(Block_P[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]]);
+								SkeletonBlock_BLOCK[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].Update();
 								m_physicsStaticObjectpos[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].SetPosition({ -2000.0f,-2000.0f,-2000.0f });
+								box->box[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].SetPosition({ -2000.0f,-2000.0f,-2000.0f });
 							}
 							}
 							}
@@ -183,6 +185,11 @@ void G_Block::Render(RenderContext& rc)
 							if (weightboard->Link[L][R][count] == G_BLOCK)
 							{
 								GBlock[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].Draw(rc);
+							}else {
+							if (weightboard->Link[L][R][count] == H_BLOCK)
+							{
+								SkeletonBlock_BLOCK[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].Draw(rc);
+							}
 							}
 							}
 							}
