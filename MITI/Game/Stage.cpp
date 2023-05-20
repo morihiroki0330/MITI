@@ -465,6 +465,9 @@ Stage::Stage()
 
 			Level[2][3][3].block_on = true;
 			Level[2][3][3].blockonly_on = true;
+			
+			Level[2][7][2].block_on = true;
+			Level[2][7][2].blockonly_on = true;
 
 			Level[2][7][7].block_on = true;
 			Level[2][7][7].blockonly_on = true;
@@ -862,20 +865,20 @@ Level[3][9][7].hole_on = true;
 			Level[4][0][8].weightboard_count = 3;
 
 			//ï«ÅEïXÇÃè∞
-			Level[4][0][9].weightboard_map = true;
-			Level[4][0][9].weightboard_linknumber[1] = 24;
-			Level[4][0][9].weightboard_linkobject[1] = L_BLOCK;
-			Level[4][0][9].weightboard_linknumber[2] = 64;
-			Level[4][0][9].weightboard_linkobject[2] = I_BLOCK;
-			Level[4][0][9].weightboard_count = 2;
+			Level[4][1][9].weightboard_map = true;
+			Level[4][1][9].weightboard_linknumber[1] = 24;
+			Level[4][1][9].weightboard_linkobject[1] = L_BLOCK;
+			Level[4][1][9].weightboard_linknumber[2] = 64;
+			Level[4][1][9].weightboard_linkobject[2] = I_BLOCK;
+			Level[4][1][9].weightboard_count = 2;
 
 			//ï«
-			Level[4][5][0].weightboard_map = true;
-			Level[4][5][0].weightboard_linknumber[1] = 29;
-			Level[4][5][0].weightboard_linkobject[1] = L_BLOCK;
-			Level[4][5][0].weightboard_linknumber[2] = 39;
-			Level[4][5][0].weightboard_linkobject[2] = L_BLOCK;
-			Level[4][5][0].weightboard_count = 2;
+			Level[4][6][0].weightboard_map = true;
+			Level[4][6][0].weightboard_linknumber[1] = 29;
+			Level[4][6][0].weightboard_linkobject[1] = L_BLOCK;
+			Level[4][6][0].weightboard_linknumber[2] = 39;
+			Level[4][6][0].weightboard_linkobject[2] = L_BLOCK;
+			Level[4][6][0].weightboard_count = 2;
 
 			//ï«ÅEïXÇÃè∞
 			Level[4][5][1].weightboard_map = true;
@@ -894,28 +897,28 @@ Level[3][9][7].hole_on = true;
 			Level[4][5][3].weightboard_count = 2;
 
 			//åä
-			Level[4][6][0].weightboard_map = true;
-			Level[4][6][0].weightboard_linknumber[1] = 0;
-			Level[4][6][0].weightboard_linkobject[1] = I_BLOCK;
-			Level[4][6][0].weightboard_linknumber[2] = 21;
-			Level[4][6][0].weightboard_linkobject[2] = I_BLOCK;
-			Level[4][6][0].weightboard_count = 2;
+			Level[4][7][1].weightboard_map = true;
+			Level[4][7][1].weightboard_linknumber[1] = 0;
+			Level[4][7][1].weightboard_linkobject[1] = I_BLOCK;
+			Level[4][7][1].weightboard_linknumber[2] = 21;
+			Level[4][7][1].weightboard_linkobject[2] = I_BLOCK;
+			Level[4][7][1].weightboard_count = 2;
 
 			//ï«ÅEåä
-			Level[4][6][3].weightboard_map = true;
-			Level[4][6][3].weightboard_linknumber[1] = 13;
-			Level[4][6][3].weightboard_linkobject[1] = I_BLOCK;
-			Level[4][6][3].weightboard_linknumber[2] = 30;
-			Level[4][6][3].weightboard_linkobject[2] = L_BLOCK;
-			Level[4][6][3].weightboard_count = 2;
+			Level[4][6][2].weightboard_map = true;
+			Level[4][6][2].weightboard_linknumber[1] = 13;
+			Level[4][6][2].weightboard_linkobject[1] = I_BLOCK;
+			Level[4][6][2].weightboard_linknumber[2] = 30;
+			Level[4][6][2].weightboard_linkobject[2] = L_BLOCK;
+			Level[4][6][2].weightboard_count = 2;
 
 			//ï«
-			Level[4][7][0].weightboard_map = true;
-			Level[4][7][0].weightboard_linknumber[1] = 36;
-			Level[4][7][0].weightboard_linkobject[1] = L_BLOCK;
-			Level[4][7][0].weightboard_linknumber[2] = 47;
-			Level[4][7][0].weightboard_linkobject[2] = L_BLOCK;
-			Level[4][7][0].weightboard_count = 2;
+			Level[4][8][0].weightboard_map = true;
+			Level[4][8][0].weightboard_linknumber[1] = 36;
+			Level[4][8][0].weightboard_linkobject[1] = L_BLOCK;
+			Level[4][8][0].weightboard_linknumber[2] = 47;
+			Level[4][8][0].weightboard_linkobject[2] = L_BLOCK;
+			Level[4][8][0].weightboard_count = 2;
 
 			//ï«ÅEåä
 			Level[4][7][3].weightboard_map = true;
@@ -926,24 +929,24 @@ Level[3][9][7].hole_on = true;
 			Level[4][7][3].weightboard_count = 2;
 
 			//ïXÇÃè∞
-			Level[4][8][0].weightboard_map = true;
-			Level[4][8][0].weightboard_linknumber[1] = 97;
-			Level[4][8][0].weightboard_linkobject[1] = I_BLOCK;
-			Level[4][8][0].weightboard_count = 1;
+			Level[4][9][1].weightboard_map = true;
+			Level[4][9][1].weightboard_linknumber[1] = 97;
+			Level[4][9][1].weightboard_linkobject[1] = I_BLOCK;
+			Level[4][9][1].weightboard_count = 1;
 
 			//ï«
-			Level[4][8][3].weightboard_map = true;
-			Level[4][8][3].weightboard_linknumber[1] = 49;
-			Level[4][8][3].weightboard_linkobject[1] = L_BLOCK;
-			Level[4][8][3].weightboard_linknumber[2] = 79;
-			Level[4][8][3].weightboard_linkobject[2] = L_BLOCK;
-			Level[4][8][3].weightboard_count = 2;
+			Level[4][8][2].weightboard_map = true;
+			Level[4][8][2].weightboard_linknumber[1] = 49;
+			Level[4][8][2].weightboard_linkobject[1] = L_BLOCK;
+			Level[4][8][2].weightboard_linknumber[2] = 79;
+			Level[4][8][2].weightboard_linkobject[2] = L_BLOCK;
+			Level[4][8][2].weightboard_count = 2;
 
 			//ï«
-			Level[4][9][2].weightboard_map = true;
-			Level[4][9][2].weightboard_linknumber[1] = 55;
-			Level[4][9][2].weightboard_linkobject[1] = L_BLOCK;
-			Level[4][9][2].weightboard_count = 1;
+			Level[4][4][2].weightboard_map = true;
+			Level[4][4][2].weightboard_linknumber[1] = 55;
+			Level[4][4][2].weightboard_linkobject[1] = L_BLOCK;
+			Level[4][4][2].weightboard_count = 1;
 
 			//ï«
 			Level[4][9][3].weightboard_map = true;

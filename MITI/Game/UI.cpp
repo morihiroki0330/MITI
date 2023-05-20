@@ -5,28 +5,28 @@
 
 UI::UI()
 {
-	Back.Init("Assets/UI/Back.DDS", 1920.0f, 1080.0f);
+	Back.Init("Assets/UI/UI_canvas.DDS", 1920.0f, 1080.0f);
 	//Aボタン
 	{
 		//不可能
 		A[0].Init("Assets/UI/A-Non.DDS", 150.0f, 150.0f);
-		A[0].SetPosition({ 550.0f,-400.0f,0.0f });
+		A[0].SetPosition({ 680.0f,-400.0f,0.0f });
 		A[0].Update();
 
 		//可能
 		A[1].Init("Assets/UI/A.DDS", 150.0f, 150.0f);
-		A[1].SetPosition({ 550.0f,-400.0f,0.0f });
+		A[1].SetPosition({ 680.0f,-400.0f,0.0f });
 		A[1].Update();
 	}
 
 	//Bボタン
 	{
 		B[0].Init("Assets/UI/B-Non.DDS", 150.0f, 150.0f);
-		B[0].SetPosition({ 680.0f,-400.0f,0.0f });
+		B[0].SetPosition({ 830.0f,-400.0f,0.0f });
 		B[0].Update();
 
 		B[1].Init("Assets/UI/B.DDS", 150.0f, 150.0f);
-		B[1].SetPosition({ 680.0f,-400.0f,0.0f });
+		B[1].SetPosition({ 830.0f,-400.0f,0.0f });
 		B[1].Update();
 	}
 
@@ -61,27 +61,27 @@ UI::UI()
 	//鉄球の所持数
 	{
 		Iron[0].Init("Assets/UI/Iron-Non.DDS", 128.0f, 512.0f);
-		Iron[0].SetPosition({ 600.0f,-50.0f,0.0f });
+		Iron[0].SetPosition({ 750.0f,-50.0f,0.0f });
 		Iron[0].Update();
 
 		Iron[1].Init("Assets/UI/Iron-One.DDS", 128.0f, 512.0f);
-		Iron[1].SetPosition({ 600.0f,-50.0f,0.0f });
+		Iron[1].SetPosition({ 750.0f,-50.0f,0.0f });
 		Iron[1].Update();
 
 		Iron[2].Init("Assets/UI/Iron-Two.DDS", 128.0f, 512.0f);
-		Iron[2].SetPosition({ 600.0f,-50.0f,0.0f });
+		Iron[2].SetPosition({ 750.0f,-50.0f,0.0f });
 		Iron[2].Update();
 
 		Iron[3].Init("Assets/UI/Iron-Three.DDS", 128.0f, 512.0f);
-		Iron[3].SetPosition({ 600.0f,-50.0f,0.0f });
+		Iron[3].SetPosition({ 750.0f,-50.0f,0.0f });
 		Iron[3].Update();
 
 		Iron[4].Init("Assets/UI/Iron-Four.DDS", 128.0f, 512.0f);
-		Iron[4].SetPosition({ 600.0f,-50.0f,0.0f });
+		Iron[4].SetPosition({ 750.0f,-50.0f,0.0f });
 		Iron[4].Update();
 
 		Iron[5].Init("Assets/UI/Iron-Five.DDS", 128.0f, 512.0f);
-		Iron[5].SetPosition({ 600.0f,-50.0f,0.0f });
+		Iron[5].SetPosition({ 750.0f,-50.0f,0.0f });
 		Iron[5].Update();
 
 	}
@@ -181,7 +181,7 @@ void UI::Update()
 
 void UI::Render(RenderContext& rc)
 {
-	//Back.Draw(rc);
+	Back.Draw(rc);
 
 	if (player->get_Ui == true)
 	{

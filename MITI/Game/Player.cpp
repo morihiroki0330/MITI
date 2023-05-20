@@ -358,7 +358,7 @@ void Player::Move()
 		WALK->Play(true);
 		
 	}else {
-	if (MoveSpeed.x == 0.0f || MoveSpeed.x == 0.0f || MoveSpeed.z == 0.0f || MoveSpeed.z == 0.0f)
+	if (MoveSpeed.x == 0.0f || MoveSpeed.z == 0.0f)
 	{
 			WALK->Pause();
 	}
