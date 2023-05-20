@@ -416,17 +416,17 @@ Stage::Stage()
 
 			Level[1][5][6].weightboard_map = true;
 			Level[1][5][6].weightboard_linknumber[1] = 28;
-			Level[1][5][6].weightboard_linkobject[1] = L_BLOCK;
+			Level[1][5][6].weightboard_linkobject[1] = H_BLOCK;
 			Level[1][5][6].weightboard_linknumber[2] = 38;
-			Level[1][5][6].weightboard_linkobject[2] = L_BLOCK;
+			Level[1][5][6].weightboard_linkobject[2] = H_BLOCK;
 			Level[1][5][6].weightboard_linknumber[3] = 48;
-			Level[1][5][6].weightboard_linkobject[3] = L_BLOCK;
+			Level[1][5][6].weightboard_linkobject[3] = H_BLOCK;
 			Level[1][5][6].weightboard_linknumber[4] = 58;
-			Level[1][5][6].weightboard_linkobject[4] = L_BLOCK;
+			Level[1][5][6].weightboard_linkobject[4] = H_BLOCK;
 			Level[1][5][6].weightboard_linknumber[5] = 68;
-			Level[1][5][6].weightboard_linkobject[5] = L_BLOCK;
+			Level[1][5][6].weightboard_linkobject[5] = H_BLOCK;
 			Level[1][5][6].weightboard_linknumber[6] = 78;
-			Level[1][5][6].weightboard_linkobject[6] = L_BLOCK;
+			Level[1][5][6].weightboard_linkobject[6] = H_BLOCK;
 			Level[1][5][6].weightboard_count = 6;
 		}
 
@@ -1150,6 +1150,9 @@ Level[3][9][7].hole_on = true;
 			Level[5][8][0].weightboard_linkobject[2] = L_BLOCK;
 			Level[5][8][0].weightboard_linknumber[3] = 92;
 			Level[5][8][0].weightboard_linkobject[3] = H_BLOCK;
+			
+			/*Level[5][8][0].weightboard_linknumber[3] = 92;
+			Level[5][8][0].weightboard_linkobject[3] = H_BLOCK;*/
 			Level[5][8][0].weightboard_count = 3;
 
 			Level[5][9][1].weightboard_map = true;
