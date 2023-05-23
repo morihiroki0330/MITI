@@ -282,7 +282,7 @@ void Player::Move()
 		{
 			MoveSpeed.z = 0.0f;
 			MoveSpeed.x = (-13.0f + ironBall / 4)/*-(0.8f * (6 - ironBall))*/;
-			if (stage->mapdata[(player_map / 10) - 1][(player_map % 10)].grounddata == ICE && stage->mapdata[(player_map / 10) - 1][(player_map % 10)].grounddata == HOLE)
+			if (stage->mapdata[(player_map / 10) - 1][(player_map % 10)].grounddata == ICE || stage->mapdata[(player_map / 10) - 1][(player_map % 10)].grounddata == HOLE)
 			{
 				slipflag = true;
 			}
@@ -291,7 +291,7 @@ void Player::Move()
 		{
 			MoveSpeed.z = 0.0f;
 			MoveSpeed.x = (13.0f + ironBall / 4)/*-(0.8f * (6 - ironBall))*/;
-			if (stage->mapdata[(player_map / 10) + 1][(player_map % 10)].grounddata == ICE && stage->mapdata[(player_map / 10) + 1][(player_map % 10)].grounddata == HOLE)
+			if (stage->mapdata[(player_map / 10) + 1][(player_map % 10)].grounddata == ICE || stage->mapdata[(player_map / 10) + 1][(player_map % 10)].grounddata == HOLE)
 			{
 				slipflag = true;
 			}
@@ -300,7 +300,7 @@ void Player::Move()
 		{
 			MoveSpeed.x = 0.0f;
 			MoveSpeed.z = (13.0f - ironBall / 4)/*(0.8f * (6 - ironBall))*/;
-			if (stage->mapdata[(player_map / 10)][(player_map % 10) + 1].grounddata == ICE && stage->mapdata[(player_map / 10) + 1][(player_map % 10)].grounddata == HOLE)
+			if (stage->mapdata[(player_map / 10)][(player_map % 10) + 1].grounddata == ICE || stage->mapdata[(player_map / 10) + 1][(player_map % 10)].grounddata == HOLE)
 			{
 				slipflag = true;
 			}
@@ -309,7 +309,7 @@ void Player::Move()
 		{
 			MoveSpeed.x = 0.0f;
 			MoveSpeed.z = (-13.0f - ironBall / 4)/*(0.8f * (6 - ironBall))*/;
-			if (stage->mapdata[(player_map / 10)][(player_map % 10) - 1].grounddata == ICE && stage->mapdata[(player_map / 10) - 1][(player_map % 10)].grounddata == HOLE)
+			if (stage->mapdata[(player_map / 10)][(player_map % 10) - 1].grounddata == ICE || stage->mapdata[(player_map / 10) - 1][(player_map % 10)].grounddata == HOLE)
 			{
 				slipflag = true;
 			}
@@ -406,6 +406,15 @@ void Player::Move()
 	Character_P = CharacterController.Execute(MoveSpeed, 1.0);
 
 	//slipflag = false;
+
+	if (game->ClearFlag == true && BgmSet == false)
+	{
+		SoundSource* SE = NewGO<SoundSource>(0);
+		SE->Init(S_KAIDAN);
+		SE->SetVolume(0.7f);
+		SE->Play(false);
+		BgmSet = true;
+	}
 }
 
 void Player::Rotation()

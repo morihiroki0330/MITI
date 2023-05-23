@@ -103,5 +103,7 @@ public:
 	bool FallSet = false;
 
 	int Frame = 0;
+
+	bool BgmSet = false;
 };
 
