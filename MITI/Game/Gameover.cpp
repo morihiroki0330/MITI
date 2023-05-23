@@ -3,6 +3,7 @@
 #include "Title.h"
 #include "Game.h"
 #include "Bgm.h"
+#include "Fabe.h"
 #include "sound/SoundEngine.h"
 Gameover::Gameover()
 {
@@ -19,13 +20,27 @@ Gameover::~Gameover()
 	game->CreateFlag = true;
 }
 
+bool Gameover::Start()
+{
+	fabe = FindGO<Fabe>("fabe");
+	fabe->StartFadeIn();
+	return true;
+}
+
 void Gameover::Update()
 {
 	game = FindGO<Game>("game");
+	
 
-	if (g_pad[0]->IsTrigger(enButtonA))
+	if (fabe->IsFade() == false && Delete == true)
 	{
 		DeleteGO(this);
+	}else {
+	if (g_pad[0]->IsTrigger(enButtonA))
+	{
+		fabe->StartFadeOut();
+		Delete = true;
+	}
 	}
 }
 

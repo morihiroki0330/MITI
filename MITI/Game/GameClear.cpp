@@ -2,6 +2,7 @@
 #include "GameClear.h"
 #include "Title.h"
 #include "Bgm.h"
+#include "Fabe.h"
 #include "sound/SoundEngine.h"
 GameClear::GameClear()
 {
@@ -17,12 +18,26 @@ GameClear::~GameClear()
 	DeleteGO(BGM);
 }
 
+bool GameClear::Start()
+{
+	fabe = FindGO<Fabe>("fabe");
+	fabe->StartFadeIn();
+	return true;
+}
+
 void GameClear::Update()
 {
-	if (g_pad[0]->IsTrigger(enButtonA))
+
+	if (fabe->IsFade() == false && Delete == true)
 	{
 		NewGO<Title>(0, "title");
 		DeleteGO(this);
+	}else {
+	if (g_pad[0]->IsTrigger(enButtonA))
+	{
+		fabe->StartFadeOut();
+		Delete = true;
+	}
 	}
 }
 

@@ -7,6 +7,7 @@
 //#include "Game.h"
 #include "Title.h"
 #include "Bgm.h"
+#include "Fabe.h"
 
 // K2EngineLowのグローバルアクセスポイント。
 K2EngineLow* g_k2EngineLow = nullptr;
@@ -29,6 +30,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//NewGO<Player>(0);
 	NewGO<Bgm>(0, "bgm");
 	NewGO<Title>(0,"title");
+	NewGO<Fabe>(1, "fabe");
 	//NewGO<UNITY>(0);
 	//NewGO<Player>(0, "player");
 	//NewGO<IronBall>(0);

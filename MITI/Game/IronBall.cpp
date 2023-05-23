@@ -19,13 +19,13 @@ IronBall::IronBall()
 		}
 	}
 
-	Light.DirectionLight_D.x = 1.0f;
-	Light.DirectionLight_D.y = 1.0f;
-	Light.DirectionLight_D.z = 1.0f;
+	Light.DirectionLight_D.x = 0.0f;
+	Light.DirectionLight_D.y = -1.0f;
+	Light.DirectionLight_D.z = 0.0f;
 
-	Light.DirectionLight_C.x = 1.0f;
-	Light.DirectionLight_C.y = 1.0f;
-	Light.DirectionLight_C.z = 1.0f;
+	Light.DirectionLight_C.x = 1.8f;
+	Light.DirectionLight_C.y = 1.8f;
+	Light.DirectionLight_C.z = 1.8f;
 
 	for (int i = 0; i < 5; i++)
 	{

@@ -17,6 +17,7 @@ class G_Kaidan;
 class UI;
 class Box;
 class Bgm;
+class Fabe;
 //class G_laser;
 
 class Game : public IGameObject
@@ -24,6 +25,7 @@ class Game : public IGameObject
 public:
 	Game();
 	~Game();
+	bool Start();
 	void Update();
 	void Create();
 	void Delete();
@@ -31,7 +33,7 @@ public:
 	void Render(RenderContext& rc);
 
 	int Level = 0;
-	int Level_Max = 5;
+	int Level_Max = 0;
 
 	int Count = 0;
 
@@ -40,6 +42,7 @@ public:
 	bool CreateFlag = false;
 	
 	bool BgmSet = true;
+	bool DeleteSet = false;
 
 	SoundSource* BGM;
 
@@ -62,6 +65,7 @@ private:
 	UI* Ui;
 	Box* box;
 	Bgm* bgm;
+	Fabe* fabe;
 	//G_laser* m_G_laser;
 };
 

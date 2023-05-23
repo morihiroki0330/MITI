@@ -2,6 +2,7 @@
 #include "Title.h"
 #include "Game.h"
 #include "Bgm.h"
+#include "Fabe.h"
 #include "sound/SoundEngine.h"
 Title::Title()
 {
@@ -11,17 +12,31 @@ Title::Title()
 	BGM->SetVolume(0.1f);
 	BGM->Play(true);
 }
+
 Title::~Title()
 {
 	DeleteGO(BGM);
 }
 
+bool Title::Start()
+{
+	fabe = FindGO<Fabe>("fabe");
+	fabe->StartFadeIn();
+	return true;
+}
+
 void Title::Update()
 {
-	if (g_pad[0]->IsTrigger(enButtonA))
+	if (fabe->IsFade() == false && Delete == true)
 	{
 		NewGO<Game>(0, "game");
 		DeleteGO(this);
+	}else {
+	if (g_pad[0]->IsTrigger(enButtonA))
+	{
+		fabe->StartFadeOut();
+		Delete = true;
+	}
 	}
 }
 

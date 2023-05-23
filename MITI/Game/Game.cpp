@@ -18,6 +18,7 @@
 #include "UI.h"
 #include "Box.h"
 #include "Bgm.h"
+#include "Fabe.h"
 #include "sound/SoundEngine.h"
 //#include "G_laser.h"
 
@@ -27,11 +28,10 @@ Game::Game()
 
 	PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
 
-	m_player = NewGO<Player>(1, "player");
-	//m_G_tekyu = NewGO<G_Tekyu>(2, "g_tekyu");
-	m_gamecamera = NewGO<GameCamera>(3, "gamecamera");
+	m_player = NewGO<Player>(0, "player");
+	m_gamecamera = NewGO<GameCamera>(0, "gamecamera");
 	m_stage = NewGO<Stage>(0, "stage");
-	m_ironBall = NewGO<IronBall>(4, "ironball");
+	m_ironBall = NewGO<IronBall>(0, "ironball");
 	Ui = NewGO<UI>(0, "ui");
 	box = NewGO<Box>(0, "box");
 
@@ -51,25 +51,61 @@ Game::~Game()
 	DeleteGO(this);
 }
 
+bool Game::Start()
+{
+	fabe = FindGO<Fabe>("fabe");
+	fabe->StartFadeIn();
+	return true;
+}
+
 void Game::Update()
 {
-	if (GameOverFlag == true) {
-		NewGO<Gameover>(0, "gameover");
-		Delete();
-		GameOverFlag = false;
+	if (GameOverFlag == true)
+	{
+		if (DeleteSet == false)
+		{
+			fabe->StartFadeOut();
+			DeleteSet = true;
+		}else {
+		if (fabe->IsFade() == false && DeleteSet == true)
+		{
+			NewGO<Gameover>(0, "gameover");
+			Delete();
+			GameOverFlag = false;
+		}
+		}
 	}
 
 	if (Level_Max == Level && ClearFlag == true)
 	{
-		NewGO<GameClear>(0, "gameclear");
-		Delete();
-		DeleteGO(this);
+		if (DeleteSet == false)
+		{
+			fabe->StartFadeOut();
+			DeleteSet = true;
+		}else {
+		if (fabe->IsFade() == false && DeleteSet == true)
+		{
+			NewGO<GameClear>(0, "gameclear");
+			Delete();
+			DeleteGO(this);
+			ClearFlag = false;
+		}
+		}
 	}else {
 	if (ClearFlag == true)
 	{
-		NewGO<StageClear>(0, "stageclear");
-		Delete();
-		ClearFlag = false;
+		if (DeleteSet == false)
+		{
+			fabe->StartFadeOut();
+			DeleteSet = true;
+		}else {
+		if (fabe->IsFade() == false && DeleteSet == true)
+		{
+			NewGO<StageClear>(0, "stageclear");
+			Delete();
+			ClearFlag = false;
+		}
+		}
 	}
 	}
 
@@ -90,6 +126,7 @@ void Game::Create()
 	box = NewGO<Box>(0, "box");
 	bgm = NewGO<Bgm>(0, "bgm");
 	BGM = NewGO<SoundSource>(0);
+	fabe->StartFadeIn();
 	BGM->Init(B_STAGE);
 	BGM->SetVolume(0.1f);
 	BGM->Play(true);

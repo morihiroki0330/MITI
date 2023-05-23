@@ -325,7 +325,7 @@ float4 PSMain(SPSIn psIn) : SV_Target0
 
 //最終的な光
 
-	float3 FinalLight = Diffuse_L + 1.0;
+	float3 FinalLight = DirectionLight_D + 1.0;
 
 	float4 Albedo_C = g_albedo.Sample(g_sampler, psIn.uv);
 

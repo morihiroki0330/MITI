@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "Bgm.h"
 #include "sound/SoundEngine.h"
+#include "Fabe.h"
 StageClear::StageClear()
 {
 	STAGECLEAR.Init("Assets/sprite/StageClear.DDS", 1920.0f, 1080.0f);
@@ -19,13 +20,27 @@ StageClear::~StageClear()
 	game->CreateFlag = true;
 }
 
+bool StageClear::Start()
+{
+	fabe = FindGO<Fabe>("fabe");
+	fabe->StartFadeIn();
+	return true;
+}
+
 void StageClear::Update()
 {
 	game = FindGO<Game>("game");
-
-	if (g_pad[0]->IsTrigger(enButtonA))
+	
+	
+	if (fabe->IsFade() == false && Delete == true)
 	{
 		DeleteGO(this);
+	}else {
+	if (g_pad[0]->IsTrigger(enButtonA))
+	{
+		fabe->StartFadeOut();
+		Delete = true;
+	}
 	}
 }
 
