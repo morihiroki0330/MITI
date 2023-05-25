@@ -2,7 +2,7 @@
 
 class Player;
 class Game;
-
+class Stage;
 class IronBall : public IGameObject
 {
 public:
@@ -27,6 +27,6 @@ public:
 
 	Player* player;
 	Game* game;
-	
+	Stage* stage;
 };
 

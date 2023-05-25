@@ -33,7 +33,7 @@ public:
 	void Render(RenderContext& rc);
 
 	int Level = 0;
-	int Level_Max = 0;
+	int Level_Max = 9;
 
 	int Count = 0;
 

@@ -2,7 +2,7 @@
 #include "IronBall.h"
 #include "Player.h"
 #include "Game.h"
-
+#include "Stage.h"
 IronBall::IronBall()
 {
 	Set = true;
@@ -42,7 +42,7 @@ IronBall::~IronBall()
 void IronBall::Update()
 {
 	game = FindGO<Game>("game");
-
+	stage = FindGO<Stage>("stage");
 	for (int L = 0; L < 10; L++)
 	{
 		for (int R = 0; R < 10; R++)
@@ -65,34 +65,54 @@ void IronBall::Update()
 	if (Set == true)
 	{
 
-		if (game->Level == 0)
+		if (stage->StageOrder[game->Level] == 0)
 		{
 			IronBox_P = SetPosition[4][1];
 		}
 
-		if (game->Level == 1)
+		if (stage->StageOrder[game->Level] == 1)
 		{
 			IronBox_P = SetPosition[3][0];
 		}
 		
-		if (game->Level == 2)
+		if (stage->StageOrder[game->Level] == 2)
 		{
 			IronBox_P = SetPosition[1][1];
 		}
 
-		if (game->Level == 3)
+		if (stage->StageOrder[game->Level] == 3)
 		{
 			IronBox_P = SetPosition[3][0];
 		}
 		
-		if (game->Level == 4)
+		if (stage->StageOrder[game->Level] == 4)
 		{
 			IronBox_P = SetPosition[9][1];
 		}
 		
-		if (game->Level == 5)
+		if (stage->StageOrder[game->Level] == 5)
 		{
 			IronBox_P = SetPosition[3][0];
+		}
+		
+		if (stage->StageOrder[game->Level] == 6)
+		{
+			IronBox_P = SetPosition[0][1];
+		}
+		
+		if (stage->StageOrder[game->Level] == 7)
+		{
+			IronBox_P = SetPosition[0][1];
+		}
+
+		if (stage->StageOrder[game->Level] == 8)
+		{
+			IronBox_P = SetPosition[0][1];
+		}
+		
+		if (stage->StageOrder[game->Level] == 9)
+		{
+			IronBox_P = SetPosition[0][1];
 		}
 		IronBox.SetPosition(IronBox_P);
 		IronBox.Update();

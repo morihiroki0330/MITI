@@ -18,9 +18,9 @@ struct MapData
 
 	bool weightboard_map;
 
-	int weightboard_linknumber[10];
+	int weightboard_linknumber[15];
 
-	int weightboard_linkobject[10];
+	int weightboard_linkobject[15];
 
 	int weightboard_count;
 
@@ -147,6 +147,9 @@ public:
 	Game* game;
 
 	FontRender Count_F;
+
 	int Count = 0;
+
+	int StageOrder[15];
 };
 

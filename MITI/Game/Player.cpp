@@ -54,38 +54,58 @@ void Player::Update()
 {
 
 	game = FindGO<Game>("game");
-
+	stage = FindGO<Stage>("stage");
 	if (Set == true)
 	{
-		if (game->Level == 0)
+		if (stage->StageOrder[game->Level] == 0)
 		{
 			Character_P = SetPosition[5][1];
 			Character_R.SetRotationY({180.0f});
 		}
 
-		if (game->Level == 1)
+		if (stage->StageOrder[game->Level] == 1)
 		{
 			Character_P = SetPosition[2][0];
 		}
 
-		if (game->Level == 2)
+		if (stage->StageOrder[game->Level] == 2)
 		{
 			Character_P = SetPosition[1][0];
 		}
 
-		if (game->Level == 3)
+		if (stage->StageOrder[game->Level] == 3)
 		{
 			Character_P = SetPosition[2][0];
 		}
 		
-		if (game->Level == 4)
+		if (stage->StageOrder[game->Level] == 4)
 		{
 			Character_P = SetPosition[9][0];
 		}
 
-		if (game->Level == 5)
+		if (stage->StageOrder[game->Level] == 5)
 		{
 			Character_P = SetPosition[2][0];
+		}
+
+		if (stage->StageOrder[game->Level] == 6)
+		{
+			Character_P = SetPosition[0][0];
+		}
+		
+		if (stage->StageOrder[game->Level] == 7)
+		{
+			Character_P = SetPosition[0][0];
+		}
+
+		if (stage->StageOrder[game->Level] == 8)
+		{
+			Character_P = SetPosition[0][0];
+		}
+		
+		if (stage->StageOrder[game->Level] == 9)
+		{
+			Character_P = SetPosition[0][0];
 		}
 
 		Character.SetPosition(Character_P);
@@ -269,12 +289,11 @@ void Player::Move()
 			MoveSpeed.x = 0.0f;
 		}
 
-		if (abs(MoveSpeed.x) == abs(MoveSpeed.z) || put_IronAnim == true || get_IronAnim == true)
+		if (abs(MoveSpeed.x) == abs(MoveSpeed.z) || put_IronAnim == true || get_IronAnim == true || game->ClearFlag == true)
 		{
 			MoveSpeed.x = 0.0f;
 			MoveSpeed.z = 0.0f;
 		}
-
 	}else{
 	if (slipflag == true)
 	{

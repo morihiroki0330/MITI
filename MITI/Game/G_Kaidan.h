@@ -1,5 +1,7 @@
 #pragma once
 class Box;
+class Game;
+class Stage;
 class G_Kaidan : public IGameObject
 {
 public:
@@ -15,5 +17,8 @@ public:
 	AllLight Light;
 
 	Box* box;
+	bool Set = true;
+	Game* game;
+	Stage* stage;
 };
 
