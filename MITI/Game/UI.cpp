@@ -111,6 +111,22 @@ UI::UI()
 		Stage[6].Init("Assets/UI/Level6.DDS", 1920.0f, 1080.0f);
 		Stage[6].SetPosition({ 0.0f,0.0f,0.0f });
 		Stage[6].Update();
+		
+		Stage[7].Init("Assets/UI/Level7.DDS", 1920.0f, 1080.0f);
+		Stage[7].SetPosition({ 0.0f,0.0f,0.0f });
+		Stage[7].Update();
+		
+		Stage[8].Init("Assets/UI/Level8.DDS", 1920.0f, 1080.0f);
+		Stage[8].SetPosition({ 0.0f,0.0f,0.0f });
+		Stage[8].Update();
+		
+		Stage[9].Init("Assets/UI/Level9.DDS", 1920.0f, 1080.0f);
+		Stage[9].SetPosition({ 0.0f,0.0f,0.0f });
+		Stage[9].Update();
+		
+		Stage[10].Init("Assets/UI/Level10.DDS", 1920.0f, 1080.0f);
+		Stage[10].SetPosition({ 0.0f,0.0f,0.0f });
+		Stage[10].Update();
 	}
 	STimer.Init("Assets/UI/Timer.DDS", 1920.0f, 1080.0f);
 	STimer.SetPosition({ 0.0f,0.0f,0.0f });

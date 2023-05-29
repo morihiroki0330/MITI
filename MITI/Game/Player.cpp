@@ -448,7 +448,7 @@ void Player::Rotation()
 void Player::Ball()
 {
 	//鉄球クラスで鉄球の所持数を変えるためにフラグ変数を変更する
-	if (g_pad[0]->IsTrigger(enButtonA) && ironBall < 5)
+	if (g_pad[0]->IsTrigger(enButtonA) && ironBall < 5 && stage->mapdata[(player_map / 10)][(player_map % 10)].grounddata == GROUND)
 	{
 		SoundSource* SE = NewGO<SoundSource>(0);
 		SE->Init(S_IRONBALLGET);
@@ -467,7 +467,7 @@ void Player::Ball()
 	}
 	}
 
-	if (g_pad[0]->IsTrigger(enButtonB) && ironBall > 0)
+	if (g_pad[0]->IsTrigger(enButtonB) && ironBall > 0 && stage->mapdata[(player_map / 10)][(player_map % 10)].grounddata == GROUND)
 	{
 		SoundSource* SE = NewGO<SoundSource>(0);
 		SE->Init(S_IRONBALLPUT);

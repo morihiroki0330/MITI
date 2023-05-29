@@ -25,7 +25,7 @@ public:
 	FontRender Timer;
 	SpriteRender STimer;
 	FontRender Tips;
-	SpriteRender Stage[10];
+	SpriteRender Stage[11];
 
 	int timer;
 	int over;
