@@ -1,6 +1,5 @@
 #pragma once
 //#include "Level3DRender/LevelRender.h"
-#include "sound/SoundSource.h"
 class Player;
 class IronBall;
 class Gameover;
@@ -17,7 +16,7 @@ class G_Kaidan;
 class UI;
 class Box;
 class Bgm;
-class Fabe;
+class Fade;
 //class G_laser;
 
 class Game : public IGameObject
@@ -26,10 +25,10 @@ public:
 	Game();
 	~Game();
 	bool Start();
+	void Countdown();
 	void Update();
 	void Create();
 	void Delete();
-	void Countdown();
 	void Render(RenderContext& rc);
 
 	int Level = 0;
@@ -46,6 +45,15 @@ public:
 
 	SoundSource* BGM;
 
+	//ストーリーシーン関係の変数
+	int Ending_state = 0;
+	bool key1 = false;
+	bool key2 = false;
+	bool key3 = false;
+	bool key4 = false;
+
+	GameCamera* m_gamecamera;		//カメラ
+
 private:
 	ModelRender m_modelRender;
 	IronBall* m_ironBall;			//鉄球
@@ -56,7 +64,6 @@ private:
 	StageClear* m_stageclear;
 	Stage* m_stage;					//ステージ
 	Vector3 m_pos;					//座標
-	GameCamera* m_gamecamera;		//カメラ
 	G_BreakFloar* m_G_breakfloar;   //崩れる床
 	G_WeightBoard* m_G_WeightBoard;
 	G_Wall* m_G_Wall;
@@ -65,7 +72,7 @@ private:
 	UI* Ui;
 	Box* box;
 	Bgm* bgm;
-	Fabe* fabe;
+	Fade* fade;
 	//G_laser* m_G_laser;
 };
 

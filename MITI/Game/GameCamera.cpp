@@ -22,5 +22,9 @@ GameCamera::~GameCamera()
 
 void GameCamera::Update()
 {
+	/*if (g_pad[0]->IsPress(enButtonDown))
+	{
+		Camera_P.x -= 10.0f;
+	}*/
 	g_camera3D->SetPosition(Camera_P);
 }

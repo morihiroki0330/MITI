@@ -1,7 +1,7 @@
 #pragma once
 #include "sound/SoundSource.h"
 class Game;
-class Fabe;
+class Fade;
 class Gameover :public IGameObject
 {
 public:
@@ -12,9 +12,10 @@ public:
 	void Render(RenderContext& rc);
 
 	SpriteRender GAMEOVER;   
+	SpriteRender PRESSA;   
 
 	Game* game;
-	Fabe* fabe;
+	Fade* fade;
 	SoundSource* BGM;
 	bool BgmSet = true;
 	bool Delete = false;

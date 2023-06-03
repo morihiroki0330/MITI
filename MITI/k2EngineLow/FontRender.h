@@ -108,6 +108,53 @@ namespace nsK2EngineLow
 			return m_pivot;
 		}
 
+		/// <summary>
+		/// テキスト送り演出
+		/// SetTextの代わりに呼んでください
+		/// </summary>
+		/// <param name="text">表示するテキスト</param>
+		/// <param name="Interval">1文字ごとのインターバル</param>
+		/// <param name="TextOkuriSE_Flag">文字送りの効果音を再生するかどうか</param>
+		void SetTextOkuri(const wchar_t* text, const float& Interval, const bool& TextOkuriSE_Flag = true);
+		/// <summary>
+		/// テキスト送りをする場合Updateから呼んでね☆
+		/// 
+		/// あえて呼び出しを止めることで一時的にメッセージ送りを止めることも可能
+		/// </summary>
+		/// <param name="addTime"> g_gameTime->GetFrameDeltaTime()を入れてください！ </param>
+		/// <returns>このフレームで文字更新したかどうか trueなら更新した</returns>
+		bool TextOkuriUpdate(const float addTime);
+
+		/// <summary>
+		/// メッセージ送り中ならtrueを返す
+		/// </summary>
+		const bool GetMessageOkuriFlag() {
+			return m_okuriFlag;
+		}
+		/// <summary>
+		/// 現在何文字目まで表示しているかを返す
+		/// </summary>
+		const int GetNowLen() {
+			return m_textOkuri_NowLen;
+		}
+		/// <summary>
+		/// 最大文字数を返す
+		/// </summary>
+		const int GetMaxLen() {
+			return m_textOkuri_Len;
+		}
+
+		void SetNowLen(int Len) {
+			m_textOkuri_NowLen = Len;
+		}
+
+		void TextStockReset() {
+			wchar_t nullT[1] = L"";
+			for (int n = 0; n < 255; n++) {
+				m_text_stock[n] = nullT[0];
+			}
+		}
+
 //描画
 
 		void Draw(RenderContext& rc);
@@ -136,6 +183,16 @@ namespace nsK2EngineLow
 
 		//フォント
 		Font m_font;
+
+		wchar_t m_text_stock[256] = L"";			// 予備テキスト
+		float m_textOkuri_Interval = 0;				// テキスト送りのインターバルフレーム
+		float m_textOkuri_Timer = 0;				// テキスト送りタイマー
+		bool m_okuriFlag = false;					// メッセージ送り処理のフラグ
+		int m_textOkuri_Len = 0;					// 予備テキストの文字数
+		int m_textOkuri_NowLen = 0;					// 現在の文字数
+		bool m_textOkuriSE = true;					// テキスト送り中にSEを鳴らす？
+		const int TEXT_SE_NUMBER = 10;				// テキスト送り音の登録番号
+		const float VOL = 0.15f;
 	};
 }
 

@@ -1,7 +1,8 @@
 #pragma once
-#include "sound/SoundSource.h"
 class Game;
-class Fabe;
+class Bgm;
+class Story;
+class Fade;
 class StageClear : public IGameObject
 {
 public:
@@ -12,9 +13,11 @@ public:
 	void Render(RenderContext& rc);
 
 	SpriteRender STAGECLEAR;  
+	SpriteRender PRESSA;  
 
 	Game* game;
-	Fabe* fabe;
+	Bgm* bgm;
+	Fade* fade;
 
 	SoundSource* BGM;
 

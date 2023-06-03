@@ -9,6 +9,8 @@ IronBall::IronBall()
 
 	IronBox.Init("Assets/modelData/tekyu-box.tkm", Light);
 
+	g_soundEngine->ResistWaveFileBank(999, "Assets/Sound/Choice/audiostock_1024688.wav");
+
 	for (int L = 0; L < 10; L++)
 	{
 		for (int R = 0; R < 10; R++)
@@ -56,7 +58,6 @@ void IronBall::Update()
 					Ball_P[W].z > SetPosition[L][R].z - 96
 					)
 				{
-					Ball_map[W] = (L * 10) + R;
 				}
 			}
 		}
@@ -137,6 +138,10 @@ void IronBall::Update()
 			BoxFlag == false
 			)
 		{
+			SoundSource* se = NewGO<SoundSource>(0, "se");
+			se->Init(40);
+			se->SetVolume(0.7f);
+			se->Play(false);
 			player->ironBall = 5;
 			BoxFlag = true;
 		}

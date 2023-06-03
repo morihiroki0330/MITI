@@ -2,6 +2,7 @@
 class Box;
 class Stage;
 class Game;
+class IronBall;
 
 enum Direction
 {
@@ -75,6 +76,8 @@ public:
 	Stage* stage;
 
 	Game* game;
+
+	IronBall* ironball;
 
 	bool slipflag = false;
 

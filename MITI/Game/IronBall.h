@@ -23,7 +23,7 @@ public:
 	int ShowFlag[5];
 	bool BoxFlag = false;
 	bool Set;
-	int Ball_map[5];
+	bool Ball_map[10][10];
 
 	Player* player;
 	Game* game;

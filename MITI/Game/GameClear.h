@@ -1,6 +1,9 @@
 #pragma once
 #include "sound/SoundSource.h"
-class Fabe;
+class Fade;
+class Story;
+class Game;
+class Title;
 class GameClear:public IGameObject
 {
 public:
@@ -11,10 +14,12 @@ public:
 	void Render(RenderContext& rc);
 
 	SpriteRender GAMECLEAR;
+	SpriteRender PRESSA;
 
 	SoundSource* BGM;
-	Fabe* fabe;
-
+	Fade* fade;
+	Story* story;
+	Title* title;
 	bool BgmSet = true;
 	bool Delete = false;
 };

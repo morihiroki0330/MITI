@@ -3,14 +3,19 @@
 #include "Title.h"
 #include "Game.h"
 #include "Bgm.h"
-#include "Fabe.h"
+#include "Fade.h"
 #include "sound/SoundEngine.h"
 Gameover::Gameover()
 {
-	GAMEOVER.Init("Assets/sprite/RoM_gameover.DDS", 1920.0f, 1080.0f);
+	//5月24日(水)リスタート音追加
+	g_soundEngine->ResistWaveFileBank(39, "Assets/Sound/Choice/audiostock_1024688.wav");
+
+	//GAMEOVER.Init("Assets/sprite/gameover.DDS", 1920.0f, 1080.0f);
+	GAMEOVER.Init("Assets/sprite/gameover_bg.DDS", 1920.0f, 1080.0f);
+	PRESSA.Init("Assets/sprite/PRESS_A.DDS", 1920.0f, 1080.0f);
 	BGM = NewGO<SoundSource>(0);
 	BGM->Init(B_GAMEOVER);
-	BGM->SetVolume(0.1f);
+	BGM->SetVolume(0.3f);
 	BGM->Play(true);
 }
 
@@ -22,8 +27,8 @@ Gameover::~Gameover()
 
 bool Gameover::Start()
 {
-	fabe = FindGO<Fabe>("fabe");
-	fabe->StartFadeIn();
+	fade = FindGO<Fade>("fade");
+	fade->StartFadeIn();
 	return true;
 }
 
@@ -32,13 +37,17 @@ void Gameover::Update()
 	game = FindGO<Game>("game");
 	
 
-	if (fabe->IsFade() == false && Delete == true)
+	if (fade->IsFade() == false && Delete == true)
 	{
 		DeleteGO(this);
 	}else {
-	if (g_pad[0]->IsTrigger(enButtonA))
+	if (g_pad[0]->IsTrigger(enButtonA) && Delete == false)
 	{
-		fabe->StartFadeOut();
+		SoundSource* se = NewGO<SoundSource>(0);
+		se->Init(39);
+		se->SetVolume(0.6f);
+		se->Play(false);
+		fade->StartFadeOut();
 		Delete = true;
 	}
 	}
@@ -47,4 +56,5 @@ void Gameover::Update()
 void Gameover::Render(RenderContext& rc)
 {
 	GAMEOVER.Draw(rc);
+	PRESSA.Draw(rc);
 }

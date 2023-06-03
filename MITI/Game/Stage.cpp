@@ -1584,6 +1584,7 @@ Level[7][9][2].weightboard_count = 3;
 
 		//ŒŠ
 		{
+
 		Level[7][0][4].hole_on = true;
 
 		Level[7][1][4].hole_on = true;
@@ -2079,14 +2080,14 @@ Level[7][9][2].weightboard_count = 3;
 
 	StageOrder[0] = {0};
 	StageOrder[1] = {1};
-	StageOrder[2] = { rand() % 9 + 2 };
-	StageOrder[3] = { rand() % 9 + 2 };
-	StageOrder[4] = { rand() % 9 + 2 };
-	StageOrder[5] = { rand() % 9 + 2 };
-	StageOrder[6] = { rand() % 9 + 2 };
-	StageOrder[7] = { rand() % 9 + 2 };
-	StageOrder[8] = { rand() % 9 + 2 };
-	StageOrder[9] = { rand() % 9 + 2 };
+	StageOrder[2] = {7};
+	StageOrder[3] = {3};
+	StageOrder[4] = {2};
+	StageOrder[5] = {4};
+	StageOrder[6] = {8};
+	StageOrder[7] = {9};
+	StageOrder[8] = {5};
+	StageOrder[9] = {6};
 }
 
 Stage::~Stage()

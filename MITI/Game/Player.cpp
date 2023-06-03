@@ -4,6 +4,7 @@
 #include "Stage.h"
 #include "Game.h"
 #include "Bgm.h"
+#include "IronBall.h"
 #include "sound/SoundEngine.h"
 #include "sound/SoundSource.h"
 
@@ -55,6 +56,7 @@ void Player::Update()
 
 	game = FindGO<Game>("game");
 	stage = FindGO<Stage>("stage");
+	ironball = FindGO<IronBall>("ironball");
 	if (Set == true)
 	{
 		if (stage->StageOrder[game->Level] == 0)
@@ -269,30 +271,31 @@ void Player::Move()
 	{
 		slipflag = false;
 	}
-
 	if (slipflag == false)
 	{
 		//移動速度の初期化
 		MoveSpeed.x = 0.0f;
 		MoveSpeed.z = 0.0f;
+		if (CharacterController.IsOnGround() == true) {
 
-		//プレイヤーの移動
-		MoveSpeed.x += StickL.x * (-9.0f + ironBall / 4)/*-(0.8f * (6 - ironBall))*/;
-		MoveSpeed.z += StickL.y * (9.0f - ironBall / 4)/*(0.8f * (6 - ironBall))*/;
-		if (abs(MoveSpeed.x) > abs(MoveSpeed.z))
-		{
-			MoveSpeed.z = 0.0f;
-		}
+			//プレイヤーの移動
+			MoveSpeed.x += StickL.x * (-9.0f + ironBall / 4)/*-(0.8f * (6 - ironBall))*/;
+			MoveSpeed.z += StickL.y * (9.0f - ironBall / 4)/*(0.8f * (6 - ironBall))*/;
+			if (abs(MoveSpeed.x) > abs(MoveSpeed.z))
+			{
+				MoveSpeed.z = 0.0f;
+			}
 
-		if (abs(MoveSpeed.x) < abs(MoveSpeed.z))
-		{
-			MoveSpeed.x = 0.0f;
-		}
+			if (abs(MoveSpeed.x) < abs(MoveSpeed.z))
+			{
+				MoveSpeed.x = 0.0f;
+			}
 
-		if (abs(MoveSpeed.x) == abs(MoveSpeed.z) || put_IronAnim == true || get_IronAnim == true || game->ClearFlag == true)
-		{
-			MoveSpeed.x = 0.0f;
-			MoveSpeed.z = 0.0f;
+			if (abs(MoveSpeed.x) == abs(MoveSpeed.z) || put_IronAnim == true || get_IronAnim == true || game->ClearFlag == true)
+			{
+				MoveSpeed.x = 0.0f;
+				MoveSpeed.z = 0.0f;
+			}
 		}
 	}else{
 	if (slipflag == true)
@@ -452,9 +455,10 @@ void Player::Ball()
 	{
 		SoundSource* SE = NewGO<SoundSource>(0);
 		SE->Init(S_IRONBALLGET);
-		SE->SetVolume(0.1f);
+		SE->SetVolume(0.5f);
 		SE->Play(false);
 		get_Iron = true;
+		ironball->Ball_map[(player_map / 10)][(player_map % 10)] = false;
 	}
 
 	if (ironBall >= 5)
@@ -469,12 +473,15 @@ void Player::Ball()
 
 	if (g_pad[0]->IsTrigger(enButtonB) && ironBall > 0 && stage->mapdata[(player_map / 10)][(player_map % 10)].grounddata == GROUND)
 	{
-		SoundSource* SE = NewGO<SoundSource>(0);
-		SE->Init(S_IRONBALLPUT);
-		SE->SetVolume(0.1f);
-		SE->Play(false);
-		put_Iron = true;
-
+		if (ironball->Ball_map[(player_map / 10)][(player_map % 10)] == false)
+		{
+			SoundSource* SE = NewGO<SoundSource>(0);
+			SE->Init(S_IRONBALLPUT);
+			SE->SetVolume(0.5f);
+			SE->Play(false);
+			put_Iron = true;
+			ironball->Ball_map[(player_map / 10)][(player_map % 10)] = true;
+		}
 	}
 
 	if (ironBall <= 0)
@@ -527,7 +534,7 @@ void Player::ManageState()
 			FallSet = true;
 			SoundSource* SE = NewGO<SoundSource>(0);
 			SE->Init(S_FALL);
-			SE->SetVolume(0.1f);
+			SE->SetVolume(0.4f);
 			SE->Play(false);
 		}
 }
@@ -595,9 +602,9 @@ void Player::Status()
 		}
 	}
 	
-
-	
-	as.SetText(L"衝突");
+	wchar_t a[256];
+	swprintf_s(a, 256, L"%d",player_map);
+	as.SetText(a);
 	as.SetPosition(Vector3(-852.0f, 350.0f, 0.0f));
 	as.SetScale(1.0f);
 }
@@ -606,9 +613,10 @@ void Player::Render(RenderContext& rc)
 {
 	Character.Draw(rc);
 	asb.Draw(rc);
+	//as.Draw(rc);
 	if (hitflag == true)
 	{
-		//as.Draw(rc);
+		
 	}
 
 }

@@ -1,13 +1,8 @@
 #include "stdafx.h"
 #include "system/system.h"
-#include "UNITY.h"
-#include "Player.h"
-#include "IronBall.h"
-
-//#include "Game.h"
 #include "Title.h"
 #include "Bgm.h"
-#include "Fabe.h"
+#include "Fade.h"
 
 // K2EngineLowのグローバルアクセスポイント。
 K2EngineLow* g_k2EngineLow = nullptr;
@@ -26,15 +21,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	g_camera3D->SetPosition({ 0.0f, 100.0f, -200.0f });
 	g_camera3D->SetTarget({ 0.0f, 50.0f, 0.0f });
 
-	//NewGO<UNITY>(0);
-	//NewGO<Player>(0);
-	NewGO<Bgm>(0, "bgm");
 	NewGO<Title>(0,"title");
-	NewGO<Fabe>(1, "fabe");
-	//NewGO<UNITY>(0);
-	//NewGO<Player>(0, "player");
-	//NewGO<IronBall>(0);
-
+	NewGO<Bgm>(0, "bgm");
+	NewGO<Fade>(1, "fade");
 
 	// ここからゲームループ。
 	while (DispatchWindowMessage())

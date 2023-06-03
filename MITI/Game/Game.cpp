@@ -18,7 +18,7 @@
 #include "UI.h"
 #include "Box.h"
 #include "Bgm.h"
-#include "Fabe.h"
+#include "Fade.h"
 #include "sound/SoundEngine.h"
 //#include "G_laser.h"
 
@@ -37,7 +37,7 @@ Game::Game()
 
 	BGM = NewGO<SoundSource>(0);
 	BGM->Init(B_STAGE);
-	BGM->SetVolume(0.1f);
+	BGM->SetVolume(0.5f);
 	BGM->Play(true);
 }
 
@@ -53,8 +53,8 @@ Game::~Game()
 
 bool Game::Start()
 {
-	fabe = FindGO<Fabe>("fabe");
-	fabe->StartFadeIn();
+	fade = FindGO<Fade>("fade");
+	fade->StartFadeIn();
 	return true;
 }
 
@@ -64,10 +64,10 @@ void Game::Update()
 	{
 		if (DeleteSet == false)
 		{
-			fabe->StartFadeOut();
+			fade->StartFadeOut();
 			DeleteSet = true;
 		}else {
-		if (fabe->IsFade() == false && DeleteSet == true)
+		if (fade->IsFade() == false && DeleteSet == true)
 		{
 			NewGO<Gameover>(0, "gameover");
 			Delete();
@@ -80,10 +80,10 @@ void Game::Update()
 	{
 		if (DeleteSet == false)
 		{
-			fabe->StartFadeOut();
+			fade->StartFadeOut();
 			DeleteSet = true;
 		}else {
-		if (fabe->IsFade() == false && DeleteSet == true)
+		if (fade->IsFade() == false && DeleteSet == true)
 		{
 			NewGO<GameClear>(0, "gameclear");
 			Delete();
@@ -96,10 +96,10 @@ void Game::Update()
 	{
 		if (DeleteSet == false)
 		{
-			fabe->StartFadeOut();
+			fade->StartFadeOut();
 			DeleteSet = true;
 		}else {
-		if (fabe->IsFade() == false && DeleteSet == true)
+		if (fade->IsFade() == false && DeleteSet == true)
 		{
 			NewGO<StageClear>(0, "stageclear");
 			Delete();
@@ -126,9 +126,10 @@ void Game::Create()
 	box = NewGO<Box>(0, "box");
 	bgm = NewGO<Bgm>(0, "bgm");
 	BGM = NewGO<SoundSource>(0);
-	fabe->StartFadeIn();
+	fade->StartFadeIn();
+	DeleteSet = false;
 	BGM->Init(B_STAGE);
-	BGM->SetVolume(0.1f);
+	BGM->SetVolume(0.5f);
 	BGM->Play(true);
 }
 

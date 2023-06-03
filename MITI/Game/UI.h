@@ -29,7 +29,7 @@ public:
 
 	int timer;
 	int over;
-	int timelimit = 90;
+	int timelimit = 100;
 
 	//“S‹…
 	SpriteRender Iron[6];

@@ -60,27 +60,27 @@ UI::UI()
 
 	//ìSãÖÇÃèäéùêî
 	{
-		Iron[0].Init("Assets/UI/Iron-Non.DDS", 128.0f, 512.0f);
+		Iron[0].Init("Assets/UI/Iron0.DDS", 128.0f, 512.0f);
 		Iron[0].SetPosition({ 750.0f,-50.0f,0.0f });
 		Iron[0].Update();
 
-		Iron[1].Init("Assets/UI/Iron-One.DDS", 128.0f, 512.0f);
+		Iron[1].Init("Assets/UI/Iron1.DDS", 128.0f, 512.0f);
 		Iron[1].SetPosition({ 750.0f,-50.0f,0.0f });
 		Iron[1].Update();
 
-		Iron[2].Init("Assets/UI/Iron-Two.DDS", 128.0f, 512.0f);
+		Iron[2].Init("Assets/UI/Iron2.DDS", 128.0f, 512.0f);
 		Iron[2].SetPosition({ 750.0f,-50.0f,0.0f });
 		Iron[2].Update();
 
-		Iron[3].Init("Assets/UI/Iron-Three.DDS", 128.0f, 512.0f);
+		Iron[3].Init("Assets/UI/Iron3.DDS", 128.0f, 512.0f);
 		Iron[3].SetPosition({ 750.0f,-50.0f,0.0f });
 		Iron[3].Update();
 
-		Iron[4].Init("Assets/UI/Iron-Four.DDS", 128.0f, 512.0f);
+		Iron[4].Init("Assets/UI/Iron4.DDS", 128.0f, 512.0f);
 		Iron[4].SetPosition({ 750.0f,-50.0f,0.0f });
 		Iron[4].Update();
 
-		Iron[5].Init("Assets/UI/Iron-Five.DDS", 128.0f, 512.0f);
+		Iron[5].Init("Assets/UI/Iron5.DDS", 128.0f, 512.0f);
 		Iron[5].SetPosition({ 750.0f,-50.0f,0.0f });
 		Iron[5].Update();
 
@@ -111,19 +111,19 @@ UI::UI()
 		Stage[6].Init("Assets/UI/Level6.DDS", 1920.0f, 1080.0f);
 		Stage[6].SetPosition({ 0.0f,0.0f,0.0f });
 		Stage[6].Update();
-		
+
 		Stage[7].Init("Assets/UI/Level7.DDS", 1920.0f, 1080.0f);
 		Stage[7].SetPosition({ 0.0f,0.0f,0.0f });
 		Stage[7].Update();
-		
+
 		Stage[8].Init("Assets/UI/Level8.DDS", 1920.0f, 1080.0f);
 		Stage[8].SetPosition({ 0.0f,0.0f,0.0f });
 		Stage[8].Update();
-		
+
 		Stage[9].Init("Assets/UI/Level9.DDS", 1920.0f, 1080.0f);
 		Stage[9].SetPosition({ 0.0f,0.0f,0.0f });
 		Stage[9].Update();
-		
+
 		Stage[10].Init("Assets/UI/Level10.DDS", 1920.0f, 1080.0f);
 		Stage[10].SetPosition({ 0.0f,0.0f,0.0f });
 		Stage[10].Update();
@@ -208,7 +208,7 @@ void UI::Update()
 	wchar_t clock[256];
 	swprintf_s(clock, 256, L"%d",over);
 	Timer.SetText(clock);
-	Timer.SetPosition(Vector3(840.0f, 305.0f, 0.0f));
+	Timer.SetPosition(Vector3(830.0f, 305.0f, 0.0f));
 	Timer.SetScale(1.0f);
 
 	wchar_t tips[256];
