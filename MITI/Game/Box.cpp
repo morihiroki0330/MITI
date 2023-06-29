@@ -1,27 +1,47 @@
 #include "stdafx.h"
 #include "Box.h"
-
-Box::Box()
+#include "Number_Storage.h"
+#include "Player.h"
+#include "Game.h"
+bool Box::Start()
 {
-	for (int L = 0; L < 10; L++)
+	KabeBoxSet();
+
+	for (int Y = 0; Y < 10; Y++)
 	{
-		for (int R = 0; R < 10; R++)
+		for (int X = 0; X < 10; X++)
 		{
-			/*Box_P[L][R].x = (L * 192.0f) + -865.0f;
-			Box_P[L][R].y = 100.0f;
-			Box_P[L][R].z = (R * 192.0f) + -865.0f;
-			box[L][R].CreateBox(Box_P[L][R], Quaternion::Identity, Vector3::One * 300.0f);*/
-			box[L][R].CreateBox(Vector3(-2000.0f,-2000.0f,-2000.0f), Quaternion::Identity, Vector3::One * 270.0f);
+			BlockBox[Y][X].CreateBox({Grid_ExemptPosition_X,Grid_ExemptPosition_Y,Grid_ExemptPosition_Z}, Quaternion::Identity, Vector3::One * 270.0f);
 		}
 	}
-	//ã
-	box_soto[0].CreateBox(Vector3(-1057.0f, 0.0, 0.0f), Quaternion(0.0f, 0.0f, 0.0f, 1.0f), Vector3(270.0f, 270.0f, 1920.0f));
-	//‰º
-	box_soto[1].CreateBox(Vector3(1057.0f, 0.0, 0.0f), Quaternion(0.0f, 0.0f, 0.0f, 1.0f), Vector3(270.0f, 270.0f, 1920.0f));
-	//‰E
-	box_soto[2].CreateBox(Vector3(0.0f, 0.0, 1057.0f), Quaternion(0.0f, 90.0f, 0.0f, 1.0f), Vector3(1920.0f, 270.0f, 270.0f));
-	//¶
-	box_soto[3].CreateBox(Vector3(0.0f, 0.0, -1057.0f), Quaternion(0.0f, 90.0f, 0.0f, 1.0f), Vector3(1920.0f, 270.0f, 270.0f));
+	KabeBox[UP].CreateBox(Kabe_Position[UP],Kabe_Rotation[UP],Kabe_Size[UP]);
+	KabeBox[DOWN].CreateBox(Kabe_Position[DOWN], Kabe_Rotation[DOWN], Kabe_Size[DOWN]);
+	KabeBox[RIGHT].CreateBox(Kabe_Position[RIGHT], Kabe_Rotation[RIGHT], Kabe_Size[RIGHT]);
+	KabeBox[LEFT].CreateBox(Kabe_Position[LEFT], Kabe_Rotation[LEFT], Kabe_Size[LEFT]);
 	
-	box_kaidan.CreateBox(Vector3(-2000.0f, -2000.0f, -2000.0f), Quaternion::Identity, Vector3::One * 150.0f);
+	KaidanBox.CreateBox({Grid_ExemptPosition_X,Grid_ExemptPosition_Y,Grid_ExemptPosition_Z}, Quaternion::Identity, Vector3::One * 150.0f);
+
+	player = FindGO<Player>("player");
+	game = FindGO<Game>("game");
+
+	return true;
+}
+
+void Box::KabeBoxSet()
+{
+	Kabe_Position[UP] = { -1057.0f, NON, NON };
+	Kabe_Rotation[UP] = { NON, NON, NON, 1.0f };
+	Kabe_Size[UP] = { 270.0f, 270.0f, 1920.0f };
+	
+	Kabe_Position[DOWN] = { 1057.0f, 0.0, NON };
+	Kabe_Rotation[DOWN] = { NON, NON, NON, 1.0f };
+	Kabe_Size[DOWN] = { 270.0f, 270.0f, 1920.0f };
+
+	Kabe_Position[RIGHT] = { NON, 0.0, 1057.0f };
+	Kabe_Rotation[RIGHT] = { NON, 90.0f, NON, 1.0f };
+	Kabe_Size[RIGHT] = { 1920.0f, 270.0f, 270.0f };
+
+	Kabe_Position[LEFT] = { NON, 0.0, -1057.0f };
+	Kabe_Rotation[LEFT] = { NON, 90.0f, NON, 1.0f };
+	Kabe_Size[LEFT] = { 1920.0f, 270.0f, 270.0f };
 }

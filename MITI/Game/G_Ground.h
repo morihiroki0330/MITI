@@ -2,18 +2,17 @@
 class G_Ground : public IGameObject
 {
 public:
-	G_Ground();
-	~G_Ground();
+	bool Start();
+	void Map_On(int Y, int X);
+	void Map_SetPosition(int Y, int X, Vector3 Position);
 	void Update();
 	void Render(RenderContext& rc);
-
+private:
 	ModelRender Ground[10][10];
-	Vector3 Ground_P[10][10];
-	Vector3 SetPosition[10][10];
-	PhysicsStaticObjectPos m_physicsStaticObjectpos[10][10];
-
-	bool Ground_on[10][10];
-
+	Vector3 Ground_Position[10][10];
+	Vector3 Ground_SparePosition[10][10];
+	PhysicsStaticObjectPos Ground_PSO[10][10];
+	bool Ground_On[10][10];
 	AllLight Light;
 };
 

@@ -2,57 +2,54 @@
 #include "G_IceFloor.h"
 #include "Player.h"
 #include "Stage.h"
-
-G_IceFloor::G_IceFloor()
+#include "Number_Storage.h"
+bool G_IceFloor::Start()
 {
-	for (int L = 0; L < 10; L++)
+	for (int Y = 0; Y < 10; Y++)
 	{
-		for (int R = 0; R < 10; R++)
+		for (int X = 0; X < 10; X++)
 		{
-			IceFloor[L][R].Init("Assets/modelData/ice1.tkm", Light);
-			m_physicsStaticObjectpos[L][R].CreateFromModel(IceFloor[L][R].GetModel(), IceFloor[L][R].GetModel().GetWorldMatrix());
-			m_physicsStaticObjectpos[L][R].SetPosition({ -2000.0f,-2000.0f,-2000.0f });
+			IceFloor[Y][X].Init("Assets/modelData/ice1.tkm", Light);
+			IceFloor_PSO[Y][X].CreateFromModel(IceFloor[Y][X].GetModel(), IceFloor[Y][X].GetModel().GetWorldMatrix());
+			IceFloor_PSO[Y][X].SetPosition({ Grid_ExemptPosition_X,Grid_ExemptPosition_Y,Grid_ExemptPosition_Z });
 		}
 	}
+	
+	player = FindGO<Player>("player");
+	stage = FindGO<Stage>("stage");
+	return true;
 }
 
-G_IceFloor::~G_IceFloor()
+void G_IceFloor::Map_On(int Y, int X)
 {
+	IceFloor_On[Y][X] = true;
+}
 
+void G_IceFloor::Map_SetPosition(int Y, int X, Vector3 Position)
+{
+	IceFloor_Position[Y][X].x = Position.x;
+	IceFloor_Position[Y][X].y = Position.y - 50.0f;
+	IceFloor_Position[Y][X].z = Position.z;
+}
+
+void G_IceFloor::IceFloorOnPlayer()
+{
+	if (stage->MapData[(player->PlayerMap / 10)][(player->PlayerMap % 10)].GroundData == ICE) { player->SlipFlag = true; }
 }
 
 void G_IceFloor::Update()
 {
+	IceFloorOnPlayer();
 
-	if (player == NULL)
+	for (int Y = 0; Y < 10; Y ++)
 	{
-		//プレイヤーを探す
-		player = FindGO<Player>("player");
-	}
-
-	if (stage == NULL)
-	{
-		stage = FindGO<Stage>("stage");
-	}
-
-	//氷の床にプレイヤーが乗っている時
-	if (
-			stage->mapdata[(player->player_map / 10)][(player->player_map % 10)].grounddata == ICE
-		)
-	{
-		//プレイヤーが滑っているフラグを立てる
-		player->slipflag = true;
-	}
-
-	for (int L = 0; L < 10; L ++)
-	{
-		for (int R = 0; R < 10; R++)
+		for (int X = 0; X < 10; X++)
 		{
-			if (IceFloor_on[L][R] == true)
+			if (IceFloor_On[Y][X] == true)
 			{
-				IceFloor[L][R].SetPosition(IceFloor_P[L][R]);
-				m_physicsStaticObjectpos[L][R].SetPosition(IceFloor_P[L][R]);
-				IceFloor[L][R].Update();
+				IceFloor[Y][X].SetPosition(IceFloor_Position[Y][X]);
+				IceFloor_PSO[Y][X].SetPosition(IceFloor_Position[Y][X]);
+				IceFloor[Y][X].Update();
 			}
 		}
 	}
@@ -61,13 +58,13 @@ void G_IceFloor::Update()
 
 void G_IceFloor::Render(RenderContext& rc)
 {
-	for (int L = 0; L < 10; L++)
+	for (int Y = 0; Y < 10; Y++)
 	{
-		for (int R = 0; R < 10; R++)
+		for (int X = 0; X < 10; X++)
 		{
-			if (IceFloor_on[L][R] == true)
+			if (IceFloor_On[Y][X] == true)
 			{
-				IceFloor[L][R].Draw(rc);
+				IceFloor[Y][X].Draw(rc);
 			}
 		}
 	}

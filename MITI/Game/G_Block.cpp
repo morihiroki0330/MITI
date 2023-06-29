@@ -3,222 +3,253 @@
 #include "G_WeightBoard.h"
 #include "Box.h"
 #include "Stage.h"
-
-G_Block::G_Block()
+#include "Number_Storage.h"
+bool G_Block::Start()
 {
-	for (int L = 0; L < 10; L++)
+	for (int Y = 0; Y < 10; Y++)
 	{
-		for (int R = 0; R < 10; R++)
+		for (int X = 0; X < 10; X++)
 		{
-			Block[L][R].Init("Assets/modelData/isi.tkm", Light);
-			IBlock[L][R].Init("Assets/modelData/ice1.tkm", Light);
-			GBlock[L][R].Init("Assets/modelData/ground1.tkm", Light);
-			DBlock[L][R].Init("Assets/modelData/DeleteBlock.tkm", Light);
-
-			SkeletonBlock_ICE[L][R].Init("Assets/modelData/SkeletonBlock/S_Ice.tkm", Light);
-			SkeletonBlock_GROUND[L][R].Init("Assets/modelData/SkeletonBlock/S_Ground.tkm", Light);
-			SkeletonBlock_BLOCK[L][R].Init("Assets/modelData/SkeletonBlock/S_Block.tkm", Light);
-			SkeletonBlock_DELETE[L][R].Init("Assets/modelData/SkeletonBlock/S_Delete.tkm", Light);
-			
-			SkeletonBlock_ICE[L][R].SetPosition({ -2000.0f,-2000.0f,-2000.0f });
-			SkeletonBlock_GROUND[L][R].SetPosition({ -2000.0f,-2000.0f,-2000.0f });
-			SkeletonBlock_BLOCK[L][R].SetPosition({ -2000.0f,-2000.0f,-2000.0f });
-			
-			SkeletonBlock_ICE[L][R].Update();
-			SkeletonBlock_GROUND[L][R].Update();
-			SkeletonBlock_BLOCK[L][R].Update();
-
-			m_physicsStaticObjectpos[L][R].CreateFromModel(Block[L][R].GetModel(), Block[L][R].GetModel().GetWorldMatrix());
-			m_physicsStaticObjectpos[L][R].SetPosition({-2000.0f,-2000.0f,-2000.0f});
+			SetModel(Y,X);
+			SetModelPosition(Y,X);
+			SetModelUpdate(Y,X);
 		}
 	}
-}	
-
-G_Block::~G_Block()
-{
-
+	weightboard = FindGO<G_WeightBoard>("weightboard");
+	box = FindGO<Box>("box");
+	stage = FindGO<Stage>("stage");
+	return true;
 }
 
-void G_Block::Update()
+void G_Block::SetModel(int Y , int X)
 {
+	Block[Y][X].Init("Assets/modelData/isi.tkm", Light);
+	IceBlock[Y][X].Init("Assets/modelData/ice1.tkm", Light);
+	GroundBlock[Y][X].Init("Assets/modelData/ground1.tkm", Light);
+	DeleteBlock[Y][X].Init("Assets/modelData/DeleteBlock.tkm", Light);
 
-	if (weightboard == NULL)
+	SkeletonBlock[Y][X].Init("Assets/modelData/SkeletonBlock/S_Block.tkm", Light);
+	SkeletonIceBlock[Y][X].Init("Assets/modelData/SkeletonBlock/S_Ice.tkm", Light);
+	SkeletonGroundBlock[Y][X].Init("Assets/modelData/SkeletonBlock/S_Ground.tkm", Light);
+	SkeletonDeleteBlock[Y][X].Init("Assets/modelData/SkeletonBlock/S_Delete.tkm", Light);
+
+	Block_PSO[Y][X].CreateFromModel(Block[Y][X].GetModel(), Block[Y][X].GetModel().GetWorldMatrix());
+}
+void G_Block::SetModelPosition(int Y, int X)
+{
+	Block[Y][X].SetPosition({Grid_ExemptPosition_X,Grid_ExemptPosition_Y,Grid_ExemptPosition_Z});
+	IceBlock[Y][X].SetPosition({Grid_ExemptPosition_X,Grid_ExemptPosition_Y,Grid_ExemptPosition_Z});
+	GroundBlock[Y][X].SetPosition({Grid_ExemptPosition_X,Grid_ExemptPosition_Y,Grid_ExemptPosition_Z});
+	DeleteBlock[Y][X].SetPosition({Grid_ExemptPosition_X,Grid_ExemptPosition_Y,Grid_ExemptPosition_Z});
+
+	SkeletonBlock[Y][X].SetPosition({Grid_ExemptPosition_X,Grid_ExemptPosition_Y,Grid_ExemptPosition_Z});
+	SkeletonIceBlock[Y][X].SetPosition({Grid_ExemptPosition_X,Grid_ExemptPosition_Y,Grid_ExemptPosition_Z});
+	SkeletonGroundBlock[Y][X].SetPosition({Grid_ExemptPosition_X,Grid_ExemptPosition_Y,Grid_ExemptPosition_Z});
+	SkeletonDeleteBlock[Y][X].SetPosition({Grid_ExemptPosition_X,Grid_ExemptPosition_Y,Grid_ExemptPosition_Z});
+
+	Block_PSO[Y][X].SetPosition({Grid_ExemptPosition_X,Grid_ExemptPosition_Y,Grid_ExemptPosition_Z});
+}
+void G_Block::SetModelUpdate(int Y, int X)
+{
+	Block[Y][X].Update();
+	IceBlock[Y][X].Update();
+	GroundBlock[Y][X].Update();
+	DeleteBlock[Y][X].Update();
+
+	SkeletonBlock[Y][X].Update();
+	SkeletonIceBlock[Y][X].Update();
+	SkeletonGroundBlock[Y][X].Update();
+	SkeletonDeleteBlock[Y][X].Update();
+}
+
+void G_Block::Map_On(int Y, int X)
+{
+	NonBlock[Y][X] = true;
+}
+void G_Block::Map_SetPosition(int Y, int X, Vector3 Position)
+{
+	Block_Position[Y][X].x = Position.x;
+	Block_Position[Y][X].y = 150.0f;
+	Block_Position[Y][X].z = Position.z;
+}
+
+void G_Block::NonBlockUpdate()
+{
+	for (int Y = 0; Y < 10; Y++)
 	{
-		weightboard = FindGO<G_WeightBoard>("weightboard");
-	}
-	
-	if (box == NULL)
-	{
-		box = FindGO<Box>("box");
-	}
-	
-	if (stage == NULL)
-	{
-		stage = FindGO<Stage>("stage");
-	}
-	
-	for (int L = 0; L < 10; L++)
-	{
-		for (int R = 0; R < 10; R++)
+		for (int X = 0; X < 10; X++)
 		{
-			if (Block_only[L][R] == true)
+			if (NonBlock[Y][X] == true)
 			{
-				Block[L][R].SetPosition(Block_P[L][R]);
-				m_physicsStaticObjectpos[L][R].SetPosition(Block_P[L][R]);
-				box->box[L][R].SetPosition(Block_P[L][R]);
-				Block[L][R].Update();
-			}else {
-			if (weightboard->Link_on == true)
-			{
-				if (weightboard->Block_Link == true)
-				{
-					if (weightboard->PutFlag[L][R] == true)
-					{
-							
-						for (int count = 1; count <= weightboard->Link_Count[L][R]; count++)
-						{
-							if (weightboard->Link[L][R][count] == L_BLOCK)
-							{
-								Block[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].SetPosition(Block_P[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]]);
-								m_physicsStaticObjectpos[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].SetPosition(Block_P[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]]);
-								box->box[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].SetPosition(Block_P[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]]);
-								Block[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].Update();
-							}else {
-							if (weightboard->Link[L][R][count] == I_BLOCK)
-							{
-								stage->mapdata[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].grounddata = ICE;
-								IBlock[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].SetPosition({ Block_P[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].x,-55.0f,Block_P[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].z });
-								m_physicsStaticObjectpos[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].SetPosition({Block_P[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].x,-50.0f,Block_P[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].z});
-								IBlock[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].Update();
-							}else {
-							if (weightboard->Link[L][R][count] == G_BLOCK)
-							{
-								stage->mapdata[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].grounddata = GROUND;
-								GBlock[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].SetPosition({ Block_P[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].x,-55.0f,Block_P[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].z });
-								m_physicsStaticObjectpos[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].SetPosition({ Block_P[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].x,-50.0f,Block_P[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].z });
-								GBlock[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].Update();
-							}else
-							{
-							if (weightboard->Link[L][R][count] == H_BLOCK)
-							{
-								SkeletonBlock_DELETE[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].SetPosition(Block_P[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]]);
-								SkeletonBlock_DELETE[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].Update();
-								m_physicsStaticObjectpos[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].SetPosition({ -2000.0f,-2000.0f,-2000.0f });
-								box->box[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].SetPosition({ -2000.0f,-2000.0f,-2000.0f });
-							}
-							}
-							}
-							}
-							}
-
-					}else {
-					if (weightboard->PutFlag[L][R] == false)
-					{
-						for (int count = 1; count <= weightboard->Link_Count[L][R]; count++)
-						{
-							if (weightboard->Link[L][R][count] == L_BLOCK)
-							{
-								SkeletonBlock_BLOCK[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].SetPosition(Block_P[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]]);
-								SkeletonBlock_BLOCK[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].Update();
-								m_physicsStaticObjectpos[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].SetPosition({ -2000.0f,-2000.0f,-2000.0f });
-								box->box[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].SetPosition({ -2000.0f,-2000.0f,-2000.0f });
-							}else {
-							if (weightboard->Link[L][R][count] == I_BLOCK)
-							{
-								SkeletonBlock_ICE[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].SetPosition({ Block_P[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].x,-50.0f,Block_P[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].z });
-								SkeletonBlock_ICE[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].Update();
-								stage->mapdata[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].grounddata = HOLE;
-								m_physicsStaticObjectpos[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].SetPosition({ -2000.0f,-2000.0f,-2000.0f });
-							}else {
-							if (weightboard->Link[L][R][count] == G_BLOCK)
-							{
-								SkeletonBlock_GROUND[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].SetPosition({ Block_P[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].x,-50.0f,Block_P[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].z });
-								SkeletonBlock_GROUND[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].Update();
-								stage->mapdata[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].grounddata = HOLE;
-								m_physicsStaticObjectpos[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].SetPosition({ -2000.0f,-2000.0f,-2000.0f });
-							}else {
-							if (weightboard->Link[L][R][count] == H_BLOCK)
-							{
-								DBlock[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].SetPosition(Block_P[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]]);
-								m_physicsStaticObjectpos[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].SetPosition(Block_P[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]]);
-								box->box[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].SetPosition(Block_P[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]]);
-								DBlock[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].Update();
-							}
-							}
-							}
-							}
-						}
-	
-					}
-					}
-				}
-				}
+				Block[Y][X].SetPosition(Block_Position[Y][X]);
+				Block_PSO[Y][X].SetPosition(Block_Position[Y][X]);
+				box->BlockBox_SetPosition(Y, X, Block_Position[Y][X]);
+				Block[Y][X].Update();
 			}
 		}
 	}
 }
+void G_Block::WeightBoardOn_Update()
+{
+	for (int Y = 0; Y < 10; Y++)
+	{
+		for (int X = 0; X < 10; X++)
+		{
+			if (weightboard->GetPutFlag(Y, X) == true)
+			{
+				for (int Count = 1; Count <= weightboard->GetLinkCount(Y,X); Count++)
+				{
+					if (weightboard->GetLinkObject(Y, X, Count) == L_BLOCK)
+					{
+						weightboard->GetLinkNumberY(Y, X, Count);
+						Block[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].SetPosition(Block_Position[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)]);
+						Block_PSO[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].SetPosition(Block_Position[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)]);
+						box->BlockBox_SetPosition(weightboard->GetLinkNumberY(Y, X, Count), weightboard->GetLinkNumberX(Y, X, Count), Block_Position[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)]);
+						Block[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].Update();
+					}else {
+					if (weightboard->GetLinkObject(Y, X, Count) == I_BLOCK)
+					{
+						stage->MapData[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].GroundData = ICE;
+						IceBlock[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].SetPosition({ Block_Position[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].x,-55.0f,Block_Position[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].z });
+						Block_PSO[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].SetPosition({ Block_Position[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].x,-50.0f,Block_Position[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].z });
+						IceBlock[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].Update();
+					}else {
+					if (weightboard->GetLinkObject(Y, X, Count) == G_BLOCK)
+					{
+						stage->MapData[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].GroundData = GROUND;
+						GroundBlock[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].SetPosition({ Block_Position[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].x,-55.0f,Block_Position[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].z });
+						Block_PSO[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].SetPosition({ Block_Position[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].x,-50.0f,Block_Position[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].z });
+						GroundBlock[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].Update();
+					}else
+					{
+					if (weightboard->GetLinkObject(Y, X, Count) == H_BLOCK)
+					{
+						SkeletonDeleteBlock[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].SetPosition(Block_Position[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)]);
+						SkeletonDeleteBlock[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].Update();
+						Block_PSO[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].SetPosition({ Grid_ExemptPosition_X,Grid_ExemptPosition_Y,Grid_ExemptPosition_Z });
+						box->BlockBox_SetPosition(weightboard->GetLinkNumberY(Y, X, Count), weightboard->GetLinkNumberX(Y, X, Count), { Grid_ExemptPosition_X, Grid_ExemptPosition_Y, Grid_ExemptPosition_Z });
+					}
+					}
+					}
+					}
+				}
+			}
+		}
+	}
+
+}
+void G_Block::WeightBoardOff_Update()
+{
+	for (int Y = 0; Y < 10; Y++)
+	{
+		for (int X = 0; X < 10; X++)
+		{
+			if (weightboard->GetPutFlag(Y, X) == false)
+			{
+				for (int Count = 1; Count <= weightboard->GetLinkCount(Y,X); Count++)
+				{
+					if (weightboard->GetLinkObject(Y, X, Count) == L_BLOCK)
+					{
+						SkeletonBlock[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].SetPosition(Block_Position[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)]);
+						SkeletonBlock[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].Update();
+						Block_PSO[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].SetPosition({ Grid_ExemptPosition_X,Grid_ExemptPosition_Y,Grid_ExemptPosition_Z });
+						box->BlockBox_SetPosition(weightboard->GetLinkNumberY(Y, X, Count), weightboard->GetLinkNumberX(Y, X, Count), { Grid_ExemptPosition_X, Grid_ExemptPosition_Y, Grid_ExemptPosition_Z });
+					}else {
+					if (weightboard->GetLinkObject(Y, X, Count) == I_BLOCK)
+					{
+						SkeletonIceBlock[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].SetPosition({ Block_Position[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].x,-50.0f,Block_Position[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].z });
+						SkeletonIceBlock[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].Update();
+						stage->MapData[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].GroundData = HOLE;
+						Block_PSO[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].SetPosition({ Grid_ExemptPosition_X,Grid_ExemptPosition_Y,Grid_ExemptPosition_Z });
+					}else {
+					if (weightboard->GetLinkObject(Y, X, Count) == G_BLOCK)
+					{
+						SkeletonGroundBlock[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].SetPosition({ Block_Position[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].x,-50.0f,Block_Position[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].z });
+						SkeletonGroundBlock[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].Update();
+						stage->MapData[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].GroundData = HOLE;
+						Block_PSO[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].SetPosition({ Grid_ExemptPosition_X,Grid_ExemptPosition_Y,Grid_ExemptPosition_Z });
+					}else {
+					if (weightboard->GetLinkObject(Y, X, Count) == H_BLOCK)
+					{
+						DeleteBlock[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].SetPosition(Block_Position[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)]);
+						Block_PSO[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].SetPosition(Block_Position[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)]);
+						box->BlockBox_SetPosition(weightboard->GetLinkNumberY(Y, X, Count), weightboard->GetLinkNumberX(Y, X, Count), Block_Position[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)]);
+						DeleteBlock[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].Update();
+					}
+					}
+					}
+					}
+				}
+
+			}
+		}
+	}
+}
+void G_Block::Update()
+{
+	NonBlockUpdate();
+	WeightBoardOn_Update();
+	WeightBoardOff_Update();
+}
 
 void G_Block::Render(RenderContext& rc)
 {
-	for (int L = 0; L < 10; L++)
+	for (int Y = 0; Y < 10; Y++)
 	{
-		for (int R = 0; R < 10; R++)
+		for (int X = 0; X < 10; X++)
 		{
-			if(Block_only[L][R]==true)
+			if(NonBlock[Y][X]==true)
 			{ 
-				Block[L][R].Draw(rc);
+				Block[Y][X].Draw(rc);
 			}else{
-			if (weightboard->Link_on == true)
-			{
-				if (weightboard->Block_Link == true)
+				if (weightboard->GetPutFlag(Y, X) == true)
 				{
-					if (weightboard->PutFlag[L][R] == true)
-					{
-						for (int count = 1; count <= weightboard->Link_Count[L][R]; count++)
-						{	
-							if (weightboard->Link[L][R][count] == L_BLOCK)
-							{
-								Block[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].Draw(rc);
-							}else {
-							if (weightboard->Link[L][R][count] == I_BLOCK)
-							{
-								IBlock[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].Draw(rc);
-							}else {
-							if (weightboard->Link[L][R][count] == G_BLOCK)
-							{
-								GBlock[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].Draw(rc);
-							}else {
-							if (weightboard->Link[L][R][count] == H_BLOCK)
-							{
-								SkeletonBlock_DELETE[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].Draw(rc);
-							}
-							}
-							}
-							}
-							
-						}
-					}else {
-						for (int count = 1; count <= weightboard->Link_Count[L][R]; count++)
+					for (int Count = 1; Count <= weightboard->GetLinkCount(Y,X); Count++)
+					{	
+						if (weightboard->GetLinkObject(Y, X, Count) == L_BLOCK)
 						{
-							if (weightboard->Link[L][R][count] == H_BLOCK)
-							{
-								DBlock[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].Draw(rc);
-							}else {
-							if(weightboard->Link[L][R][count] == L_BLOCK)
-							{
-								SkeletonBlock_BLOCK[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].Draw(rc);
-							}else {
-							if (weightboard->Link[L][R][count] == I_BLOCK)
-							{
-								SkeletonBlock_ICE[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].Draw(rc);
-							}else {
-							if (weightboard->Link[L][R][count] == G_BLOCK)
-							{
-								SkeletonBlock_GROUND[weightboard->Link_Number[L][R][count / 10]][weightboard->Link_Number[L][R][count % 10]].Draw(rc);
-							}
-							}
-							}
-							}
+							Block[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].Draw(rc);
+						}else {
+						if (weightboard->GetLinkObject(Y, X, Count) == I_BLOCK)
+						{
+							IceBlock[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].Draw(rc);
+						}else {
+						if (weightboard->GetLinkObject(Y, X, Count) == G_BLOCK)
+						{
+							GroundBlock[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].Draw(rc);
+						}else {
+						if (weightboard->GetLinkObject(Y, X, Count) == H_BLOCK)
+						{
+							SkeletonDeleteBlock[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].Draw(rc);
+						}
+						}
+						}
+						}
+						
+					}
+				}else {
+				if (weightboard->GetPutFlag(Y, X) == false)
+				{
+					for (int Count = 1; Count <= weightboard->GetLinkCount(Y,X); Count++)
+					{
+						if (weightboard->GetLinkObject(Y, X, Count) == H_BLOCK)
+						{
+							DeleteBlock[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].Draw(rc);
+						}else {
+						if (weightboard->GetLinkObject(Y, X, Count) == L_BLOCK)
+						{
+							SkeletonBlock[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].Draw(rc);
+						}else {
+						if (weightboard->GetLinkObject(Y, X, Count) == I_BLOCK)
+						{
+							SkeletonIceBlock[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].Draw(rc);
+						}else {
+						if (weightboard->GetLinkObject(Y, X, Count) == G_BLOCK)
+						{
+							SkeletonGroundBlock[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].Draw(rc);
+						}
+						}
+						}
 						}
 					}
 				}

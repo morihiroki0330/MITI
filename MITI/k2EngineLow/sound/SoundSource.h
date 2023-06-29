@@ -157,6 +157,12 @@ namespace nsK2EngineLow {
 		{
 			return &m_dspSettings;
 		}
+		void SoundSet(int number , float volume , bool loop  = false)
+		{
+			Init(number);
+			SetVolume(volume);
+			Play(loop);
+		}
 	private:
 		/// <summary>
 		/// ‰Šú‰»B

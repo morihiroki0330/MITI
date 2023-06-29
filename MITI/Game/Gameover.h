@@ -5,18 +5,19 @@ class Fade;
 class Gameover :public IGameObject
 {
 public:
-	Gameover();
 	~Gameover();
 	bool Start();
 	void Update();
 	void Render(RenderContext& rc);
+private:
+	SpriteRender Gameover_S;   
+	SpriteRender Abutton_S;   
 
-	SpriteRender GAMEOVER;   
-	SpriteRender PRESSA;   
+	Game* game = nullptr;
+	Fade* fade = nullptr;
+	SoundSource* BGM = nullptr;;
 
-	Game* game;
-	Fade* fade;
-	SoundSource* BGM;
 	bool BgmSet = true;
 	bool Delete = false;
+	bool Press_Abutton = false;
 };

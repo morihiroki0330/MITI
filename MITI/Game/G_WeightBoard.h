@@ -7,35 +7,43 @@ class Stage;
 class G_WeightBoard:public IGameObject
 {
 public:
-	G_WeightBoard();
-	~G_WeightBoard();
+	bool Start();
+	bool GetPutFlag(int Y, int X) { return PutFlag[Y][X]; }
+	void Map_On(int Y, int X);
+	void Map_SetPosition(int Y, int X, Vector3 Position);
+	void WeightBoardOnPlayer();
+	void Sound();
 	void Update();
 	void Render(RenderContext& rc);
+	void LinkObjectSet(int Y, int X,int W,int Object);
+	void LinkNumberSet(int Y, int X, int W,int Number);
+	void LinkCountSet(int Y, int X, int Count);
 
-	ModelRender Weightboard[10][10];
-	Vector3 Weightboard_P[10][10];
-	PhysicsStaticObjectPos m_physicsStaticObjectpos[10][10];
+	int GetLinkNumberY(int Y, int X, int Count) { return LinkNumber[Y][X][Count / 10]; }
+	int GetLinkNumberX(int Y, int X, int Count) { return LinkNumber[Y][X][Count % 10]; }
+	int GetLinkObject(int Y, int X, int Number) { return LinkObject[Y][X][Number]; }
+	int GetLinkCount(int Y, int X) { return LinkCount[Y][X]; }
+private:
+	ModelRender WeightBoard[10][10];
+	Vector3 WeightBoard_Position[10][10];
+	Vector3 WeightBoard_Scale = { 0.6f,0.6f,0.6f };
+	PhysicsStaticObjectPos WeightBoard_PSO[10][10];
 	AllLight Light;
 
-	Player* player;
-	IronBall* ironBall;
-	G_Block* block;
-	Stage* stage;
+	Player* player = nullptr;
+	IronBall* ironball = nullptr;
+	G_Block* block = nullptr;
+	Stage* stage = nullptr;
+	G_WeightBoard* weightboard = nullptr;
 
 	bool BgmSet[10][10];
 	bool HitFlag[10][10];
 	bool PutFlag[10][10];
 		
-	bool WeightBoard_on[10][10];
+	bool WeightBoard_On[10][10];
 
-	int Link_Number[10][10][10];
-	int Link_Count[10][10];
-	int Link[10][10][10];
-
-	bool Link_on;
-	bool Block_Link;
-
-	FontRender Hit;
-	
+	int LinkNumber[10][10][10];
+	int LinkCount[10][10];
+	int LinkObject[10][10][10];
 };
 

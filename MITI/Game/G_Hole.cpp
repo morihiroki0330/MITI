@@ -1,17 +1,12 @@
 #include "stdafx.h"
 #include "G_Hole.h"
-
-G_Hole::G_Hole()
+bool G_Hole::Start()
 {
 	Hole.Init("Assets/modelData/hole.tkm", Light);
-	m_physicsStaticObjectpos.CreateFromModel(Hole.GetModel(), Hole.GetModel().GetWorldMatrix());
-	m_physicsStaticObjectpos.SetPosition({ 0.0f,-120.0f,0.0f });
-	Hole.SetPosition({ 0.0f,-120.0f,0.0f });
-}
-
-G_Hole::~G_Hole()
-{
-
+	Hole_PSO.CreateFromModel(Hole.GetModel(), Hole.GetModel().GetWorldMatrix());
+	Hole_PSO.SetPosition(Hole_Position);
+	Hole.SetPosition(Hole_Position);
+	return true;
 }
 
 void G_Hole::Update()

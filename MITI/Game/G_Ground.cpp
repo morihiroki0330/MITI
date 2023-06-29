@@ -1,53 +1,56 @@
 #include "stdafx.h"
 #include "G_Ground.h"
-
-G_Ground::G_Ground()
+#include "Number_Storage.h"
+bool G_Ground::Start()
 {
-	for (int L = 0; L < 10; L++)
+	for (int Y = 0; Y < 10; Y++)
 	{
-		for (int R = 0; R < 10; R++)
+		for (int X = 0; X < 10; X++)
 		{
-			Ground[L][R].Init("Assets/modelData/ground1.tkm", Light);
-			m_physicsStaticObjectpos[L][R].CreateFromModel(Ground[L][R].GetModel(), Ground[L][R].GetModel().GetWorldMatrix());
-			m_physicsStaticObjectpos[L][R].SetPosition({ -2000.0f,-2000.0f,-2000.0f });
-			Ground[L][R].SetPosition({ -2000.0f,-2000.0f,-2000.0f });
-
-			SetPosition[L][R].x = (L * 191.0f) + -865.0f;
-			SetPosition[L][R].y = -50.0f;
-			SetPosition[L][R].z = (R * 191.0f) + -865.0f;
-
-			Ground_on[L][R] = false;
+			Ground[Y][X].Init("Assets/modelData/ground1.tkm", Light);
+			Ground_PSO[Y][X].CreateFromModel(Ground[Y][X].GetModel(), Ground[Y][X].GetModel().GetWorldMatrix());
+			Ground_PSO[Y][X].SetPosition({Grid_ExemptPosition_X,Grid_ExemptPosition_Y,Grid_ExemptPosition_Z});
+			Ground[Y][X].SetPosition({Grid_ExemptPosition_X,Grid_ExemptPosition_Y,Grid_ExemptPosition_Z});
+			Ground_On[Y][X] = false;
 		}
 	}
+	return true;
 }
 
-G_Ground::~G_Ground()
+void G_Ground::Map_On(int Y, int X)
 {
+	Ground_On[Y][X] = true;
+}
 
+void G_Ground::Map_SetPosition(int Y, int X, Vector3 Position)
+{
+	Ground_Position[Y][X].x = Position.x;
+	Ground_Position[Y][X].y = Position.y - 50.0f;
+	Ground_Position[Y][X].z = Position.z;
 }
 
 void G_Ground::Update()
 {
-	for (int L = 0; L < 10; L++)
+	for (int Y = 0; Y < 10; Y++)
 	{
-		for (int R = 0; R < 10; R++)
+		for (int X = 0; X < 10; X++)
 		{
-			if (Ground_on[L][R] == true)
+			if (Ground_On[Y][X] == true)
 			{
-				if (Ground_P[L][R].x == 0.0f)
+				if (Ground_Position[Y][X].x == NON)
 				{
-					Ground[L][R].SetPosition(SetPosition[L][R]);
-					m_physicsStaticObjectpos[L][R].SetPosition(SetPosition[L][R]);
-					Ground[L][R].Update();
+					Ground[Y][X].SetPosition(Ground_SparePosition[Y][X]);
+					Ground_PSO[Y][X].SetPosition(Ground_SparePosition[Y][X]);
+					Ground[Y][X].Update();
 				}else {
-					Ground[L][R].SetPosition(Ground_P[L][R]);
-					m_physicsStaticObjectpos[L][R].SetPosition(Ground_P[L][R]);
-					Ground[L][R].Update();
+					Ground[Y][X].SetPosition(Ground_Position[Y][X]);
+					Ground_PSO[Y][X].SetPosition(Ground_Position[Y][X]);
+					Ground[Y][X].Update();
 				}
 			}else {
-				Ground[L][R].SetPosition({ -2000.0f,-2000.0f,-2000.0f });
-				m_physicsStaticObjectpos[L][R].SetPosition({ -2000.0f,-2000.0f,-2000.0f });
-				Ground[L][R].Update();
+					Ground[Y][X].SetPosition({Grid_ExemptPosition_X,Grid_ExemptPosition_Y,Grid_ExemptPosition_Z});
+					Ground_PSO[Y][X].SetPosition({Grid_ExemptPosition_X,Grid_ExemptPosition_Y,Grid_ExemptPosition_Z});
+					Ground[Y][X].Update();
 			}
 		}
 	}
@@ -55,13 +58,13 @@ void G_Ground::Update()
 
 void G_Ground::Render(RenderContext& rc)
 {
-	for (int L = 0; L < 10; L++)
+	for (int Y = 0; Y < 10; Y++)
 	{
-		for (int R = 0; R < 10; R++)
+		for (int X = 0; X < 10; X++)
 		{
-			if (Ground_on[L][R] == true)
+			if (Ground_On[Y][X] == true)
 			{
-				Ground[L][R].Draw(rc);
+				Ground[Y][X].Draw(rc);
 			}
 		}
 	}

@@ -2,26 +2,24 @@
 #include "StageClear.h"
 #include "Game.h"
 #include "Bgm.h"
+#include "Number_Storage.h"
 #include "Story.h"
 #include "Fade.h"
-StageClear::StageClear()
-{
-	STAGECLEAR.Init("Assets/sprite/stageclear_bg.DDS", 1920.0f, 1080.0f);
-	PRESSA.Init("Assets/sprite/PRESS_A.DDS", 1920.0f, 1080.0f);
-	BGM = NewGO<SoundSource>(0);
-	BGM->Init(B_STAGECLEAR);
-	BGM->SetVolume(0.1f);
-	BGM->Play(true);
-}
-
+#include "sound/SoundEngine.h"
 StageClear::~StageClear()
 {
 	DeleteGO(BGM);
-	//game->CreateFlag = true;
 }
 
 bool StageClear::Start()
 {
+	Stageclear_S.Init("Assets/sprite/stageclear_bg.DDS", 1920.0f, 1080.0f);
+	Abutton_S.Init("Assets/sprite/PRESS_A.DDS", 1920.0f, 1080.0f);
+
+	BGM = NewGO<SoundSource>(0);
+	BGM->SoundSet(B_STAGECLEAR , Bgm_Volume , Loop);
+
+	game = FindGO<Game>("game");
 	fade = FindGO<Fade>("fade");
 	fade->StartFadeIn();
 	return true;
@@ -29,7 +27,8 @@ bool StageClear::Start()
 
 void StageClear::Update()
 {
-	game = FindGO<Game>("game");
+	
+	fade->ButtonFade(Abutton_S, Press_Abutton);
 
 	if (fade->IsFade() == false && Delete == true)
 	{
@@ -40,25 +39,19 @@ void StageClear::Update()
 	if (g_pad[0]->IsTrigger(enButtonA)&&Delete==false)
 	{
 		fade->StartFadeOut();
-		game->Level += 1;
+		game->LevelUp();
 		Delete = true;
-		SoundSource* se = NewGO<SoundSource>(0);
-		se->Init(11);
-		se->Play(false);
+		SoundSource* SE = NewGO<SoundSource>(0);
+		SE->SoundSet(S_BUTTON , Bgm_Volume , LoopNot);
 
-		{
-			game->DeleteSet = false;
-			game->ClearFlag = false;
-		//NewGO<Story>(0,"story");
-			//game->CreateFlag = true;
-		//DeleteGO(this);
-		}
-
+		game->SetDelete(false);
+		game->SetClear(false);
+		Press_Abutton = true;
 	}
 }
 
 void StageClear::Render(RenderContext& rc)
 {
-	STAGECLEAR.Draw(rc);
-	PRESSA.Draw(rc);
+	Stageclear_S.Draw(rc);
+	Abutton_S.Draw(rc);
 }

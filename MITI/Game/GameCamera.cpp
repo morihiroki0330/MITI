@@ -1,30 +1,15 @@
 #include "stdafx.h"
 #include "GameCamera.h"
-#include "Player.h"
-
-GameCamera::GameCamera()
+bool GameCamera::Start()
 {
-	player = FindGO<Player>("player");
-
-	Target_P = { 0.0f,0.0f,0.0f };
-	g_camera3D->SetTarget(Target_P);
-
-	Camera_P = Target_P;
-	Camera_P.x += 1.0f;
-	Camera_P.y += 1750.0f;
-	g_camera3D->SetPosition(Camera_P);
+	Camera_Position = Target_Position;
+	Camera_Position.x += 1.0f;
+	Camera_Position.y += 1750.0f;
+	g_camera3D->SetTarget(Target_Position);
+	g_camera3D->SetPosition(Camera_Position);
+	return true;
 }
-
-GameCamera::~GameCamera()
-{
-	
-}
-
 void GameCamera::Update()
 {
-	/*if (g_pad[0]->IsPress(enButtonDown))
-	{
-		Camera_P.x -= 10.0f;
-	}*/
-	g_camera3D->SetPosition(Camera_P);
+	g_camera3D->SetPosition(Camera_Position);
 }

@@ -3,91 +3,39 @@
 #include "Box.h"
 #include "Game.h"
 #include "Stage.h"
-
-G_Kaidan::G_Kaidan()
+#include "Number_Storage.h"
+bool G_Kaidan::Start()
 {
 	Kaidan.Init("Assets/modelData/kaidan3.tkm", Light);
-	Kaidan.SetScale({ 1.0f,1.0f,2.0f });
-	Kaidan_R.SetRotationDegY(180.0f);
-}
-
-G_Kaidan::~G_Kaidan()
-{
-
-}
-
-void G_Kaidan::Update()
-{
+	Kaidan.SetPosition({ Grid_ExemptPosition_X, Grid_ExemptPosition_Y, Grid_ExemptPosition_Z });
+	Kaidan.SetScale(Kaidan_Scale);
+	
 	game = FindGO<Game>("game");
 	stage = FindGO<Stage>("stage");
-	if (box == NULL)
-	{
-		box = FindGO<Box>("box");
-	}
+	box = FindGO<Box>("box");
 
-	if (Set == true)
-	{
-		if (stage->StageOrder[game->Level] == 0)
-		{
-			Kaidan_R.SetRotationDegY(180.0f);
-		}
+	LevelSet();
+	return true;
+}
+void G_Kaidan::LevelSet()
+{
+	Kaidan.SetRotation(Kaidan_Rotation);
+	Kaidan.Update();
 
-		if (stage->StageOrder[game->Level] == 1)
-		{
-			Kaidan_R.SetRotationDegY(0.0f);
-		}
-
-		if (stage->StageOrder[game->Level] == 2)
-		{
-			Kaidan_R.SetRotationDegY(90.0f);
-		}
-
-		if (stage->StageOrder[game->Level] == 3)
-		{
-			Kaidan_R.SetRotationDegY(0.0f);
-		}
-
-		if (stage->StageOrder[game->Level] == 4)
-		{
-			Kaidan_R.SetRotationDegY(0.0f);
-		}
-
-		if (stage->StageOrder[game->Level] == 5)
-		{
-			Kaidan_R.SetRotationDegY(0.0f);
-		}
-		
-		if (stage->StageOrder[game->Level] == 6)
-		{
-			Kaidan_R.SetRotationDegY(0.0f);
-		}
-		
-		if (stage->StageOrder[game->Level] == 7)
-		{
-			Kaidan_R.SetRotationDegY(0.0f);
-		}
-		
-		if (stage->StageOrder[game->Level] == 8)
-		{
-			Kaidan_R.SetRotationDegY(0.0f);
-		}
-		
-		if (stage->StageOrder[game->Level] == 9)
-		{
-			Kaidan_R.SetRotationDegY(0.0f);
-		}
-		Kaidan.SetRotation(Kaidan_R);
-		Kaidan.Update();
-		Set = false;
-	}
-
-
-	Kaidan.SetRotation(Kaidan_R);
-	Kaidan.SetPosition(Kaidan_P);
-	box->box_kaidan.SetPosition(Kaidan_P);
+}
+void G_Kaidan::Map_SetPosition(Vector3 Position)
+{
+	Kaidan_Position.x = Position.x;
+	Kaidan_Position.y = 20.0f;
+	Kaidan_Position.z = Position.z;
+}
+void G_Kaidan::Update()
+{
+	Kaidan.SetRotation(Kaidan_Rotation);
+	Kaidan.SetPosition(Kaidan_Position);
+	box->KaidanBox_SetPosition(Kaidan_Position);
 	Kaidan.Update();
 }
-
 void G_Kaidan::Render(RenderContext& rc)
 {
 	Kaidan.Draw(rc);

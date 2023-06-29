@@ -1,34 +1,40 @@
 #pragma once
-
 class G_WeightBoard;
 class Box;
 class Stage;
 class G_Block : public IGameObject
 {
 public:
-	G_Block();
-	~G_Block();
+	bool Start();
+	void SetModel(int Y, int X);
+	void SetModelPosition(int Y, int X);
+	void SetModelUpdate(int Y, int X);
+	void NonBlockUpdate();
+	void WeightBoardOn_Update();
+	void WeightBoardOff_Update();
+	void Map_On(int Y, int X);
+	void Map_SetPosition(int Y, int X, Vector3 Position);
 	void Update();
 	void Render(RenderContext& rc);
-
+private:
 	ModelRender Block[10][10];
-	ModelRender IBlock[10][10];
-	ModelRender GBlock[10][10];
-	ModelRender DBlock[10][10];
+	ModelRender IceBlock[10][10];
+	ModelRender GroundBlock[10][10];
+	ModelRender DeleteBlock[10][10];
 
-	ModelRender SkeletonBlock_ICE[10][10];
-	ModelRender SkeletonBlock_BLOCK[10][10];
-	ModelRender SkeletonBlock_GROUND[10][10];
-	ModelRender SkeletonBlock_DELETE[10][10];
-	Vector3 Block_P[10][10];
+	ModelRender SkeletonIceBlock[10][10];
+	ModelRender SkeletonBlock[10][10];
+	ModelRender SkeletonGroundBlock[10][10];
+	ModelRender SkeletonDeleteBlock[10][10];
+
+	Vector3 Block_Position[10][10];
 	AllLight Light;
-	PhysicsStaticObjectPos m_physicsStaticObjectpos[10][10];
+	PhysicsStaticObjectPos Block_PSO[10][10];
 
-	G_WeightBoard* weightboard;
-	Box* box;
-	Stage* stage;
+	G_WeightBoard* weightboard = nullptr;
+	Box* box = nullptr;
+	Stage* stage = nullptr;
 
-	bool Block_on[10][10];
-	bool Block_only[10][10];
+	bool NonBlock[10][10];
 };
 

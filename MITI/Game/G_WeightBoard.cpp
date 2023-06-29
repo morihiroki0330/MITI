@@ -5,109 +5,127 @@
 #include "G_Block.h"
 #include "Stage.h"
 #include "Bgm.h"
+#include "Number_Storage.h"
 #include "sound/SoundEngine.h"
 #include "sound/SoundSource.h"
-
-G_WeightBoard::G_WeightBoard()
+bool G_WeightBoard::Start()
 {
-	for (int L = 0 ; L < 10 ; L++)
+	for (int Y = 0 ; Y < 10 ; Y++)
 	{
-		for (int R = 0; R < 10; R++)
+		for (int X = 0; X < 10; X++)
 		{
-			Weightboard[L][R].Init("Assets/modelData/ita.tkm", Light);
-			Weightboard[L][R].SetScale({ 0.6f,0.6f,0.6f });
-			m_physicsStaticObjectpos[L][R].CreateFromModel(Weightboard[L][R].GetModel(), Weightboard[L][R].GetModel().GetWorldMatrix());
-			m_physicsStaticObjectpos[L][R].SetPosition({ -2000.0f,-2000.0f,-2000.0f });
+			WeightBoard[Y][X].Init("Assets/modelData/ita.tkm", Light);
+			WeightBoard[Y][X].SetScale(WeightBoard_Scale);
+			WeightBoard_PSO[Y][X].CreateFromModel(WeightBoard[Y][X].GetModel(), WeightBoard[Y][X].GetModel().GetWorldMatrix());
+			WeightBoard_PSO[Y][X].SetPosition({Grid_ExemptPosition_X,Grid_ExemptPosition_Y,Grid_ExemptPosition_Z});
 		}
+	}
+
+	weightboard = FindGO<G_WeightBoard>("weightboard");
+	ironball = FindGO<IronBall>("ironball");
+	stage = FindGO<Stage>("stage");
+	player = FindGO<Player>("player");
+
+	return true;
+}
+
+void G_WeightBoard::Map_On(int Y, int X)
+{
+	WeightBoard_On[Y][X] = true;
+}
+
+void G_WeightBoard::Map_SetPosition(int Y, int X, Vector3 Position)
+{
+	WeightBoard_Position[Y][X].x = Position.x;
+	WeightBoard_Position[Y][X].y = Position.y - 20.0f;
+	WeightBoard_Position[Y][X].z = Position.z;
+}
+
+void G_WeightBoard::Sound()
+{
+	if (BgmSet[(player->PlayerMap / 10)][(player->PlayerMap % 10)] == true && HitFlag[(player->PlayerMap / 10)][(player->PlayerMap % 10)] == false)
+	{
+		SoundSource* SE = NewGO<SoundSource>(0);
+		SE->SoundSet(S_WEIGHTBOARD, Bgm_Volume , LoopNot);
+		HitFlag[(player->PlayerMap / 10)][(player->PlayerMap % 10)] = true;
 	}
 }
 
-G_WeightBoard::~G_WeightBoard()
+void G_WeightBoard::WeightBoardOnPlayer()
 {
+	for (int Y = 0; Y < 10; Y++)
+	{
+		for (int X = 0; X < 10; X++)
+		{
+			if (WeightBoard_On[Y][X] == true)
+			{
+				if (stage->MapData[(player->PlayerMap / 10)][(player->PlayerMap % 10)].SkyData == WEIGHTBOARD)
+				{
+					PutFlag[(player->PlayerMap / 10)][(player->PlayerMap % 10)] = true;
+					BgmSet[(player->PlayerMap / 10)][(player->PlayerMap % 10)] = true;
+				}else {
+					PutFlag[Y][X] = false;
+					BgmSet[Y][X] = false;
+					HitFlag[Y][X] = false;
+				}
 
+				for (int W = 0; W < 5; W++)
+				{
+					if (ironball->WeightBoardOn(Y, X) == true)
+					{
+						PutFlag[Y][X] = true;
+						break;
+					}
+				}
+
+			}
+		}
+	}
+
+}
+
+void G_WeightBoard::LinkCountSet(int Y, int X, int Count)
+{
+	LinkCount[Y][X] = Count;
+}
+
+void G_WeightBoard::LinkObjectSet(int Y, int X, int W, int Object)
+{
+	LinkObject[Y][X][W] = Object;
+}
+
+void G_WeightBoard::LinkNumberSet(int Y, int X, int W, int Number)
+{
+	LinkNumber[Y][X][W] = Number;
 }
 
 void G_WeightBoard::Update()
 {
-	for (int L = 0; L < 10; L++)
+	WeightBoardOnPlayer();
+	Sound();
+	for (int Y = 0; Y < 10; Y++)
 	{
-		for (int R = 0; R < 10; R++)
+		for (int X = 0; X < 10; X++)
 		{
-			
-			if (ironBall == NULL)
+			if (WeightBoard_On[Y][X] == true)
 			{
-				ironBall = FindGO<IronBall>("ironball");
+				WeightBoard[Y][X].SetPosition(WeightBoard_Position[Y][X]);
+				WeightBoard_PSO[Y][X].SetPosition(WeightBoard_Position[Y][X]);
+				WeightBoard[Y][X].Update();
 			}
-
-			if (stage == NULL)
-			{
-				stage = FindGO<Stage>("stage");
-			}
-			
-			if (player == NULL)
-			{
-				player = FindGO<Player>("player");
-			}
-
-			if (stage->mapdata[(player->player_map / 10)][(player->player_map % 10)].skydata == WEIGHTBOARD)
-			{
-				PutFlag[(player->player_map / 10)][(player->player_map % 10)] = true;
-				BgmSet[(player->player_map / 10)][(player->player_map % 10)] = true;
-			}else{
-				PutFlag[L][R] = false;
-				BgmSet[L][R] = false;
-				HitFlag[L][R] = false;
-			}
-
-			for (int W = 0; W < 5; W++)
-			{
-				if (
-						ironBall->Ball_P[W].x < Weightboard_P[L][R].x + 60 &&
-						ironBall->Ball_P[W].x > Weightboard_P[L][R].x - 60 &&
-						ironBall->Ball_P[W].z < Weightboard_P[L][R].z + 60 &&
-						ironBall->Ball_P[W].z > Weightboard_P[L][R].z - 60 ||
-					    PutFlag[L][R] == true
-					)
-					{
-						PutFlag[L][R] = true;
-					}else {
-						PutFlag[L][R] = false;
-					}
-			}
-
-			if (WeightBoard_on[L][R] == true)
-			{
-				Weightboard[L][R].SetPosition(Weightboard_P[L][R]);
-				m_physicsStaticObjectpos[L][R].SetPosition(Weightboard_P[L][R]);
-				Weightboard[L][R].Update();
-			}
-			
 		}
 	}
-	
-	if (BgmSet[(player->player_map / 10)][(player->player_map % 10)] == true && HitFlag[(player->player_map / 10)][(player->player_map % 10)] == false)
-	{
-		SoundSource* SE = NewGO<SoundSource>(0);
-		SE->Init(S_WEIGHTBOARD);
-		SE->SetVolume(0.1f);
-		SE->Play(false);
-		HitFlag[(player->player_map / 10)][(player->player_map % 10)] = true;
-	}
-	Hit.SetText(L"è’ìÀ");
-	Hit.SetPosition(Vector3(-852.0f, 350.0f, 0.0f));
-	Hit.SetScale(1.0f);
-
 }
 
 void G_WeightBoard::Render(RenderContext& rc)
 {
-	for (int L = 0; L < 10; L++)
+	for (int Y = 0; Y < 10; Y++)
 	{
-		for (int R = 0; R < 10; R++)
+		for (int X = 0; X < 10; X++)
 		{
-			if (WeightBoard_on[L][R] == true)
+			if (WeightBoard_On[Y][X] == true)
 			{
-				Weightboard[L][R].Draw(rc);
+				WeightBoard[Y][X].Draw(rc);
 			}
 		}
 	}

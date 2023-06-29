@@ -10,38 +10,23 @@ class G_Kaidan;
 class G_Ground;
 class Player;
 class Game;
-struct MapData
+struct MapChipData
 {
-	bool ice_on;
-
-	bool breakfloar_on;
-
-	bool weightboard_map;
-
-	int weightboard_linknumber[15];
-
-	int weightboard_linkobject[15];
-
-	int weightboard_count;
-
-	bool wall_on;
-
-	bool hole_on;
-
-	bool block_on;
-
-	bool blockonly_on;
-
-	bool kaidan_on;
-
-	bool ground_on;
-
-	int grounddata;
-
-	int skydata;
+	bool Ice_On;
+	bool BreakFloar_On;
+	bool WeightBoard_On;
+	int WeightBoard_LinkNumber[15];
+	int WeightBoard_LinkObject[15];
+	int WeightBoard_LinkCount;
+	bool Hole_On;
+	bool Block_On;
+	bool NonBlock_On;
+	bool Kaidan_On;
+	int GroundData;
+	int SkyData;
 };
 
-struct Map 
+struct MapChip 
 {
 	G_IceFloor* Ice;
 	G_BreakFloar* Breakfloar;
@@ -52,37 +37,37 @@ struct Map
 	G_Kaidan* Kaidan;
 	G_Ground* Ground;
 };
-
-enum Mapchip
+enum StageOrder 
 {
-	HOLE,//0
-	ICE,//1
-	GROUND,//2
-	BREAKFLOOR,//3
-
-	KAIDAN,//4
-	WEIGHTBOARD,//5
-	BLOCK,//6
-	WALL,//7
-	NULL_A
+	Stage0,
+	Stage1,
+	Stage2,
+	Stage3,
+	Stage4,
+	Stage5,
+	Stage6,
+	Stage7,
+	Stage8,
+	Stage9
 };
-
+enum MapchipNumber
+{
+	HOLE,
+	ICE,
+	GROUND,
+	BREAKFLOOR,
+	KAIDAN,
+	WEIGHTBOARD,
+	BLOCK,
+	WALL,
+};
 enum LinkObject
 {
-	NOON,//0
-	L_HOLE,//1
-	L_ICE,//2
-	L_GROUND,//3
-	L_BREAKFLOOR,//4
-
-	L_KAIDAN,//5
-	L_WEIGHTBOARD,//6
-	L_BLOCK,//7
-	G_BLOCK,//8
-	I_BLOCK,//9
-	H_BLOCK,//10
-	S_BLOCK,//10
-	L_WALL//11
+	NOON,
+	L_BLOCK,
+	G_BLOCK,
+	I_BLOCK,
+	H_BLOCK,
 };
 
 class Stage : public IGameObject
@@ -90,66 +75,48 @@ class Stage : public IGameObject
 public:
 	Stage();
 	~Stage();
-	void Update();
-	void Render(RenderContext& rc);
+	bool Start();
 
-	ModelRender m_modelRender;
-	PhysicsStaticObject m_physicsStaticObject;
-	float stageID[10][10];
+	//クラス設計
+	void MapChipCreate();
 
-	AllLight stageLight;
+	//レベルデータの代入
+	void MapToCopy();
 
-	//壁画
-	ModelRender Kabe;
-	Vector3 Kabe_P;
+	//レベルごとのマップ設定
+	void LevelSet();
+	int LevelIceSet();
+	int LevelHoleSet();
+	int LevelBlockSet();
+	int LevelKaidanSet();
+	int LevelWeightBoardSet();
 
-	//地面
-	ModelRender Ground[10][10];
-	Vector3 Ground_P[10][10];
-	MapData mapdata[10][10];
-	Map map;
+	//マス地形のオブジェクト設定
+	void MapSet();
+	void MapSetGround();
+	void MapSetSky();
 
-	PhysicsStaticObjectPos k_physicsStaticObjectpos;
-	PhysicsStaticObjectPos g_physicsStaticObjectpos[10][10];
-	
-	//地面の生成【穴・氷・床・破壊床】
-	bool hole_create;
-	bool ice_create;
-	bool ground_create;
-	bool break_create;
+	//マス地形の情報設定
+	void GroundDataSet(int Y , int X , int Data);
+	void SkyDataSet(int Y, int X,  int Data);
 
-	//床上の設置物【ゴール用の階段・感圧板・障壁ブロック・ゴール解放の扉】
-	bool kaidan_create;
-	bool weightboard_create;
-	bool block_create;
-	bool wall_create;
-	
-	int l = 0;
-	int r = 0;
-	
+	//ステージの順番決め
+	void StageOrderSet();
+
+	//マス地形の情報
+	int GetMapData(int Y, int X, int Direction);
+
+	Vector3 Map_Position[10][10];
+
+	MapChipData MapData[10][10];
+	MapChip Map;
 	LinkObject Link;
 
-	Player* player;
+	Player* player = nullptr;
+	Game* game = nullptr;
 
-	//1.レベル　2.行　3.列
-	MapData Level[10][10][10];
+	MapChipData Level[10][10][10];
 
-	bool Map_SetGround[10][10];
-
-	bool Map_SetSky[10][10];
-
-	bool Level_Set;
-
-	bool Map_Set;
-
-	Vector3 Reset_P;
-
-	Game* game;
-
-	FontRender Count_F;
-
-	int Count = 0;
-
-	int StageOrder[15];
+	int StageOrder[10];
 };
 

@@ -1,17 +1,15 @@
 #pragma once
-
+#include "Number_Storage.h"
 class G_Wall:public IGameObject
 {
 public:
-	G_Wall();
-	~G_Wall();
+	bool Start();
 	void Update();
 	void Render(RenderContext& rc);
-	
+private:
 	ModelRender Wall;
-	Vector3 Wall_P;
-	PhysicsStaticObjectPos m_physicsStaticObjectpos;
+	Vector3 Wall_Position = { NON,82.0f,NON };
+	PhysicsStaticObjectPos Wall_PSO;
 	AllLight Light;
-
 };
 

@@ -2,272 +2,179 @@
 #include "UI.h"
 #include "Player.h"
 #include "Game.h"
-
-UI::UI()
+#include "IronBall.h"
+#include "Number_Storage.h"
+bool UI::Start() 
 {
-	Back.Init("Assets/UI/UI_canvas.DDS", 1920.0f, 1080.0f);
-	//Aボタン
-	{
-		//不可能
-		A[0].Init("Assets/UI/A-Non.DDS", 150.0f, 150.0f);
-		A[0].SetPosition({ 680.0f,-400.0f,0.0f });
-		A[0].Update();
-
-		//可能
-		A[1].Init("Assets/UI/A.DDS", 150.0f, 150.0f);
-		A[1].SetPosition({ 680.0f,-400.0f,0.0f });
-		A[1].Update();
-	}
-
-	//Bボタン
-	{
-		B[0].Init("Assets/UI/B-Non.DDS", 150.0f, 150.0f);
-		B[0].SetPosition({ 830.0f,-400.0f,0.0f });
-		B[0].Update();
-
-		B[1].Init("Assets/UI/B.DDS", 150.0f, 150.0f);
-		B[1].SetPosition({ 830.0f,-400.0f,0.0f });
-		B[1].Update();
-	}
-
-	//コントローラー
-	{
-		//不可能
-		Non.Init("Assets/UI/Controller-Non.DDS", 256.0f, 256.0f);
-		Non.SetPosition({ -750.0f,-400.0f,0.0f });
-		Non.Update();
-
-		//上
-		Up.Init("Assets/UI/Controller-Up.DDS", 256.0f, 256.0f);
-		Up.SetPosition({ -750.0f,-400.0f,0.0f });
-		Up.Update();
-
-		//下
-		Down.Init("Assets/UI/Controller-Down.DDS", 256.0f, 256.0f);
-		Down.SetPosition({ -750.0f,-400.0f,0.0f });
-		Down.Update();
-
-		//左
-		Left.Init("Assets/UI/Controller-Left.DDS", 256.0f, 256.0f);
-		Left.SetPosition({ -750.0f,-400.0f,0.0f });
-		Left.Update();
-
-		//右
-		Right.Init("Assets/UI/Controller-Right.DDS", 256.0f, 256.0f);
-		Right.SetPosition({ -750.0f,-400.0f,0.0f });
-		Right.Update();
-	}
-
-	//鉄球の所持数
-	{
-		Iron[0].Init("Assets/UI/Iron0.DDS", 128.0f, 512.0f);
-		Iron[0].SetPosition({ 750.0f,-50.0f,0.0f });
-		Iron[0].Update();
-
-		Iron[1].Init("Assets/UI/Iron1.DDS", 128.0f, 512.0f);
-		Iron[1].SetPosition({ 750.0f,-50.0f,0.0f });
-		Iron[1].Update();
-
-		Iron[2].Init("Assets/UI/Iron2.DDS", 128.0f, 512.0f);
-		Iron[2].SetPosition({ 750.0f,-50.0f,0.0f });
-		Iron[2].Update();
-
-		Iron[3].Init("Assets/UI/Iron3.DDS", 128.0f, 512.0f);
-		Iron[3].SetPosition({ 750.0f,-50.0f,0.0f });
-		Iron[3].Update();
-
-		Iron[4].Init("Assets/UI/Iron4.DDS", 128.0f, 512.0f);
-		Iron[4].SetPosition({ 750.0f,-50.0f,0.0f });
-		Iron[4].Update();
-
-		Iron[5].Init("Assets/UI/Iron5.DDS", 128.0f, 512.0f);
-		Iron[5].SetPosition({ 750.0f,-50.0f,0.0f });
-		Iron[5].Update();
-
-	}
-
-	//ステージ
-	{
-		Stage[1].Init("Assets/UI/Level1.DDS", 1920.0f, 1080.0f);
-		Stage[1].SetPosition({ 0.0f,0.0f,0.0f });
-		Stage[1].Update();
-		
-		Stage[2].Init("Assets/UI/Level2.DDS", 1920.0f, 1080.0f);
-		Stage[2].SetPosition({ 0.0f,0.0f,0.0f });
-		Stage[2].Update();
-		
-		Stage[3].Init("Assets/UI/Level3.DDS", 1920.0f, 1080.0f);
-		Stage[3].SetPosition({ 0.0f,0.0f,0.0f });
-		Stage[3].Update();
-		
-		Stage[4].Init("Assets/UI/Level4.DDS", 1920.0f, 1080.0f);
-		Stage[4].SetPosition({ 0.0f,0.0f,0.0f });
-		Stage[4].Update();
-		
-		Stage[5].Init("Assets/UI/Level5.DDS", 1920.0f, 1080.0f);
-		Stage[5].SetPosition({ 0.0f,0.0f,0.0f });
-		Stage[5].Update();
-		
-		Stage[6].Init("Assets/UI/Level6.DDS", 1920.0f, 1080.0f);
-		Stage[6].SetPosition({ 0.0f,0.0f,0.0f });
-		Stage[6].Update();
-
-		Stage[7].Init("Assets/UI/Level7.DDS", 1920.0f, 1080.0f);
-		Stage[7].SetPosition({ 0.0f,0.0f,0.0f });
-		Stage[7].Update();
-
-		Stage[8].Init("Assets/UI/Level8.DDS", 1920.0f, 1080.0f);
-		Stage[8].SetPosition({ 0.0f,0.0f,0.0f });
-		Stage[8].Update();
-
-		Stage[9].Init("Assets/UI/Level9.DDS", 1920.0f, 1080.0f);
-		Stage[9].SetPosition({ 0.0f,0.0f,0.0f });
-		Stage[9].Update();
-
-		Stage[10].Init("Assets/UI/Level10.DDS", 1920.0f, 1080.0f);
-		Stage[10].SetPosition({ 0.0f,0.0f,0.0f });
-		Stage[10].Update();
-	}
-	STimer.Init("Assets/UI/Timer.DDS", 1920.0f, 1080.0f);
-	STimer.SetPosition({ 0.0f,0.0f,0.0f });
-	STimer.Update();
+	player = FindGO<Player>("player");
+	game = FindGO<Game>("game");
+	ironball = FindGO<IronBall>("ironball");
+	InitTexture();
+	InitPosition();
+	InitUpdate();
+	return true;
 }
-
-UI::~UI()
+void UI::InitTexture()
 {
+	CanvasTexture.Init("Assets/UI/UI_canvas.DDS", ScreenWide, ScreenHeight);
 
+	AbuttonTexture.Init("Assets/UI/A.DDS", ButtonWide, ButtonHeight);
+	BbuttonTexture.Init("Assets/UI/B.DDS", ButtonWide, ButtonHeight);
+
+	ControllerNonTexture.Init("Assets/UI/Controller-Non.DDS", ControllerWide, ControllerHeight);
+	ControllerUpTexture.Init("Assets/UI/Controller-Up.DDS", ControllerWide, ControllerHeight);
+	ControllerDownTexture.Init("Assets/UI/Controller-Down.DDS", ControllerWide, ControllerHeight);
+	ControllerLeftTexture.Init("Assets/UI/Controller-Left.DDS", ControllerWide, ControllerHeight);
+	ControllerRightTexture.Init("Assets/UI/Controller-Right.DDS", ControllerWide, ControllerHeight);
+
+	IronBallCountTexture[0].Init("Assets/UI/Iron-Non.DDS", IronBallWide, IronBallHeight);
+	IronBallCountTexture[1].Init("Assets/UI/Iron-One.DDS", IronBallWide, IronBallHeight);
+	IronBallCountTexture[2].Init("Assets/UI/Iron-Two.DDS", IronBallWide, IronBallHeight);
+	IronBallCountTexture[3].Init("Assets/UI/Iron-Three.DDS", IronBallWide, IronBallHeight);
+	IronBallCountTexture[4].Init("Assets/UI/Iron-Four.DDS", IronBallWide, IronBallHeight);
+	IronBallCountTexture[5].Init("Assets/UI/Iron-Five.DDS", IronBallWide, IronBallHeight);
+
+	StageCountTexture[0].Init("Assets/UI/Level1.DDS", ScreenWide, ScreenHeight);
+	StageCountTexture[1].Init("Assets/UI/Level2.DDS", ScreenWide, ScreenHeight);
+	StageCountTexture[2].Init("Assets/UI/Level3.DDS", ScreenWide, ScreenHeight);
+	StageCountTexture[3].Init("Assets/UI/Level4.DDS", ScreenWide, ScreenHeight);
+	StageCountTexture[4].Init("Assets/UI/Level5.DDS", ScreenWide, ScreenHeight);
+	StageCountTexture[5].Init("Assets/UI/Level6.DDS", ScreenWide, ScreenHeight);
+	StageCountTexture[6].Init("Assets/UI/Level7.DDS", ScreenWide, ScreenHeight);
+	StageCountTexture[7].Init("Assets/UI/Level8.DDS", ScreenWide, ScreenHeight);
+	StageCountTexture[8].Init("Assets/UI/Level9.DDS", ScreenWide, ScreenHeight);
+	StageCountTexture[9].Init("Assets/UI/Level10.DDS", ScreenWide, ScreenHeight);
+
+	TimerFrameTexture.Init("Assets/UI/Timer.DDS", ScreenWide, ScreenHeight);
 }
+void UI::InitPosition()
+{
+	AbuttonTexture.SetPosition(AbuttonPosition);
+	BbuttonTexture.SetPosition(BbuttonPosition);
 
+	ControllerNonTexture.SetPosition(ControllerPosition);
+	ControllerUpTexture.SetPosition(ControllerPosition);
+	ControllerDownTexture.SetPosition(ControllerPosition);
+	ControllerLeftTexture.SetPosition(ControllerPosition);
+	ControllerRightTexture.SetPosition(ControllerPosition);
+
+	IronBallCountTexture[0].SetPosition(IronBallCountPosition);
+	IronBallCountTexture[1].SetPosition(IronBallCountPosition);
+	IronBallCountTexture[2].SetPosition(IronBallCountPosition);
+	IronBallCountTexture[3].SetPosition(IronBallCountPosition);
+	IronBallCountTexture[4].SetPosition(IronBallCountPosition);
+	IronBallCountTexture[5].SetPosition(IronBallCountPosition);
+}
+void UI::InitUpdate()
+{
+	CanvasTexture.Update();
+
+	AbuttonTexture.Update();
+	BbuttonTexture.Update();
+
+	ControllerNonTexture.Update();
+	ControllerUpTexture.Update();
+	ControllerDownTexture.Update();
+	ControllerLeftTexture.Update();
+	ControllerRightTexture.Update();
+
+	IronBallCountTexture[0].Update();
+	IronBallCountTexture[1].Update();
+	IronBallCountTexture[2].Update();
+	IronBallCountTexture[3].Update();
+	IronBallCountTexture[4].Update();
+	IronBallCountTexture[5].Update();
+
+	StageCountTexture[1].Update();
+	StageCountTexture[2].Update();
+	StageCountTexture[3].Update();
+	StageCountTexture[4].Update();
+	StageCountTexture[5].Update();
+	StageCountTexture[6].Update();
+	StageCountTexture[7].Update();
+	StageCountTexture[8].Update();
+	StageCountTexture[9].Update();
+	StageCountTexture[10].Update();
+
+	TimerFrameTexture.Update();
+}
+void UI::Time()
+{
+	Timer++;
+	TimerOver = TimerLimit - Timer / 60;
+	if (TimerOver <= 0){ game->SetGameOver(true); }
+
+	swprintf_s(Clock, 256, L"%d", TimerOver);
+	TimerFont.SetText(Clock);
+	TimerFont.SetPosition(TimerPosition);
+	TimerFont.SetScale(1.0f);
+}
+void UI::Button()
+{
+	if (player->GetIronBallCount() < ironball->GetIronBallMax() && player->GetIronBallCount() >= ironball->GetIronBallMin()) 
+	{ 
+		AbuttonTexture.SetMulColor(AbuttonCollar_TRUE); 
+	}
+
+	if (player->GetIronBallCount() >= ironball->GetIronBallMax()) 
+	{ 
+		AbuttonTexture.SetMulColor(AbuttonCollar_FALSE); 
+	}
+
+	if (player->GetIronBallCount() <= ironball->GetIronBallMax() && player->GetIronBallCount() >= ironball->GetIronBallMin()) 
+	{
+		BbuttonTexture.SetMulColor(BbuttonCollar_TRUE); 
+	}
+
+	if (player->GetIronBallCount() <= ironball->GetIronBallMin())
+	{
+		BbuttonTexture.SetMulColor(BbuttonCollar_FALSE); 
+	}
+}
 void UI::Update()
 {
-	if (player == NULL)
-	{
-		player = FindGO<Player>("player");
-	}
+	Time();
+	Button();
 
-	if (game == NULL)
-	{
-		game = FindGO<Game>("game");
-	}
+	AbuttonTexture.Update();
+	BbuttonTexture.Update();
 
-	if (player->get_Ui == true)
-	{
-		A[1].Update();
-	}
+	IronBallCountTexture[player->ironBall].Update();
+
+	if (player->MoveSpeed.x < NON){ControllerUpTexture.Update();}
 	else {
-	if (player->get_Ui == false)
-	{
-		A[0].Update();
-	}
-	}
-
-	if (player->put_Ui == true)
-	{
-		B[1].Update();
-	}else {
-	if (player->put_Ui == false)
-	{
-		B[0].Update();
-	}
-	}
-
-	if (player->MoveSpeed.x < 0.0f)
-	{
-		Up.Update();
-	}else {
-	if (player->MoveSpeed.x > 0.0f)
-	{
-		Down.Update();
-	}else {
-	if (player->MoveSpeed.z > 0.0f)
-	{
-		Right.Update();
-	}else {
-	if (player->MoveSpeed.z < 0.0f)
-	{
-		Left.Update();
-	}else {
-		Non.Update();
+	if (player->MoveSpeed.x > NON){ControllerDownTexture.Update();}
+	else {
+	if (player->MoveSpeed.z > NON){ControllerRightTexture.Update();}
+	else {
+	if (player->MoveSpeed.z < NON){ControllerLeftTexture.Update();}
+	else {ControllerNonTexture.Update();}
 	}
 	}
 	}
-	}
-
-	Iron[player->ironBall].Update();
-
-	timer++;
-	
-	over = timelimit - timer / 60;
-
-	if (over <= 0)
-	{
-		game->GameOverFlag = true;
-	}
-
-	//時間制限処理
-	wchar_t clock[256];
-	swprintf_s(clock, 256, L"%d",over);
-	Timer.SetText(clock);
-	Timer.SetPosition(Vector3(830.0f, 305.0f, 0.0f));
-	Timer.SetScale(1.0f);
-
-	wchar_t tips[256];
-	swprintf_s(tips, 256, L"Tip:ゴールを目指せ");
-	Tips.SetText(tips);
-	Tips.SetPosition(Vector3(570.0f, 350.0f, 0.0f));
-	Tips.SetScale({ 0.8f });
 }
-
 void UI::Render(RenderContext& rc)
 {
-	Back.Draw(rc);
+	CanvasTexture.Draw(rc);
 
-	if (player->get_Ui == true)
-	{
-		A[1].Draw(rc);
-	}else {
-	if (player->get_Ui == false)
-	{
-		A[0].Draw(rc);
-	}
-	}
+	AbuttonTexture.Draw(rc);
+	BbuttonTexture.Draw(rc);
 
-	if (player->put_Ui == true)
-	{
-		B[1].Draw(rc);
-	}else {
-	if (player->put_Ui == false)
-	{
-		B[0].Draw(rc);
-	}
-	}
+	IronBallCountTexture[player->GetIronBallCount()].Draw(rc);
+	StageCountTexture[game->GetLevel()].Draw(rc);
 
-	Iron[player->ironBall].Draw(rc);
-
-	if (player->MoveSpeed.x < 0.0f)
-	{
-		Up.Draw(rc);
-	}else {
-	if (player->MoveSpeed.x > 0.0f)
-	{
-		Down.Draw(rc);
-	}else {
-	if (player->MoveSpeed.z > 0.0f)
-	{
-		Right.Draw(rc);
-	}else {
-	if (player->MoveSpeed.z < 0.0f)
-	{
-		Left.Draw(rc);;
-	}else {
-		Non.Draw(rc);
-	}
+	if (player->MoveSpeed.x < NON) {ControllerUpTexture.Draw(rc);}
+	else {
+	if (player->MoveSpeed.x > NON) {ControllerDownTexture.Draw(rc);}
+	else {
+	if (player->MoveSpeed.z > NON) {ControllerRightTexture.Draw(rc);}
+	else {
+	if (player->MoveSpeed.z < NON) {ControllerLeftTexture.Draw(rc);}
+	else {ControllerNonTexture.Draw(rc);}
 	}
 	}
 	}
 
-	STimer.Draw(rc);
-	Timer.Draw(rc);
-	//Tips.Draw(rc);
-	Stage[game->Level + 1].Draw(rc);
+	TimerFrameTexture.Draw(rc);
+	TimerFont.Draw(rc);
 }

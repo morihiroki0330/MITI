@@ -1,20 +1,22 @@
 #pragma once
-
 class Player;
+class Stage;
 class G_BreakFloar :public IGameObject
 {
 public:
-	G_BreakFloar();
-	~G_BreakFloar();
+	bool Start();
 	void Update();
 	void Render(RenderContext& rc);
-
-	Vector3 BreakFloar_P[10][10];
+	void Map_On(int Y , int X);
+	void Map_SetPosition(int Y, int X, Vector3 Position);
+private:
 	ModelRender BreakFloar[10][10];
-	PhysicsStaticObjectPos m_physicsStaticObjectpos[10][10];
+	Vector3 BreakFloar_Position[10][10];
+	PhysicsStaticObjectPos BreakFloar_PSO[10][10];
 	AllLight Light;
-	bool Break_on[10][10];
+	bool BreakFloar_On[10][10];
 
-	Player* player;
+	Player* player = nullptr;
+	Stage* stage = nullptr;
 };
 

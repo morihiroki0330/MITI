@@ -15,24 +15,60 @@ enum Direction
 class Player : public IGameObject
 {
 public:
-	Player();
 	~Player();
+
+	bool Start();
+
+	void InitAnimation();
+
+	void InitModel();
+
+	void InitSound();
+
 	void Update();
+
 	void Render(RenderContext& rc);
+
 	void Move();
+
 	void Rotation();
+
 	void Ball();
+
 	void ManageState();
+
 	void Animation();
-	void Status();
-	
-	ModelRender Character;
-	Vector3 Character_P;
-	Quaternion Character_R;
-	AllLight Light;
-	CharacterController CharacterController;
+
+	void PlayerMapSet();
+
+	void LevelSet();
+
+	void GameOver();
+
+	void DirectionSet();
+
+	void BoxHit();
+
+	void Sound();
+
+	void WalkSound();
+
+	void IceWalkSound();
+
+	void SlipFlagSet(bool Flag) { SlipFlag = Flag; }
+	void HitFlagSet(bool Flag) { HitFlag = Flag; }
+
+	int GetIronBallCount() { return ironBall; }
+
+	ModelRender PlayerModel;
+	Quaternion PlayerRotation;
+	AllLight PlayerLight;
+	CharacterController PlayerController;
+	Vector3 PlayerPosition;
 	Vector3 MoveSpeed;
-	enum EnAnimationClip {		//アニメーション。
+	Vector3 StickL;
+	Vector3 PlayerSetPosition[10][10];
+	enum EnAnimationClip {		
 		enAnimationClip_Idle,
 		enAnimationClip_Walk,
 		enAnimationClip_Jump,
@@ -44,69 +80,31 @@ public:
 		enAnimationClip_Slip,
 		enAnimationClip_Num,
 	};
-	AnimationClip AnimationClips[enAnimationClip_Num];		//アニメーションクリップ。
+	AnimationClip AnimationClips[enAnimationClip_Num];	
 
-	Vector3 StickL;
-
-	//鉄球の所持数
+	int PlayerState = 0;
+	int Frame = 0;
 	int ironBall = 0;
+	int PlayerMap = 0;
+	int EnterDirection = 0;
 
-	//鉄球置き＆回収のフラグ
-	bool get_Iron = false, put_Iron = false;
+	bool IronGet = false;
+	bool IronPut = false;
 
-	//UIフラグ
-	bool get_Ui = false, put_Ui = false;
+	bool IronGetAnim = false;
+	bool IronPutAnim = false;
 
-	//鉄球置き＆回収アニメーションのフラグ
-	bool get_IronAnim = false, put_IronAnim = false;
-
-	//キャラクターが滑っていく時に加算する移動速度
-	Vector3 SlipMoveSpeed;
-
-	//プレイヤーの状態を保存する変数
-	int playerState = 0;
-
-	//スティックの入力量を保存する変数
-
-	//フォントレンダー
-	FontRender fontRender;
-
-	Box* box;
-
-	Stage* stage;
-
-	Game* game;
-
-	IronBall* ironball;
-
-	bool slipflag = false;
-
-	bool hitflag = false;
-
-	Vector3 savePos;
-
-	Vector3 SetPosition[10][10];
-
-	int player_map;
-
-	FontRender as;
-
-	FontRender asb;
-
-	int EnterDirection;
-
-	bool clearflag = false;
-
-	bool Set;
-
-	SoundSource* WALK;
-
-	SoundSource* ICEWALK;
+	bool SlipFlag = false;
+	bool HitFlag = false;
 
 	bool FallSet = false;
-
-	int Frame = 0;
-
 	bool BgmSet = false;
+	
+	Box* box = nullptr;
+	Stage* stage = nullptr;
+	Game* game = nullptr;
+	IronBall* ironball = nullptr;
+	SoundSource* WalkSe = nullptr;
+	SoundSource* IceWalkSe = nullptr;
 };
 

@@ -5,13 +5,43 @@
 #include "Game.h"
 #include "Bgm.h"
 #include "IronBall.h"
+#include "Number_Storage.h"
 #include "sound/SoundEngine.h"
 #include "sound/SoundSource.h"
+#include "G_Kaidan.h"
 
-Player::Player()
+Player::~Player()
 {
-	Set = true;
+	DeleteGO(WalkSe);
+	DeleteGO(IceWalkSe);
+}
 
+bool Player::Start()
+{
+	box = FindGO<Box>("box");
+	game = FindGO<Game>("game");
+	stage = FindGO<Stage>("stage");
+	ironball = FindGO<IronBall>("ironball");
+
+	for (int Y = 0; Y < 10; Y++)
+	{
+		for (int X = 0; X < 10; X++)
+		{
+			PlayerSetPosition[Y][X].x = (Y * 192.0f) + -865.0f;
+			PlayerSetPosition[Y][X].y = NON;
+			PlayerSetPosition[Y][X].z = (X * 192.0f) + -865.0f;
+		}
+	}
+
+	InitAnimation();
+	InitModel();
+	InitSound();
+	LevelSet();
+	return true;
+}
+
+void Player::InitAnimation()
+{
 	AnimationClips[enAnimationClip_Idle].Load("Assets/character/oriidle.tka");
 	AnimationClips[enAnimationClip_Idle].SetLoopFlag(true);
 	AnimationClips[enAnimationClip_Walk].Load("Assets/character/oriwalk.tka");
@@ -22,419 +52,329 @@ Player::Player()
 	AnimationClips[enAnimationClip_Put].SetLoopFlag(false);
 	AnimationClips[enAnimationClip_Slip].Load("Assets/character/orislip.tka");
 	AnimationClips[enAnimationClip_Slip].SetLoopFlag(true);
-
-	Character.Init("Assets/Character/orichara.tkm",Light, AnimationClips, enAnimationClip_Num, enModelUpAxisZ);
-
-	for (int L = 0; L < 10; L++)
-	{
-		for (int R = 0; R < 10; R++)
-		{
-			SetPosition[L][R].x = (L * 192.0f) + -865.0f;
-			SetPosition[L][R].y = 0.0f;
-			SetPosition[L][R].z = (R * 192.0f) + -865.0f;
-		}
-	}
-
-	WALK = NewGO<SoundSource>(0);
-	WALK->Init(S_WALK);
-	WALK->SetVolume(0.2f);
-	
-	ICEWALK = NewGO<SoundSource>(0);
-	ICEWALK->Init(S_ICEFLOOR);
-	ICEWALK->SetVolume(0.2f);
-
 }
 
-Player::~Player()
+void Player::InitModel()
 {
-	DeleteGO(WALK);
-	DeleteGO(ICEWALK);
+	PlayerModel.Init("Assets/Character/orichara.tkm", PlayerLight, AnimationClips, enAnimationClip_Num, enModelUpAxisZ);
 }
 
-void Player::Update()
+void Player::InitSound()
 {
+	WalkSe = NewGO<SoundSource>(0);
+	WalkSe->Init(S_WALK);
+	WalkSe->SetVolume(0.2f);
 
-	game = FindGO<Game>("game");
-	stage = FindGO<Stage>("stage");
-	ironball = FindGO<IronBall>("ironball");
-	if (Set == true)
-	{
-		if (stage->StageOrder[game->Level] == 0)
-		{
-			Character_P = SetPosition[5][1];
-			Character_R.SetRotationY({180.0f});
-		}
-
-		if (stage->StageOrder[game->Level] == 1)
-		{
-			Character_P = SetPosition[2][0];
-		}
-
-		if (stage->StageOrder[game->Level] == 2)
-		{
-			Character_P = SetPosition[1][0];
-		}
-
-		if (stage->StageOrder[game->Level] == 3)
-		{
-			Character_P = SetPosition[2][0];
-		}
-		
-		if (stage->StageOrder[game->Level] == 4)
-		{
-			Character_P = SetPosition[9][0];
-		}
-
-		if (stage->StageOrder[game->Level] == 5)
-		{
-			Character_P = SetPosition[2][0];
-		}
-
-		if (stage->StageOrder[game->Level] == 6)
-		{
-			Character_P = SetPosition[0][0];
-		}
-		
-		if (stage->StageOrder[game->Level] == 7)
-		{
-			Character_P = SetPosition[0][0];
-		}
-
-		if (stage->StageOrder[game->Level] == 8)
-		{
-			Character_P = SetPosition[0][0];
-		}
-		
-		if (stage->StageOrder[game->Level] == 9)
-		{
-			Character_P = SetPosition[0][0];
-		}
-
-		Character.SetPosition(Character_P);
-		Character.SetScale({ 1.5f,1.5f,1.5f });
-
-		CharacterController.Init(40.0f, 120.0f, Character_P);
-		Set = false;
-	}
-
-
-	MoveSpeed.y = -5.0f;
-
-	//鉄球を回収も置いたりもしていないとき
-	if (get_IronAnim == false || put_IronAnim == false)
-	{
-		//移動処理
-		Move();
-		//回転処理
-		Rotation();
-	}
-	//鉄球処理
-	Ball();
-	//プレイヤーステート処理
-	ManageState();
-	//アニメーション処理
-	Animation();
-	//ステータス表示処理
-	Status();
-
-	Character.SetPosition(Character_P);
-	Character.SetRotation(Character_R);
-	Character.Update();
+	IceWalkSe = NewGO<SoundSource>(0);
+	IceWalkSe->Init(S_ICEWALK);
+	IceWalkSe->SetVolume(0.2f);
 }
 
-void Player::Move()
+void Player::LevelSet()
 {
-
-	if (Character_P.y <= -250.0)
+	switch (game->GetLevel())
 	{
-		game->GameOverFlag = true;
+	case Level0:
+		PlayerPosition = PlayerSetPosition[5][1];
+		break;
+	case Level1:
+		PlayerPosition = PlayerSetPosition[2][0];
+		break;
+	case Level2:
+		PlayerPosition = PlayerSetPosition[0][0];
+		break;
+	case Level3:
+		PlayerPosition = PlayerSetPosition[2][0];
+		break;
+	case Level4:
+		PlayerPosition = PlayerSetPosition[1][0];
+		break;
+	case Level5:
+		PlayerPosition = PlayerSetPosition[9][0];
+		break;
+	case Level6:
+		PlayerPosition = PlayerSetPosition[0][0];
+		break;
+	case Level7:
+		PlayerPosition = PlayerSetPosition[0][0];
+		break;
+	case Level8:
+		PlayerPosition = PlayerSetPosition[2][0];
+		break;
+	case Level9:
+		PlayerPosition = PlayerSetPosition[0][0];
+		break;
+	default:
+		break;
 	}
 
-	MoveSpeed.y = -5.0f;
+	PlayerModel.SetPosition(PlayerPosition);
+	PlayerModel.SetScale({ 1.5f,1.5f,1.5f });
 
-	if (box == NULL)
+	PlayerController.Init(CharacterControllerWide, CharacterControllerHeight, PlayerPosition);
+}
+
+void Player::GameOver()
+{
+	MoveSpeed.y = Gravity;
+
+	if (PlayerPosition.y <= -30.0f && FallSet == false)
 	{
-		box = FindGO<Box>("box");
+		FallSet = true;
+		SoundSource* SE = NewGO<SoundSource>(0);
+		SE->SoundSet(S_FALL, Bgm_Volume, LoopNot);
 	}
 
-	if (stage == NULL)
+	if (PlayerPosition.y <= UnderLimit)
 	{
-		stage = FindGO<Stage>("stage");
+		game->SetGameOver(true);
 	}
+}
 
-	if (game == NULL)
-	{
-		game = FindGO<Game>("game");
-	}
-
-	//スティックの入力量の取得
-	StickL.x = g_pad[0]->GetLStickYF();
-	StickL.y = g_pad[0]->GetLStickXF();
-
-	hitflag = false;
-	PhysicsWorld::GetInstance()->ContactTest(CharacterController, [&](const btCollisionObject& contactObject) {
-	//右から左
-	if (EnterDirection == Left)
-	{
-		if (box->box[(player_map / 10)][(player_map % 10) - 1].IsSelf(contactObject) == true)
-		{
-			hitflag = true;
-			slipflag = false;
-		}else {
-		if (box->box_soto[3].IsSelf(contactObject) == true)
-		{
-			hitflag = true;
-			slipflag = false;
-		}else {
-		if (box->box_kaidan.IsSelf(contactObject) == true)
-		{
-			game->ClearFlag = true;
-			hitflag = true;
-			slipflag = false;
-		}
-		}
-		}
-	} else {
-	//左から右
-	if (EnterDirection == Right)
-	{
-		if (box->box[(player_map / 10)][(player_map % 10) + 1].IsSelf(contactObject) == true)
-		{
-			hitflag = true;
-			slipflag = false;
-		}else {
-		if (box->box_soto[2].IsSelf(contactObject) == true)
-		{
-			hitflag = true;
-			slipflag = false;
-		}else {
-		if (box->box_kaidan.IsSelf(contactObject) == true)
-		{
-			game->ClearFlag = true;
-			hitflag = true;
-			slipflag = false;
-		}
-		}
-		}
-	}else {
-	//下から上
-	if (EnterDirection == Up)
-	{
-		if (box->box[(player_map / 10) - 1][(player_map % 10)].IsSelf(contactObject) == true)
-		{ 
-			hitflag = true;
-			slipflag = false;
-		}else {
-		if (box->box_soto[0].IsSelf(contactObject) == true)
-		{
-			hitflag = true;
-			slipflag = false;
-		}else {
-		if (box->box_kaidan.IsSelf(contactObject) == true)
-		{
-			game->ClearFlag = true;
-			hitflag = true;
-			slipflag = false;
-		}
-		}
-		}
-	}else {
-	//上から下
-	if (EnterDirection == Down)
-	{
-		if (box->box[(player_map / 10) + 1][(player_map % 10)].IsSelf(contactObject) == true)
-		{
-			hitflag = true;
-			slipflag = false;
-		}
-		else {
-		if (box->box_soto[1].IsSelf(contactObject) == true)
-		{
-			hitflag = true;
-			slipflag = false;
-		}else {
-		if (box->box_kaidan.IsSelf(contactObject) == true)
-		{
-			game->ClearFlag = true;
-			hitflag = true;
-			slipflag = false;
-		}
-		}
-		}
-	}
-	}
-	}
-	}
-	});
-
-	if (stage->mapdata[(player_map / 10)][(player_map % 10)].grounddata == GROUND)
-	{
-		slipflag = false;
-	}
-	if (slipflag == false)
-	{
-		//移動速度の初期化
-		MoveSpeed.x = 0.0f;
-		MoveSpeed.z = 0.0f;
-		if (CharacterController.IsOnGround() == true) {
-
-			//プレイヤーの移動
-			MoveSpeed.x += StickL.x * (-9.0f + ironBall / 4)/*-(0.8f * (6 - ironBall))*/;
-			MoveSpeed.z += StickL.y * (9.0f - ironBall / 4)/*(0.8f * (6 - ironBall))*/;
-			if (abs(MoveSpeed.x) > abs(MoveSpeed.z))
-			{
-				MoveSpeed.z = 0.0f;
-			}
-
-			if (abs(MoveSpeed.x) < abs(MoveSpeed.z))
-			{
-				MoveSpeed.x = 0.0f;
-			}
-
-			if (abs(MoveSpeed.x) == abs(MoveSpeed.z) || put_IronAnim == true || get_IronAnim == true || game->ClearFlag == true)
-			{
-				MoveSpeed.x = 0.0f;
-				MoveSpeed.z = 0.0f;
-			}
-		}
-	}else{
-	if (slipflag == true)
-	{
-		if (EnterDirection == Up)
-		{
-			MoveSpeed.z = 0.0f;
-			MoveSpeed.x = (-13.0f + ironBall / 4)/*-(0.8f * (6 - ironBall))*/;
-			if (stage->mapdata[(player_map / 10) - 1][(player_map % 10)].grounddata == ICE || stage->mapdata[(player_map / 10) - 1][(player_map % 10)].grounddata == HOLE)
-			{
-				slipflag = true;
-			}
-		}else {
-		if (EnterDirection == Down)
-		{
-			MoveSpeed.z = 0.0f;
-			MoveSpeed.x = (13.0f + ironBall / 4)/*-(0.8f * (6 - ironBall))*/;
-			if (stage->mapdata[(player_map / 10) + 1][(player_map % 10)].grounddata == ICE || stage->mapdata[(player_map / 10) + 1][(player_map % 10)].grounddata == HOLE)
-			{
-				slipflag = true;
-			}
-		}else {
-		if (EnterDirection == Right)
-		{
-			MoveSpeed.x = 0.0f;
-			MoveSpeed.z = (13.0f - ironBall / 4)/*(0.8f * (6 - ironBall))*/;
-			if (stage->mapdata[(player_map / 10)][(player_map % 10) + 1].grounddata == ICE || stage->mapdata[(player_map / 10) + 1][(player_map % 10)].grounddata == HOLE)
-			{
-				slipflag = true;
-			}
-		}else {
-		if (EnterDirection == Left)
-		{
-			MoveSpeed.x = 0.0f;
-			MoveSpeed.z = (-13.0f - ironBall / 4)/*(0.8f * (6 - ironBall))*/;
-			if (stage->mapdata[(player_map / 10)][(player_map % 10) - 1].grounddata == ICE || stage->mapdata[(player_map / 10) - 1][(player_map % 10)].grounddata == HOLE)
-			{
-				slipflag = true;
-			}
-		}
-		}
-		}
-		}
-	}
-		//if (Character_P.x == savePos.x && Character_P.z == savePos.z)
-		//{
-		//	MoveSpeed.x = 0.0f;
-		//	MoveSpeed.z = 0.0f;
-		//	//プレイヤーの移動
-
-		//	MoveSpeed.x += StickL.x * (-5.0f + ironBall / 4)/*-(0.8f * (6 - ironBall))*/;
-		//	MoveSpeed.z += StickL.y * (5.0f - ironBall / 4)/*(0.8f * (6 - ironBall))*/;
-		//	//slipflag = false;
-		//}else{
-		//	savePos.x = Character_P.x;
-		//	savePos.z = Character_P.z;
-		//}
-	}
-
-	if (MoveSpeed.x < 0.0f)
+void Player::DirectionSet()
+{
+	if (MoveSpeed.x < NON)
 	{
 		EnterDirection = Up;
 	}else {
-	if (MoveSpeed.x > 0.0f)
+	if (MoveSpeed.x > NON)
 	{
 		EnterDirection = Down;
 	}else {
-	if (MoveSpeed.z > 0.0f)
+	if (MoveSpeed.z > NON)
 	{
 		EnterDirection = Right;
 	}else {
-	if (MoveSpeed.z < 0.0f)
+	if (MoveSpeed.z < NON)
 	{
 		EnterDirection = Left;
 	}
 	}
 	}
 	}
+}
 
-	if ((MoveSpeed.x < 0.0f || MoveSpeed.x > 0.0f || MoveSpeed.z > 0.0f || MoveSpeed.z < 0.0f) && slipflag == false)
+void Player::Sound()
+{
+	WalkSound();
+	IceWalkSound();
+}
+
+void Player::WalkSound()
+{
+	if ((MoveSpeed.x < 0.0f || MoveSpeed.x > 0.0f || MoveSpeed.z > 0.0f || MoveSpeed.z < 0.0f) && SlipFlag == false)
 	{
-		WALK->Play(true);
-		
+		WalkSe->Play(true);
+
 	}else {
 	if (MoveSpeed.x == 0.0f || MoveSpeed.z == 0.0f)
 	{
-			WALK->Pause();
+		WalkSe->Pause();
 	}
 	}
-	
-	if (slipflag == true)
+}
+
+void Player::IceWalkSound()
+{
+	if (SlipFlag == true)
 	{
-		ICEWALK->Play(true);
-		WALK->Pause();
+		IceWalkSe->Play(true);
 	}else {
-	if (slipflag == false)
+	if (SlipFlag == false)
 	{
-		ICEWALK->Pause();
+		IceWalkSe->Pause();
 	}
 	}
+}
+
+void Player::Update()
+{
+	Move();
+	Rotation();
+	Ball();
+	ManageState();
+	Animation();
+	PlayerMapSet();
+	GameOver();
+	Sound();
+
+	PlayerPosition = PlayerController.Execute(MoveSpeed, 1.0);
+	PlayerModel.SetPosition(PlayerPosition);
+	PlayerModel.SetRotation(PlayerRotation);
+	PlayerModel.Update();
+}
+void Player::BoxHit()
+{
+	PhysicsWorld::GetInstance()->ContactTest(PlayerController, [&](const btCollisionObject& contactObject)
+	{
+		switch (EnterDirection)
+		{
+		case Left:
+			if (box->BlockBox[(PlayerMap / 10)][(PlayerMap % 10) - 1].IsSelf(contactObject) == true)
+			{
+				HitFlagSet(true);
+				SlipFlagSet(false);
+			}else {
+			if (box->KabeBox[LEFT].IsSelf(contactObject) == true)
+			{
+				HitFlagSet(true);
+				SlipFlagSet(false);
+			}else {
+			if (box->KaidanBox.IsSelf(contactObject) == true)
+			{
+				game->SetClear(true);
+				HitFlagSet(true);
+				SlipFlagSet(false);
+			}
+			}
+			}
+			break;
+		case Right:
+			if (box->BlockBox[(PlayerMap / 10)][(PlayerMap % 10) + 1].IsSelf(contactObject) == true)
+			{
+				HitFlagSet(true);
+				SlipFlagSet(false);
+			}else {
+			if (box->KabeBox[RIGHT].IsSelf(contactObject) == true)
+			{
+				HitFlagSet(true);
+				SlipFlagSet(false);
+			}else {
+			if (box->KaidanBox.IsSelf(contactObject) == true)
+			{
+				game->SetClear(true);
+				HitFlagSet(true);
+				SlipFlagSet(false);
+			}
+			}
+			}
+			break;
+		case Up:
+			if (box->BlockBox[(PlayerMap / 10) - 1][(PlayerMap % 10)].IsSelf(contactObject) == true)
+			{
+				HitFlagSet(true);
+				SlipFlagSet(false);
+			}else {
+			if (box->KabeBox[UP].IsSelf(contactObject) == true)
+			{
+				HitFlagSet(true);
+				SlipFlagSet(false);
+			}else {
+			if (box->KaidanBox.IsSelf(contactObject) == true)
+			{
+				game->SetClear(true);
+				HitFlagSet(true);
+				SlipFlagSet(false);
+			}
+			}
+			}
+			break;
+		case Down:
+			if (box->BlockBox[(PlayerMap / 10) + 1][(PlayerMap % 10)].IsSelf(contactObject) == true)
+			{
+				HitFlagSet(true);
+				SlipFlagSet(false);
+			}else {
+			if (box->KabeBox[Down].IsSelf(contactObject) == true)
+			{
+				HitFlagSet(true);
+				SlipFlagSet(false);
+			}else {
+			if (box->KaidanBox.IsSelf(contactObject) == true)
+			{
+				game->SetClear(true);
+				HitFlagSet(true);
+				SlipFlagSet(false);				}
+			}
+			}
+			break;
+			default:
+			break;
+			}
+		});
+}
+void Player::Move()
+{
+	StickL.x = g_pad[0]->GetLStickYF();
+	StickL.y = g_pad[0]->GetLStickXF();
 	
+	BoxHit();
+	DirectionSet();
+
+	if (stage->MapData[(PlayerMap / 10)][(PlayerMap % 10)].GroundData == GROUND){SlipFlag = false;}
+
+	if (SlipFlag == false)
+	{
+		MoveSpeed.x = NON;
+		MoveSpeed.z = NON;
+		if (PlayerController.IsOnGround() == true)
+		{
+			MoveSpeed.x += StickL.x * (-9.0f + ironBall / 4);
+			MoveSpeed.z += StickL.y * (9.0f - ironBall / 4);
+			if (abs(MoveSpeed.x) > abs(MoveSpeed.z))
+			{
+				MoveSpeed.z = NON;
+			}
+			if (abs(MoveSpeed.x) < abs(MoveSpeed.z))
+			{
+				MoveSpeed.x = NON;
+			}
+			if (IronPutAnim == true || IronGetAnim == true || game->GetClear() == true)
+			{
+				MoveSpeed.x = NON;
+				MoveSpeed.z = NON;
+			}
+		}
+	}else{
+	if (SlipFlag == true)
+	{
+		if (EnterDirection == Up)
+		{
+			MoveSpeed.z = NON;
+			MoveSpeed.x = (-13.0f + ironBall / 4);
+			if (stage->GetMapData(PlayerMap,PlayerMap,Up) == ICE || stage->GetMapData(PlayerMap, PlayerMap, Up) == HOLE)
+			{
+				SlipFlag = true;
+			}
+		}else {
+		if (EnterDirection == Down)
+		{
+			MoveSpeed.z = NON;
+			MoveSpeed.x = (13.0f + ironBall / 4);
+			if (stage->GetMapData(PlayerMap, PlayerMap, Down) == ICE || stage->GetMapData(PlayerMap, PlayerMap, Down) == HOLE)
+			{
+				SlipFlag = true;
+			}
+		}else {
+		if (EnterDirection == Right)
+		{
+			MoveSpeed.x = NON;
+			MoveSpeed.z = (13.0f - ironBall / 4);
+			if (stage->GetMapData(PlayerMap, PlayerMap, Right) == ICE || stage->GetMapData(PlayerMap, PlayerMap, Right) == HOLE)
+			{
+				SlipFlag = true;
+			}
+		}else {
+		if (EnterDirection == Left)
+		{
+			MoveSpeed.x = NON;
+			MoveSpeed.z = (-13.0f - ironBall / 4);
+			if (stage->GetMapData(PlayerMap, PlayerMap, Left) == ICE || stage->GetMapData(PlayerMap, PlayerMap, Left) == HOLE)
+			{
+				SlipFlag = true;
+			}
+		}
+		}
+		}
+		}
+	}
+	}
+
 	
-	/*if (MoveSpeed.x > 4.8)
-	{
-		MoveSpeed.x = 4.8;
-	}
-	if (MoveSpeed.x < -4.8)
-	{
-		MoveSpeed.x = -4.8;
-	}
-	if (MoveSpeed.z > 4.8)
-	{
-		MoveSpeed.z = 4.8;
-	}
-	if (MoveSpeed.z < -4.8)
-	{
-		MoveSpeed.z = -4.8;
-	}*/
-
-	/*if (CharacterController.IsOnGround())
-	{
-		MoveSpeed.y = 0.0f;
-	}
-	else
-	{
-		MoveSpeed.y = -2.5f;
-	}*/
-
-	//キャラクターコントローラーを使って座標の移動
-	Character_P = CharacterController.Execute(MoveSpeed, 1.0);
-
-	//slipflag = false;
-
-	if (game->ClearFlag == true && BgmSet == false)
+	if (game->GetClear() == true && BgmSet == false)
 	{
 		SoundSource* SE = NewGO<SoundSource>(0);
-		SE->Init(S_KAIDAN);
-		SE->SetVolume(0.7f);
-		SE->Play(false);
+		SE->SoundSet(S_KAIDAN, Bgm_Volume, LoopNot);
 		BgmSet = true;
 	}
 }
@@ -443,180 +383,122 @@ void Player::Rotation()
 {
 	if (fabsf(MoveSpeed.x) >= 0.001f || fabsf(MoveSpeed.z) >= 0.001f)
 	{
-		//キャラクターの方向変更
-		Character_R.SetRotationYFromDirectionXZ(MoveSpeed);
+		PlayerRotation.SetRotationYFromDirectionXZ(MoveSpeed);
 	}
 }
 
 void Player::Ball()
 {
-	//鉄球クラスで鉄球の所持数を変えるためにフラグ変数を変更する
-	if (g_pad[0]->IsTrigger(enButtonA) && ironBall < 5 && stage->mapdata[(player_map / 10)][(player_map % 10)].grounddata == GROUND)
+	if (g_pad[0]->IsTrigger(enButtonA) && ironBall < ironball->GetIronBallMax() && stage->MapData[(PlayerMap / 10)][(PlayerMap % 10)].GroundData == GROUND)
 	{
 		SoundSource* SE = NewGO<SoundSource>(0);
-		SE->Init(S_IRONBALLGET);
-		SE->SetVolume(0.5f);
-		SE->Play(false);
-		get_Iron = true;
-		ironball->Ball_map[(player_map / 10)][(player_map % 10)] = false;
+		SE->SoundSet(S_IRONBALLGET, Bgm_Volume, LoopNot);
+		IronGet = true;
+		ironball->BallMapSet(0);
 	}
 
-	if (ironBall >= 5)
+	if (g_pad[0]->IsTrigger(enButtonB) && ironBall > ironball->GetIronBallMin() && stage->MapData[(PlayerMap / 10)][(PlayerMap % 10)].GroundData == GROUND)
 	{
-		get_Ui = false;
-	}else {
-	if (ironBall < 5 && ironBall >= 0)
-	{
-		get_Ui = true;
-	}
-	}
-
-	if (g_pad[0]->IsTrigger(enButtonB) && ironBall > 0 && stage->mapdata[(player_map / 10)][(player_map % 10)].grounddata == GROUND)
-	{
-		if (ironball->Ball_map[(player_map / 10)][(player_map % 10)] == false)
+		if (ironball->GetBallMap(PlayerMap) == false)
 		{
 			SoundSource* SE = NewGO<SoundSource>(0);
-			SE->Init(S_IRONBALLPUT);
-			SE->SetVolume(0.5f);
-			SE->Play(false);
-			put_Iron = true;
-			ironball->Ball_map[(player_map / 10)][(player_map % 10)] = true;
+			SE->SoundSet(S_IRONBALLPUT, Bgm_Volume, LoopNot);
+			IronPut = true;
+			ironball->BallMapSet(PlayerMap);
 		}
 	}
-
-	if (ironBall <= 0)
-	{
-		put_Ui = false;
-	}else {
-	if (ironBall <= 5 && ironBall >= 1)
-	{
-		put_Ui = true;
-	}
-	}
-
 }
 
 void Player::ManageState()
 {
-	//プレイヤーステートの変更
-		if (CharacterController.IsOnGround() == false)
-		{
-			//落下
-			playerState = 2;
-		}
-		else if (put_IronAnim == true)
-		{
-			//置き
-			playerState = 3;
-		}
-		else if (get_IronAnim == true)
-		{
-			//回収
-			playerState = 3;
-		}
-		else if (slipflag == true)
-		{
-			//滑り
-			playerState = 4;
-		}
-		else if(StickL.x != 0 || StickL.y != 0)
-		{
-			//歩き
-			playerState = 1;
-		}
-		else 
-		{
-			playerState = 0;
-		}
-		
-		if (Character_P.y <= -30.0f && FallSet == false)
-		{
-			FallSet = true;
-			SoundSource* SE = NewGO<SoundSource>(0);
-			SE->Init(S_FALL);
-			SE->SetVolume(0.4f);
-			SE->Play(false);
-		}
+	if (PlayerController.IsOnGround() == false)
+	{
+		PlayerState = 2;
+	}
+	else if (IronPutAnim == true)
+	{
+		PlayerState = 3;
+	}
+	else if (IronGetAnim == true)
+	{
+		PlayerState = 3;
+	}
+	else if (SlipFlag == true)
+	{
+		PlayerState = 4;
+	}
+	else if(StickL.x != 0 || StickL.y != 0)
+	{
+		PlayerState = 1;
+	}
+	else 
+	{
+		PlayerState = 0;
+	}
 }
 
 void Player::Animation()
 {
-	switch (playerState)
+	switch (PlayerState)
 	{
-	//立ちモーション
 	case 0:
-		Character.PlayAnimation(enAnimationClip_Idle, 0.2f);
+		PlayerModel.PlayAnimation(enAnimationClip_Idle, 0.2f);
 		break;
-	//歩きモーション
 	case 1:
-		Character.PlayAnimation(enAnimationClip_Walk, 0.2f);
+		PlayerModel.PlayAnimation(enAnimationClip_Walk, 0.2f);
 		break;
-	//落下モーション
 	case 2:
-		Character.PlayAnimation(enAnimationClip_Jump, 0.2f);
+		PlayerModel.PlayAnimation(enAnimationClip_Jump, 0.2f);
 		break;
-	//設置モーション
 	case 3:
-		Character.PlayAnimation(enAnimationClip_Put);
-		if (put_IronAnim == true)
+		PlayerModel.PlayAnimation(enAnimationClip_Put);
+		if (IronPutAnim == true)
 		{
 			Frame++;
 			if (Frame >= 30)
 			{
-				put_IronAnim = false;
+				IronPutAnim = false;
 				Frame = 0;
 			}
 		}
-		if (get_IronAnim == true)
+		if (IronGetAnim == true)
 		{
 			Frame++;
 			if (Frame >= 30)
 			{
-				get_IronAnim = false;
+				IronGetAnim = false;
 				Frame = 0;
 			}
 		}
 		break;
 	case 4:
-		Character.PlayAnimation(enAnimationClip_Slip);
+		PlayerModel.PlayAnimation(enAnimationClip_Slip);
 	default:
 		break;
 	}
 }
 
-void Player::Status()
+void Player::PlayerMapSet()
 {
-	for (int L = 0; L < 10; L++)
+	
+	for (int Y = 0; Y < 10; Y++)
 	{
-		for (int R = 0; R < 10; R++)
+		for (int X = 0; X < 10; X++)
 		{
 			if (
-				Character_P.x < SetPosition[L][R].x + 96 &&
-				Character_P.x > SetPosition[L][R].x - 96 &&
-				Character_P.z < SetPosition[L][R].z + 96 &&
-				Character_P.z > SetPosition[L][R].z - 96
+				PlayerPosition.x < PlayerSetPosition[Y][X].x + 96 &&
+				PlayerPosition.x > PlayerSetPosition[Y][X].x - 96 &&
+				PlayerPosition.z < PlayerSetPosition[Y][X].z + 96 &&
+				PlayerPosition.z > PlayerSetPosition[Y][X].z - 96
 				)
 			{
-				player_map = (L * 10) + R;
+				PlayerMap = (Y * 10) + X;
 			}
 		}
 	}
-	
-	wchar_t a[256];
-	swprintf_s(a, 256, L"%d",player_map);
-	as.SetText(a);
-	as.SetPosition(Vector3(-852.0f, 350.0f, 0.0f));
-	as.SetScale(1.0f);
 }
 
 void Player::Render(RenderContext& rc)
 {
-	Character.Draw(rc);
-	asb.Draw(rc);
-	//as.Draw(rc);
-	if (hitflag == true)
-	{
-		
-	}
-
+	PlayerModel.Draw(rc);
 }
