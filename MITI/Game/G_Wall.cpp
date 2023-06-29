@@ -1,20 +1,28 @@
 #include "stdafx.h"
 #include "G_Wall.h"
-bool G_Wall::Start()
+G_Wall::G_Wall()
 {
-	Wall.Init("Assets/modelData/hekiga.tkm", Light);
-	Wall_PSO.CreateFromModel(Wall.GetModel(), Wall.GetModel().GetWorldMatrix());
-	return true;
+	InitModel();
+	InitPhysicsStaticObject();
+	
+}
+
+void G_Wall::InitModel()
+{
+	WallModel.Init("Assets/modelData/hekiga.tkm", WallLight);
+}
+void G_Wall::InitPhysicsStaticObject()
+{
+	WallPhysicsStaticObject.CreateFromModel(WallModel.GetModel(), WallModel.GetModel().GetWorldMatrix());
 }
 
 void G_Wall::Update()
 {
-	Wall.SetPosition(Wall_Position);
-	Wall_PSO.SetPosition(Wall_Position);
-	Wall.Update();
+	WallModel.SetPosition(WallPosition);
+	WallPhysicsStaticObject.SetPosition(WallPosition);
+	WallModel.Update();
 }
-
 void G_Wall::Render(RenderContext& rc)
 {
-	Wall.Draw(rc);
+	WallModel.Draw(rc);
 }

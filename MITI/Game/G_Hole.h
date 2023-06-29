@@ -1,15 +1,16 @@
 #pragma once
-#include "Number_Storage.h"
 class G_Hole : public IGameObject
 {
 public:
-	bool Start();
+	G_Hole();
+	void InitModel();
+	void InitPhysicsStaticObject();
 	void Update();
 	void Render(RenderContext& rc);
 private:
-	ModelRender Hole;
-	Vector3 Hole_Position = { NON,-300.0f,NON };
-	PhysicsStaticObjectPos Hole_PSO;
-	AllLight Light;
+	ModelRender HoleModel;
+	Vector3 HolePosition = { 0.0f ,-300.0f,0.0f };
+	PhysicsStaticObjectPos HolePhysicsStaticObject;
+	AllLight HoleLight;
 };
 
