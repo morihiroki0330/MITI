@@ -10,8 +10,8 @@ namespace
 
 Fade::Fade()
 {
-	Fade_S.Init("Assets/sprite/black.DDS", 1920, 1080);
-	Fade_S.Update();
+	FadeTexture.Init("Assets/sprite/black.DDS", 1920, 1080);
+	FadeTexture.Update();
 }
 
 void Fade::Update()
@@ -57,20 +57,20 @@ void Fade::ButtonFade(SpriteRender& Button , bool Press_Button)
 	{
 		if (ButtonFadeIn)
 		{
-			Button_Alpha -= 10.0f * g_gameTime->GetFrameDeltaTime();
-			if (Button_Alpha <= NON)
+			ButtonAlpha -= 10.0f * g_gameTime->GetFrameDeltaTime();
+			if (ButtonAlpha <= NON)
 			{
-				Button_Alpha = NON;
+				ButtonAlpha = NON;
 				ButtonFadeIn = false;
 				ButtonFadeOut = true;
 			}
 		}else {
 		if (ButtonFadeOut)
 		{
-			Button_Alpha += 10.0f * g_gameTime->GetFrameDeltaTime();
-			if (Button_Alpha >= 1.0f)
+			ButtonAlpha += 10.0f * g_gameTime->GetFrameDeltaTime();
+			if (ButtonAlpha >= 1.0f)
 			{
-				Button_Alpha = 1.0f;
+				ButtonAlpha = 1.0f;
 				ButtonFadeIn = true;
 				ButtonFadeOut = false;
 			}
@@ -79,10 +79,10 @@ void Fade::ButtonFade(SpriteRender& Button , bool Press_Button)
 	}else {
 		if (ButtonFadeIn)
 		{
-			Button_Alpha -= 1.0f * g_gameTime->GetFrameDeltaTime();
-			if (Button_Alpha <= NON)
+			ButtonAlpha -= 1.0f * g_gameTime->GetFrameDeltaTime();
+			if (ButtonAlpha <= NON)
 			{
-				Button_Alpha = NON;
+				ButtonAlpha = NON;
 				ButtonFadeIn = false;
 				ButtonFadeOut = true;
 			}
@@ -90,25 +90,25 @@ void Fade::ButtonFade(SpriteRender& Button , bool Press_Button)
 		if (ButtonFadeOut)
 		{
 
-			Button_Alpha += 1.0f * g_gameTime->GetFrameDeltaTime();
-			if (Button_Alpha >= 1.0f)
+			ButtonAlpha += 1.0f * g_gameTime->GetFrameDeltaTime();
+			if (ButtonAlpha >= 1.0f)
 			{
-				Button_Alpha = 1.0f;
+				ButtonAlpha = 1.0f;
 				ButtonFadeIn = true;
 				ButtonFadeOut = false;
 			}
 			}
 		}
 	}
-	Button_COL = { Red , Green , Blue , Button_Alpha };
-	Button.SetMulColor(Button_COL);
+	ButtonCollar = { Red , Green , Blue , ButtonAlpha };
+	Button.SetMulColor(ButtonCollar);
 }
 
 void Fade::Render(RenderContext& rc)
 {
 	if (Alpha > NON)
 	{
-		Fade_S.SetMulColor({ 1.0f, 1.0f, 1.0f, Alpha });
-		Fade_S.Draw(rc);
+		FadeTexture.SetMulColor({ 1.0f, 1.0f, 1.0f, Alpha });
+		FadeTexture.Draw(rc);
 	}
 }

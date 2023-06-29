@@ -1,5 +1,4 @@
 #pragma once
-#include "Number_Storage.h"
 class Player;
 class Game;
 class IronBall;
@@ -44,7 +43,7 @@ private:
 	SpriteRender StageCountTexture[11];
 
 	FontRender TimerFont;
-	Vector3 TimerPosition = { 830.0f , 305.0f , NON };
+	Vector3 TimerPosition = { 830.0f , 305.0f , 0.0f };
 	SpriteRender TimerFrameTexture;
 	wchar_t Clock[256];
 	int Timer = 0;

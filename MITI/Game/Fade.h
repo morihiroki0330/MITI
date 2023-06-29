@@ -17,14 +17,14 @@ private:
 		enState_FadeOut,		
 		enState_Idle,			
 	};
-	SpriteRender Fade_S;				
+	SpriteRender FadeTexture;
 	EnState State = enState_Idle;		
 	float Alpha = 1.0f;		
 	bool Reset = true;
 
-	Vector4 Button_COL = { 1.0f,1.0f,1.0f,1.0f };
+	Vector4 ButtonCollar = { 1.0f,1.0f,1.0f,1.0f };
 	bool ButtonFadeIn = true;
 	bool ButtonFadeOut = false;
-	float Button_Alpha = 1.0f;
+	float ButtonAlpha = 1.0f;
 };
 
