@@ -4,22 +4,26 @@ class Stage;
 class G_IceFloor:public IGameObject
 {
 public:
+	G_IceFloor();
 	bool Start();
+
+	void InitModel();
+	void InitPhysicsStaticObject();
+
 	void IceFloorOnPlayer();
-	void Map_On(int Y, int X);
-	void Map_SetPosition(int Y, int X, Vector3 Position);
+	void IceFloorOnTrue(int Y, int X);
+	void IceFloorSetPosition(int Y, int X, Vector3 Position);
+
 	void Update();
 	void Render(RenderContext& rc);
 private:
-	ModelRender IceFloor[10][10];
-	Vector3 IceFloor_Position[10][10];
-	PhysicsStaticObjectPos IceFloor_PSO[10][10];
-	AllLight Light;
+	ModelRender IceFloorModel[10][10];
+	Vector3 IceFloorPosition[10][10];
+	PhysicsStaticObjectPos IceFloorPhysicsStaticObject[10][10];
+	AllLight IceFloorLight;
+	bool IceFloorOn[10][10];
 
-	bool IceFloor_On[10][10];
-
-	Player* player = nullptr;;
-	Stage* stage = nullptr;;
-	
+	Player* player = nullptr;
+	Stage* stage = nullptr;
 };
 
