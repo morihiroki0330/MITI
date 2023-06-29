@@ -5,7 +5,7 @@ class IronBall;
 class UI : public IGameObject
 {
 public:
-	bool Start();
+	UI();
 	void InitTexture();
 	void InitPosition();
 	void InitUpdate();

@@ -4,7 +4,7 @@
 #include "Game.h"
 #include "IronBall.h"
 #include "Number_Storage.h"
-bool UI::Start() 
+UI::UI() 
 {
 	player = FindGO<Player>("player");
 	game = FindGO<Game>("game");
@@ -12,7 +12,6 @@ bool UI::Start()
 	InitTexture();
 	InitPosition();
 	InitUpdate();
-	return true;
 }
 void UI::InitTexture()
 {
