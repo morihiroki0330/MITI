@@ -1,5 +1,4 @@
 #pragma once
-#include "sound/SoundSource.h"
 class Fade;
 class Story;
 class Game;
@@ -7,21 +6,26 @@ class Title;
 class GameClear:public IGameObject
 {
 public:
+	GameClear();
 	~GameClear();
 	bool Start();
+
+	void InitTexture();
+	void InitSound();
+
 	void Update();
 	void Render(RenderContext& rc);
 private:
-	SpriteRender Gameclear_S;
-	SpriteRender Abutton_S;
+	SpriteRender GameclearTexture;
+	SpriteRender AbuttonTexture;
 
-	SoundSource* BGM = nullptr;;
-	Fade* fade = nullptr;;
-	Story* story = nullptr;;
-	Title* title = nullptr;;
+	SoundSource* BGM = nullptr;
+	Fade* fade = nullptr;
+	Story* story = nullptr;
+	Title* title = nullptr;
 
 	bool BgmSet = true;
 	bool Delete = false;
-	bool Press_Abutton = false;
+	bool PressAbutton = false;
 };
 

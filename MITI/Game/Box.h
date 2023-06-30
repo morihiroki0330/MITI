@@ -29,6 +29,6 @@ public:
 	Quaternion Kabe_Rotation[4];
 
 	Player* player = nullptr;
-	Game* game = nullptr;;
+	Game* game = nullptr;
 };
 

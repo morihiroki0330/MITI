@@ -1,23 +1,27 @@
 #pragma once
-#include "sound/SoundSource.h"
 class Game;
 class Fade;
-class Gameover :public IGameObject
+class GameOver :public IGameObject
 {
 public:
-	~Gameover();
+	GameOver();
+	~GameOver();
 	bool Start();
+
+	void InitTexture();
+	void InitSound();
+
 	void Update();
 	void Render(RenderContext& rc);
 private:
-	SpriteRender Gameover_S;   
-	SpriteRender Abutton_S;   
+	SpriteRender GameoverTexture;
+	SpriteRender AbuttonTexture;
 
 	Game* game = nullptr;
 	Fade* fade = nullptr;
-	SoundSource* BGM = nullptr;;
+	SoundSource* BGM = nullptr;
 
 	bool BgmSet = true;
 	bool Delete = false;
-	bool Press_Abutton = false;
+	bool PressAbutton = false;
 };

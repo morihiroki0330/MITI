@@ -7,6 +7,6 @@ public:
 	void Update();
 
 	Vector3 Target_Position = { NON,NON,NON };
-	Vector3 Camera_Position = { NON,NON,NON };;
+	Vector3 Camera_Position = { NON,NON,NON };
 };
 

@@ -7,21 +7,25 @@ class Fade;
 class StageClear : public IGameObject
 {
 public:
+	StageClear();
 	~StageClear();
 	bool Start();
+
+	void InitTexture();
+	void InitSound();
+
 	void Update();
 	void Render(RenderContext& rc);
 private:
-	SpriteRender Stageclear_S;  
-	SpriteRender Abutton_S;  
+	SpriteRender StageclearTexture;
+	SpriteRender AbuttonTexture;
 
 	SoundSource* BGM = nullptr;
-	Game* game = nullptr;;
-	Bgm* bgm = nullptr;;
-	Fade* fade = nullptr;;
+	Game* game = nullptr;
+	Fade* fade = nullptr;
 
 	bool BgmSet = true;
 	bool Delete = false;
-	bool Press_Abutton = false;
+	bool PressAbutton = false;
 };
 

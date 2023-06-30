@@ -6,27 +6,37 @@
 #include "Fade.h"
 #include "Number_Storage.h"
 #include "sound/SoundEngine.h"
+GameClear::GameClear()
+{
+	InitTexture();
+	InitSound();
+}
 GameClear::~GameClear()
 {
 	DeleteGO(BGM);
 }
-
 bool GameClear::Start()
 {
-	Gameclear_S.Init("Assets/sprite/RoM_StageClear.DDS", 1920.0f, 1080.0f);
-	Abutton_S.Init("Assets/sprite/PRESS_A.DDS", 1920.0f, 1080.0f);
-	
-	BGM = NewGO<SoundSource>(0);
-	BGM->SoundSet(B_GAMECLEAR , Bgm_Volume , Loop);
 
 	fade = FindGO<Fade>("fade");
 	fade->StartFadeIn();
 	return true;
 }
 
+void GameClear::InitTexture()
+{
+	GameclearTexture.Init("Assets/sprite/RoM_StageClear.DDS", ScreenWide, ScreenHeight);
+	AbuttonTexture.Init("Assets/sprite/PRESS_A.DDS", ScreenWide, ScreenHeight);
+}
+void GameClear::InitSound()
+{
+	BGM = NewGO<SoundSource>(0);
+	BGM->SoundSet(B_GAMECLEAR , Bgm_Volume , Loop);
+}
+
 void GameClear::Update()
 {
-	fade->ButtonFade(Abutton_S , Press_Abutton);
+	fade->ButtonFade(AbuttonTexture, PressAbutton);
 	if (fade->IsFade() == false && Delete == true)
 	{
 		NewGO<Story>(0, "story");
@@ -37,14 +47,13 @@ void GameClear::Update()
 		SoundSource* SE = NewGO<SoundSource>(0);
 		SE->SoundSet(S_BUTTON, Bgm_Volume, LoopNot);
 		fade->StartFadeOut();
-		Press_Abutton = true;
+		PressAbutton = true;
 		Delete = true;
 	}
 	}
 }
-
 void GameClear::Render(RenderContext& rc)
 {
-	Gameclear_S.Draw(rc);
-	Abutton_S.Draw(rc);
+	GameclearTexture.Draw(rc);
+	AbuttonTexture.Draw(rc);
 }

@@ -47,7 +47,7 @@ private:
 	SpriteRender TimerFrameTexture;
 	wchar_t Clock[256];
 	int Timer = 0;
-	int TimerOver = 0;;
+	int TimerOver = 0;
 	int TimerLimit = 100;
 
 	Player* player = nullptr;
