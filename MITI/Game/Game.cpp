@@ -2,7 +2,7 @@
 #include "Game.h"
 #include "IronBall.h"
 #include "Player.h"
-#include "Gameover.h"
+#include "GameOver.h"
 #include "GameClear.h"
 #include "StageClear.h"
 #include "Stage.h"
@@ -27,22 +27,15 @@ Game::~Game()
 bool Game::Start()
 {
 	fade = FindGO<Fade>("fade");
-	fade->StartFadeIn();
-	SetWorld();
+	InitWorld();
 	ClassCreate();
 	return true;
 }
-void Game::SetWorld()
-{
-	PhysicsWorld::GetInstance()->SetGravity({ NON,-180.0f,NON });
-	PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
-}
 
-void Game::Update()
+void Game::InitWorld()
 {
-	if (GameOverFlag == true){GameOver();}
-	if (ClearFlag == true){Clear();}
-	if (CreateFlag == true){ClassCreate();CreateFlag = false;}
+	PhysicsWorld::GetInstance()->SetGravity({ 0.0f,-180.0f,0.0f });
+	PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
 }
 
 void Game::ClassCreate()
@@ -53,9 +46,12 @@ void Game::ClassCreate()
 	ironball = NewGO<IronBall>(0, "ironball");
 	ui = NewGO<UI>(0, "ui");
 	box = NewGO<Box>(0, "box");
+
 	BGM = NewGO<SoundSource>(0);
 	BGM->SoundSet(B_STAGE , Bgm_Volume , Loop);
-	DeleteSet = false;
+
+	DeleteFlagSet(false);
+
 	fade->StartFadeIn();
 }
 void Game::ClassDelete()
@@ -68,52 +64,58 @@ void Game::ClassDelete()
 	DeleteGO(BGM);
 }
 
-void Game::GameOver()
+void Game::Over()
 {
-	if (DeleteSet == false)
+	if (GetDeleteFlag() == false)
 	{
 		fade->StartFadeOut();
-		DeleteSet = true;
+		DeleteFlagSet(true);
 	}else {
-	if (fade->IsFade() == false && DeleteSet == true)
+	if (fade->IsFade() == false && DeleteFlag == true)
 	{
-		NewGO<Gameover>(0, "gameover");
+		NewGO<GameOver>(0, "gameover");
 		ClassDelete();
-		GameOverFlag = false;
+		GameOverFlagSet(false);
 	}
 	}
 }
-
 void Game::Clear()
 {
 	if (Level_Max == Level)
 	{
-		if (DeleteSet == false)
+		if (GetDeleteFlag() == false)
 		{
 			fade->StartFadeOut();
-			DeleteSet = true;
+			DeleteFlagSet(true);
 		}else {
-		if (fade->IsFade() == false && DeleteSet == true)
+		if (fade->IsFade() == false && GetDeleteFlag() == true)
 		{
 			NewGO<GameClear>(0, "gameclear");
 			ClassDelete();
 			DeleteGO(this);
-			ClearFlag = false;
+			ClearFlagSet(false);
 		}
 		}
 	}else {
-		if (DeleteSet == false)
+		if (GetDeleteFlag() == false)
 		{
 			fade->StartFadeOut();
-			DeleteSet = true;
+			DeleteFlagSet(true);
 		}else {
-		if (fade->IsFade() == false && DeleteSet == true)
+		if (fade->IsFade() == false && GetDeleteFlag() == true)
 		{
 			NewGO<StageClear>(0, "stageclear");
 			ClassDelete();
-			ClearFlag = false;
+			ClearFlagSet(false);
 		}
 		}
 	}
 
+}
+
+void Game::Update()
+{
+	if (GetGameOverFlag() == true) { Over(); }
+	if (GetClearFlag() == true) { Clear(); }
+	if (GetCreateFlag() == true) { ClassCreate(); CreateFlagSet(false); }
 }

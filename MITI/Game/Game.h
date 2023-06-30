@@ -11,31 +11,29 @@ class Game : public IGameObject
 {
 public:
 	~Game();
-
 	bool Start();
 
-	void SetWorld();
-	void SetClear(bool Flag) { ClearFlag = Flag; }
-	void SetGameOver(bool Flag) { GameOverFlag = Flag; }
-	void SetCreate(bool Flag) { CreateFlag = Flag; }
-	void SetDelete(bool Flag) { DeleteSet = Flag; }
-
-	void Update();
-
-	void GameOver();
-
-	void Clear();
+	void InitWorld();
 
 	void ClassCreate();
 	void ClassDelete();
 
-	int GetLevel() { return Level; }
+	void Over();
+	void Clear();
+
+	void Update();
+
 	void LevelUp() { Level += 1; }
+	void ClearFlagSet(bool Flag) { ClearFlag = Flag; }
+	void GameOverFlagSet(bool Flag) { GameOverFlag = Flag; }
+	void CreateFlagSet(bool Flag) { CreateFlag = Flag; }
+	void DeleteFlagSet(bool Flag) { DeleteFlag = Flag; }
 	
-	bool GetClear() { return ClearFlag; }
-	bool GetGameOver() { return GameOverFlag; }
-	bool GetCreate() { return CreateFlag; }
-	bool GetDelete() { return DeleteSet; }
+	int GetLevel() { return Level; }
+	bool GetClearFlag() { return ClearFlag; }
+	bool GetGameOverFlag() { return GameOverFlag; }
+	bool GetCreateFlag() { return CreateFlag; }
+	bool GetDeleteFlag() { return DeleteFlag; }
 
 private:
 	
@@ -47,7 +45,7 @@ private:
 	bool CreateFlag = false;
 	
 	bool BgmSet = true;
-	bool DeleteSet = false;
+	bool DeleteFlag = false;
 
 	int Ending_state = 0;
 	bool key1 = false;

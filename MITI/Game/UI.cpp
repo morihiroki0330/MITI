@@ -101,7 +101,7 @@ void UI::Time()
 {
 	Timer++;
 	TimerOver = TimerLimit - Timer / 60;
-	if (TimerOver <= 0){ game->SetGameOver(true); }
+	if (TimerOver <= 0){ game->GameOverFlagSet(true); }
 
 	swprintf_s(Clock, 256, L"%d", TimerOver);
 	TimerFont.SetText(Clock);

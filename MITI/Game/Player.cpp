@@ -127,7 +127,7 @@ void Player::GameOver()
 
 	if (PlayerPosition.y <= UnderLimit)
 	{
-		game->SetGameOver(true);
+		game->GameOverFlagSet(true);
 	}
 }
 
@@ -222,7 +222,7 @@ void Player::BoxHit()
 			}else {
 			if (box->KaidanBox.IsSelf(contactObject) == true)
 			{
-				game->SetClear(true);
+				game->ClearFlagSet(true);
 				HitFlagSet(true);
 				SlipFlagSet(false);
 			}
@@ -242,7 +242,7 @@ void Player::BoxHit()
 			}else {
 			if (box->KaidanBox.IsSelf(contactObject) == true)
 			{
-				game->SetClear(true);
+				game->ClearFlagSet(true);
 				HitFlagSet(true);
 				SlipFlagSet(false);
 			}
@@ -262,7 +262,7 @@ void Player::BoxHit()
 			}else {
 			if (box->KaidanBox.IsSelf(contactObject) == true)
 			{
-				game->SetClear(true);
+				game->ClearFlagSet(true);
 				HitFlagSet(true);
 				SlipFlagSet(false);
 			}
@@ -282,7 +282,7 @@ void Player::BoxHit()
 			}else {
 			if (box->KaidanBox.IsSelf(contactObject) == true)
 			{
-				game->SetClear(true);
+				game->ClearFlagSet(true);
 				HitFlagSet(true);
 				SlipFlagSet(false);				}
 			}
@@ -319,7 +319,7 @@ void Player::Move()
 			{
 				MoveSpeed.x = NON;
 			}
-			if (IronPutAnim == true || IronGetAnim == true || game->GetClear() == true)
+			if (IronPutAnim == true || IronGetAnim == true || game->GetClearFlag() == true)
 			{
 				MoveSpeed.x = NON;
 				MoveSpeed.z = NON;
@@ -371,7 +371,7 @@ void Player::Move()
 	}
 
 	
-	if (game->GetClear() == true && BgmSet == false)
+	if (game->GetClearFlag() == true && BgmSet == false)
 	{
 		SoundSource* SE = NewGO<SoundSource>(0);
 		SE->SoundSet(S_KAIDAN, Bgm_Volume, LoopNot);

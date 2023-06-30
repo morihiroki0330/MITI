@@ -49,8 +49,8 @@ void StageClear::Update()
 		ClassDelete = true;
 		SoundSource* SE = NewGO<SoundSource>(0);
 		SE->SoundSet(S_BUTTON , Bgm_Volume , LoopNot);
-		game->SetDelete(false);
-		game->SetClear(false);
+		game->DeleteFlagSet(false);
+		game->ClearFlagSet(false);
 		PressAbutton = true;
 	}
 }

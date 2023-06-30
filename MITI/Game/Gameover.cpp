@@ -13,7 +13,7 @@ GameOver::GameOver()
 GameOver::~GameOver()
 {
 	DeleteGO(BGM);
-	game->SetCreate(true);
+	game->CreateFlagSet(true);
 }
 bool GameOver::Start()
 {
