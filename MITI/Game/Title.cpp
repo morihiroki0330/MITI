@@ -3,25 +3,35 @@
 #include "Story.h"
 #include "Bgm.h"
 #include "Fade.h"
-#include "Game.h"
 #include "Number_Storage.h"
 #include "sound/SoundEngine.h"
+Title::Title()
+{
+	InitTexture();
+	InitSound();
+}
 Title::~Title()
 {
 	DeleteGO(BGM);
 }
 bool Title::Start()
 {
-	Title_S.Init("Assets/sprite/RoM_Title3.DDS", ScreenWide, ScreenHeight);
-	Abutton_S.Init("Assets/sprite/PRESS_A.DDS", ScreenWide, ScreenHeight);
-
-	BGM = NewGO<SoundSource>(0);
-	BGM->SoundSet(B_TITLE , Bgm_Volume , Loop);
-
 	fade = FindGO<Fade>("fade");
 	fade->StartFadeIn();
 	return true;
 }
+
+void Title::InitTexture()
+{
+	TitleTexture.Init("Assets/sprite/RoM_Title3.DDS", ScreenWide, ScreenHeight);
+	AbuttonTexture.Init("Assets/sprite/PRESS_A.DDS", ScreenWide, ScreenHeight);
+}
+void Title::InitSound()
+{
+	BGM = NewGO<SoundSource>(0);
+	BGM->SoundSet(B_TITLE , Bgm_Volume , Loop);
+}
+
 void Title::ScreenChange()
 {
 	if (fade->IsFade() == false && ClassDelete == true)
@@ -34,18 +44,19 @@ void Title::ScreenChange()
 		SoundSource* SE = NewGO<SoundSource>(0);
 		SE->SoundSet(S_TITLEBUTTON , Bgm_Volume , LoopNot);
 		fade->StartFadeOut();
-		Press_Abutton = true;
+		PressAbutton = true;
 		ClassDelete = true;
 	}
 	}
 }
+
 void Title::Update()
 {
 	ScreenChange();
-	fade->ButtonFade(Abutton_S , Press_Abutton);
+	fade->ButtonFade(AbuttonTexture, PressAbutton);
 }
 void Title::Render(RenderContext& rc)
 {
-	Title_S.Draw(rc);
-	Abutton_S.Draw(rc);
+	TitleTexture.Draw(rc);
+	AbuttonTexture.Draw(rc);
 }

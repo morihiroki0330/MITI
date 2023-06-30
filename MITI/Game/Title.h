@@ -1,25 +1,28 @@
 #pragma once
 class Story;
 class Fade;
-class Game;
 class Title : public IGameObject
 {
 public:
+	Title();
 	~Title();
 	bool Start();
+
+	void InitTexture();
+	void InitSound();
+
 	void Update();
 	void ScreenChange();
 	void Render(RenderContext& rc);
 private:
-	SpriteRender Title_S;
-	SpriteRender Abutton_S;
+	SpriteRender TitleTexture;
+	SpriteRender AbuttonTexture;
 
 	SoundSource* BGM = nullptr;
 	Story* story = nullptr;
 	Fade* fade = nullptr;
-	Game* game = nullptr;
 
 	bool BgmSet = true;
 	bool ClassDelete = false;
-	bool Press_Abutton = false;
+	bool PressAbutton = false;
 };

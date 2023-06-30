@@ -22,6 +22,6 @@ private:
 	SoundSource* BGM = nullptr;
 
 	bool BgmSet = true;
-	bool Delete = false;
+	bool ClassDelete = false;
 	bool PressAbutton = false;
 };

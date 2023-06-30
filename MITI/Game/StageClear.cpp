@@ -37,16 +37,16 @@ void StageClear::InitSound()
 void StageClear::Update()
 {
 	fade->ButtonFade(AbuttonTexture, PressAbutton);
-	if (fade->IsFade() == false && Delete == true)
+	if (fade->IsFade() == false && ClassDelete == true)
 	{
 		NewGO<Story>(0, "story");
 		DeleteGO(this);
 	}
-	if (g_pad[0]->IsTrigger(enButtonA)&&Delete==false)
+	if (g_pad[0]->IsTrigger(enButtonA)&&ClassDelete==false)
 	{
 		fade->StartFadeOut();
 		game->LevelUp();
-		Delete = true;
+		ClassDelete = true;
 		SoundSource* SE = NewGO<SoundSource>(0);
 		SE->SoundSet(S_BUTTON , Bgm_Volume , LoopNot);
 		game->SetDelete(false);

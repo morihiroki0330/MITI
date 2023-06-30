@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "system/system.h"
+
 #include "Title.h"
 #include "Bgm.h"
 #include "Fade.h"
@@ -21,8 +22,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	g_camera3D->SetPosition({ 0.0f, 100.0f, -200.0f });
 	g_camera3D->SetTarget({ 0.0f, 50.0f, 0.0f });
 
-	NewGO<Title>(0,"title");
 	NewGO<Bgm>(0, "bgm");
+	NewGO<Title>(0,"title");
 	NewGO<Fade>(1, "fade");
 
 	// ここからゲームループ。
