@@ -2,7 +2,6 @@
 #include "Stage.h"
 
 #include "G_IceFloor.h"
-#include "G_BreakFloar.h"
 #include "G_WeightBoard.h"
 #include "G_Wall.h"
 #include "G_Hole.h"
@@ -19,9 +18,9 @@ Stage::Stage()
 	{
 		for (int X = 0; X < 10; X++)
 		{
-			Map_Position[Y][X].x = (Y * 191.0f) + -865.0f;
-			Map_Position[Y][X].y = NON;
-			Map_Position[Y][X].z = (X * 191.0f) + -865.0f;
+			MapPosition[Y][X].x = (Y * 191.0f) + -865.0f;
+			MapPosition[Y][X].y = 0.0f;
+			MapPosition[Y][X].z = (X * 191.0f) + -865.0f;
 		}
 	}
 	
@@ -35,7 +34,6 @@ Stage::~Stage()
 	DeleteGO(Map.Hole);
 	DeleteGO(Map.Block);
 	DeleteGO(Map.Kaidan);
-	DeleteGO(Map.Breakfloar);
 	DeleteGO(Map.Weightboard);
 	DeleteGO(Map.Wall);
 }
@@ -56,7 +54,6 @@ void Stage::MapChipCreate()
 	Map.Hole = NewGO<G_Hole>(0, "hole");
 	Map.Ice = NewGO<G_IceFloor>(0, "ice");
 	Map.Ground = NewGO<G_Ground>(0, "ground");
-	Map.Breakfloar = NewGO<G_BreakFloar>(0, "break");
 	Map.Kaidan = NewGO<G_Kaidan>(0, "kaidan");
 	Map.Weightboard = NewGO<G_WeightBoard>(0, "weightboard");
 	Map.Block = NewGO<G_Block>(0, "block");
@@ -688,20 +685,13 @@ void Stage::MapSetGround()
 			}else {
 			if (MapData[Y][X].Ice_On == true)
 			{
-				Map.Ice->Map_On(Y, X);
-				Map.Ice->Map_SetPosition(Y, X, Map_Position[Y][X]);
+				Map.Ice->IceFloorOnTrue(Y, X);
+				Map.Ice->IceFloorSetPosition(Y, X, MapPosition[Y][X]);
 				GroundDataSet(Y, X, ICE);
 			}else {
-			if (MapData[Y][X].BreakFloar_On == true)
-			{
-				Map.Breakfloar->Map_On(Y, X);
-				Map.Breakfloar->Map_SetPosition(Y, X, Map_Position[Y][X]);
-				GroundDataSet(Y, X, BREAKFLOOR);
-			}else {
-				Map.Ground->Map_On(Y, X);
-				Map.Ground->Map_SetPosition(Y, X, Map_Position[Y][X]);
+				Map.Ground->GroundOnTrue(Y, X);
+				Map.Ground->GroundSetPosition(Y, X, MapPosition[Y][X]);
 				GroundDataSet(Y, X, GROUND);
-			}
 			}
 			}
 		}
@@ -715,7 +705,7 @@ void Stage::MapSetSky()
 		{
 			if (MapData[Y][X].Kaidan_On == true)
 			{
-				Map.Kaidan->Map_SetPosition(Map_Position[Y][X]);
+				Map.Kaidan->Map_SetPosition(MapPosition[Y][X]);
 				SkyDataSet(Y, X, KAIDAN);
 			}else {
 			if (MapData[Y][X].WeightBoard_On == true)
@@ -726,14 +716,14 @@ void Stage::MapSetSky()
 					Map.Weightboard->LinkObjectSet(Y, X, W, Level[StageOrder[game->GetLevel()]][Y][X].WeightBoard_LinkObject[W]);
 				}
 				Map.Weightboard->LinkCountSet(Y, X, Level[StageOrder[game->GetLevel()]][Y][X].WeightBoard_LinkCount);
-				Map.Weightboard->Map_On(Y, X);
-				Map.Weightboard->Map_SetPosition(Y, X, Map_Position[Y][X]);
+				Map.Weightboard->WeightBoardOnTrue(Y, X);
+				Map.Weightboard->WeightBoardSetPosition(Y, X, MapPosition[Y][X]);
 				SkyDataSet(Y, X, WEIGHTBOARD);
 			}else {
 			if (MapData[Y][X].Block_On == true)
 			{
-				if (MapData[Y][X].NonBlock_On == true){Map.Block->Map_On(Y, X);}
-				Map.Block->Map_SetPosition(Y, X, Map_Position[Y][X]);
+				if (MapData[Y][X].NonBlock_On == true){Map.Block->BlockOn(Y, X);}
+				Map.Block->BlockSetPosition(Y, X, MapPosition[Y][X]);
 				SkyDataSet(Y, X, BLOCK);
 			}
 			}
@@ -742,23 +732,46 @@ void Stage::MapSetSky()
 	}
 }
 
-int Stage::GetMapData(int Y, int X, int Direction)
+int Stage::GetGroundData(int Map, int Direction)
 {
 	switch (Direction)
 	{
-	case Up:
-		return MapData[(Y / 10) - 1][(X % 10)].GroundData;
+	case PlayerDirectionUp:
+		return MapData[(Map / 10) - 1][(Map % 10)].GroundData;
 		break;
-	case Down:
-		return MapData[(Y / 10) + 1][(X % 10)].GroundData;
+	case PlayerDirectionDown:
+		return MapData[(Map / 10) + 1][(Map % 10)].GroundData;
 		break;
-	case Right:
-		return MapData[(Y / 10)][(X % 10) + 1].GroundData;
+	case PlayerDirectionRight:
+		return MapData[(Map / 10)][(Map % 10) + 1].GroundData;
 		break;
-	case Left:
-		return MapData[(Y / 10)][(X % 10) - 1].GroundData;
+	case PlayerDirectionLeft:
+		return MapData[(Map / 10)][(Map % 10) - 1].GroundData;
 		break;
 	default:
+		return MapData[(Map / 10)][(Map % 10)].GroundData;
+		break;
+	}
+}
+
+int Stage::GetSkyData(int Map, int Direction)
+{
+	switch (Direction)
+	{
+	case PlayerDirectionUp:
+		return MapData[(Map / 10) - 1][(Map % 10)].SkyData;
+		break;
+	case PlayerDirectionDown:
+		return MapData[(Map / 10) + 1][(Map % 10)].SkyData;
+		break;
+	case PlayerDirectionRight:
+		return MapData[(Map / 10)][(Map % 10) + 1].SkyData;
+		break;
+	case PlayerDirectionLeft:
+		return MapData[(Map / 10)][(Map % 10) - 1].SkyData;
+		break;
+	default:
+		return MapData[(Map / 10)][(Map % 10)].SkyData;
 		break;
 	}
 }

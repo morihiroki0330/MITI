@@ -390,7 +390,7 @@ void Player::PlayerToRotation()
 }
 void Player::PlayerToIronBall()
 {
-	if (g_pad[0]->IsTrigger(enButtonA) && IronBallCount < ironball->GetIronBallMax() && stage->MapData[(PlayerMap / 10)][(PlayerMap % 10)].GroundData == GROUND)
+	if (g_pad[0]->IsTrigger(enButtonA) && IronBallCount < ironball->GetIronBallMax() && stage->GetGroundData(PlayerMap) == GROUND)
 	{
 		SoundSource* SE = NewGO<SoundSource>(0);
 		SE->SoundSet(S_IRONBALLGET, Bgm_Volume, LoopNot);
@@ -398,7 +398,7 @@ void Player::PlayerToIronBall()
 		ironball->IronBallMapSet(0);
 	}
 
-	if (g_pad[0]->IsTrigger(enButtonB) && IronBallCount > ironball->GetIronBallMin() && stage->MapData[(PlayerMap / 10)][(PlayerMap % 10)].GroundData == GROUND)
+	if (g_pad[0]->IsTrigger(enButtonB) && IronBallCount > ironball->GetIronBallMin() && stage->GetGroundData(PlayerMap) == GROUND)
 	{
 		if (ironball->GetBallMap(PlayerMap) == false)
 		{
