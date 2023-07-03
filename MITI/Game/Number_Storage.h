@@ -25,8 +25,14 @@
 
 #define Gravity -5.0
 
+#define UnderHalfLimit -30.0 
 #define UnderLimit -250.0 
 
 #define CharacterControllerWide 40.0
 #define CharacterControllerHeight 120.0
+
+#define BlockHalfX 96.0
+#define BlockHalfZ 96.0
+
+#define IronBallRange 75.0
 

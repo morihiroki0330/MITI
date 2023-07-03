@@ -49,7 +49,7 @@ void G_IceFloor::IceFloorSetPosition(int Y, int X, Vector3 Position)
 }
 void G_IceFloor::IceFloorOnPlayer()
 {
-	if (stage->MapData[(player->PlayerMap / 10)][(player->PlayerMap % 10)].GroundData == ICE) { player->SlipFlag = true; }
+	if (stage->GetGroundData(player->GetPlayerMap()) == ICE) { player->PlayerSlipFlagSet(true); }
 }
 
 void G_IceFloor::Update()

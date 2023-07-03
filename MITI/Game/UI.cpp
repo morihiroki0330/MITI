@@ -138,15 +138,15 @@ void UI::Update()
 	AbuttonTexture.Update();
 	BbuttonTexture.Update();
 
-	IronBallCountTexture[player->ironBall].Update();
+	IronBallCountTexture[player->GetIronBallCount()].Update();
 
-	if (player->MoveSpeed.x < NON){ControllerUpTexture.Update();}
+	if (player->GetPlayerMoveSpeedX() < NON) { ControllerUpTexture.Update(); }
 	else {
-	if (player->MoveSpeed.x > NON){ControllerDownTexture.Update();}
+	if (player->GetPlayerMoveSpeedX() > NON) { ControllerDownTexture.Update(); }
 	else {
-	if (player->MoveSpeed.z > NON){ControllerRightTexture.Update();}
+	if (player->GetPlayerMoveSpeedZ() > NON) { ControllerRightTexture.Update(); }
 	else {
-	if (player->MoveSpeed.z < NON){ControllerLeftTexture.Update();}
+	if (player->GetPlayerMoveSpeedZ() < NON){ControllerLeftTexture.Update();}
 	else {ControllerNonTexture.Update();}
 	}
 	}
@@ -162,13 +162,13 @@ void UI::Render(RenderContext& rc)
 	IronBallCountTexture[player->GetIronBallCount()].Draw(rc);
 	StageCountTexture[game->GetLevel()].Draw(rc);
 
-	if (player->MoveSpeed.x < NON) {ControllerUpTexture.Draw(rc);}
+	if (player->GetPlayerMoveSpeedX() < NON) {ControllerUpTexture.Draw(rc);}
 	else {
-	if (player->MoveSpeed.x > NON) {ControllerDownTexture.Draw(rc);}
+	if (player->GetPlayerMoveSpeedX() > NON) {ControllerDownTexture.Draw(rc);}
 	else {
-	if (player->MoveSpeed.z > NON) {ControllerRightTexture.Draw(rc);}
+	if (player->GetPlayerMoveSpeedZ() > NON) {ControllerRightTexture.Draw(rc);}
 	else {
-	if (player->MoveSpeed.z < NON) {ControllerLeftTexture.Draw(rc);}
+	if (player->GetPlayerMoveSpeedZ() < NON) {ControllerLeftTexture.Draw(rc);}
 	else {ControllerNonTexture.Draw(rc);}
 	}
 	}

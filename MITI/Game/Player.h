@@ -3,99 +3,115 @@ class Box;
 class Stage;
 class Game;
 class IronBall;
-
-enum Direction
+enum PlayerDirection
 {
-	Up,
-	Down,
-	Right,
-	Left
+	PlayerDirectionUp,
+	PlayerDirectionDown,
+	PlayerDirectionRight,
+	PlayerDirectionLeft
 };
-
+enum EnAnimationClip 
+{		
+	enAnimationClip_Idle,
+	enAnimationClip_Walk,
+	enAnimationClip_Fall,
+	enAnimationClip_Put,
+	enAnimationClip_Slip,
+	enAnimationClip_Num
+};
+enum AnimationNumber 
+{
+	PlayerAnimationIdle,
+	PlayerAnimationWalk,
+	PlayerAnimationFall,
+	PlayerAnimationPut,
+	PlayerAnimationSlip
+};
 class Player : public IGameObject
 {
 public:
+	Player();
 	~Player();
-
 	bool Start();
 
 	void InitAnimation();
-
 	void InitModel();
-
 	void InitSound();
-
-	void Update();
-
-	void Render(RenderContext& rc);
-
-	void Move();
-
-	void Rotation();
-
-	void Ball();
-
-	void ManageState();
-
-	void Animation();
-
-	void PlayerMapSet();
-
+	void InitSetPosition();
+	void InitIronBallCount(int Count) { IronBallCount = Count; }
 	void LevelSet();
 
-	void GameOver();
+	void Update();
+	void Render(RenderContext& rc);
 
-	void DirectionSet();
+	void PlayerToMove();
+	void PlayerToRotation();
+	void PlayerToIronBall();
+	void PlayerDirectionSet();
+	void PlayerMapSet();
+	void PlayerGameOver();
+	void PlayerGameClear();
+	
+	void PlayerAnimation();
+	void PlayerManageState();
 
-	void BoxHit();
+	void IronBallCountPlus() { IronBallCount++; }
+	void IronBallCountMinus() { IronBallCount--; }
+	void IronBallPutFlagSet(bool Flag) { IronBallPutFlag = Flag; }
+	void IronBallGetFlagSet(bool Flag) { IronBallGetFlag = Flag; }
+	void IronBallPutAnimationFlagSet(bool Flag) { IronBallPutAnimationFlag = Flag; }
+	void IronBallGetAnimationFlagSet(bool Flag) { IronBallGetAnimationFlag = Flag; }
 
 	void Sound();
-
 	void WalkSound();
-
 	void IceWalkSound();
 
-	void SlipFlagSet(bool Flag) { SlipFlag = Flag; }
-	void HitFlagSet(bool Flag) { HitFlag = Flag; }
+	void PlayerSlipFlagSet(bool Flag) { PlayerSlipFlag = Flag; }
+	void PlayerOnIceFloor();
 
-	int GetIronBallCount() { return ironBall; }
+	void PlayerCollisionBlock();
+	void PlayerCollisionFlagSet(bool Flag) { PlayerCollisionFlag = Flag; }
 
+	int GetIronBallCount() { return IronBallCount; }
+	bool GetIronBallPutFlag() { return IronBallPutFlag; }
+	bool GetIronBallGetFlag() { return IronBallGetFlag; }
+
+	int GetPlayerMap() { return PlayerMap; }
+	bool GetPlayerSlipFlag() { return PlayerSlipFlag; }
+	bool GetPlayerCollisionFlag() { return PlayerCollisionFlag; }
+
+	float GetPlayerMoveSpeedX() { return PlayerMoveSpeed.x; }
+	float GetPlayerMoveSpeedY() { return PlayerMoveSpeed.y; }
+	float GetPlayerMoveSpeedZ() { return PlayerMoveSpeed.z; }
+
+	float GetPlayerPositionX() { return PlayerPosition.x; }
+	float GetPlayerPositionY() { return PlayerPosition.y; }
+	float GetPlayerPositionZ() { return PlayerPosition.z; }
+private:
 	ModelRender PlayerModel;
 	Quaternion PlayerRotation;
 	AllLight PlayerLight;
 	CharacterController PlayerController;
 	Vector3 PlayerPosition;
-	Vector3 MoveSpeed;
-	Vector3 StickL;
+	Vector3 PlayerMoveSpeed;
+	Vector3 ControllerStickLeft;
 	Vector3 PlayerSetPosition[10][10];
-	enum EnAnimationClip {		
-		enAnimationClip_Idle,
-		enAnimationClip_Walk,
-		enAnimationClip_Jump,
-		enAnimationClip_Run,
-		enAnimationClip_Throw,
-		enAnimationClip_Push,
-		enAnimationClip_Fall,
-		enAnimationClip_Put,
-		enAnimationClip_Slip,
-		enAnimationClip_Num,
-	};
-	AnimationClip AnimationClips[enAnimationClip_Num];	
+	AnimationClip PlayerAnimationClips[enAnimationClip_Num];	
 
 	int PlayerState = 0;
 	int Frame = 0;
-	int ironBall = 0;
+	int IronBallCount = 0;
 	int PlayerMap = 0;
 	int EnterDirection = 0;
 
-	bool IronGet = false;
-	bool IronPut = false;
+	bool IronBallGetFlag = false;
+	bool IronBallPutFlag = false;
 
-	bool IronGetAnim = false;
-	bool IronPutAnim = false;
+	bool IronBallGetAnimationFlag = false;
+	bool IronBallPutAnimationFlag = false;
 
-	bool SlipFlag = false;
-	bool HitFlag = false;
+	bool PlayerSlipFlag = false;
+	bool PlayerCollisionFlag = false;
 
 	bool FallSet = false;
 	bool BgmSet = false;

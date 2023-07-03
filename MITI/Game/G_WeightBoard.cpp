@@ -43,11 +43,11 @@ void G_WeightBoard::Map_SetPosition(int Y, int X, Vector3 Position)
 
 void G_WeightBoard::Sound()
 {
-	if (BgmSet[(player->PlayerMap / 10)][(player->PlayerMap % 10)] == true && HitFlag[(player->PlayerMap / 10)][(player->PlayerMap % 10)] == false)
+	if (BgmSet[(player->GetPlayerMap() / 10)][(player->GetPlayerMap() % 10)] == true && HitFlag[(player->GetPlayerMap() / 10)][(player->GetPlayerMap() % 10)] == false)
 	{
 		SoundSource* SE = NewGO<SoundSource>(0);
 		SE->SoundSet(S_WEIGHTBOARD, Bgm_Volume , LoopNot);
-		HitFlag[(player->PlayerMap / 10)][(player->PlayerMap % 10)] = true;
+		HitFlag[(player->GetPlayerMap() / 10)][(player->GetPlayerMap() % 10)] = true;
 	}
 }
 
@@ -59,10 +59,10 @@ void G_WeightBoard::WeightBoardOnPlayer()
 		{
 			if (WeightBoard_On[Y][X] == true)
 			{
-				if (stage->MapData[(player->PlayerMap / 10)][(player->PlayerMap % 10)].SkyData == WEIGHTBOARD)
+				if (stage->GetSkyData(player->GetPlayerMap()) == WEIGHTBOARD)
 				{
-					PutFlag[(player->PlayerMap / 10)][(player->PlayerMap % 10)] = true;
-					BgmSet[(player->PlayerMap / 10)][(player->PlayerMap % 10)] = true;
+					PutFlag[(player->GetPlayerMap() / 10)][(player->GetPlayerMap() % 10)] = true;
+					BgmSet[(player->GetPlayerMap() / 10)][(player->GetPlayerMap() % 10)] = true;
 				}else {
 					PutFlag[Y][X] = false;
 					BgmSet[Y][X] = false;

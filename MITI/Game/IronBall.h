@@ -6,34 +6,41 @@ class G_WeightBoard;
 class IronBall : public IGameObject
 {
 public:
+	IronBall();
 	bool Start();
-	bool GetBallMap(int PlayerMap);
+
+	void InitModel();
+	void InitSetPosition();
+	void InitLight();
+	void LevelSet();
+	
 	void Update();
+	void Render(RenderContext& rc);
+	
 	bool WeightBoardOn(int Y, int X);
 	void IronBoxToGet();
 	void IronBallPut();
 	void IronBallGet();
-	void BallMapSet(int PlayerMap);
-	void LightSet();
-	void LevelSet();
-	void Render(RenderContext& rc);
+	void IronBallMapSet(int PlayerMap);
+	
+	bool GetBallMap(int PlayerMap);
 	int GetIronBallMax() { return IronBallMax; }
 	int GetIronBallMin() { return IronBallMin; }
 private:
-	ModelRender IronBall[5];
-	Vector3 IronBall_Position[5];
+	ModelRender IronBallModel[5];
+	Vector3 IronBallPosition[5];
 
-	ModelRender IronBox;
-	Vector3 IronBox_Position;
-	Vector3 SetPosition[10][10];
+	ModelRender IronBoxModel;
+	Vector3 IronBoxPosition;
+	Vector3 IronBoxSetPosition[10][10];
 	
-	AllLight Light;
+	AllLight IronBallLight;
+	AllLight IronBoxLight;
 
 	int ShowFlag[5];
-	bool BoxFlag = false;
-	bool Set = true;
-	int IronBall_Map[5];
-	int IronBox_Map = 0;
+	bool IronBoxFlag = false;
+	int IronBallMap[5];
+	int IronBoxMap = 0;
 	int IronBallMax = 5;
 	int IronBallMin = 0;
 
