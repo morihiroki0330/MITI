@@ -5,31 +5,34 @@ class Stage;
 class G_Block : public IGameObject
 {
 public:
+	G_Block();
 	bool Start();
-	void SetModel(int Y, int X);
-	void SetModelPosition(int Y, int X);
-	void SetModelUpdate(int Y, int X);
+
+	void InitModel();
+
+	void BlockOn(int Y, int X);
+	void BlockSetPosition(int Y, int X, Vector3 Position);
+
 	void NonBlockUpdate();
 	void WeightBoardOn_Update();
 	void WeightBoardOff_Update();
-	void Map_On(int Y, int X);
-	void Map_SetPosition(int Y, int X, Vector3 Position);
+
 	void Update();
 	void Render(RenderContext& rc);
 private:
-	ModelRender Block[10][10];
-	ModelRender IceBlock[10][10];
-	ModelRender GroundBlock[10][10];
-	ModelRender DeleteBlock[10][10];
+	ModelRender BlockModel[10][10];
+	ModelRender IceBlockModel[10][10];
+	ModelRender GroundBlockModel[10][10];
+	ModelRender DeleteBlockModel[10][10];
 
-	ModelRender SkeletonIceBlock[10][10];
-	ModelRender SkeletonBlock[10][10];
-	ModelRender SkeletonGroundBlock[10][10];
-	ModelRender SkeletonDeleteBlock[10][10];
+	ModelRender SkeletonIceBlockModel[10][10];
+	ModelRender SkeletonBlockModel[10][10];
+	ModelRender SkeletonGroundBlockModel[10][10];
+	ModelRender SkeletonDeleteBlockModel[10][10];
 
-	Vector3 Block_Position[10][10];
-	AllLight Light;
-	PhysicsStaticObjectPos Block_PSO[10][10];
+	Vector3 BlockPosition[10][10];
+	AllLight BlockLight;
+	PhysicsStaticObjectPos BlockPhysicsStaticObject[10][10];
 
 	G_WeightBoard* weightboard = nullptr;
 	Box* box = nullptr;

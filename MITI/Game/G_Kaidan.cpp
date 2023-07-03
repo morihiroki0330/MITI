@@ -32,7 +32,7 @@ void G_Kaidan::Update()
 {
 	KaidanModel.SetRotation(KaidanRotation);
 	KaidanModel.SetPosition(KaidanPosition);
-	box->KaidanBox_SetPosition(KaidanPosition);
+	box->KaidanBoxSetPosition(KaidanPosition);
 	KaidanModel.Update();
 }
 void G_Kaidan::Render(RenderContext& rc)

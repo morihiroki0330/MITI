@@ -299,17 +299,17 @@ void Player::PlayerCollisionBlock()
 		switch (EnterDirection)
 		{
 		case PlayerDirectionLeft:
-			if (box->BlockBox[(PlayerMap / 10)][(PlayerMap % 10) - 1].IsSelf(contactObject) == true)
+			if (box->BlockIsSelf((PlayerMap / 10), (PlayerMap % 10) - 1, contactObject) == true)
 			{
 				PlayerCollisionFlagSet(true);
 				PlayerSlipFlagSet(false);
 			}else {
-			if (box->KabeBox[LEFT].IsSelf(contactObject) == true)
+			if (box->KabeIsSelf(StageBehindLeft,contactObject) == true)
 			{
 				PlayerCollisionFlagSet(true);
 				PlayerSlipFlagSet(false);
 			}else {
-			if (box->KaidanBox.IsSelf(contactObject) == true)
+			if (box->KaidanIsSelf(contactObject) == true)
 			{
 				game->ClearFlagSet(true);
 				PlayerCollisionFlagSet(true);
@@ -319,17 +319,17 @@ void Player::PlayerCollisionBlock()
 			}
 			break;
 		case PlayerDirectionRight:
-			if (box->BlockBox[(PlayerMap / 10)][(PlayerMap % 10) + 1].IsSelf(contactObject) == true)
+			if (box->BlockIsSelf((PlayerMap / 10), (PlayerMap % 10) + 1, contactObject) == true)
 			{
 				PlayerCollisionFlagSet(true);
 				PlayerSlipFlagSet(false);
 			}else {
-			if (box->KabeBox[RIGHT].IsSelf(contactObject) == true)
+			if (box->KabeIsSelf(StageBehindRight, contactObject) == true)
 			{
 				PlayerCollisionFlagSet(true);
 				PlayerSlipFlagSet(false);
 			}else {
-			if (box->KaidanBox.IsSelf(contactObject) == true)
+			if (box->KaidanIsSelf(contactObject) == true)
 			{
 				game->ClearFlagSet(true);
 				PlayerCollisionFlagSet(true);
@@ -339,17 +339,17 @@ void Player::PlayerCollisionBlock()
 			}
 			break;
 		case PlayerDirectionUp:
-			if (box->BlockBox[(PlayerMap / 10) - 1][(PlayerMap % 10)].IsSelf(contactObject) == true)
+			if (box->BlockIsSelf((PlayerMap / 10) - 1, (PlayerMap % 10), contactObject) == true)
 			{
 				PlayerCollisionFlagSet(true);
 				PlayerSlipFlagSet(false);
 			}else {
-			if (box->KabeBox[UP].IsSelf(contactObject) == true)
+			if (box->KabeIsSelf(StageBehindUp, contactObject) == true)
 			{
 				PlayerCollisionFlagSet(true);
 				PlayerSlipFlagSet(false);
 			}else {
-			if (box->KaidanBox.IsSelf(contactObject) == true)
+			if (box->KaidanIsSelf(contactObject) == true)
 			{
 				game->ClearFlagSet(true);
 				PlayerCollisionFlagSet(true);
@@ -359,17 +359,17 @@ void Player::PlayerCollisionBlock()
 			}
 			break;
 		case PlayerDirectionDown:
-			if (box->BlockBox[(PlayerMap / 10) + 1][(PlayerMap % 10)].IsSelf(contactObject) == true)
+			if (box->BlockIsSelf((PlayerMap / 10) + 1, (PlayerMap % 10), contactObject) == true)
 			{
 				PlayerCollisionFlagSet(true);
 				PlayerSlipFlagSet(false);
 			}else {
-			if (box->KabeBox[PlayerDirectionDown].IsSelf(contactObject) == true)
+			if (box->KabeIsSelf(StageBehindDown, contactObject) == true)
 			{
 				PlayerCollisionFlagSet(true);
 				PlayerSlipFlagSet(false);
 			}else {
-			if (box->KaidanBox.IsSelf(contactObject) == true)
+			if (box->KaidanIsSelf(contactObject) == true)
 			{
 				game->ClearFlagSet(true);
 				PlayerCollisionFlagSet(true);
@@ -377,8 +377,6 @@ void Player::PlayerCollisionBlock()
 			}
 			}
 			}
-			break;
-			default:
 			break;
 			}
 		});
