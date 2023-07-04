@@ -3,7 +3,7 @@
 #include "Player.h"
 #include "Stage.h"
 #include "Number_Storage.h"
-bool G_BreakFloar::Start()
+G_BreakFloar::G_BreakFloar()
 {
 	for (int Y = 0; Y < 10; Y++)
 	{
@@ -16,8 +16,9 @@ bool G_BreakFloar::Start()
 	}
 	player = FindGO<Player>("player");
 	stage = FindGO<Stage>("stage");
-	return true;
 }
+
+
 
 void G_BreakFloar::Update()
 {
@@ -25,7 +26,7 @@ void G_BreakFloar::Update()
 	{
 		for (int X = 0; X < 10; X++)
 		{
-			if (stage->MapData[(player->PlayerMap / 10)][(player->PlayerMap % 10)].GroundData == BREAKFLOOR){DeleteGO(this);}
+			//if (stage->MapData[(player->PlayerMap / 10)][(player->PlayerMap % 10)].GroundData == BREAKFLOOR){DeleteGO(this);}
 
 			if (BreakFloar_On[Y][X] == true)
 			{

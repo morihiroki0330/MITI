@@ -31,7 +31,7 @@ void StageClear::InitTexture()
 void StageClear::InitSound()
 {
 	BGM = NewGO<SoundSource>(0);
-	BGM->SoundSet(B_STAGECLEAR , Bgm_Volume , Loop);
+	BGM->SoundSet(B_STAGECLEAR , BgmVolume , Loop);
 }
 
 void StageClear::Update()
@@ -48,7 +48,7 @@ void StageClear::Update()
 		game->LevelUp();
 		ClassDelete = true;
 		SoundSource* SE = NewGO<SoundSource>(0);
-		SE->SoundSet(S_BUTTON , Bgm_Volume , LoopNot);
+		SE->SoundSet(S_BUTTON , BgmVolume , LoopNot);
 		game->DeleteFlagSet(false);
 		game->ClearFlagSet(false);
 		PressAbutton = true;

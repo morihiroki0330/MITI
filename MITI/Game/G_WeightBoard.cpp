@@ -61,7 +61,7 @@ void G_WeightBoard::Sound()
 	if (BgmSet[(player->GetPlayerMap() / 10)][(player->GetPlayerMap() % 10)] == true && HitFlag[(player->GetPlayerMap() / 10)][(player->GetPlayerMap() % 10)] == false)
 	{
 		SoundSource* SE = NewGO<SoundSource>(0);
-		SE->SoundSet(S_WEIGHTBOARD, Bgm_Volume , LoopNot);
+		SE->SoundSet(S_WEIGHTBOARD, BgmVolume , LoopNot);
 		HitFlag[(player->GetPlayerMap() / 10)][(player->GetPlayerMap() % 10)] = true;
 	}
 }

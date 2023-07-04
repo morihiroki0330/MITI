@@ -29,7 +29,7 @@ void Title::InitTexture()
 void Title::InitSound()
 {
 	BGM = NewGO<SoundSource>(0);
-	BGM->SoundSet(B_TITLE , Bgm_Volume , Loop);
+	BGM->SoundSet(B_TITLE , BgmVolume , Loop);
 }
 
 void Title::ScreenChange()
@@ -42,7 +42,7 @@ void Title::ScreenChange()
 	if (g_pad[0]->IsTrigger(enButtonA) && ClassDelete == false && fade->IsFade() == false)
 	{
 		SoundSource* SE = NewGO<SoundSource>(0);
-		SE->SoundSet(S_TITLEBUTTON , Bgm_Volume , LoopNot);
+		SE->SoundSet(S_TITLEBUTTON , BgmVolume , LoopNot);
 		fade->StartFadeOut();
 		PressAbutton = true;
 		ClassDelete = true;

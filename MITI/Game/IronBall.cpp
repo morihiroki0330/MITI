@@ -106,7 +106,7 @@ void IronBall::IronBoxToGet()
 	if (IronBoxMap == player->GetPlayerMap() && IronBoxFlag == false)
 	{
 		SoundSource* SE = NewGO<SoundSource>(0, "se");
-		SE->SoundSet(S_BOXGET , Bgm_Volume , LoopNot);
+		SE->SoundSet(S_BOXGET , BgmVolume , LoopNot);
 		player->InitIronBallCount(IronBallMax);
 		IronBoxFlag = true;
 	}

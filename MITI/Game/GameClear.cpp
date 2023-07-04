@@ -31,7 +31,7 @@ void GameClear::InitTexture()
 void GameClear::InitSound()
 {
 	BGM = NewGO<SoundSource>(0);
-	BGM->SoundSet(B_GAMECLEAR , Bgm_Volume , Loop);
+	BGM->SoundSet(B_GAMECLEAR , BgmVolume , Loop);
 }
 
 void GameClear::Update()
@@ -45,7 +45,7 @@ void GameClear::Update()
 	if (g_pad[0]->IsTrigger(enButtonA)&&ClassDelete==false)
 	{
 		SoundSource* SE = NewGO<SoundSource>(0);
-		SE->SoundSet(S_BUTTON, Bgm_Volume, LoopNot);
+		SE->SoundSet(S_BUTTON, BgmVolume, LoopNot);
 		fade->StartFadeOut();
 		PressAbutton = true;
 		ClassDelete = true;

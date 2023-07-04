@@ -120,7 +120,7 @@ void Player::PlayerGameOver()
 	if (PlayerPosition.y <= -UnderHalfLimit && FallSet == false)
 	{
 		SoundSource* SE = NewGO<SoundSource>(0);
-		SE->SoundSet(S_FALL, Bgm_Volume, LoopNot);
+		SE->SoundSet(S_FALL, BgmVolume, LoopNot);
 		FallSet = true;
 	}
 
@@ -134,7 +134,7 @@ void Player::PlayerGameClear()
 	if (game->GetClearFlag() == true && BgmSet == false)
 	{
 		SoundSource* SE = NewGO<SoundSource>(0);
-		SE->SoundSet(S_KAIDAN, Bgm_Volume, LoopNot);
+		SE->SoundSet(S_KAIDAN, BgmVolume, LoopNot);
 		BgmSet = true;
 	}
 }
@@ -393,7 +393,7 @@ void Player::PlayerToIronBall()
 	if (g_pad[0]->IsTrigger(enButtonA) && IronBallCount < ironball->GetIronBallMax() && stage->GetGroundData(PlayerMap) == GROUND)
 	{
 		SoundSource* SE = NewGO<SoundSource>(0);
-		SE->SoundSet(S_IRONBALLGET, Bgm_Volume, LoopNot);
+		SE->SoundSet(S_IRONBALLGET, BgmVolume, LoopNot);
 		IronBallGetFlag = true;
 		ironball->IronBallMapSet(0);
 	}
@@ -403,7 +403,7 @@ void Player::PlayerToIronBall()
 		if (ironball->GetBallMap(PlayerMap) == false)
 		{
 			SoundSource* SE = NewGO<SoundSource>(0);
-			SE->SoundSet(S_IRONBALLPUT, Bgm_Volume, LoopNot);
+			SE->SoundSet(S_IRONBALLPUT, BgmVolume, LoopNot);
 			IronBallPutFlag = true;
 			ironball->IronBallMapSet(PlayerMap);
 		}

@@ -10,31 +10,25 @@
 
 Story::Story()
 {
-	fade = FindGO<Fade>("fade");
-	fade->StartFadeIn();
 	game = FindGO<Game>("game");
 	if (game != nullptr) {
 		storyNum = game->GetLevel();
 	}
 	
-	White.Init("Assets/sprite/white.DDS", 1920.0f, 1080.0f);
-	White.SetMulColor({ 1.0f,1.0f,1.0f,NON });
-	Black.Init("Assets/sprite/black.DDS", 1920.0f, 1080.0f);
-	Black.SetMulColor({ 1.0f,1.0f,1.0f,NON });
-
-	
+	InitTexture();
 
 	BackChange();
 
-	Triangle.SetPosition({ 6000.0f,-300-Y,NON });
-	Triangle.Init("Assets/sprite/Triangle2.DDS", 100.0f, 100.0f);
-	Triangle.Update();
+
 
 	Word = new FontRender;
 
 	
 }
-
+Story::~Story()
+{
+	DeleteGO(BGM);
+}
 bool Story::Start()
 {
 	fade = FindGO<Fade>("fade");
@@ -43,17 +37,26 @@ bool Story::Start()
 	return true;
 }
 
-Story::~Story()
+void Story::InitTexture()
 {
-	DeleteGO(BGM);
+	WhiteOutTexture.Init("Assets/sprite/white.DDS", 1920.0f, 1080.0f);
+	WhiteOutTexture.SetMulColor({ 1.0f,1.0f,1.0f,0.0f });
+
+	BlackOutTexture.Init("Assets/sprite/black.DDS", 1920.0f, 1080.0f);
+	BlackOutTexture.SetMulColor({ 1.0f,1.0f,1.0f,0.0f });
+
+	TriangleTexture.Init("Assets/sprite/Triangle2.DDS", 100.0f, 100.0f);
+	TriangleTexture.SetPosition({ 6000.0f,-300-Y,0.0f });
+	TriangleTexture.Update();
 }
 
-void Story::Update()
+void Story::TriangleMove()
 {
-	if (Word->GetMessageOkuriFlag() == false) {
-		Triangle.SetPosition({ 600.0f,200 - Y,NON });
-		Triangle.SetScale({ 0.5f,0.5f,NON });
-		Triangle.Update();
+	if (Word->GetMessageOkuriFlag() == false) 
+	{
+		TriangleTexture.SetPosition({ 600.0f,200 - Y,0.0f });
+		TriangleTexture.SetScale({ 0.5f,0.5f,0.0f });
+		TriangleTexture.Update();
 		switch (ud)
 		{
 		case 1:
@@ -70,44 +73,45 @@ void Story::Update()
 		else if (Y < 0) {
 			ud = 1;
 		}
-		Triangle.Update();
-		if (g_pad[0]->IsTrigger(enButtonA)&& Endtext == false) {
+		TriangleTexture.Update();
+		if (g_pad[0]->IsTrigger(enButtonA) && Endtext == false) {
 
-			//次のテキスト。
-				SoundSource* se = NewGO<SoundSource>(0);
-				se->Init(6);
-				se->SetVolume(0.2f);
-				se->Play(false);
-				out++;
-
-				playSE();
-
+			SoundSource* SE = NewGO<SoundSource>(0);
+			SE->SoundSet(6, BgmVolume, LoopNot);
+			out++;
+			PlaySe();
 			BackChange();
-			Background.Update();
+			BackgroundTexture.Update();
 			TextUpdate();
 		}
 
 	}
-
-	else Triangle.SetPosition({ 6000.0f,-300 - Y,NON });
-
+	else {
+		TriangleTexture.SetPosition({ 6000.0f,-300 - Y,NON });
+	}
+}
+void Story::FastForwardText()
+{
 	//Xボタン押下で早送り
-	if (alpha < NON) {
-		Word->TextOkuriUpdate(g_gameTime->GetFrameDeltaTime()* mul);
-		if (g_pad[0]->IsPress(enButtonX) == true) {
-			mul = 3.0f;
-		}
-
-		else mul = 1.0f;
-	}
-
-	//黒背景フェードアウト後にテキスト更新開始。
-	else
+	if (alpha < NON)
 	{
-		Black.SetMulColor({ 1.0f,1.0f,1.0f,alpha });
+		Word->TextOkuriUpdate(g_gameTime->GetFrameDeltaTime() * mul);
+		if (g_pad[0]->IsPress(enButtonX) == true) 
+		{
+			mul = 3.0f;
+		}else {
+			mul = 1.0f;
+		}
+	}else{
+		BlackOutTexture.SetMulColor({ 1.0f,1.0f,1.0f,alpha });
 		alpha -= 0.015f;
-		Black.Update();
+		BlackOutTexture.Update();
 	}
+}
+void Story::Update()
+{
+	TriangleMove();
+	FastForwardText();
 
 	//フェードアウト処理
 	if (Endtext == true && alpha <= 1.0f) {
@@ -126,10 +130,10 @@ void Story::Update()
 		}
 		else if (storyNum == 9) {
 			Clear = true;
-			game->SetCreate(true);
+			game->CreateFlagSet(true);
 		}
 		else {
-			game->SetCreate(true);
+			game->CreateFlagSet(true);
 		}
 		
 		DeleteGO(this);
@@ -142,50 +146,41 @@ void Story::Update()
 		DeleteGO(this);
 	}
 
-	Triangle.Update();
+	TriangleTexture.Update();
 }
 
 void Story::Render(RenderContext& rc)
 {
-	Background.Draw(rc);
-	Triangle.Draw(rc);
+	BackgroundTexture.Draw(rc);
+	TriangleTexture.Draw(rc);
+	BlackOutTexture.Draw(rc);
+	WhiteOutTexture.Draw(rc);
 	Word->Draw(rc);
-	White.Draw(rc);
-	Black.Draw(rc);
 }
 
-void Story::playSE()
+void Story::PlaySe()
 {
 	if (storyNum == 4 && out == 2) {
-		SoundSource* se = NewGO<SoundSource>(0);
-		se->Init(9);
-		se->SetVolume(0.5f);
-		se->Play(false);
+		SoundSource* SE = NewGO<SoundSource>(0);
+		SE->SoundSet(9, BgmVolume, LoopNot);
 	}
 
 	if (storyNum == 7 && out == 1) {
-		SoundSource* se = NewGO<SoundSource>(0);
-		se->Init(13);
-		se->SetVolume(1.0f);
-		se->Play(false);
+		SoundSource* SE = NewGO<SoundSource>(0);
+		SE->SoundSet(13, BgmVolume, LoopNot);
 	}
 
 	if (storyNum == 8 && out == 3) {
-		SoundSource* se = NewGO<SoundSource>(0);
-		se->Init(9);
-		se->SetVolume(0.5f);
-		se->Play(false);
+		SoundSource* SE = NewGO<SoundSource>(0);
+		SE->SoundSet(9, BgmVolume, LoopNot);
 	}
 
 	if (storyNum == 9 && out == 4) {
-		SoundSource* se = NewGO<SoundSource>(0);
-		se->Init(19);
-		se->SetVolume(0.5f);
-		se->Play(false);
+		SoundSource* SE = NewGO<SoundSource>(0);
+		SE->SoundSet(19, BgmVolume, LoopNot);
 	}
 }
 
-//テキスト更新処理
 void Story::TextUpdate()
 {
 	int Len;
@@ -518,7 +513,7 @@ void Story::StorySwitch()
 	if (storyNum == 0 && Clear == false) {
 		BGM = NewGO<SoundSource>(0);
 		BGM->SoundSet(20, 0.6, true);
-		Background.SetMulColor({ 0.5f,0.5f,0.5f,1.0f });
+		BackgroundTexture.SetMulColor({ 0.5f,0.5f,0.5f,1.0f });
 		Word->SetTextOkuri(L"目が覚めると、見覚えのない場所にいた。", HIGH);
 		TextCreate();
 	}
@@ -529,7 +524,7 @@ void Story::StorySwitch()
 		BGM->Init(20);
 		BGM->SetVolume(0.6f);
 		BGM->Play(true);
-		Background.SetMulColor({ 0.5f,0.5f,0.5f,1.0f });
+		BackgroundTexture.SetMulColor({ 0.5f,0.5f,0.5f,1.0f });
 		Word->SetTextOkuri(L"この遺跡はどうやら鉄球を適切に配置することで\n"
 			"階段に向かえるようだ。", HIGH);
 		TextCreate();
@@ -537,12 +532,12 @@ void Story::StorySwitch()
 
 	//2章
 	if (storyNum == 2) {
-		Background.Init("Assets/sprite/STORY/step.DDS", 1920.0f, 1080.0f);
+		BackgroundTexture.Init("Assets/sprite/STORY/step.DDS", 1920.0f, 1080.0f);
 		BGM = NewGO<SoundSource>(0);
 		BGM->Init(21);
 		BGM->SetVolume(0.6f);
 		BGM->Play(true);
-		Background.SetMulColor({ 0.5f,0.5f,0.5f,1.0f });
+		BackgroundTexture.SetMulColor({ 0.5f,0.5f,0.5f,1.0f });
 		Word->SetTextOkuri(L"感圧板は何かを出現させたり\n"
 			"消したりすることができるらしい。", HIGH);
 		TextCreate();
@@ -550,24 +545,24 @@ void Story::StorySwitch()
 
 	//3章
 	if (storyNum == 3) {
-		Background.Init("Assets/sprite/STORY/step.DDS", 1920.0f, 1080.0f);
+		BackgroundTexture.Init("Assets/sprite/STORY/step.DDS", 1920.0f, 1080.0f);
 		BGM = NewGO<SoundSource>(0);
 		BGM->Init(21);
 		BGM->SetVolume(0.6f);
 		BGM->Play(true);
-		Background.SetMulColor({ 0.5f,0.5f,0.5f,1.0f });
+		BackgroundTexture.SetMulColor({ 0.5f,0.5f,0.5f,1.0f });
 		Word->SetTextOkuri(L"少しずつ階段に向かうことが難しくなってきた。", HIGH);
 		TextCreate();
 	}
 
 	//4章
 	if (storyNum == 4) {
-		Background.Init("Assets/sprite/STORY/sekihiwall.DDS", 1920.0f, 1080.0f);
+		BackgroundTexture.Init("Assets/sprite/STORY/sekihiwall.DDS", 1920.0f, 1080.0f);
 		BGM = NewGO<SoundSource>(0);
 		BGM->Init(24);
 		BGM->SetVolume(0.6f);
 		BGM->Play(true);
-		Background.SetMulColor({ 0.5f,0.5f,0.5f,1.0f });
+		BackgroundTexture.SetMulColor({ 0.5f,0.5f,0.5f,1.0f });
 		Word->SetTextOkuri(L"階段を上ってしばらくすると、\n古びた石碑が見えた。", HIGH);
 		TextCreate();
 		
@@ -575,12 +570,12 @@ void Story::StorySwitch()
 
 	//5章
 	if (storyNum == 5) {
-		Background.Init("Assets/sprite/STORY/story_plain.DDS", 1920.0f, 1080.0f);
+		BackgroundTexture.Init("Assets/sprite/STORY/story_plain.DDS", 1920.0f, 1080.0f);
 		BGM = NewGO<SoundSource>(0);
 		BGM->Init(20);
 		BGM->SetVolume(0.6f);
 		BGM->Play(true);
-		Background.SetMulColor({ 0.5f,0.5f,0.5f,1.0f });
+		BackgroundTexture.SetMulColor({ 0.5f,0.5f,0.5f,1.0f });
 		Word->SetTextOkuri(L"この層は今までより広くなっていた。", HIGH);
 		TextCreate();
 		
@@ -592,7 +587,7 @@ void Story::StorySwitch()
 		BGM->Init(20);
 		BGM->SetVolume(0.6f);
 		BGM->Play(true);
-		Background.SetMulColor({ 0.5f,0.5f,0.5f,1.0f });
+		BackgroundTexture.SetMulColor({ 0.5f,0.5f,0.5f,1.0f });
 		Word->SetTextOkuri(L"床に指輪とおもちゃが落ちている。", HIGH);
 		TextCreate();
 		
@@ -600,12 +595,12 @@ void Story::StorySwitch()
 
 	//7章
 	if (storyNum == 7) {
-		Background.Init("Assets/sprite/STORY/plathome_sunset.DDS", 1920.0f, 1080.0f);
+		BackgroundTexture.Init("Assets/sprite/STORY/plathome_sunset.DDS", 1920.0f, 1080.0f);
 		BGM = NewGO<SoundSource>(0);
 		BGM->Init(32);
 		BGM->SetVolume(0.6f);
 		BGM->Play(true);
-		Background.SetMulColor({ 0.5f,0.5f,0.5f,1.0f });
+		BackgroundTexture.SetMulColor({ 0.5f,0.5f,0.5f,1.0f });
 		Word->SetTextOkuri(L"唐突に電車が突っ込んでくる幻覚を見た。", HIGH);
 		TextCreate();
 		
@@ -613,12 +608,12 @@ void Story::StorySwitch()
 
 	//8章
 	if (storyNum == 8) {
-		Background.Init("Assets/sprite/STORY/sekihiwall.DDS", 1920.0f, 1080.0f);
+		BackgroundTexture.Init("Assets/sprite/STORY/sekihiwall.DDS", 1920.0f, 1080.0f);
 		BGM = NewGO<SoundSource>(0);
 		BGM->Init(28);
 		BGM->SetVolume(0.8f);
 		BGM->Play(true);
-		Background.SetMulColor({ 0.5f,0.5f,0.5f,1.0f });
+		BackgroundTexture.SetMulColor({ 0.5f,0.5f,0.5f,1.0f });
 		Word->SetTextOkuri(L"この遺跡はどこまで続いているのだろうか。", HIGH);
 		TextCreate();
 		
@@ -630,7 +625,7 @@ void Story::StorySwitch()
 		BGM->Init(25);
 		BGM->SetVolume(0.8f);
 		BGM->Play(true);
-		Background.SetMulColor({ 0.5f,0.5f,0.5f,1.0f });
+		BackgroundTexture.SetMulColor({ 0.5f,0.5f,0.5f,1.0f });
 		Word->SetTextOkuri(L"どうも気になる。", HIGH);
 		TextCreate();
 		
@@ -642,7 +637,7 @@ void Story::StorySwitch()
 		BGM->Init(30);
 		BGM->SetVolume(0.6f);
 		BGM->Play(true);
-		//Background.SetMulColor({ 0.5f,0.5f,0.5f,1.0f });
+		//BackgroundTexture.SetMulColor({ 0.5f,0.5f,0.5f,1.0f });
 		Word->SetTextOkuri(L"出口へ急ぐ。", HIGH);
 		TextCreate();
 		
@@ -656,47 +651,47 @@ void Story::BackChange()
 	{
 		//0層
 	case 0:
-		Background.Init("Assets/sprite/STORY/story_00_B.DDS", 1920.0f, 1080.0f);
+		BackgroundTexture.Init("Assets/sprite/STORY/story_00_B.DDS", 1920.0f, 1080.0f);
 		break;
 		//1層
 	case 1:
-		Background.Init("Assets/sprite/STORY/step.DDS", 1920.0f, 1080.0f);
+		BackgroundTexture.Init("Assets/sprite/STORY/step.DDS", 1920.0f, 1080.0f);
 		break;
 		//2層
 	case 2:
-		Background.Init("Assets/sprite/STORY/step.DDS", 1920.0f, 1080.0f);
+		BackgroundTexture.Init("Assets/sprite/STORY/step.DDS", 1920.0f, 1080.0f);
 		break;
 		//3層
 	case 3:
-		Background.Init("Assets/sprite/STORY/step.DDS", 1920.0f, 1080.0f);
+		BackgroundTexture.Init("Assets/sprite/STORY/step.DDS", 1920.0f, 1080.0f);
 		break;
 		//4層
 	case 4:
-		Background.Init("Assets/sprite/STORY/sekihiwall.DDS", 1920.0f, 1080.0f);
+		BackgroundTexture.Init("Assets/sprite/STORY/sekihiwall.DDS", 1920.0f, 1080.0f);
 		break;
 		//5層
 	case 5:
-		Background.Init("Assets/sprite/STORY/story_plain.DDS", 1920.0f, 1080.0f);
+		BackgroundTexture.Init("Assets/sprite/STORY/story_plain.DDS", 1920.0f, 1080.0f);
 		break;
 		//6層
 	case 6:
-		Background.Init("Assets/sprite/STORY/whitewall.DDS", 1920.0f, 1080.0f);
+		BackgroundTexture.Init("Assets/sprite/STORY/whitewall.DDS", 1920.0f, 1080.0f);
 		break;
 		//7層
 	case 7:
-		Background.Init("Assets/sprite/STORY/whitewall.DDS", 1920.0f, 1080.0f);
+		BackgroundTexture.Init("Assets/sprite/STORY/whitewall.DDS", 1920.0f, 1080.0f);
 		break;
 		//8層
 	case 8:
-		Background.Init("Assets/sprite/STORY/whitewall.DDS", 1920.0f, 1080.0f);
+		BackgroundTexture.Init("Assets/sprite/STORY/whitewall.DDS", 1920.0f, 1080.0f);
 		break;
 		//9層
 	case 9:
-		Background.Init("Assets/sprite/STORY/whitewall.DDS", 1920.0f, 1080.0f);
+		BackgroundTexture.Init("Assets/sprite/STORY/whitewall.DDS", 1920.0f, 1080.0f);
 		break;
 		//10層(End)
 	case 10:
-		Background.Init("Assets/sprite/STORY/whitewall.DDS", 1920.0f, 1080.0f);
+		BackgroundTexture.Init("Assets/sprite/STORY/whitewall.DDS", 1920.0f, 1080.0f);
 		break;
 	}
 }

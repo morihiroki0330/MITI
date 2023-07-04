@@ -16,7 +16,7 @@
 #define	Grid_ExemptPosition_Y -2000
 #define	Grid_ExemptPosition_Z -2000
 
-#define Bgm_Volume 0.5
+#define BgmVolume 0.5
 
 #define Loop 1
 #define LoopNot 0

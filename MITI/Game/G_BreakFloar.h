@@ -4,7 +4,8 @@ class Stage;
 class G_BreakFloar :public IGameObject
 {
 public:
-	bool Start();
+	G_BreakFloar();
+	void InitModel();
 	void Update();
 	void Render(RenderContext& rc);
 	void Map_On(int Y , int X);

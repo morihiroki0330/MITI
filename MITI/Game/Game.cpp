@@ -48,7 +48,7 @@ void Game::ClassCreate()
 	box = NewGO<Box>(0, "box");
 
 	BGM = NewGO<SoundSource>(0);
-	BGM->SoundSet(B_STAGE , Bgm_Volume , Loop);
+	BGM->SoundSet(B_STAGE , BgmVolume , Loop);
 
 	DeleteFlagSet(false);
 

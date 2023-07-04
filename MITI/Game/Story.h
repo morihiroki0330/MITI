@@ -3,13 +3,19 @@
 class Game;
 class Fade;
 class Title;
-//タイトル。
 class Story : public IGameObject
 {
 public:
 	Story();
 	~Story();
 	bool Start();
+
+	void InitTexture();
+
+	void TriangleMove();
+	
+	void FastForwardText();
+
 	void Update();
 	void Render(RenderContext& rc);
 	void BackChange();
@@ -24,16 +30,16 @@ public:
 		Word->SetScale(1.5f);
 	}
 	void StorySwitch();
-	void playSE();
+	void PlaySe();
 	void TextUpdate();
 private:
 
-	SpriteRender Triangle;
-	SpriteRender Background;
-	SpriteRender Black;
-	SpriteRender White;
+	SpriteRender TriangleTexture;
+	SpriteRender BackgroundTexture;
+	SpriteRender BlackOutTexture;
+	SpriteRender WhiteOutTexture;
 	
-	FontRender* Word = nullptr;
+	
 	
 	float alpha=1.0f;
 	float Y;
@@ -52,19 +58,9 @@ private:
 	char textout;
 	char No;
 
+	FontRender* Word = nullptr;
 	SoundSource* BGM = nullptr;
 	Fade* fade = nullptr;
 	Title* title = nullptr;
 	Game* game = nullptr;
-
-	
-	
-
-	//背景の初期番号
-	
-
-	
-
-	
-	
 };

@@ -14,6 +14,14 @@ namespace nsK2EngineLow {
 		{
 			return shape.get();
 		}
+
+		void SetPosition(const Vector3& pos)
+		{
+			/*auto& btTrans = m_rigidBody.GetBody()->getWorldTransform();
+			btVector3 btPos;
+			btPos = btVector3(pos.x, pos.y, pos.z);
+			btTrans.setOrigin(btPos);*/
+		}
 	private:
 		std::unique_ptr<btBoxShape>		shape;
 	};
