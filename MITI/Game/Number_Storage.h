@@ -34,5 +34,8 @@
 #define BlockHalfX 96.0
 #define BlockHalfZ 96.0
 
-#define IronBallRange 75.0
+#define IronBallRange 96.0
+
+#define Put 1
+#define Get 0
 

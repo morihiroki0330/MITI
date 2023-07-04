@@ -749,7 +749,12 @@ int Stage::GetGroundData(int Map, int Direction)
 		return MapData[(Map / 10)][(Map % 10) - 1].GroundData;
 		break;
 	default:
-		return MapData[(Map / 10)][(Map % 10)].GroundData;
+		if (Map == 0)
+		{
+			return MapData[0][0].GroundData;
+		}else {
+			return MapData[(Map / 10)][(Map % 10)].GroundData;
+		}
 		break;
 	}
 }

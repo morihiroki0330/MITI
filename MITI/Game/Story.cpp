@@ -16,14 +16,8 @@ Story::Story()
 	}
 	
 	InitTexture();
-
 	BackChange();
-
-
-
 	Word = new FontRender;
-
-	
 }
 Story::~Story()
 {
@@ -80,7 +74,6 @@ void Story::TriangleMove()
 			SE->SoundSet(6, BgmVolume, LoopNot);
 			out++;
 			PlaySe();
-			BackChange();
 			BackgroundTexture.Update();
 			TextUpdate();
 		}

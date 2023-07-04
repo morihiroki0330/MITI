@@ -390,22 +390,25 @@ void Player::PlayerToRotation()
 }
 void Player::PlayerToIronBall()
 {
-	if (g_pad[0]->IsTrigger(enButtonA) && IronBallCount < ironball->GetIronBallMax() && stage->GetGroundData(PlayerMap) == GROUND)
+	if (g_pad[0]->IsTrigger(enButtonA) && IronBallCount < ironball->GetIronBallMax() && IronBallCount >= ironball->GetIronBallMin() && stage->GetGroundData(PlayerMap) == GROUND)
 	{
-		SoundSource* SE = NewGO<SoundSource>(0);
-		SE->SoundSet(S_IRONBALLGET, BgmVolume, LoopNot);
-		IronBallGetFlag = true;
-		ironball->IronBallMapSet(0);
+		if (ironball->GetBallMap(PlayerMap) == true)
+		{
+			SoundSource* SE = NewGO<SoundSource>(0);
+			SE->SoundSet(S_IRONBALLGET, BgmVolume, LoopNot);
+			IronBallGetFlag = true;
+			ironball->IronBallMapSet(PlayerMap,Get);
+		}
 	}
 
-	if (g_pad[0]->IsTrigger(enButtonB) && IronBallCount > ironball->GetIronBallMin() && stage->GetGroundData(PlayerMap) == GROUND)
+	if (g_pad[0]->IsTrigger(enButtonB) && IronBallCount > ironball->GetIronBallMin() && IronBallCount <= ironball->GetIronBallMax() && stage->GetGroundData(PlayerMap) == GROUND)
 	{
 		if (ironball->GetBallMap(PlayerMap) == false)
 		{
 			SoundSource* SE = NewGO<SoundSource>(0);
 			SE->SoundSet(S_IRONBALLPUT, BgmVolume, LoopNot);
 			IronBallPutFlag = true;
-			ironball->IronBallMapSet(PlayerMap);
+			ironball->IronBallMapSet(PlayerMap,Put);
 		}
 	}
 }

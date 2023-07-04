@@ -21,7 +21,7 @@ public:
 	void IronBoxToGet();
 	void IronBallPut();
 	void IronBallGet();
-	void IronBallMapSet(int PlayerMap);
+	void IronBallMapSet(int PlayerMap,bool Flag);
 	
 	bool GetBallMap(int PlayerMap);
 	int GetIronBallMax() { return IronBallMax; }
@@ -40,6 +40,7 @@ private:
 	int ShowFlag[5];
 	bool IronBoxFlag = false;
 	int IronBallMap[5];
+	bool IronBallFlag[5];
 	int IronBoxMap = 0;
 	int IronBallMax = 5;
 	int IronBallMin = 0;

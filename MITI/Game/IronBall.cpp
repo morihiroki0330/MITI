@@ -27,6 +27,8 @@ void IronBall::InitModel()
 	{
 		IronBallModel[Count].Init("Assets/modelData/tekyu/tekyu8.tkm",IronBallLight);
 		IronBallModel[Count].SetScale({ 1.5f, 1.5f, 1.5f });
+		IronBallMap[Count] = 100;
+		IronBallFlag[Count] = false;
 	}
 		IronBoxModel.Init("Assets/modelData/tekyu-box.tkm", IronBoxLight);
 }
@@ -78,7 +80,7 @@ void IronBall::LevelSet()
 		break;
 	case Level5:
 		IronBoxPosition = IronBoxSetPosition[9][1];
-		IronBoxMap = 30;
+		IronBoxMap = 91;
 		break;
 	case Level6:
 		IronBoxPosition = IronBoxSetPosition[0][1];
@@ -185,28 +187,33 @@ void IronBall::IronBallGet()
 			player->IronBallGetFlagSet(false);
 		}
 }
-void IronBall::IronBallMapSet(int PlayerMap)
+void IronBall::IronBallMapSet(int PlayerMap,bool Flag)
 {
-	for (int Count = 4; Count >= 0; Count--)
+	if (Flag == Get)
 	{
-		if (PlayerMap == 0 && IronBallMap[Count] != 0)
+		for (int Count = 0; Count < 5; Count++)
 		{
-			IronBallMap[Count] = PlayerMap;
-			break;
+			if (IronBallFlag[Count] == true && IronBallMap[Count] == PlayerMap)
+			{
+				IronBallMap[Count] = 100;
+				IronBallFlag[Count] = false;
+				break;
+			}
 		}
-
-	}
-
-	for (int Count = 0; Count < 5; Count++)
+	}else {
+	if (Flag == Put)
 	{
-		if (IronBallMap[Count] == 0)
+		for (int Count = 0; Count < 5; Count++)
 		{
-			IronBallMap[Count] = PlayerMap;
-			break;
+			if (IronBallFlag[Count] == false)
+			{
+				IronBallMap[Count] = PlayerMap;
+				IronBallFlag[Count] = true;
+				break;
+			}
 		}
-		
 	}
-	
+	}
 }
 
 void IronBall::Update()
