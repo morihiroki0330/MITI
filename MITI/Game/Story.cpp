@@ -7,16 +7,19 @@
 #include "sound/SoundEngine.h"
 #include "sound/SoundSource.h"
 #include "Number_Storage.h"
-
+#include "Bgm.h"
+#define TextNormalSpeed 1.0
+#define TextDoubleSpeed 3.0
 Story::Story()
 {
 	game = FindGO<Game>("game");
 	if (game != nullptr) {
-		storyNum = game->GetLevel();
+		StoryNumber = game->GetLevel();
 	}
 	
 	InitTexture();
 	BackChange();
+
 	Word = new FontRender;
 }
 Story::~Story()
@@ -33,14 +36,14 @@ bool Story::Start()
 
 void Story::InitTexture()
 {
-	WhiteOutTexture.Init("Assets/sprite/white.DDS", 1920.0f, 1080.0f);
-	WhiteOutTexture.SetMulColor({ 1.0f,1.0f,1.0f,0.0f });
+	WhiteOutTexture.Init("Assets/sprite/white.DDS", ScreenWide,ScreenHeight);
+	WhiteOutTexture.SetMulColor({ Red,Green,Blue,0.0f });
 
-	BlackOutTexture.Init("Assets/sprite/black.DDS", 1920.0f, 1080.0f);
-	BlackOutTexture.SetMulColor({ 1.0f,1.0f,1.0f,0.0f });
+	BlackOutTexture.Init("Assets/sprite/black.DDS", ScreenWide,ScreenHeight);
+	BlackOutTexture.SetMulColor({ Red,Green,Blue,0.0f });
 
 	TriangleTexture.Init("Assets/sprite/Triangle2.DDS", 100.0f, 100.0f);
-	TriangleTexture.SetPosition({ 6000.0f,-300-Y,0.0f });
+	TriangleTexture.SetPosition({ 6000.0f,-300-TriangleY,0.0f });
 	TriangleTexture.Update();
 }
 
@@ -48,97 +51,112 @@ void Story::TriangleMove()
 {
 	if (Word->GetMessageOkuriFlag() == false) 
 	{
-		TriangleTexture.SetPosition({ 600.0f,200 - Y,0.0f });
-		TriangleTexture.SetScale({ 0.5f,0.5f,0.0f });
-		TriangleTexture.Update();
-		switch (ud)
+		
+		switch (TriangleUpAndDown)
 		{
 		case 1:
-			Y += 0.5f;
+			TriangleY += 0.5f;
 			break;
 		default:
-			Y -= 0.5f;
+			TriangleY -= 0.5f;
 			break;
 		}
 
-		if (Y > 10) {
-			ud = 0;
+		if (TriangleY > 10) 
+		{
+			TriangleUpAndDown = 0;
+		}else if (TriangleY < 0) {
+			TriangleUpAndDown = 1;
 		}
-		else if (Y < 0) {
-			ud = 1;
-		}
+
+		TriangleTexture.SetPosition({ 600.0f,200 - TriangleY,0.0f });
+		TriangleTexture.SetScale({ 0.5f,0.5f,0.0f });
 		TriangleTexture.Update();
-		if (g_pad[0]->IsTrigger(enButtonA) && Endtext == false) {
-
-			SoundSource* SE = NewGO<SoundSource>(0);
-			SE->SoundSet(6, BgmVolume, LoopNot);
-			out++;
-			PlaySe();
-			BackgroundTexture.Update();
-			TextUpdate();
-		}
-
-	}
-	else {
-		TriangleTexture.SetPosition({ 6000.0f,-300 - Y,NON });
+		TextOkuri();
+	}else {
+		TriangleTexture.SetPosition({ 6000.0f,-300 - TriangleY,0.0f });
 	}
 }
-void Story::FastForwardText()
+void Story::TextOkuri()
 {
-	//Xボタン押下で早送り
-	if (alpha < NON)
+	if (g_pad[0]->IsTrigger(enButtonA) && EndText == false)
 	{
-		Word->TextOkuriUpdate(g_gameTime->GetFrameDeltaTime() * mul);
+
+		SoundSource* SE = NewGO<SoundSource>(0);
+		SE->SoundSet(S_TEXTBUTTON, BgmVolume, LoopNot);
+		TextNumber++;
+		PlaySe();
+		TextUpdate();
+	}
+}
+void Story::TextSpeed()
+{
+	if (BackgroundAlpha < NON)
+	{
+		Word->TextOkuriUpdate(g_gameTime->GetFrameDeltaTime() * TextSpeedMagnification);
 		if (g_pad[0]->IsPress(enButtonX) == true) 
 		{
-			mul = 3.0f;
+			TextSpeedMagnification = TextDoubleSpeed;
 		}else {
-			mul = 1.0f;
+			TextSpeedMagnification = TextNormalSpeed;
 		}
 	}else{
-		BlackOutTexture.SetMulColor({ 1.0f,1.0f,1.0f,alpha });
-		alpha -= 0.015f;
+		BackgroundAlpha -= 0.015f;
+		BlackOutTexture.SetMulColor({ Red,Green,Blue,BackgroundAlpha });
 		BlackOutTexture.Update();
 	}
 }
-void Story::Update()
+void Story::BackGroundFadeOut()
 {
-	TriangleMove();
-	FastForwardText();
-
-	//フェードアウト処理
-	if (Endtext == true && alpha <= 1.0f) {
+	if (EndText == true && BackgroundAlpha <= 1.0f) {
 		if (Clear == true) {
-			alpha += 0.02f;
+			BackgroundAlpha += 0.02f;
 		}
 		else {
-			alpha += 0.04f;
+			BackgroundAlpha += 0.04f;
 		}
 	}
-
-	//テキスト終了処理
-	if (Endtext == true && alpha > 1.0f && Clear == false && fade->IsFade() == false) {
-		if (game == NULL) {
+}
+void Story::TextPostProcessing()
+{
+	if (EndText == true && BackgroundAlpha > 1.0f && Clear == false && fade->IsFade() == false)
+	{
+		if (game == NULL) 
+		{
 			game = NewGO<Game>(0, "game");
-		}
-		else if (storyNum == 9) {
+		}else {
+		if (StoryNumber == 9) {
 			Clear = true;
 			game->CreateFlagSet(true);
-		}
-		else {
+		}else {
 			game->CreateFlagSet(true);
 		}
-		
+		}
 		DeleteGO(this);
 	}
-
-	//エンディング終了処理
-	else if (alpha>1.0f&& Clear == true&& Endtext == true){
+}
+void Story::EndPostProcessing()
+{
+	if (BackgroundAlpha > 1.0f && Clear == true && EndText == true)
+	{
 		Clear = false;
 		NewGO<Title>(0, "title");
 		DeleteGO(this);
 	}
 
+}
+void Story::Update()
+{
+	TriangleMove();
+
+	TextSpeed();
+
+	BackGroundFadeOut();
+
+	TextPostProcessing();
+
+	EndPostProcessing();
+	
 	TriangleTexture.Update();
 }
 
@@ -153,60 +171,62 @@ void Story::Render(RenderContext& rc)
 
 void Story::PlaySe()
 {
-	if (storyNum == 4 && out == 2) {
+	if (StoryNumber == Chapter4 && TextNumber == 2)
+	{
 		SoundSource* SE = NewGO<SoundSource>(0);
-		SE->SoundSet(9, BgmVolume, LoopNot);
+		SE->SoundSet(S_QUESTION, BgmVolume, LoopNot);
 	}
 
-	if (storyNum == 7 && out == 1) {
+	if (StoryNumber == Chapter7 && TextNumber == 1)
+	{
 		SoundSource* SE = NewGO<SoundSource>(0);
-		SE->SoundSet(13, BgmVolume, LoopNot);
+		SE->SoundSet(B_TRAIN, BgmVolume, LoopNot);
 	}
 
-	if (storyNum == 8 && out == 3) {
+	if (StoryNumber == Chapter8 && TextNumber == 3)
+	{
 		SoundSource* SE = NewGO<SoundSource>(0);
-		SE->SoundSet(9, BgmVolume, LoopNot);
+		SE->SoundSet(S_QUESTION, BgmVolume, LoopNot);
 	}
 
-	if (storyNum == 9 && out == 4) {
+	if (StoryNumber == Chapter9 && TextNumber == 4)
+	{
 		SoundSource* SE = NewGO<SoundSource>(0);
-		SE->SoundSet(19, BgmVolume, LoopNot);
+		SE->SoundSet(B_HEART, BgmVolume, LoopNot);
 	}
 }
 
 void Story::TextUpdate()
 {
 	int Len;
-
-	//始まり。
-	if (storyNum == 0 && Clear == false) {
-		switch (out)
+	if (StoryNumber == Chapter0 && Clear == false) 
+	{
+		switch (TextNumber)
 		{
 		case 1:
-			//最大文字列を取得
 			Len = Word->GetMaxLen();
 			Word->SetTextOkuri(L"目が覚めると、見覚えのない場所にいた。\n"
-				"なぜここにいるのかは思い出せない。", HIGH);
+				"なぜここにいるのかは思い出せない。", TextIntervals);
 			Word->SetNowLen(Len - 1);
 			break;
 		case 2:
 			Len = Word->GetMaxLen();
 			Word->SetTextOkuri(L"目が覚めると、見覚えのない場所にいた。\n"
 				"なぜここにいるのかは思い出せない。\n"
-				"さらに、記憶にも一部穴がある。", HIGH);
+				"さらに、記憶にも一部穴がある。", TextIntervals);
 			Word->SetNowLen(Len-1);
 			break;
 		case 3:
 			TextReset();
 			Word->SetTextOkuri(L"・・・辺りを見渡す。"
-				"どうやら遺跡のようだ。", HIGH);
+				"どうやら遺跡のようだ。", TextIntervals);
 			TextCreate();
 			break;
 		case 4:
 			Len = Word->GetMaxLen();
 			Word->SetTextOkuri(L"・・・辺りを見渡す。"
 				"どうやら遺跡のようだ。\n"
-				"探索すれば出られるかもしれない。", HIGH);
+				"探索すれば出られるかもしれない。", TextIntervals);
 			Word->SetNowLen(Len - 1);
 			break;
 		case 5:
@@ -214,77 +234,77 @@ void Story::TextUpdate()
 			Word->SetTextOkuri(L"・・・辺りを見渡す。"
 				"どうやら遺跡のようだ。\n"
 				"探索すれば出られるかもしれない。\n"
-				"そう思い、先に進むことにした。", HIGH);
+				"そう思い、先に進むことにした。", TextIntervals);
 			Word->SetNowLen(Len - 1);
 			break;
 		default:
 			TextReset();
-			Endtext = true;
+			EndText = true;
 			fade->StartFadeOut();
 			break;
 		}
 	}
 	
-	//1。
-	if (storyNum == 1) {
-		switch (out)
+	if (StoryNumber == Chapter1)
+	{
+		switch (TextNumber)
 		{
 		case 1:
 			TextReset();
-			Word->SetTextOkuri(L"そして設置した鉄球を含め、\n次の層には持っていけないことが分かった。", HIGH);
+			Word->SetTextOkuri(L"そして設置した鉄球を含め、\n次の層には持っていけないことが分かった。", TextIntervals);
 			TextCreate();
 			break;
 		default:
 			TextReset();
-			Endtext = true;
+			EndText = true;
 			fade->StartFadeOut();
 			break;
 		}
 	}
 
-	//2
-	if (storyNum == 2) {
-		switch (out)
+	if (StoryNumber == Chapter2)
+	{
+		switch (TextNumber)
 		{
 		case 1:
 			TextReset();
-			Word->SetTextOkuri(L"ただし感圧板から離れると、\n発動したギミックは戻ってしまうようだ。", HIGH);
+			Word->SetTextOkuri(L"ただし感圧板から離れると、\n発動したギミックは戻ってしまうようだ。", TextIntervals);
 			TextCreate();
 			break;
 		default:
 			TextReset();
-			Endtext = true;
+			EndText = true;
 			fade->StartFadeOut();
 			break;
 		}
 	}
 
-	//3
-	if (storyNum == 3) {
-		switch (out)
+	if (StoryNumber == Chapter3) 
+	{
+		switch (TextNumber)
 		{
 		case 1:
 			Len = Word->GetMaxLen();
 			Word->SetTextOkuri(L"少しずつ階段に向かうことが難しくなってきた。\n"
-				"そろそろ気を引き締めないといけないだろう。", HIGH);
+				"そろそろ気を引き締めないといけないだろう。", TextIntervals);
 			Word->SetNowLen(Len - 1);
 			break;
 		default:
 			TextReset();
-			Endtext = true;
+			EndText = true;
 			fade->StartFadeOut();
 			break;
 		}
 	}
 
-	//4
-	if (storyNum == 4) {
-		switch (out)
+	if (StoryNumber == Chapter4) 
+	{
+		switch (TextNumber)
 		{
 		case 1:
 			TextReset();
 			Word->SetTextOkuri(L"一部かすれているが\n"
-				"「L・f・ and ・e・・h」と書かれているようだ。", HIGH);
+				"「L・f・ and ・e・・h」と書かれているようだ。", TextIntervals);
 			TextCreate();
 			break;
 		case 2:
@@ -296,191 +316,191 @@ void Story::TextUpdate()
 			break;
 		default:
 			TextReset();
-			Endtext = true;
+			EndText = true;
 			fade->StartFadeOut();
 			break;
 		}
 	}
 
-	//5
-	if (storyNum == 5) {
-		switch (out)
+	if (StoryNumber == Chapter5) 
+	{
+		switch (TextNumber)
 		{
 		case 1:
 			Len = Word->GetMaxLen();
 			Word->SetTextOkuri(L"この層は今までより広くなっていた。\n"
 				"そして、そこには今までの景色とは\n"
-				"不釣り合いな草原が広がっていた。", HIGH);
+				"不釣り合いな草原が広がっていた。", TextIntervals);
 			Word->SetNowLen(Len - 1);
 			break;
 		case 2:
 			TextReset();
-			Word->SetTextOkuri(L"私はこの場所に見覚えがあった。", HIGH);
+			Word->SetTextOkuri(L"私はこの場所に見覚えがあった。", TextIntervals);
 			TextCreate();
 			break;
 		case 3:
 			Len = Word->GetMaxLen();
 			Word->SetTextOkuri(L"私はこの場所に見覚えがあった。\n"
-				"ここは私がよく鳥を見に行く場所だ。", HIGH);
+				"ここは私がよく鳥を見に行く場所だ。", TextIntervals);
 			Word->SetNowLen(Len - 1);
 			break;
 		case 4:
 			Len = Word->GetMaxLen();
 			Word->SetTextOkuri(L"私はこの場所に見覚えがあった。\n"
 				"ここは私がよく鳥を見に行く場所だ。\n"
-				"にしても、なぜ唐突に草原が出現したのか・・・。", HIGH);
+				"にしても、なぜ唐突に草原が出現したのか・・・。", TextIntervals);
 			Word->SetNowLen(Len - 1);
 			break;
 		default:
 			TextReset();
-			Endtext = true;
+			EndText = true;
 			fade->StartFadeOut();
 			break;
 		}
 	}
 
-	//6
-	if (storyNum == 6) {
-		switch (out)
+	if (StoryNumber == Chapter6)
+	{
+		switch (TextNumber)
 		{
 		case 1:
 			Len = Word->GetMaxLen();
 			Word->SetTextOkuri(L"床に指輪とおもちゃが落ちている。\n"
-				"どこかで見たことがある気はするが・・・", HIGH);
+				"どこかで見たことがある気はするが・・・", TextIntervals);
 			Word->SetNowLen(Len - 1);
 			break;
 		case 2:
 			Len = Word->GetMaxLen();
 			Word->SetTextOkuri(L"床に指輪とおもちゃが落ちている。\n"
 				"どこかで見たことがある気はするが・・・\n"
-				"どこで見たのかは思い出せなかった。", HIGH);
+				"どこで見たのかは思い出せなかった。", TextIntervals);
 			Word->SetNowLen(Len - 1);
 			break;
 		default:
 			TextReset();
-			Endtext = true;
+			EndText = true;
 			fade->StartFadeOut();
 			break;
 		}
 	}
 
-	//7
-	if (storyNum == 7) {
-		switch (out)
+	if (StoryNumber == Chapter7) 
+	{
+		switch (TextNumber)
 		{
 		case 1:
 			Len = Word->GetMaxLen();
 			Word->SetTextOkuri(L"唐突に電車が突っ込んでくる幻覚を見た。\n"
-				"幻覚にしてはやけに現実味があった気がしたが・・・", HIGH);
+				"幻覚にしてはやけに現実味があった気がしたが・・・", TextIntervals);
 			Word->SetNowLen(Len - 1);
 			break;
 		case 2:
 			Len = Word->GetMaxLen();
 			Word->SetTextOkuri(L"唐突に電車が突っ込んでくる幻覚を見た。\n"
 				"幻覚にしてはやけに現実味があった気がしたが・・・\n"
-				"これはいったい何を意味するのだろうか。", HIGH);
+				"これはいったい何を意味するのだろうか。", TextIntervals);
 			Word->SetNowLen(Len - 1);
 			break;
 		default:
 			TextReset();
-			Endtext = true;
+			EndText = true;
 			fade->StartFadeOut();
 			break;
 		}
 	}
 
-	//8
-	if (storyNum == 8) {
-		switch (out)
+	if (StoryNumber == Chapter8) 
+	{
+		switch (TextNumber)
 		{
 		case 1:
 			Len = Word->GetMaxLen();
 			Word->SetTextOkuri(L"この遺跡はどこまで続いているのだろうか。\n"
-				"そう考えていると、壁面に文字が\n彫られていることに気づいた。", HIGH);
+				"そう考えていると、壁面に文字が\n彫られていることに気づいた。", TextIntervals);
 			Word->SetNowLen(Len - 1);
 			break;
 		case 2:
 			TextReset();
-			Word->SetTextOkuri(L"そこには【memory】と彫られてあった。", HIGH);
+			Word->SetTextOkuri(L"そこには【memory】と彫られてあった。", TextIntervals);
 			TextCreate();
 			break;
 		case 3:
 			Len = Word->GetMaxLen();
 			Word->SetTextOkuri(L"そこには【memory】と彫られてあった。\n"
-				"少しずづ遺跡の真実に近づいている気がする。", HIGH);
+				"少しずづ遺跡の真実に近づいている気がする。", TextIntervals);
 			Word->SetNowLen(Len - 1);
 			break;
 		default:
 			TextReset();
-			Endtext = true;
+			EndText = true;
 			fade->StartFadeOut();
 			break;
 		}
 	}
 
-	//9
-	if (storyNum == 9) {
-		switch (out)
+	if (StoryNumber == Chapter9) 
+	{
+		switch (TextNumber)
 		{
 		case 1:
 			Len = Word->GetMaxLen();
 			Word->SetTextOkuri(L"どうも気になる。\n"
-				"ここまで見つけたものは全て\n私から抜け落ちた記憶に関係している。", HIGH);
+				"ここまで見つけたものは全て\n私から抜け落ちた記憶に関係している。", TextIntervals);
 			Word->SetNowLen(Len - 1);
 			break;
 		case 2:
 			TextReset();
 			Word->SetTextOkuri(L"そこから得られる結論は、\n"
-				"「遺跡が記憶を映している」ということだろう。", HIGH);
+				"「遺跡が記憶を映している」ということだろう。", TextIntervals);
 			TextCreate();
 			break;
 		case 3:
 			Len = Word->GetMaxLen();
 			Word->SetTextOkuri(L"そこから得られる結論は、\n"
 				"「遺跡が記憶を映している」ということだろう。\n"
-				"ということは私は死にかけている・・・？", HIGH);
+				"ということは私は死にかけている・・・？", TextIntervals);
 			Word->SetNowLen(Len - 1);
 			break;
 		case 4:
 			TextReset();
 			Word->SetTextOkuri(L"その時、心電図の音が鳴り始める。\n"
-				"・・・急がねば。", HIGH);
+				"・・・急がねば。", TextIntervals);
 			TextCreate();
 			break;
 		default:
 			TextReset();
-			Endtext = true;
+			EndText = true;
 			fade->StartFadeOut();
 			break;
 		}
 	}
 
-	//10
-	if (Clear==true) {
-			switch (out)
+	if (Clear==true) 
+	{
+			switch (TextNumber)
 			{
 			case 1:
 				Len = Word->GetMaxLen();
 				Word->SetTextOkuri(L"出口へ急ぐ。\n"
-					"声が聞こえてくる。", HIGH);
+					"声が聞こえてくる。", TextIntervals);
 				Word->SetNowLen(Len - 1);
 				break;
 			case 2:
 				Len = Word->GetMaxLen();
 				Word->SetTextOkuri(L"出口へ急ぐ。\n"
 					"声が聞こえてくる。\n"
-					"私の目覚めを待つ声が。", HIGH);
+					"私の目覚めを待つ声が。", TextIntervals);
 				Word->SetNowLen(Len - 1);
 				break;
 			case 3:
 				TextReset();
-				Word->SetTextOkuri(L"遺跡を抜ける。", HIGH);
+				Word->SetTextOkuri(L"遺跡を抜ける。", TextIntervals);
 				TextCreate();
 				break;
 			case 4:
 				Len = Word->GetMaxLen();
 				Word->SetTextOkuri(L"遺跡を抜ける。\n"
-					"愛する人たちのもとに戻るために。", HIGH);
+					"愛する人たちのもとに戻るために。", TextIntervals);
 				Word->SetNowLen(Len - 1);
 				break;
 			case 5:
@@ -492,199 +512,173 @@ void Story::TextUpdate()
 				break;
 			default:
 				TextReset();
-				Endtext = true;
+				EndText = true;
 				fade->StartFadeOut();
 				break;
 			}
 		}
 }
 
-//ストーリーの面ごとの変更処理(最初の言葉のみ)
 void Story::StorySwitch()
 {
-	//序章(始まり)
-	if (storyNum == 0 && Clear == false) {
+	if (StoryNumber == Chapter0 && Clear == false) 
+	{
 		BGM = NewGO<SoundSource>(0);
-		BGM->SoundSet(20, 0.6, true);
-		BackgroundTexture.SetMulColor({ 0.5f,0.5f,0.5f,1.0f });
-		Word->SetTextOkuri(L"目が覚めると、見覚えのない場所にいた。", HIGH);
+		BGM->SoundSet(S_QUESTION2, BgmVolume, Loop);
+		BackgroundTexture.SetMulColor({ HalfRed,HalfGreen,HalfBlue,1.0f });
+		Word->SetTextOkuri(L"目が覚めると、見覚えのない場所にいた。", TextIntervals);
 		TextCreate();
 	}
 
-	//1章
-	if (storyNum == 1) {
+	if (StoryNumber == Chapter1)
+	{
 		BGM = NewGO<SoundSource>(0);
-		BGM->Init(20);
-		BGM->SetVolume(0.6f);
-		BGM->Play(true);
-		BackgroundTexture.SetMulColor({ 0.5f,0.5f,0.5f,1.0f });
+		BGM->SoundSet(S_QUESTION2, BgmVolume, Loop);
+		BackgroundTexture.SetMulColor({ HalfRed,HalfGreen,HalfBlue,1.0f });
 		Word->SetTextOkuri(L"この遺跡はどうやら鉄球を適切に配置することで\n"
-			"階段に向かえるようだ。", HIGH);
+			"階段に向かえるようだ。", TextIntervals);
 		TextCreate();
 	}
 
 	//2章
-	if (storyNum == 2) {
-		BackgroundTexture.Init("Assets/sprite/STORY/step.DDS", 1920.0f, 1080.0f);
+	if (StoryNumber == Chapter2)
+	{
+		BackgroundTexture.Init("Assets/sprite/STORY/step.DDS", ScreenWide,ScreenHeight);
 		BGM = NewGO<SoundSource>(0);
-		BGM->Init(21);
-		BGM->SetVolume(0.6f);
-		BGM->Play(true);
-		BackgroundTexture.SetMulColor({ 0.5f,0.5f,0.5f,1.0f });
+		BGM->SoundSet(S_QUESTION3, BgmVolume, Loop);
+		BackgroundTexture.SetMulColor({ HalfRed,HalfGreen,HalfBlue,1.0f });
 		Word->SetTextOkuri(L"感圧板は何かを出現させたり\n"
-			"消したりすることができるらしい。", HIGH);
+			"消したりすることができるらしい。", TextIntervals);
 		TextCreate();
 	}
 
 	//3章
-	if (storyNum == 3) {
-		BackgroundTexture.Init("Assets/sprite/STORY/step.DDS", 1920.0f, 1080.0f);
+	if (StoryNumber == Chapter3)
+	{
+		BackgroundTexture.Init("Assets/sprite/STORY/step.DDS", ScreenWide,ScreenHeight);
 		BGM = NewGO<SoundSource>(0);
-		BGM->Init(21);
-		BGM->SetVolume(0.6f);
-		BGM->Play(true);
-		BackgroundTexture.SetMulColor({ 0.5f,0.5f,0.5f,1.0f });
-		Word->SetTextOkuri(L"少しずつ階段に向かうことが難しくなってきた。", HIGH);
+		BGM->SoundSet(S_QUESTION3, BgmVolume, Loop);
+		BackgroundTexture.SetMulColor({ HalfRed,HalfGreen,HalfBlue,1.0f });
+		Word->SetTextOkuri(L"少しずつ階段に向かうことが難しくなってきた。", TextIntervals);
 		TextCreate();
 	}
 
 	//4章
-	if (storyNum == 4) {
-		BackgroundTexture.Init("Assets/sprite/STORY/sekihiwall.DDS", 1920.0f, 1080.0f);
+	if (StoryNumber == Chapter4)
+	{
+		BackgroundTexture.Init("Assets/sprite/STORY/sekihiwall.DDS", ScreenWide,ScreenHeight);
 		BGM = NewGO<SoundSource>(0);
-		BGM->Init(24);
-		BGM->SetVolume(0.6f);
-		BGM->Play(true);
-		BackgroundTexture.SetMulColor({ 0.5f,0.5f,0.5f,1.0f });
-		Word->SetTextOkuri(L"階段を上ってしばらくすると、\n古びた石碑が見えた。", HIGH);
+		BGM->SoundSet(B_STREET, BgmVolume, Loop);
+		BackgroundTexture.SetMulColor({ HalfRed,HalfGreen,HalfBlue,1.0f });
+		Word->SetTextOkuri(L"階段を上ってしばらくすると、\n古びた石碑が見えた。", TextIntervals);
 		TextCreate();
 		
 	}
 
 	//5章
-	if (storyNum == 5) {
-		BackgroundTexture.Init("Assets/sprite/STORY/story_plain.DDS", 1920.0f, 1080.0f);
+	if (StoryNumber == Chapter5)
+	{
+		BackgroundTexture.Init("Assets/sprite/STORY/story_plain.DDS", ScreenWide,ScreenHeight);
 		BGM = NewGO<SoundSource>(0);
-		BGM->Init(20);
-		BGM->SetVolume(0.6f);
-		BGM->Play(true);
-		BackgroundTexture.SetMulColor({ 0.5f,0.5f,0.5f,1.0f });
-		Word->SetTextOkuri(L"この層は今までより広くなっていた。", HIGH);
+		BGM->SoundSet(S_QUESTION2, BgmVolume, Loop);
+		BackgroundTexture.SetMulColor({ HalfRed,HalfGreen,HalfBlue,1.0f });
+		Word->SetTextOkuri(L"この層は今までより広くなっていた。", TextIntervals);
 		TextCreate();
 		
 	}
 
 	//6章
-	if (storyNum == 6) {
+	if (StoryNumber == Chapter6)
+	{
 		BGM = NewGO<SoundSource>(0);
-		BGM->Init(20);
-		BGM->SetVolume(0.6f);
-		BGM->Play(true);
-		BackgroundTexture.SetMulColor({ 0.5f,0.5f,0.5f,1.0f });
-		Word->SetTextOkuri(L"床に指輪とおもちゃが落ちている。", HIGH);
+		BGM->SoundSet(S_QUESTION2, BgmVolume, Loop);
+		BackgroundTexture.SetMulColor({ HalfRed,HalfGreen,HalfBlue,1.0f });
+		Word->SetTextOkuri(L"床に指輪とおもちゃが落ちている。", TextIntervals);
 		TextCreate();
 		
 	}
 
 	//7章
-	if (storyNum == 7) {
-		BackgroundTexture.Init("Assets/sprite/STORY/plathome_sunset.DDS", 1920.0f, 1080.0f);
+	if (StoryNumber == Chapter7)
+	{
+		BackgroundTexture.Init("Assets/sprite/STORY/plathome_sunset.DDS", ScreenWide,ScreenHeight);
 		BGM = NewGO<SoundSource>(0);
-		BGM->Init(32);
-		BGM->SetVolume(0.6f);
-		BGM->Play(true);
-		BackgroundTexture.SetMulColor({ 0.5f,0.5f,0.5f,1.0f });
-		Word->SetTextOkuri(L"唐突に電車が突っ込んでくる幻覚を見た。", HIGH);
+		BGM->SoundSet(B_DISTRUST, BgmVolume, Loop);
+		BackgroundTexture.SetMulColor({ HalfRed,HalfGreen,HalfBlue,1.0f });
+		Word->SetTextOkuri(L"唐突に電車が突っ込んでくる幻覚を見た。", TextIntervals);
 		TextCreate();
 		
 	}
 
 	//8章
-	if (storyNum == 8) {
-		BackgroundTexture.Init("Assets/sprite/STORY/sekihiwall.DDS", 1920.0f, 1080.0f);
+	if (StoryNumber == Chapter8)
+	{
+		BackgroundTexture.Init("Assets/sprite/STORY/sekihiwall.DDS", ScreenWide,ScreenHeight);
 		BGM = NewGO<SoundSource>(0);
-		BGM->Init(28);
-		BGM->SetVolume(0.8f);
-		BGM->Play(true);
-		BackgroundTexture.SetMulColor({ 0.5f,0.5f,0.5f,1.0f });
-		Word->SetTextOkuri(L"この遺跡はどこまで続いているのだろうか。", HIGH);
+		BGM->SoundSet(B_DESTINY, BgmVolume, Loop);
+		BackgroundTexture.SetMulColor({ HalfRed,HalfGreen,HalfBlue,1.0f });
+		Word->SetTextOkuri(L"この遺跡はどこまで続いているのだろうか。", TextIntervals);
 		TextCreate();
 		
 	}
 
 	//9章
-	if (storyNum == 9) {
+	if (StoryNumber == Chapter9)
+	{
 		BGM = NewGO<SoundSource>(0);
-		BGM->Init(25);
-		BGM->SetVolume(0.8f);
-		BGM->Play(true);
-		BackgroundTexture.SetMulColor({ 0.5f,0.5f,0.5f,1.0f });
-		Word->SetTextOkuri(L"どうも気になる。", HIGH);
+		BGM->SoundSet(B_SAD, BgmVolume, Loop);
+		BackgroundTexture.SetMulColor({ HalfRed,HalfGreen,HalfBlue,1.0f });
+		Word->SetTextOkuri(L"どうも気になる。", TextIntervals);
 		TextCreate();
 		
 	}
 
-	//10章/End
-	if (Clear == true) {
+	if (Clear == true)
+	{
 		BGM = NewGO<SoundSource>(0);
-		BGM->Init(30);
-		BGM->SetVolume(0.6f);
-		BGM->Play(true);
+		BGM->SoundSet(B_WELCOME, BgmVolume, Loop);
 		//BackgroundTexture.SetMulColor({ 0.5f,0.5f,0.5f,1.0f });
-		Word->SetTextOkuri(L"出口へ急ぐ。", HIGH);
+		Word->SetTextOkuri(L"出口へ急ぐ。", TextIntervals);
 		TextCreate();
 		
 	}
 }
-
-//背景変更関数(と言っても最初しか変えられない)
 void Story::BackChange()
 {
-	switch (BackNumber)
+	switch (BackGroundNumber)
 	{
-		//0層
-	case 0:
-		BackgroundTexture.Init("Assets/sprite/STORY/story_00_B.DDS", 1920.0f, 1080.0f);
+	case Chapter0:
+		BackgroundTexture.Init("Assets/sprite/STORY/story_00_B.DDS", ScreenWide,ScreenHeight);
 		break;
-		//1層
-	case 1:
-		BackgroundTexture.Init("Assets/sprite/STORY/step.DDS", 1920.0f, 1080.0f);
+	case Chapter1:
+		BackgroundTexture.Init("Assets/sprite/STORY/step.DDS", ScreenWide,ScreenHeight);
 		break;
-		//2層
-	case 2:
-		BackgroundTexture.Init("Assets/sprite/STORY/step.DDS", 1920.0f, 1080.0f);
+	case Chapter2:
+		BackgroundTexture.Init("Assets/sprite/STORY/step.DDS", ScreenWide,ScreenHeight);
 		break;
-		//3層
-	case 3:
-		BackgroundTexture.Init("Assets/sprite/STORY/step.DDS", 1920.0f, 1080.0f);
+	case Chapter3:
+		BackgroundTexture.Init("Assets/sprite/STORY/step.DDS", ScreenWide,ScreenHeight);
 		break;
-		//4層
-	case 4:
-		BackgroundTexture.Init("Assets/sprite/STORY/sekihiwall.DDS", 1920.0f, 1080.0f);
+	case Chapter4:
+		BackgroundTexture.Init("Assets/sprite/STORY/sekihiwall.DDS", ScreenWide,ScreenHeight);
 		break;
-		//5層
-	case 5:
-		BackgroundTexture.Init("Assets/sprite/STORY/story_plain.DDS", 1920.0f, 1080.0f);
+	case Chapter5:
+		BackgroundTexture.Init("Assets/sprite/STORY/story_plain.DDS", ScreenWide,ScreenHeight);
 		break;
-		//6層
-	case 6:
-		BackgroundTexture.Init("Assets/sprite/STORY/whitewall.DDS", 1920.0f, 1080.0f);
+	case Chapter6:
+		BackgroundTexture.Init("Assets/sprite/STORY/whitewall.DDS", ScreenWide,ScreenHeight);
 		break;
-		//7層
-	case 7:
-		BackgroundTexture.Init("Assets/sprite/STORY/whitewall.DDS", 1920.0f, 1080.0f);
+	case Chapter7:
+		BackgroundTexture.Init("Assets/sprite/STORY/whitewall.DDS", ScreenWide,ScreenHeight);
 		break;
-		//8層
-	case 8:
-		BackgroundTexture.Init("Assets/sprite/STORY/whitewall.DDS", 1920.0f, 1080.0f);
+	case Chapter8:
+		BackgroundTexture.Init("Assets/sprite/STORY/whitewall.DDS", ScreenWide,ScreenHeight);
 		break;
-		//9層
-	case 9:
-		BackgroundTexture.Init("Assets/sprite/STORY/whitewall.DDS", 1920.0f, 1080.0f);
+	case Chapter9:
+		BackgroundTexture.Init("Assets/sprite/STORY/whitewall.DDS", ScreenWide,ScreenHeight);
 		break;
-		//10層(End)
-	case 10:
-		BackgroundTexture.Init("Assets/sprite/STORY/whitewall.DDS", 1920.0f, 1080.0f);
+	case Chapter10:
+		BackgroundTexture.Init("Assets/sprite/STORY/whitewall.DDS", ScreenWide,ScreenHeight);
 		break;
 	}
 }

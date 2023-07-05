@@ -9,8 +9,11 @@
 #define	IronBallHeight 512
 
 #define	Red 1
+#define	HalfRed 0.5
 #define	Green 1
+#define	HalfGreen 0.5
 #define	Blue 1
+#define	HalfBlue 0.5
 
 #define Grid_ExemptPosition_X -2000
 #define	Grid_ExemptPosition_Y -2000

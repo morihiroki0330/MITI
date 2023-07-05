@@ -47,12 +47,6 @@ private:
 	bool BgmSet = true;
 	bool DeleteFlag = false;
 
-	int Ending_state = 0;
-	bool key1 = false;
-	bool key2 = false;
-	bool key3 = false;
-	bool key4 = false;
-	
 	SoundSource* BGM = nullptr;
 	IronBall* ironball = nullptr;
 	Player* player = nullptr;

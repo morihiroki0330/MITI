@@ -1,8 +1,21 @@
 #pragma once
-#include "Number_Storage.h"
 class Game;
 class Fade;
 class Title;
+enum Chapter
+{
+	Chapter0,
+	Chapter1,
+	Chapter2,
+	Chapter3,
+	Chapter4,
+	Chapter5,
+	Chapter6,
+	Chapter7,
+	Chapter8,
+	Chapter9,
+	Chapter10
+};
 class Story : public IGameObject
 {
 public:
@@ -14,7 +27,7 @@ public:
 
 	void TriangleMove();
 	
-	void FastForwardText();
+	void TextSpeed();
 
 	void Update();
 	void Render(RenderContext& rc);
@@ -26,12 +39,19 @@ public:
 	}
 	void TextCreate()
 	{
-		Word->SetPosition(Vector3(-852.0f, 450.0f, NON));
+		Word->SetPosition(Vector3(-852.0f, 450.0f, 0.0f));
 		Word->SetScale(1.5f);
 	}
 	void StorySwitch();
 	void PlaySe();
+
+	void TextOkuri();
 	void TextUpdate();
+
+	void BackGroundFadeOut();
+
+	void TextPostProcessing();
+	void EndPostProcessing();
 private:
 
 	SpriteRender TriangleTexture;
@@ -39,24 +59,17 @@ private:
 	SpriteRender BlackOutTexture;
 	SpriteRender WhiteOutTexture;
 	
-	
-	
-	float alpha=1.0f;
-	float Y;
-	float HIGH = 0.05f;
-	float mul = 1.0f;
+	float BackgroundAlpha=1.0f;
+	float TriangleY = 0;
+	float TextIntervals = 0.05f;
+	float TextSpeedMagnification = 1.0f;
 
-	int ud = 1;
-	int out = 0;
-	int storyNum = 0;
-	int BackNumber = 0;
+	int BackGroundNumber = 0;
+	int TriangleUpAndDown = 1;
+	int TextNumber = 0;
+	int StoryNumber = 0;
 	
-	bool Endtext = false;
-	bool ismul = false;
-	bool Fukusen=false;
-
-	char textout;
-	char No;
+	bool EndText = false;
 
 	FontRender* Word = nullptr;
 	SoundSource* BGM = nullptr;
