@@ -91,8 +91,8 @@ void Game::Clear()
 		if (fade->IsFade() == false && GetDeleteFlag() == true)
 		{
 			NewGO<GameClear>(0, "gameclear");
+			GameClearFlagSet(true);
 			ClassDelete();
-			DeleteGO(this);
 			ClearFlagSet(false);
 		}
 		}

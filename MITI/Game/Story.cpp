@@ -12,10 +12,6 @@
 #define TextDoubleSpeed 3.0
 Story::Story()
 {
-	game = FindGO<Game>("game");
-	if (game != nullptr) {
-		StoryNumber = game->GetLevel();
-	}
 	
 	InitTexture();
 	BackChange();
@@ -28,6 +24,11 @@ Story::~Story()
 }
 bool Story::Start()
 {
+	game = FindGO<Game>("game");
+	if (game != nullptr)
+	{
+		StoryNumber = game->GetLevel();
+	}
 	fade = FindGO<Fade>("fade");
 	fade->StartFadeIn();
 	StorySwitch();
@@ -125,9 +126,8 @@ void Story::TextPostProcessing()
 		{
 			game = NewGO<Game>(0, "game");
 		}else {
-		if (StoryNumber == 9) {
+		if (game->GetGameClearFlag()) {
 			Clear = true;
-			game->CreateFlagSet(true);
 		}else {
 			game->CreateFlagSet(true);
 		}
@@ -141,6 +141,7 @@ void Story::EndPostProcessing()
 	{
 		Clear = false;
 		NewGO<Title>(0, "title");
+		game->Delete();
 		DeleteGO(this);
 	}
 
@@ -438,7 +439,7 @@ void Story::TextUpdate()
 		}
 	}
 
-	if (StoryNumber == Chapter9) 
+	if (StoryNumber == Chapter9 && game->GetGameClearFlag()==false)
 	{
 		switch (TextNumber)
 		{
@@ -475,7 +476,7 @@ void Story::TextUpdate()
 		}
 	}
 
-	if (Clear==true) 
+	if (StoryNumber == Chapter9 && game->GetGameClearFlag() == true)
 	{
 			switch (TextNumber)
 			{

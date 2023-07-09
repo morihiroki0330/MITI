@@ -117,7 +117,7 @@ void Player::PlayerGameOver()
 {
 	PlayerMoveSpeed.y = Gravity;
 
-	if (PlayerPosition.y <= -UnderHalfLimit && FallSet == false)
+	if (PlayerPosition.y <= UnderHalfLimit && FallSet == false)
 	{
 		SoundSource* SE = NewGO<SoundSource>(0);
 		SE->SoundSet(S_FALL, BgmVolume, LoopNot);
@@ -506,4 +506,38 @@ void Player::PlayerMapSet()
 void Player::Render(RenderContext& rc)
 {
 	PlayerModel.Draw(rc);
+}
+
+int Player::GetDirectionController(Vector3 Pos)
+{
+	if (abs(Pos.x) > abs(Pos.y))
+	{
+		if (Pos.x > 0.0f)
+		{
+			return MoveRight;
+		}else {
+		if (Pos.x < 0.0f)
+		{
+			return MoveLeft;
+		}
+		}
+	}else {
+	if (abs(Pos.x) < abs(Pos.y))
+	{
+		if (Pos.y > 0.0f)
+		{
+			return MoveUp;
+		}else {
+		if (Pos.y < 0.0f)
+		{
+			return MoveDown;
+		}
+		}
+	}else {
+	if (abs(Pos.x) == 0.0f && abs(Pos.y) == 0.0f)
+	{
+		return Non;
+	}
+	}
+	}
 }

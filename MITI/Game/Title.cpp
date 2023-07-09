@@ -52,9 +52,10 @@ void Title::ScreenChange()
 
 void Title::Update()
 {
-	ScreenChange();
 	fade->ButtonFade(AbuttonTexture, PressAbutton);
+	ScreenChange();
 }
+
 void Title::Render(RenderContext& rc)
 {
 	TitleTexture.Draw(rc);

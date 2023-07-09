@@ -10,6 +10,14 @@ enum PlayerDirection
 	PlayerDirectionRight,
 	PlayerDirectionLeft
 };
+enum DirectionController
+{
+	Non,
+	MoveUp,
+	MoveDown,
+	MoveRight,
+	MoveLeft
+};
 enum EnAnimationClip 
 {		
 	enAnimationClip_Idle,
@@ -87,6 +95,8 @@ public:
 	float GetPlayerPositionX() { return PlayerPosition.x; }
 	float GetPlayerPositionY() { return PlayerPosition.y; }
 	float GetPlayerPositionZ() { return PlayerPosition.z; }
+
+	int GetDirectionController(Vector3 Pos);
 private:
 	ModelRender PlayerModel;
 	Quaternion PlayerRotation;
@@ -102,6 +112,7 @@ private:
 	int Frame = 0;
 	int IronBallCount = 0;
 	int PlayerMap = 0;
+	int PlayerMoveMap = 0;
 	int EnterDirection = 0;
 
 	bool IronBallGetFlag = false;
@@ -115,6 +126,8 @@ private:
 
 	bool FallSet = false;
 	bool BgmSet = false;
+
+	bool MoveFlag = false;
 	
 	Box* box = nullptr;
 	Stage* stage = nullptr;
@@ -122,5 +135,7 @@ private:
 	IronBall* ironball = nullptr;
 	SoundSource* WalkSe = nullptr;
 	SoundSource* IceWalkSe = nullptr;
+
+
 };
 
