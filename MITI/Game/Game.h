@@ -41,7 +41,7 @@ public:
 
 private:
 	
-	int Level = 9;
+	int Level = 0;
 	int Level_Max = 9;
 	
 	bool ClearFlag = false;

@@ -15,14 +15,13 @@
 #include "Number_Storage.h"
 Game::~Game()
 {
-	DeleteGO(player);
+	/*DeleteGO(player);
 	DeleteGO(gamecamera);
 	DeleteGO(stage);
 	DeleteGO(ironball);
 	DeleteGO(ui);
 	DeleteGO(box);
-	DeleteGO(BGM);
-	DeleteGO(this);
+	DeleteGO(BGM);*/
 }
 bool Game::Start()
 {
