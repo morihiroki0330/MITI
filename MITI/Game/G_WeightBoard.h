@@ -1,4 +1,5 @@
 #pragma once
+#include "NumberStorage.h"
 class Player;
 class IronBall;
 class G_Block;
@@ -21,36 +22,47 @@ public:
 	void Update();
 	void Render(RenderContext& rc);
 
-	void LinkObjectSet(int Y, int X,int W,int Object);
-	void LinkNumberSet(int Y, int X, int W,int Number);
+	void LinkObjectSet(int Y, int X, int W, int Object);
+	void LinkNumberSet(int Y, int X, int W, int Number);
 	void LinkCountSet(int Y, int X, int Count);
 
-	int GetLinkNumberY(int Y, int X, int Count) { return LinkNumber[Y][X][Count / 10]; }
-	int GetLinkNumberX(int Y, int X, int Count) { return LinkNumber[Y][X][Count % 10]; }
-	int GetLinkObject(int Y, int X, int Number) { return LinkObject[Y][X][Number]; }
-	int GetLinkCount(int Y, int X) { return LinkCount[Y][X]; }
-	bool GetSwitchOnFlag(int Y, int X) { return SwitchOnFlag[Y][X]; }
+	int GetLinkNumberY(int Y, int X, int Count) { return M_LinkNumber[Y][X][Count / 10]; }
+	int GetLinkNumberX(int Y, int X, int Count) { return M_LinkNumber[Y][X][Count % 10]; }
+	int GetLinkObject(int Y, int X, int Number) { return M_LinkObject[Y][X][Number]; }
+	int GetLinkCount(int Y, int X) { return M_LinkCount[Y][X]; }
+	bool GetSwitchOnFlag(int Y, int X) { return M_SwitchOnFlag[Y][X]; }
 private:
-	ModelRender WeightBoardModel[10][10];
-	Vector3 WeightBoardPosition[10][10];
-	Vector3 WeightBoardScale = { 0.6f,0.6f,0.6f };
-	PhysicsStaticObjectPos WeightBoardPhysicsStaticObject[10][10];
-	AllLight WeightBoardLight;
+	ModelRender M_WeightBoardModel[10][10];
+	Vector3 M_WeightBoardPosition[10][10];
+	Vector3 M_WeightBoardScale = { 0.6f,0.6f,0.6f };
+	PhysicsStaticObjectPos M_WeightBoardPhysicsStaticObject[10][10];
+	AllLight M_WeightBoardLight;
 
-	Player* player = nullptr;
-	IronBall* ironball = nullptr;
-	G_Block* block = nullptr;
-	Stage* stage = nullptr;
-	G_WeightBoard* weightboard = nullptr;
+	Player* M_Player = nullptr;
+	IronBall* M_IronBall = nullptr;
+	G_Block* M_Block = nullptr;
+	Stage* M_Stage = nullptr;
+	G_WeightBoard* M_WeightBoard = nullptr;
 
-	bool BgmSet[10][10];
-	bool HitFlag[10][10];
-	bool SwitchOnFlag[10][10];
+	bool M_BgmSet[10][10];
+	bool M_HitFlag[10][10];
+	bool M_SwitchOnFlag[10][10];
 		
-	bool WeightBoardOn[10][10];
+	bool M_WeightBoardOn[10][10];
 
-	int LinkNumber[10][10][10];
-	int LinkCount[10][10];
-	int LinkObject[10][10][10];
+	int M_LinkNumber[10][10][10];
+	int M_LinkCount[10][10];
+	int M_LinkObject[10][10][10];
+
+	TextureHeight S_TextureHeight;
+	TextureWide S_TextureWide;
+	Color S_Color;
+	FadeInformation S_FadeInformation;
+	GridPosition S_GridPosition;
+	SoundSetting S_SoundSetting;
+	PlayerInformation S_PlayerInformation;
+	BlockInformation S_BlockInformation;
+	WorldInformation S_WorldInformation;
+	IronBallInformation S_IronBallInformation;
 };
 

@@ -18,71 +18,73 @@ Stage::Stage()
 	{
 		for (int X = 0; X < 10; X++)
 		{
-			MapPosition[Y][X].x = (Y * 191.0f) + -865.0f;
-			MapPosition[Y][X].y = 0.0f;
-			MapPosition[Y][X].z = (X * 191.0f) + -865.0f;
+			M_MapPosition[Y][X].x = (Y * 191.0f) + -865.0f;
+			M_MapPosition[Y][X].y = 0.0f;
+			M_MapPosition[Y][X].z = (X * 191.0f) + -865.0f;
 		}
 	}
-	
+
 	MapChipCreate();
 }
 
 Stage::~Stage()
 {
-	DeleteGO(Map.Ice);
-	DeleteGO(Map.Ground);
-	DeleteGO(Map.Hole);
-	DeleteGO(Map.Block);
-	DeleteGO(Map.Kaidan);
-	DeleteGO(Map.Weightboard);
-	DeleteGO(Map.Wall);
+	DeleteGO(M_Map.M_Ice);
+	DeleteGO(M_Map.M_Ground);
+	DeleteGO(M_Map.M_Hole);
+	DeleteGO(M_Map.M_Block);
+	DeleteGO(M_Map.M_Kaidan);
+	DeleteGO(M_Map.M_Weightboard);
+	DeleteGO(M_Map.M_Wall);
 }
 
 bool Stage::Start()
 {
-	game = FindGO<Game>("game");
-	
+	M_Game = FindGO<Game>("game");
+
 	StageOrderSet();
 	LevelSet();
 	MapToCopy();
-	MapSet();
+	MapSetGround();
+	MapSetSky();
+	//MapSet();
 	return true;
 }
 
 void Stage::MapChipCreate()
 {
-	Map.Hole = NewGO<G_Hole>(0, "hole");
-	Map.Ice = NewGO<G_IceFloor>(0, "ice");
-	Map.Ground = NewGO<G_Ground>(0, "ground");
-	Map.Kaidan = NewGO<G_Kaidan>(0, "kaidan");
-	Map.Weightboard = NewGO<G_WeightBoard>(0, "weightboard");
-	Map.Block = NewGO<G_Block>(0, "block");
-	Map.Wall = NewGO<G_Wall>(0, "wall");
+	M_Map.M_Hole = NewGO<G_Hole>(0, "hole");
+	M_Map.M_Ice = NewGO<G_IceFloor>(0, "ice");
+	M_Map.M_Kaidan = NewGO<G_Kaidan>(0, "kaidan");
+	M_Map.M_Weightboard = NewGO<G_WeightBoard>(0, "weightboard");
+	M_Map.M_Block = NewGO<G_Block>(0, "block");
+	M_Map.M_Wall = NewGO<G_Wall>(0, "wall");
+	M_Map.M_Ground = NewGO<G_Ground>(0, "ground");
 }
 
 
 void Stage::StageOrderSet()
 {
-	StageOrder[Stage0] = { Level0 };
-	StageOrder[Stage1] = { Level1 };
-	StageOrder[Stage2] = { Level2 };
-	StageOrder[Stage3] = { Level3 };
-	StageOrder[Stage4] = { Level4 };
-	StageOrder[Stage5] = { Level5 };
-	StageOrder[Stage6] = { Level6 };
-	StageOrder[Stage7] = { Level7 };
-	StageOrder[Stage8] = { Level8 };
-	StageOrder[Stage9] = { Level9 };
+	M_StageOrder[STAGE0] = { LEVEL0 };
+	M_StageOrder[STAGE1] = { LEVEL1 };
+	M_StageOrder[STAGE2] = { LEVEL2 };
+	M_StageOrder[STAGE3] = { LEVEL3 };
+	M_StageOrder[STAGE4] = { LEVEL4 };
+	M_StageOrder[STAGE5] = { LEVEL5 };
+	M_StageOrder[STAGE6] = { LEVEL6 };
+	M_StageOrder[STAGE7] = { LEVEL7 };
+	M_StageOrder[STAGE8] = { LEVEL8 };
+	M_StageOrder[STAGE9] = { LEVEL9 };
 }
 
 
 void Stage::GroundDataSet(int Y, int X, int Data)
 {
-	MapData[Y][X].GroundData = Data;
+	M_MapData[Y][X].M_GroundData = Data;
 }
 void Stage::SkyDataSet(int Y, int X, int Data)
 {
-	MapData[Y][X].SkyData = Data;
+	M_MapData[Y][X].M_SkyData = Data;
 }
 
 
@@ -92,16 +94,16 @@ void Stage::MapToCopy()
 	{
 		for (int X = 0; X < 10; X++)
 		{
-			MapData[Y][X].Ice_On = Level[StageOrder[game->GetLevel()]][Y][X].Ice_On;
+			M_MapData[Y][X].M_Ice_On = M_Level[M_StageOrder[M_Game->GetLevel()]][Y][X].M_Ice_On;
 
-			MapData[Y][X].Block_On = Level[StageOrder[game->GetLevel()]][Y][X].Block_On;
-			MapData[Y][X].NonBlock_On = Level[StageOrder[game->GetLevel()]][Y][X].NonBlock_On;
+			M_MapData[Y][X].M_Block_On = M_Level[M_StageOrder[M_Game->GetLevel()]][Y][X].M_Block_On;
+			M_MapData[Y][X].M_NonBlock_On = M_Level[M_StageOrder[M_Game->GetLevel()]][Y][X].M_NonBlock_On;
 
-			MapData[Y][X].Hole_On = Level[StageOrder[game->GetLevel()]][Y][X].Hole_On;
+			M_MapData[Y][X].M_Hole_On = M_Level[M_StageOrder[M_Game->GetLevel()]][Y][X].M_Hole_On;
 
-			MapData[Y][X].WeightBoard_On = Level[StageOrder[game->GetLevel()]][Y][X].WeightBoard_On;
+			M_MapData[Y][X].M_WeightBoard_On = M_Level[M_StageOrder[M_Game->GetLevel()]][Y][X].M_WeightBoard_On;
 
-			MapData[Y][X].Kaidan_On = Level[StageOrder[game->GetLevel()]][Y][X].Kaidan_On;
+			M_MapData[Y][X].M_Kaidan_On = M_Level[M_StageOrder[M_Game->GetLevel()]][Y][X].M_Kaidan_On;
 		}
 	}
 }
@@ -114,41 +116,41 @@ void Stage::LevelSet()
 	LevelKaidanSet();
 	LevelBlockSet();
 	LevelWeightBoardSet();
-	
+
 }
 int Stage::LevelIceSet()
 {
 	const char* FilePath = nullptr;
-	switch (game->GetLevel())
+	switch (M_Game->GetLevel())
 	{
-	case Level0:
+	case LEVEL0:
 		FilePath = "Assets/Level/Level0/Ice.txt";
 		break;
-	case Level1:
+	case LEVEL1:
 		return 1;
 		break;
-	case Level2:
+	case LEVEL2:
 		FilePath = "Assets/Level/Level2/Ice.txt";
 		break;
-	case Level3:
+	case LEVEL3:
 		FilePath = "Assets/Level/Level3/Ice.txt";
 		break;
-	case Level4:
+	case LEVEL4:
 		FilePath = "Assets/Level/Level4/Ice.txt";
 		break;
-	case Level5:
+	case LEVEL5:
 		FilePath = "Assets/Level/Level5/Ice.txt";
 		break;
-	case Level6:
+	case LEVEL6:
 		FilePath = "Assets/Level/Level6/Ice.txt";
 		break;
-	case Level7:
+	case LEVEL7:
 		FilePath = "Assets/Level/Level7/Ice.txt";
 		break;
-	case Level8:
+	case LEVEL8:
 		FilePath = "Assets/Level/Level8/Ice.txt";
 		break;
-	case Level9:
+	case LEVEL9:
 		FilePath = "Assets/Level/Level9/Ice.txt";
 		break;
 	default:
@@ -160,7 +162,7 @@ int Stage::LevelIceSet()
 
 	if (FilePointer == NULL)
 	{
-		getchar();
+		
 		return 0;
 	}
 
@@ -173,72 +175,75 @@ int Stage::LevelIceSet()
 			LevelValue = 99;
 			Y = 99;
 			X = 99;
-		}else {
-		if (LevelValue == 99)
-		{
-			if (Value[0] != '\n')
-			{
-				int Count = atoi(Value);
-				LevelValue = Count;
-			}
-		}else {
-		if (Y == 99)
-		{
-			if (Value[0] != '\n')
-			{
-				int Count = atoi(Value);
-				Y = Count;
-			}
-		}else {
-		if (X == 99)
-		{
-			if (Value[0] != '\n')
-			{
-				int Count = atoi(Value);
-				X = Count;
-				Level[LevelValue][Y][X].Ice_On = true;
-			}
 		}
-		}
-		}
+		else {
+			if (LevelValue == 99)
+			{
+				if (Value[0] != '\n')
+				{
+					int Count = atoi(Value);
+					LevelValue = Count;
+				}
+			}
+			else {
+				if (Y == 99)
+				{
+					if (Value[0] != '\n')
+					{
+						int Count = atoi(Value);
+						Y = Count;
+					}
+				}
+				else {
+					if (X == 99)
+					{
+						if (Value[0] != '\n')
+						{
+							int Count = atoi(Value);
+							X = Count;
+							M_Level[LevelValue][Y][X].M_Ice_On = true;
+						}
+					}
+				}
+			}
 		}
 	}
 	fclose(FilePointer);
-	getchar();
+	
 }
 int Stage::LevelHoleSet()
 {
 	const char* FilePath = nullptr;
-	switch (game->GetLevel())
+	switch (M_Game->GetLevel())
 	{
-	case Level0:
+	case LEVEL0:
 		FilePath = "Assets/Level/Level0/Hole.txt";
 		break;
-	case Level1:
+	case LEVEL1:
 		FilePath = "Assets/Level/Level1/Hole.txt";
 		break;
-	case Level2:
+	case LEVEL2:
 		FilePath = "Assets/Level/Level2/Hole.txt";
 		break;
-	case Level3:
+	case LEVEL3:
 		FilePath = "Assets/Level/Level3/Hole.txt";
 		break;
-	case Level4:
+	case LEVEL4:
 		FilePath = "Assets/Level/Level4/Hole.txt";
 		break;
-	case Level5:
+	case LEVEL5:
 		FilePath = "Assets/Level/Level5/Hole.txt";
 		break;
-	case Level6:
+	case LEVEL6:
 		FilePath = "Assets/Level/Level6/Hole.txt";
 		break;
-	case Level7:
+	case LEVEL7:
 		FilePath = "Assets/Level/Level7/Hole.txt";
 		break;
-	case Level8:
+	case LEVEL8:
 		FilePath = "Assets/Level/Level8/Hole.txt";
 		break;
-	case Level9:
+	case LEVEL9:
 		FilePath = "Assets/Level/Level9/Hole.txt";
 		break;
 	default:
@@ -250,7 +255,7 @@ int Stage::LevelHoleSet()
 
 	if (FilePointer == NULL)
 	{
-		getchar();
+		
 		return 0;
 	}
 
@@ -263,72 +268,75 @@ int Stage::LevelHoleSet()
 			LevelValue = 99;
 			Y = 99;
 			X = 99;
-		}else {
-		if (LevelValue == 99)
-		{
-			if (Value[0] != '\n')
-			{
-				int Count = atoi(Value);
-				LevelValue = Count;
-			}
-		}else {
-		if (Y == 99)
-		{
-			if (Value[0] != '\n')
-			{
-				int Count = atoi(Value);
-				Y = Count;
-			}
-		}else {
-		if (X == 99)
-		{
-			if (Value[0] != '\n')
-			{
-				int Count = atoi(Value);
-				X = Count;
-				Level[LevelValue][Y][X].Hole_On = true;
-			}
 		}
-		}
-		}
+		else {
+			if (LevelValue == 99)
+			{
+				if (Value[0] != '\n')
+				{
+					int Count = atoi(Value);
+					LevelValue = Count;
+				}
+			}
+			else {
+				if (Y == 99)
+				{
+					if (Value[0] != '\n')
+					{
+						int Count = atoi(Value);
+						Y = Count;
+					}
+				}
+				else {
+					if (X == 99)
+					{
+						if (Value[0] != '\n')
+						{
+							int Count = atoi(Value);
+							X = Count;
+							M_Level[LevelValue][Y][X].M_Hole_On = true;
+						}
+					}
+				}
+			}
 		}
 	}
 	fclose(FilePointer);
-	getchar();
+	
 }
 int Stage::LevelBlockSet()
 {
 	const char* FilePath = nullptr;
-	switch (game->GetLevel())
+	switch (M_Game->GetLevel())
 	{
-	case Level0:
+	case LEVEL0:
 		FilePath = "Assets/Level/Level0/Block.txt";
 		break;
-	case Level1:
+	case LEVEL1:
 		FilePath = "Assets/Level/Level1/Block.txt";
 		break;
-	case Level2:
+	case LEVEL2:
 		FilePath = "Assets/Level/Level2/Block.txt";
 		break;
-	case Level3:
+	case LEVEL3:
 		FilePath = "Assets/Level/Level3/Block.txt";
 		break;
-	case Level4:
+	case LEVEL4:
 		FilePath = "Assets/Level/Level4/Block.txt";
 		break;
-	case Level5:
+	case LEVEL5:
 		FilePath = "Assets/Level/Level5/Block.txt";
 		break;
-	case Level6:
+	case LEVEL6:
 		FilePath = "Assets/Level/Level6/Block.txt";
 		break;
-	case Level7:
+	case LEVEL7:
 		FilePath = "Assets/Level/Level7/Block.txt";
 		break;
-	case Level8:
+	case LEVEL8:
 		FilePath = "Assets/Level/Level8/Block.txt";
 		break;
-	case Level9:
+	case LEVEL9:
 		FilePath = "Assets/Level/Level9/Block.txt";
 		break;
 	default:
@@ -340,7 +348,7 @@ int Stage::LevelBlockSet()
 
 	if (FilePointer == NULL)
 	{
-		getchar();
+		
 		return 0;
 	}
 
@@ -353,77 +361,81 @@ int Stage::LevelBlockSet()
 			LevelValue = 99;
 			Y = 99;
 			X = 99;
-		}else {
-		if (Value[0] == 'N')
-		{
-			Level[LevelValue][Y][X].NonBlock_On = true;
-		}else{
-		if (LevelValue == 99)
-		{
-			if (Value[0] != '\n')
+		}
+		else {
+			if (Value[0] == 'N')
 			{
-				int Count = atoi(Value);
-				LevelValue = Count;
+				M_Level[LevelValue][Y][X].M_NonBlock_On = true;
 			}
-		}else {
-		if (Y == 99)
-		{
-			if (Value[0] != '\n')
-			{
-				int Count = atoi(Value);
-				Y = Count;
+			else {
+				if (LevelValue == 99)
+				{
+					if (Value[0] != '\n')
+					{
+						int Count = atoi(Value);
+						LevelValue = Count;
+					}
+				}
+				else {
+					if (Y == 99)
+					{
+						if (Value[0] != '\n')
+						{
+							int Count = atoi(Value);
+							Y = Count;
+						}
+					}
+					else {
+						if (X == 99)
+						{
+							if (Value[0] != '\n')
+							{
+								int Count = atoi(Value);
+								X = Count;
+								M_Level[LevelValue][Y][X].M_Block_On = true;
+							}
+						}
+					}
+				}
 			}
-		}else {
-		if (X == 99)
-		{
-			if (Value[0] != '\n')
-			{
-				int Count = atoi(Value);
-				X = Count;
-				Level[LevelValue][Y][X].Block_On = true;
-			}
-		}
-		}
-		}
-		}
 		}
 	}
 	fclose(FilePointer);
-	getchar();
+	
 }
 int Stage::LevelKaidanSet()
 {
 	const char* FilePath = nullptr;
-	switch (game->GetLevel())
+	switch (M_Game->GetLevel())
 	{
-	case Level0:
+	case LEVEL0:
 		FilePath = "Assets/Level/Level0/Kaidan.txt";
 		break;
-	case Level1:
+	case LEVEL1:
 		FilePath = "Assets/Level/Level1/Kaidan.txt";
 		break;
-	case Level2:
+	case LEVEL2:
 		FilePath = "Assets/Level/Level2/Kaidan.txt";
 		break;
-	case Level3:
+	case LEVEL3:
 		FilePath = "Assets/Level/Level3/Kaidan.txt";
 		break;
-	case Level4:
+	case LEVEL4:
 		FilePath = "Assets/Level/Level4/Kaidan.txt";
 		break;
-	case Level5:
+	case LEVEL5:
 		FilePath = "Assets/Level/Level5/Kaidan.txt";
 		break;
-	case Level6:
+	case LEVEL6:
 		FilePath = "Assets/Level/Level6/Kaidan.txt";
 		break;
-	case Level7:
+	case LEVEL7:
 		FilePath = "Assets/Level/Level7/Kaidan.txt";
 		break;
-	case Level8:
+	case LEVEL8:
 		FilePath = "Assets/Level/Level8/Kaidan.txt";
 		break;
-	case Level9:
+	case LEVEL9:
 		FilePath = "Assets/Level/Level9/Kaidan.txt";
 		break;
 	default:
@@ -435,7 +447,7 @@ int Stage::LevelKaidanSet()
 
 	if (FilePointer == NULL)
 	{
-		getchar();
+		
 		return 0;
 	}
 
@@ -448,72 +460,75 @@ int Stage::LevelKaidanSet()
 			LevelValue = 99;
 			Y = 99;
 			X = 99;
-		}else {
-		if (LevelValue == 99)
-		{
-			if (Value[0] != '\n')
-			{
-				int Count = atoi(Value);
-				LevelValue = Count;
-			}
-		}else {
-		if (Y == 99)
-		{
-			if (Value[0] != '\n')
-			{
-				int Count = atoi(Value);
-				Y = Count;
-			}
-		}else {
-		if (X == 99)
-		{
-			if (Value[0] != '\n')
-			{
-				int Count = atoi(Value);
-				X = Count;
-				Level[LevelValue][Y][X].Kaidan_On = true;
-			}
 		}
-		}
-		}
+		else {
+			if (LevelValue == 99)
+			{
+				if (Value[0] != '\n')
+				{
+					int Count = atoi(Value);
+					LevelValue = Count;
+				}
+			}
+			else {
+				if (Y == 99)
+				{
+					if (Value[0] != '\n')
+					{
+						int Count = atoi(Value);
+						Y = Count;
+					}
+				}
+				else {
+					if (X == 99)
+					{
+						if (Value[0] != '\n')
+						{
+							int Count = atoi(Value);
+							X = Count;
+							M_Level[LevelValue][Y][X].M_Kaidan_On = true;
+						}
+					}
+				}
+			}
 		}
 	}
 	fclose(FilePointer);
-	getchar();
+	
 }
 int Stage::LevelWeightBoardSet()
 {
 	const char* FilePath = nullptr;
-	switch (game->GetLevel())
+	switch (M_Game->GetLevel())
 	{
-	case Level0:
+	case LEVEL0:
 		FilePath = "Assets/Level/Level0/WeightBoard.txt";
 		break;
-	case Level1:
+	case LEVEL1:
 		FilePath = "Assets/Level/Level1/WeightBoard.txt";
 		break;
-	case Level2:
+	case LEVEL2:
 		FilePath = "Assets/Level/Level2/WeightBoard.txt";
 		break;
-	case Level3:
+	case LEVEL3:
 		FilePath = "Assets/Level/Level3/WeightBoard.txt";
 		break;
-	case Level4:
+	case LEVEL4:
 		FilePath = "Assets/Level/Level4/WeightBoard.txt";
 		break;
-	case Level5:
+	case LEVEL5:
 		FilePath = "Assets/Level/Level5/WeightBoard.txt";
 		break;
-	case Level6:
+	case LEVEL6:
 		FilePath = "Assets/Level/Level6/WeightBoard.txt";
 		break;
-	case Level7:
+	case LEVEL7:
 		FilePath = "Assets/Level/Level7/WeightBoard.txt";
 		break;
-	case Level8:
+	case LEVEL8:
 		FilePath = "Assets/Level/Level8/WeightBoard.txt";
 		break;
-	case Level9:
+	case LEVEL9:
 		FilePath = "Assets/Level/Level9/WeightBoard.txt";
 		break;
 	default:
@@ -525,12 +540,12 @@ int Stage::LevelWeightBoardSet()
 
 	if (FilePointer == NULL)
 	{
-		getchar();
+		
 		return 0;
 	}
 
 	int LevelValue = 99, Y = 99, X = 99;
-	int  Order = 99 , Number10 = 99, Number1 = 99;
+	int  Order = 99, Number10 = 99, Number1 = 99;
 	int LinkObject = 99;
 	int LinkCount = 0;
 	bool Step1 = false, Step2 = false, Step3 = false;
@@ -546,22 +561,23 @@ int Stage::LevelWeightBoardSet()
 			Number1 = 99;
 			LinkObject = 99;
 			MiddleReset = false;
-		}else {
-		if (FullReset == true)
-		{
-			Step1 = false;
-			Step2 = false;
-			Step3 = false;
-			LevelValue = 99;
-			Y = 99;
-			X = 99;
-			Order = 99;
-			Number10 = 99;
-			Number1 = 99;
-			LinkObject = 99;
-			LinkCount = 0;
-			FullReset = false;
 		}
+		else {
+			if (FullReset == true)
+			{
+				Step1 = false;
+				Step2 = false;
+				Step3 = false;
+				LevelValue = 99;
+				Y = 99;
+				X = 99;
+				Order = 99;
+				Number10 = 99;
+				Number1 = 99;
+				LinkObject = 99;
+				LinkCount = 0;
+				FullReset = false;
+			}
 		}
 
 		if (Step1 == false)
@@ -569,102 +585,111 @@ int Stage::LevelWeightBoardSet()
 			if (Value[0] == 'X')
 			{
 				Step1 = true;
-			}else {
-			if (LevelValue == 99)
-			{
-				if (Value[0] != '\n')
+			}
+			else {
+				if (LevelValue == 99)
 				{
-					int Count = atoi(Value);
-					LevelValue = Count;
+					if (Value[0] != '\n')
+					{
+						int Count = atoi(Value);
+						LevelValue = Count;
+					}
 				}
-			}else {
-			if (Y == 99)
-			{
-				if (Value[0] != '\n')
-				{
-					int Count = atoi(Value);
-					Y = Count;
+				else {
+					if (Y == 99)
+					{
+						if (Value[0] != '\n')
+						{
+							int Count = atoi(Value);
+							Y = Count;
+						}
+					}
+					else {
+						if (X == 99)
+						{
+							if (Value[0] != '\n')
+							{
+								int Count = atoi(Value);
+								X = Count;
+								M_Level[LevelValue][Y][X].M_WeightBoard_On = true;
+							}
+						}
+					}
 				}
-			}else {
-			if (X == 99)
-			{
-				if (Value[0] != '\n')
-				{
-					int Count = atoi(Value);
-					X = Count;
-					Level[LevelValue][Y][X].WeightBoard_On = true;
-				}
-			}
-			}
-			}
-			}
-		}else {
-		if (Step1 == true && Step2 == false)
-		{
-			if (Value[0] == 'Y')
-			{
-				Step2 = true;
-			}else {
-			if (Order == 99)
-			{
-				if (Value[0] != '\n')
-				{
-					int Count = atoi(Value);
-					Order = Count;
-				}
-			}else {
-			if (Number10 == 99)
-			{
-				if (Value[0] != '\n')
-				{
-					int Count = atoi(Value);
-					Number10 = Count;
-				}
-			}else {
-			if (Number1 == 99)
-			{
-				if (Value[0] != '\n')
-				{
-					int Count = atoi(Value);
-					Number1 = Count;
-					Level[LevelValue][Y][X].WeightBoard_LinkNumber[Order] = (Number10 * 10) + Number1;
-				}
-			}
-			}
-			}
-			}
-		}else {
-		if (Step1 == true && Step2 == true && Step3 == false)
-		{
-			if (Value[0] == 'Z')
-			{
-				Step2 = false;
-				MiddleReset = true;
-			}else {
-			if (Value[0] == 'F')
-			{
-				Step3 = true;
-				FullReset = true;
-			}else {
-			if (LinkObject == 99)
-			{
-				if (Value[0] != '\n')
-				{
-					int Count = atoi(Value);
-					LinkObject = Count;
-					Level[LevelValue][Y][X].WeightBoard_LinkObject[Order] = LinkObject;
-					LinkCount++;
-					Level[LevelValue][Y][X].WeightBoard_LinkCount = LinkCount;
-				}
-			}
-			}
 			}
 		}
-		}
+		else {
+			if (Step1 == true && Step2 == false)
+			{
+				if (Value[0] == 'Y')
+				{
+					Step2 = true;
+				}
+				else {
+					if (Order == 99)
+					{
+						if (Value[0] != '\n')
+						{
+							int Count = atoi(Value);
+							Order = Count;
+						}
+					}
+					else {
+						if (Number10 == 99)
+						{
+							if (Value[0] != '\n')
+							{
+								int Count = atoi(Value);
+								Number10 = Count;
+							}
+						}
+						else {
+							if (Number1 == 99)
+							{
+								if (Value[0] != '\n')
+								{
+									int Count = atoi(Value);
+									Number1 = Count;
+									M_Level[LevelValue][Y][X].M_WeightBoard_LinkNumber[Order] = (Number10 * 10) + Number1;
+								}
+							}
+						}
+					}
+				}
+			}
+			else {
+				if (Step1 == true && Step2 == true && Step3 == false)
+				{
+					if (Value[0] == 'Z')
+					{
+						Step2 = false;
+						MiddleReset = true;
+					}
+					else {
+						if (Value[0] == 'F')
+						{
+							Step3 = true;
+							FullReset = true;
+						}
+						else {
+							if (LinkObject == 99)
+							{
+								if (Value[0] != '\n')
+								{
+									int Count = atoi(Value);
+									LinkObject = Count;
+									M_Level[LevelValue][Y][X].M_WeightBoard_LinkObject[Order] = LinkObject;
+									LinkCount++;
+									M_Level[LevelValue][Y][X].M_WeightBoard_LinkCount = LinkCount;
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 	fclose(FilePointer);
-	getchar();
 }
 
 
@@ -679,18 +704,18 @@ void Stage::MapSetGround()
 	{
 		for (int X = 0; X < 10; X++)
 		{
-			if (MapData[Y][X].Hole_On == true)
+			if (M_MapData[Y][X].M_Hole_On == true)
 			{
 				GroundDataSet(Y, X, HOLE);
 			}else {
-			if (MapData[Y][X].Ice_On == true)
+			if (M_MapData[Y][X].M_Ice_On == true)
 			{
-				Map.Ice->IceFloorOnTrue(Y, X);
-				Map.Ice->IceFloorSetPosition(Y, X, MapPosition[Y][X]);
+				M_Map.M_Ice->IceFloorOnTrue(Y, X);
+				M_Map.M_Ice->IceFloorSetPosition(Y, X, M_MapPosition[Y][X]);
 				GroundDataSet(Y, X, ICE);
 			}else {
-				Map.Ground->GroundOnTrue(Y, X);
-				Map.Ground->GroundSetPosition(Y, X, MapPosition[Y][X]);
+				M_Map.M_Ground->GroundOnTrue(Y, X);
+				M_Map.M_Ground->GroundSetPosition(Y, X, M_MapPosition[Y][X]);
 				GroundDataSet(Y, X, GROUND);
 			}
 			}
@@ -703,30 +728,32 @@ void Stage::MapSetSky()
 	{
 		for (int X = 0; X < 10; X++)
 		{
-			if (MapData[Y][X].Kaidan_On == true)
+			if (M_MapData[Y][X].M_Kaidan_On == true)
 			{
-				Map.Kaidan->Map_SetPosition(MapPosition[Y][X]);
+				M_Map.M_Kaidan->Map_SetPosition(M_MapPosition[Y][X]);
 				SkyDataSet(Y, X, KAIDAN);
-			}else {
-			if (MapData[Y][X].WeightBoard_On == true)
-			{
-				for (int W = 1; W < Level[StageOrder[game->GetLevel()]][Y][X].WeightBoard_LinkCount + 1; W++)
+			}
+			else {
+				if (M_MapData[Y][X].M_WeightBoard_On == true)
 				{
-					Map.Weightboard->LinkNumberSet(Y, X, W, Level[StageOrder[game->GetLevel()]][Y][X].WeightBoard_LinkNumber[W]);
-					Map.Weightboard->LinkObjectSet(Y, X, W, Level[StageOrder[game->GetLevel()]][Y][X].WeightBoard_LinkObject[W]);
+					for (int W = 1; W < M_Level[M_StageOrder[M_Game->GetLevel()]][Y][X].M_WeightBoard_LinkCount + 1; W++)
+					{
+						M_Map.M_Weightboard->LinkNumberSet(Y, X, W, M_Level[M_StageOrder[M_Game->GetLevel()]][Y][X].M_WeightBoard_LinkNumber[W]);
+						M_Map.M_Weightboard->LinkObjectSet(Y, X, W, M_Level[M_StageOrder[M_Game->GetLevel()]][Y][X].M_WeightBoard_LinkObject[W]);
+					}
+					M_Map.M_Weightboard->LinkCountSet(Y, X, M_Level[M_StageOrder[M_Game->GetLevel()]][Y][X].M_WeightBoard_LinkCount);
+					M_Map.M_Weightboard->WeightBoardOnTrue(Y, X);
+					M_Map.M_Weightboard->WeightBoardSetPosition(Y, X, M_MapPosition[Y][X]);
+					SkyDataSet(Y, X, WEIGHTBOARD);
 				}
-				Map.Weightboard->LinkCountSet(Y, X, Level[StageOrder[game->GetLevel()]][Y][X].WeightBoard_LinkCount);
-				Map.Weightboard->WeightBoardOnTrue(Y, X);
-				Map.Weightboard->WeightBoardSetPosition(Y, X, MapPosition[Y][X]);
-				SkyDataSet(Y, X, WEIGHTBOARD);
-			}else {
-			if (MapData[Y][X].Block_On == true)
-			{
-				if (MapData[Y][X].NonBlock_On == true){Map.Block->BlockOn(Y, X);}
-				Map.Block->BlockSetPosition(Y, X, MapPosition[Y][X]);
-				SkyDataSet(Y, X, BLOCK);
-			}
-			}
+				else {
+					if (M_MapData[Y][X].M_Block_On == true)
+					{
+						if (M_MapData[Y][X].M_NonBlock_On == true) { M_Map.M_Block->BlockOn(Y, X); }
+						M_Map.M_Block->BlockSetPosition(Y, X, M_MapPosition[Y][X]);
+						SkyDataSet(Y, X, BLOCK);
+					}
+				}
 			}
 		}
 	}
@@ -736,24 +763,25 @@ int Stage::GetGroundData(int Map, int Direction)
 {
 	switch (Direction)
 	{
-	case PlayerDirectionUp:
-		return MapData[(Map / 10) - 1][(Map % 10)].GroundData;
+	case PLAYERDIRECTION_UP:
+		return M_MapData[(Map / 10) - 1][(Map % 10)].M_GroundData;
 		break;
-	case PlayerDirectionDown:
-		return MapData[(Map / 10) + 1][(Map % 10)].GroundData;
+	case PLAYERDIRECTION_DOWN:
+		return M_MapData[(Map / 10) + 1][(Map % 10)].M_GroundData;
 		break;
-	case PlayerDirectionRight:
-		return MapData[(Map / 10)][(Map % 10) + 1].GroundData;
+	case PLAYERDIRECTION_RIGHT:
+		return M_MapData[(Map / 10)][(Map % 10) + 1].M_GroundData;
 		break;
-	case PlayerDirectionLeft:
-		return MapData[(Map / 10)][(Map % 10) - 1].GroundData;
+	case PLAYERDIRECTION_LEFT:
+		return M_MapData[(Map / 10)][(Map % 10) - 1].M_GroundData;
 		break;
 	default:
 		if (Map == 0)
 		{
-			return MapData[0][0].GroundData;
-		}else {
-			return MapData[(Map / 10)][(Map % 10)].GroundData;
+			return M_MapData[0][0].M_GroundData;
+		}
+		else {
+			return M_MapData[(Map / 10)][(Map % 10)].M_GroundData;
 		}
 		break;
 	}
@@ -763,21 +791,20 @@ int Stage::GetSkyData(int Map, int Direction)
 {
 	switch (Direction)
 	{
-	case PlayerDirectionUp:
-		return MapData[(Map / 10) - 1][(Map % 10)].SkyData;
+	case PLAYERDIRECTION_UP:
+		return M_MapData[(Map / 10) - 1][(Map % 10)].M_SkyData;
 		break;
-	case PlayerDirectionDown:
-		return MapData[(Map / 10) + 1][(Map % 10)].SkyData;
+	case PLAYERDIRECTION_DOWN:
+		return M_MapData[(Map / 10) + 1][(Map % 10)].M_SkyData;
 		break;
-	case PlayerDirectionRight:
-		return MapData[(Map / 10)][(Map % 10) + 1].SkyData;
+	case PLAYERDIRECTION_RIGHT:
+		return M_MapData[(Map / 10)][(Map % 10) + 1].M_SkyData;
 		break;
-	case PlayerDirectionLeft:
-		return MapData[(Map / 10)][(Map % 10) - 1].SkyData;
+	case PLAYERDIRECTION_LEFT:
+		return M_MapData[(Map / 10)][(Map % 10) - 1].M_SkyData;
 		break;
 	default:
-		return MapData[(Map / 10)][(Map % 10)].SkyData;
+		return M_MapData[(Map / 10)][(Map % 10)].M_SkyData;
 		break;
 	}
 }
-

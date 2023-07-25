@@ -6,7 +6,7 @@
 #include "Fade.h"
 #include "sound/SoundEngine.h"
 #include "sound/SoundSource.h"
-#include "Number_Storage.h"
+#include "NumberStorage.h"
 #include "Bgm.h"
 #define TextNormalSpeed 1.0
 #define TextDoubleSpeed 3.0
@@ -37,11 +37,11 @@ bool Story::Start()
 
 void Story::InitTexture()
 {
-	WhiteOutTexture.Init("Assets/sprite/white.DDS", ScreenWide,ScreenHeight);
-	WhiteOutTexture.SetMulColor({ Red,Green,Blue,0.0f });
+	WhiteOutTexture.Init("Assets/sprite/white.DDS", S_TextureWide.M_ScreenWide,S_TextureHeight.M_ScreenHeight);
+	WhiteOutTexture.SetMulColor({ S_Color.M_Red,S_Color.M_Green,S_Color.M_Blue,S_Color.M_NonAlpha });
 
-	BlackOutTexture.Init("Assets/sprite/black.DDS", ScreenWide,ScreenHeight);
-	BlackOutTexture.SetMulColor({ Red,Green,Blue,0.0f });
+	BlackOutTexture.Init("Assets/sprite/black.DDS", S_TextureWide.M_ScreenWide,S_TextureHeight.M_ScreenHeight);
+	BlackOutTexture.SetMulColor({ S_Color.M_Red,S_Color.M_Green,S_Color.M_Blue,S_Color.M_NonAlpha });
 
 	TriangleTexture.Init("Assets/sprite/Triangle2.DDS", 100.0f, 100.0f);
 	TriangleTexture.SetPosition({ 6000.0f,-300-TriangleY,0.0f });
@@ -84,7 +84,7 @@ void Story::TextOkuri()
 	{
 
 		SoundSource* SE = NewGO<SoundSource>(0);
-		SE->SoundSet(S_TEXTBUTTON, BgmVolume, LoopNot);
+		SE->SoundSet(SE_TEXTBUTTON, S_SoundSetting.M_BgmVolume, S_SoundSetting.M_LoopNot);
 		TextNumber++;
 		PlaySe();
 		TextUpdate();
@@ -92,7 +92,7 @@ void Story::TextOkuri()
 }
 void Story::TextSpeed()
 {
-	if (BackgroundAlpha < NON)
+	if (BackgroundAlpha < 0.0f)
 	{
 		Word->TextOkuriUpdate(g_gameTime->GetFrameDeltaTime() * TextSpeedMagnification);
 		if (g_pad[0]->IsPress(enButtonX) == true) 
@@ -103,7 +103,7 @@ void Story::TextSpeed()
 		}
 	}else{
 		BackgroundAlpha -= 0.015f;
-		BlackOutTexture.SetMulColor({ Red,Green,Blue,BackgroundAlpha });
+		BlackOutTexture.SetMulColor({ S_Color.M_Red,S_Color.M_Green,S_Color.M_Blue,BackgroundAlpha });
 		BlackOutTexture.Update();
 	}
 }
@@ -175,25 +175,25 @@ void Story::PlaySe()
 	if (StoryNumber == Chapter4 && TextNumber == 2)
 	{
 		SoundSource* SE = NewGO<SoundSource>(0);
-		SE->SoundSet(S_QUESTION, BgmVolume, LoopNot);
+		SE->SoundSet(SE_QUESTION, S_SoundSetting.M_BgmVolume, S_SoundSetting.M_LoopNot);
 	}
 
 	if (StoryNumber == Chapter7 && TextNumber == 1)
 	{
 		SoundSource* SE = NewGO<SoundSource>(0);
-		SE->SoundSet(B_TRAIN, BgmVolume, LoopNot);
+		SE->SoundSet(BGM_TRAIN, S_SoundSetting.M_BgmVolume, S_SoundSetting.M_LoopNot);
 	}
 
 	if (StoryNumber == Chapter8 && TextNumber == 3)
 	{
 		SoundSource* SE = NewGO<SoundSource>(0);
-		SE->SoundSet(S_QUESTION, BgmVolume, LoopNot);
+		SE->SoundSet(SE_QUESTION, S_SoundSetting.M_BgmVolume, S_SoundSetting.M_LoopNot);
 	}
 
 	if (StoryNumber == Chapter9 && TextNumber == 4)
 	{
 		SoundSource* SE = NewGO<SoundSource>(0);
-		SE->SoundSet(B_HEART, BgmVolume, LoopNot);
+		SE->SoundSet(BGM_HEART, S_SoundSetting.M_BgmVolume, S_SoundSetting.M_LoopNot);
 	}
 }
 
@@ -525,8 +525,8 @@ void Story::StorySwitch()
 	if (StoryNumber == Chapter0 && Clear == false) 
 	{
 		BGM = NewGO<SoundSource>(0);
-		BGM->SoundSet(S_QUESTION2, BgmVolume, Loop);
-		BackgroundTexture.SetMulColor({ HalfRed,HalfGreen,HalfBlue,1.0f });
+		BGM->SoundSet(SE_QUESTION2, S_SoundSetting.M_BgmVolume, S_SoundSetting.M_Loop);
+		BackgroundTexture.SetMulColor({ S_Color.M_HalfRed,S_Color.M_HalfGreen,S_Color.M_HalfBlue,1.0f });
 		Word->SetTextOkuri(L"目が覚めると、見覚えのない場所にいた。", TextIntervals);
 		TextCreate();
 	}
@@ -534,8 +534,8 @@ void Story::StorySwitch()
 	if (StoryNumber == Chapter1)
 	{
 		BGM = NewGO<SoundSource>(0);
-		BGM->SoundSet(S_QUESTION2, BgmVolume, Loop);
-		BackgroundTexture.SetMulColor({ HalfRed,HalfGreen,HalfBlue,1.0f });
+		BGM->SoundSet(SE_QUESTION2, S_SoundSetting.M_BgmVolume, S_SoundSetting.M_Loop);
+		BackgroundTexture.SetMulColor({ S_Color.M_HalfRed,S_Color.M_HalfGreen,S_Color.M_HalfBlue,1.0f });
 		Word->SetTextOkuri(L"この遺跡はどうやら鉄球を適切に配置することで\n"
 			"階段に向かえるようだ。", TextIntervals);
 		TextCreate();
@@ -544,10 +544,10 @@ void Story::StorySwitch()
 	//2章
 	if (StoryNumber == Chapter2)
 	{
-		BackgroundTexture.Init("Assets/sprite/STORY/step.DDS", ScreenWide,ScreenHeight);
+		BackgroundTexture.Init("Assets/sprite/STORY/step.DDS", S_TextureWide.M_ScreenWide,S_TextureHeight.M_ScreenHeight);
 		BGM = NewGO<SoundSource>(0);
-		BGM->SoundSet(S_QUESTION3, BgmVolume, Loop);
-		BackgroundTexture.SetMulColor({ HalfRed,HalfGreen,HalfBlue,1.0f });
+		BGM->SoundSet(SE_QUESTION3, S_SoundSetting.M_BgmVolume, S_SoundSetting.M_Loop);
+		BackgroundTexture.SetMulColor({ S_Color.M_HalfRed,S_Color.M_HalfGreen,S_Color.M_HalfBlue,1.0f });
 		Word->SetTextOkuri(L"感圧板は何かを出現させたり\n"
 			"消したりすることができるらしい。", TextIntervals);
 		TextCreate();
@@ -556,10 +556,10 @@ void Story::StorySwitch()
 	//3章
 	if (StoryNumber == Chapter3)
 	{
-		BackgroundTexture.Init("Assets/sprite/STORY/step.DDS", ScreenWide,ScreenHeight);
+		BackgroundTexture.Init("Assets/sprite/STORY/step.DDS", S_TextureWide.M_ScreenWide,S_TextureHeight.M_ScreenHeight);
 		BGM = NewGO<SoundSource>(0);
-		BGM->SoundSet(S_QUESTION3, BgmVolume, Loop);
-		BackgroundTexture.SetMulColor({ HalfRed,HalfGreen,HalfBlue,1.0f });
+		BGM->SoundSet(SE_QUESTION3, S_SoundSetting.M_BgmVolume, S_SoundSetting.M_Loop);
+		BackgroundTexture.SetMulColor({ S_Color.M_HalfRed,S_Color.M_HalfGreen,S_Color.M_HalfBlue,1.0f });
 		Word->SetTextOkuri(L"少しずつ階段に向かうことが難しくなってきた。", TextIntervals);
 		TextCreate();
 	}
@@ -567,10 +567,10 @@ void Story::StorySwitch()
 	//4章
 	if (StoryNumber == Chapter4)
 	{
-		BackgroundTexture.Init("Assets/sprite/STORY/sekihiwall.DDS", ScreenWide,ScreenHeight);
+		BackgroundTexture.Init("Assets/sprite/STORY/sekihiwall.DDS", S_TextureWide.M_ScreenWide,S_TextureHeight.M_ScreenHeight);
 		BGM = NewGO<SoundSource>(0);
-		BGM->SoundSet(B_STREET, BgmVolume, Loop);
-		BackgroundTexture.SetMulColor({ HalfRed,HalfGreen,HalfBlue,1.0f });
+		BGM->SoundSet(BGM_STREET, S_SoundSetting.M_BgmVolume, S_SoundSetting.M_Loop);
+		BackgroundTexture.SetMulColor({ S_Color.M_HalfRed,S_Color.M_HalfGreen,S_Color.M_HalfBlue,1.0f });
 		Word->SetTextOkuri(L"階段を上ってしばらくすると、\n古びた石碑が見えた。", TextIntervals);
 		TextCreate();
 		
@@ -579,10 +579,10 @@ void Story::StorySwitch()
 	//5章
 	if (StoryNumber == Chapter5)
 	{
-		BackgroundTexture.Init("Assets/sprite/STORY/story_plain.DDS", ScreenWide,ScreenHeight);
+		BackgroundTexture.Init("Assets/sprite/STORY/story_plain.DDS", S_TextureWide.M_ScreenWide,S_TextureHeight.M_ScreenHeight);
 		BGM = NewGO<SoundSource>(0);
-		BGM->SoundSet(S_QUESTION2, BgmVolume, Loop);
-		BackgroundTexture.SetMulColor({ HalfRed,HalfGreen,HalfBlue,1.0f });
+		BGM->SoundSet(SE_QUESTION2, S_SoundSetting.M_BgmVolume, S_SoundSetting.M_Loop);
+		BackgroundTexture.SetMulColor({ S_Color.M_HalfRed,S_Color.M_HalfGreen,S_Color.M_HalfBlue,1.0f });
 		Word->SetTextOkuri(L"この層は今までより広くなっていた。", TextIntervals);
 		TextCreate();
 		
@@ -592,8 +592,8 @@ void Story::StorySwitch()
 	if (StoryNumber == Chapter6)
 	{
 		BGM = NewGO<SoundSource>(0);
-		BGM->SoundSet(S_QUESTION2, BgmVolume, Loop);
-		BackgroundTexture.SetMulColor({ HalfRed,HalfGreen,HalfBlue,1.0f });
+		BGM->SoundSet(SE_QUESTION2, S_SoundSetting.M_BgmVolume, S_SoundSetting.M_Loop);
+		BackgroundTexture.SetMulColor({ S_Color.M_HalfRed,S_Color.M_HalfGreen,S_Color.M_HalfBlue,1.0f });
 		Word->SetTextOkuri(L"床に指輪とおもちゃが落ちている。", TextIntervals);
 		TextCreate();
 		
@@ -602,10 +602,10 @@ void Story::StorySwitch()
 	//7章
 	if (StoryNumber == Chapter7)
 	{
-		BackgroundTexture.Init("Assets/sprite/STORY/plathome_sunset.DDS", ScreenWide,ScreenHeight);
+		BackgroundTexture.Init("Assets/sprite/STORY/plathome_sunset.DDS", S_TextureWide.M_ScreenWide,S_TextureHeight.M_ScreenHeight);
 		BGM = NewGO<SoundSource>(0);
-		BGM->SoundSet(B_DISTRUST, BgmVolume, Loop);
-		BackgroundTexture.SetMulColor({ HalfRed,HalfGreen,HalfBlue,1.0f });
+		BGM->SoundSet(BGM_DISTRUST, S_SoundSetting.M_BgmVolume, S_SoundSetting.M_Loop);
+		BackgroundTexture.SetMulColor({ S_Color.M_HalfRed,S_Color.M_HalfGreen,S_Color.M_HalfBlue,1.0f });
 		Word->SetTextOkuri(L"唐突に電車が突っ込んでくる幻覚を見た。", TextIntervals);
 		TextCreate();
 		
@@ -614,10 +614,10 @@ void Story::StorySwitch()
 	//8章
 	if (StoryNumber == Chapter8)
 	{
-		BackgroundTexture.Init("Assets/sprite/STORY/sekihiwall.DDS", ScreenWide,ScreenHeight);
+		BackgroundTexture.Init("Assets/sprite/STORY/sekihiwall.DDS", S_TextureWide.M_ScreenWide,S_TextureHeight.M_ScreenHeight);
 		BGM = NewGO<SoundSource>(0);
-		BGM->SoundSet(B_DESTINY, BgmVolume, Loop);
-		BackgroundTexture.SetMulColor({ HalfRed,HalfGreen,HalfBlue,1.0f });
+		BGM->SoundSet(BGM_DESTINY, S_SoundSetting.M_BgmVolume, S_SoundSetting.M_Loop);
+		BackgroundTexture.SetMulColor({ S_Color.M_HalfRed,S_Color.M_HalfGreen,S_Color.M_HalfBlue,1.0f });
 		Word->SetTextOkuri(L"この遺跡はどこまで続いているのだろうか。", TextIntervals);
 		TextCreate();
 		
@@ -627,8 +627,8 @@ void Story::StorySwitch()
 	if (StoryNumber == Chapter9)
 	{
 		BGM = NewGO<SoundSource>(0);
-		BGM->SoundSet(B_SAD, BgmVolume, Loop);
-		BackgroundTexture.SetMulColor({ HalfRed,HalfGreen,HalfBlue,1.0f });
+		BGM->SoundSet(BGM_SAD, S_SoundSetting.M_BgmVolume, S_SoundSetting.M_Loop);
+		BackgroundTexture.SetMulColor({ S_Color.M_HalfRed,S_Color.M_HalfGreen,S_Color.M_HalfBlue,1.0f });
 		Word->SetTextOkuri(L"どうも気になる。", TextIntervals);
 		TextCreate();
 		
@@ -637,8 +637,7 @@ void Story::StorySwitch()
 	if (Clear == true)
 	{
 		BGM = NewGO<SoundSource>(0);
-		BGM->SoundSet(B_WELCOME, BgmVolume, Loop);
-		//BackgroundTexture.SetMulColor({ 0.5f,0.5f,0.5f,1.0f });
+		BGM->SoundSet(BGM_WELCOME, S_SoundSetting.M_BgmVolume, S_SoundSetting.M_Loop);
 		Word->SetTextOkuri(L"出口へ急ぐ。", TextIntervals);
 		TextCreate();
 		
@@ -649,37 +648,37 @@ void Story::BackChange()
 	switch (BackGroundNumber)
 	{
 	case Chapter0:
-		BackgroundTexture.Init("Assets/sprite/STORY/story_00_B.DDS", ScreenWide,ScreenHeight);
+		BackgroundTexture.Init("Assets/sprite/STORY/story_00_B.DDS", S_TextureWide.M_ScreenWide,S_TextureHeight.M_ScreenHeight);
 		break;
 	case Chapter1:
-		BackgroundTexture.Init("Assets/sprite/STORY/step.DDS", ScreenWide,ScreenHeight);
+		BackgroundTexture.Init("Assets/sprite/STORY/step.DDS", S_TextureWide.M_ScreenWide,S_TextureHeight.M_ScreenHeight);
 		break;
 	case Chapter2:
-		BackgroundTexture.Init("Assets/sprite/STORY/step.DDS", ScreenWide,ScreenHeight);
+		BackgroundTexture.Init("Assets/sprite/STORY/step.DDS", S_TextureWide.M_ScreenWide,S_TextureHeight.M_ScreenHeight);
 		break;
 	case Chapter3:
-		BackgroundTexture.Init("Assets/sprite/STORY/step.DDS", ScreenWide,ScreenHeight);
+		BackgroundTexture.Init("Assets/sprite/STORY/step.DDS", S_TextureWide.M_ScreenWide,S_TextureHeight.M_ScreenHeight);
 		break;
 	case Chapter4:
-		BackgroundTexture.Init("Assets/sprite/STORY/sekihiwall.DDS", ScreenWide,ScreenHeight);
+		BackgroundTexture.Init("Assets/sprite/STORY/sekihiwall.DDS", S_TextureWide.M_ScreenWide,S_TextureHeight.M_ScreenHeight);
 		break;
 	case Chapter5:
-		BackgroundTexture.Init("Assets/sprite/STORY/story_plain.DDS", ScreenWide,ScreenHeight);
+		BackgroundTexture.Init("Assets/sprite/STORY/story_plain.DDS", S_TextureWide.M_ScreenWide,S_TextureHeight.M_ScreenHeight);
 		break;
 	case Chapter6:
-		BackgroundTexture.Init("Assets/sprite/STORY/whitewall.DDS", ScreenWide,ScreenHeight);
+		BackgroundTexture.Init("Assets/sprite/STORY/whitewall.DDS", S_TextureWide.M_ScreenWide,S_TextureHeight.M_ScreenHeight);
 		break;
 	case Chapter7:
-		BackgroundTexture.Init("Assets/sprite/STORY/whitewall.DDS", ScreenWide,ScreenHeight);
+		BackgroundTexture.Init("Assets/sprite/STORY/whitewall.DDS", S_TextureWide.M_ScreenWide,S_TextureHeight.M_ScreenHeight);
 		break;
 	case Chapter8:
-		BackgroundTexture.Init("Assets/sprite/STORY/whitewall.DDS", ScreenWide,ScreenHeight);
+		BackgroundTexture.Init("Assets/sprite/STORY/whitewall.DDS", S_TextureWide.M_ScreenWide,S_TextureHeight.M_ScreenHeight);
 		break;
 	case Chapter9:
-		BackgroundTexture.Init("Assets/sprite/STORY/whitewall.DDS", ScreenWide,ScreenHeight);
+		BackgroundTexture.Init("Assets/sprite/STORY/whitewall.DDS", S_TextureWide.M_ScreenWide,S_TextureHeight.M_ScreenHeight);
 		break;
 	case Chapter10:
-		BackgroundTexture.Init("Assets/sprite/STORY/whitewall.DDS", ScreenWide,ScreenHeight);
+		BackgroundTexture.Init("Assets/sprite/STORY/whitewall.DDS", S_TextureWide.M_ScreenWide,S_TextureHeight.M_ScreenHeight);
 		break;
 	}
 }

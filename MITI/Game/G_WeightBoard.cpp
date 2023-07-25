@@ -5,7 +5,7 @@
 #include "G_Block.h"
 #include "Stage.h"
 #include "Bgm.h"
-#include "Number_Storage.h"
+#include "NumberStorage.h"
 #include "sound/SoundEngine.h"
 #include "sound/SoundSource.h"
 G_WeightBoard::G_WeightBoard()
@@ -15,21 +15,30 @@ G_WeightBoard::G_WeightBoard()
 }
 bool G_WeightBoard::Start()
 {
-	weightboard = FindGO<G_WeightBoard>("weightboard");
-	ironball = FindGO<IronBall>("ironball");
-	stage = FindGO<Stage>("stage");
-	player = FindGO<Player>("player");
+	M_WeightBoard = FindGO<G_WeightBoard>("weightboard");
+	M_IronBall = FindGO<IronBall>("ironball");
+	M_Stage = FindGO<Stage>("stage");
+	M_Player = FindGO<Player>("player");
 	return true;
 }
-
+void G_WeightBoard::WeightBoardOnTrue(int Y, int X)
+{
+	M_WeightBoardOn[Y][X] = true;
+}
+void G_WeightBoard::WeightBoardSetPosition(int Y, int X, Vector3 Position)
+{
+	M_WeightBoardPosition[Y][X].x = Position.x;
+	M_WeightBoardPosition[Y][X].y = Position.y - 20.0f;
+	M_WeightBoardPosition[Y][X].z = Position.z;
+}
 void G_WeightBoard::InitModel()
 {
 	for (int Y = 0; Y < 10; Y++)
 	{
 		for (int X = 0; X < 10; X++)
 		{
-			WeightBoardModel[Y][X].Init("Assets/modelData/ita.tkm", WeightBoardLight);
-			WeightBoardModel[Y][X].SetScale(WeightBoardScale);
+			M_WeightBoardModel[Y][X].Init("Assets/modelData/ita.tkm", M_WeightBoardLight);
+			M_WeightBoardModel[Y][X].SetScale(M_WeightBoardScale);
 		}
 	}
 }
@@ -39,30 +48,30 @@ void G_WeightBoard::InitPhysicsStaticObject()
 	{
 		for (int X = 0; X < 10; X++)
 		{
-			WeightBoardPhysicsStaticObject[Y][X].CreateFromModel(WeightBoardModel[Y][X].GetModel(), WeightBoardModel[Y][X].GetModel().GetWorldMatrix());
-			WeightBoardPhysicsStaticObject[Y][X].SetPosition({ Grid_ExemptPosition_X,Grid_ExemptPosition_Y,Grid_ExemptPosition_Z });
+			M_WeightBoardPhysicsStaticObject[Y][X].CreateFromModel(M_WeightBoardModel[Y][X].GetModel(), M_WeightBoardModel[Y][X].GetModel().GetWorldMatrix());
+			M_WeightBoardPhysicsStaticObject[Y][X].SetPosition({ S_GridPosition.M_GridExemptPositionX,S_GridPosition.M_GridExemptPositionY,S_GridPosition.M_GridExemptPositionZ });
 		}
 	}
 }
-
-void G_WeightBoard::WeightBoardOnTrue(int Y, int X)
+void G_WeightBoard::LinkCountSet(int Y, int X, int Count)
 {
-	WeightBoardOn[Y][X] = true;
+	M_LinkCount[Y][X] = Count;
 }
-void G_WeightBoard::WeightBoardSetPosition(int Y, int X, Vector3 Position)
+void G_WeightBoard::LinkObjectSet(int Y, int X, int W, int Object)
 {
-	WeightBoardPosition[Y][X].x = Position.x;
-	WeightBoardPosition[Y][X].y = Position.y - 20.0f;
-	WeightBoardPosition[Y][X].z = Position.z;
+	M_LinkObject[Y][X][W] = Object;
 }
-
+void G_WeightBoard::LinkNumberSet(int Y, int X, int W, int Number)
+{
+	M_LinkNumber[Y][X][W] = Number;
+}
 void G_WeightBoard::Sound()
 {
-	if (BgmSet[(player->GetPlayerMap() / 10)][(player->GetPlayerMap() % 10)] == true && HitFlag[(player->GetPlayerMap() / 10)][(player->GetPlayerMap() % 10)] == false)
+	if (M_BgmSet[(M_Player->GetPlayerMap() / 10)][(M_Player->GetPlayerMap() % 10)] == true && M_HitFlag[(M_Player->GetPlayerMap() / 10)][(M_Player->GetPlayerMap() % 10)] == false)
 	{
 		SoundSource* SE = NewGO<SoundSource>(0);
-		SE->SoundSet(S_WEIGHTBOARD, BgmVolume , LoopNot);
-		HitFlag[(player->GetPlayerMap() / 10)][(player->GetPlayerMap() % 10)] = true;
+		SE->SoundSet(SE_WEIGHTBOARD, S_SoundSetting.M_BgmVolume , S_SoundSetting.M_LoopNot);
+		M_HitFlag[(M_Player->GetPlayerMap() / 10)][(M_Player->GetPlayerMap() % 10)] = true;
 	}
 }
 void G_WeightBoard::WeightBoardOnPlayer()
@@ -71,23 +80,23 @@ void G_WeightBoard::WeightBoardOnPlayer()
 	{
 		for (int X = 0; X < 10; X++)
 		{
-			if (WeightBoardOn[Y][X] == true)
+			if (M_WeightBoardOn[Y][X] == true)
 			{
-				if (stage->GetSkyData(player->GetPlayerMap()) == WEIGHTBOARD)
+				if (M_Stage->GetSkyData(M_Player->GetPlayerMap()) == WEIGHTBOARD)
 				{
-					SwitchOnFlag[(player->GetPlayerMap() / 10)][(player->GetPlayerMap() % 10)] = true;
-					BgmSet[(player->GetPlayerMap() / 10)][(player->GetPlayerMap() % 10)] = true;
+					M_SwitchOnFlag[(M_Player->GetPlayerMap() / 10)][(M_Player->GetPlayerMap() % 10)] = true;
+					M_BgmSet[(M_Player->GetPlayerMap() / 10)][(M_Player->GetPlayerMap() % 10)] = true;
 				}else {
-					SwitchOnFlag[Y][X] = false;
-					BgmSet[Y][X] = false;
-					HitFlag[Y][X] = false;
+					M_SwitchOnFlag[Y][X] = false;
+					M_BgmSet[Y][X] = false;
+					M_HitFlag[Y][X] = false;
 				}
 
 				for (int W = 0; W < 5; W++)
 				{
-					if (ironball->WeightBoardOn(Y, X) == true)
+					if (M_IronBall->WeightBoardOn(Y, X) == true)
 					{
-						SwitchOnFlag[Y][X] = true;
+						M_SwitchOnFlag[Y][X] = true;
 						break;
 					}
 				}
@@ -98,19 +107,6 @@ void G_WeightBoard::WeightBoardOnPlayer()
 
 }
 
-void G_WeightBoard::LinkCountSet(int Y, int X, int Count)
-{
-	LinkCount[Y][X] = Count;
-}
-void G_WeightBoard::LinkObjectSet(int Y, int X, int W, int Object)
-{
-	LinkObject[Y][X][W] = Object;
-}
-void G_WeightBoard::LinkNumberSet(int Y, int X, int W, int Number)
-{
-	LinkNumber[Y][X][W] = Number;
-}
-
 void G_WeightBoard::Update()
 {
 	WeightBoardOnPlayer();
@@ -119,11 +115,11 @@ void G_WeightBoard::Update()
 	{
 		for (int X = 0; X < 10; X++)
 		{
-			if (WeightBoardOn[Y][X] == true)
+			if (M_WeightBoardOn[Y][X] == true)
 			{
-				WeightBoardModel[Y][X].SetPosition(WeightBoardPosition[Y][X]);
-				WeightBoardPhysicsStaticObject[Y][X].SetPosition(WeightBoardPosition[Y][X]);
-				WeightBoardModel[Y][X].Update();
+				M_WeightBoardModel[Y][X].SetPosition(M_WeightBoardPosition[Y][X]);
+				M_WeightBoardPhysicsStaticObject[Y][X].SetPosition(M_WeightBoardPosition[Y][X]);
+				M_WeightBoardModel[Y][X].Update();
 			}
 		}
 	}
@@ -134,9 +130,9 @@ void G_WeightBoard::Render(RenderContext& rc)
 	{
 		for (int X = 0; X < 10; X++)
 		{
-			if (WeightBoardOn[Y][X] == true)
+			if (M_WeightBoardOn[Y][X] == true)
 			{
-				WeightBoardModel[Y][X].Draw(rc);
+				M_WeightBoardModel[Y][X].Draw(rc);
 			}
 		}
 	}

@@ -3,7 +3,7 @@
 #include "Player.h"
 #include "Game.h"
 #include "Stage.h"
-#include "Number_Storage.h"
+#include "NumberStorage.h"
 #include "Bgm.h"
 #include "G_WeightBoard.h"
 IronBall::IronBall()
@@ -14,9 +14,9 @@ IronBall::IronBall()
 }
 bool IronBall::Start()
 {
-	game = FindGO<Game>("game");
-	stage = FindGO<Stage>("stage");
-	player = FindGO<Player>("player");
+	M_Game = FindGO<Game>("game");
+	M_Stage = FindGO<Stage>("stage");
+	M_Player = FindGO<Player>("player");
 	LevelSet();
 	return true;
 }
@@ -25,12 +25,12 @@ void IronBall::InitModel()
 {
 	for (int Count = 0; Count < 5; Count++)
 	{
-		IronBallModel[Count].Init("Assets/modelData/tekyu/tekyu8.tkm",IronBallLight);
-		IronBallModel[Count].SetScale({ 1.5f, 1.5f, 1.5f });
-		IronBallMap[Count] = 100;
-		IronBallFlag[Count] = false;
+		M_IronBallModel[Count].Init("Assets/modelData/tekyu/tekyu8.tkm", M_IronBallLight);
+		M_IronBallModel[Count].SetScale({ 1.5f, 1.5f, 1.5f });
+		M_IronBallMap[Count] = 100;
+		M_IronBallFlag[Count] = false;
 	}
-		IronBoxModel.Init("Assets/modelData/tekyu-box.tkm", IronBoxLight);
+		M_IronBoxModel.Init("Assets/modelData/tekyu-box.tkm", M_IronBoxLight);
 }
 void IronBall::InitSetPosition()
 {
@@ -38,65 +38,65 @@ void IronBall::InitSetPosition()
 	{
 		for (int X = 0; X < 10; X++)
 		{
-			IronBoxSetPosition[Y][X].x = (Y * 192.0f) + -865.0f;
-			IronBoxSetPosition[Y][X].y = 25.0f;
-			IronBoxSetPosition[Y][X].z = (X * 192.0f) + -865.0f;
+			M_IronBoxSetPosition[Y][X].x = (Y * 192.0f) + -865.0f;
+			M_IronBoxSetPosition[Y][X].y = 25.0f;
+			M_IronBoxSetPosition[Y][X].z = (X * 192.0f) + -865.0f;
 		}
 	}
 }
 void IronBall::InitLight()
 {
-	IronBallLight.DirectionLight_D.x = 0.0f;
-	IronBallLight.DirectionLight_D.y = -1.0f;
-	IronBallLight.DirectionLight_D.z = 0.0f;
+	M_IronBallLight.DirectionLight_D.x = 0.0f;
+	M_IronBallLight.DirectionLight_D.y = -1.0f;
+	M_IronBallLight.DirectionLight_D.z = 0.0f;
 
-	IronBallLight.DirectionLight_C.x = 1.8f;
-	IronBallLight.DirectionLight_C.y = 1.8f;
-	IronBallLight.DirectionLight_C.z = 1.8f;
+	M_IronBallLight.DirectionLight_C.x = 1.8f;
+	M_IronBallLight.DirectionLight_C.y = 1.8f;
+	M_IronBallLight.DirectionLight_C.z = 1.8f;
 }
 void IronBall::LevelSet()
 {
-	switch (game->GetLevel())
+	switch (M_Game->GetLevel())
 	{
-	case Level0:
-		IronBoxPosition = IronBoxSetPosition[4][1];
-		IronBoxMap = 41;
+	case LEVEL0:
+		M_IronBoxPosition = M_IronBoxSetPosition[4][1];
+		M_IronBoxMap = 41;
 		break;
-	case Level1:
-		IronBoxPosition = IronBoxSetPosition[3][0];
-		IronBoxMap = 30;
+	case LEVEL1:
+		M_IronBoxPosition = M_IronBoxSetPosition[3][0];
+		M_IronBoxMap = 30;
 		break;
-	case Level2:
-		IronBoxPosition = IronBoxSetPosition[1][0];
-		IronBoxMap = 10;
+	case LEVEL2:
+		M_IronBoxPosition = M_IronBoxSetPosition[1][0];
+		M_IronBoxMap = 10;
 		break;
-	case Level3:
-		IronBoxPosition = IronBoxSetPosition[3][0];
-		IronBoxMap = 30;
+	case LEVEL3:
+		M_IronBoxPosition = M_IronBoxSetPosition[3][0];
+		M_IronBoxMap = 30;
 		break;
-	case Level4:
-		IronBoxPosition = IronBoxSetPosition[1][1];
-		IronBoxMap = 11;
+	case LEVEL4:
+		M_IronBoxPosition = M_IronBoxSetPosition[1][1];
+		M_IronBoxMap = 11;
 		break;
-	case Level5:
-		IronBoxPosition = IronBoxSetPosition[9][1];
-		IronBoxMap = 91;
+	case LEVEL5:
+		M_IronBoxPosition = M_IronBoxSetPosition[9][1];
+		M_IronBoxMap = 91;
 		break;
-	case Level6:
-		IronBoxPosition = IronBoxSetPosition[0][1];
-		IronBoxMap = 1;
+	case LEVEL6:
+		M_IronBoxPosition = M_IronBoxSetPosition[0][1];
+		M_IronBoxMap = 1;
 		break;
-	case Level7:
-		IronBoxPosition = IronBoxSetPosition[0][1];
-		IronBoxMap = 1;
+	case LEVEL7:
+		M_IronBoxPosition = M_IronBoxSetPosition[0][1];
+		M_IronBoxMap = 1;
 		break;
-	case Level8:
-		IronBoxPosition = IronBoxSetPosition[3][0];
-		IronBoxMap = 30;
+	case LEVEL8:
+		M_IronBoxPosition = M_IronBoxSetPosition[3][0];
+		M_IronBoxMap = 30;
 		break;
-	case Level9:
-		IronBoxPosition = IronBoxSetPosition[0][1];
-		IronBoxMap = 1;
+	case LEVEL9:
+		M_IronBoxPosition = M_IronBoxSetPosition[0][1];
+		M_IronBoxMap = 1;
 		break;
 	default:
 		break;
@@ -105,12 +105,12 @@ void IronBall::LevelSet()
 
 void IronBall::IronBoxToGet()
 {
-	if (IronBoxMap == player->GetPlayerMap() && IronBoxFlag == false)
+	if (M_IronBoxMap == M_Player->GetPlayerMap() && M_IronBoxFlag == false)
 	{
 		SoundSource* SE = NewGO<SoundSource>(0, "se");
-		SE->SoundSet(S_BOXGET , BgmVolume , LoopNot);
-		player->InitIronBallCount(IronBallMax);
-		IronBoxFlag = true;
+		SE->SoundSet(SE_BOXGET , S_SoundSetting.M_BgmVolume , S_SoundSetting.M_LoopNot);
+		M_Player->InitIronBallCount(M_IronBallMax);
+		M_IronBoxFlag = true;
 	}
 }
 
@@ -118,7 +118,7 @@ bool IronBall::GetBallMap(int PlayerMap)
 {
 	for (int Count = 0; Count < 5; Count++)
 	{
-		if (IronBallMap[Count] == PlayerMap)
+		if (M_IronBallMap[Count] == PlayerMap)
 		{
 			return true;
 		}
@@ -129,7 +129,7 @@ bool IronBall::WeightBoardOn(int Y, int X)
 {
 	for (int Count = 0; Count < 5; Count++)
 	{
-		if (IronBallMap[Count] == (Y * 10) + X)
+		if (M_IronBallMap[Count] == (Y * 10) + X)
 		{
 			return true;
 		}
@@ -139,76 +139,76 @@ bool IronBall::WeightBoardOn(int Y, int X)
 
 void IronBall::IronBallPut()
 {
-	if (player->GetIronBallPutFlag() == true)
+	if (M_Player->GetIronBallPutFlag() == true)
 	{
 		for (int Count = 0; Count < 5; Count++)
 		{
-			if (ShowFlag[Count] == false)
+			if (M_ShowFlag[Count] == false)
 			{
-				IronBallPosition[Count].x = IronBoxSetPosition[player->GetPlayerMap() / 10][player->GetPlayerMap() % 10].x;
-				IronBallPosition[Count].y = IronBoxSetPosition[player->GetPlayerMap() / 10][player->GetPlayerMap() % 10].y;
-				IronBallPosition[Count].z = IronBoxSetPosition[player->GetPlayerMap() / 10][player->GetPlayerMap() % 10].z;
+				M_IronBallPosition[Count].x = M_IronBoxSetPosition[M_Player->GetPlayerMap() / 10][M_Player->GetPlayerMap() % 10].x;
+				M_IronBallPosition[Count].y = M_IronBoxSetPosition[M_Player->GetPlayerMap() / 10][M_Player->GetPlayerMap() % 10].y;
+				M_IronBallPosition[Count].z = M_IronBoxSetPosition[M_Player->GetPlayerMap() / 10][M_Player->GetPlayerMap() % 10].z;
 
-				ShowFlag[Count] = true;
-				player->IronBallCountMinus();
-				player->IronBallPutAnimationFlagSet(true);
+				M_ShowFlag[Count] = true;
+				M_Player->IronBallCountMinus();
+				M_Player->IronBallPutAnimationFlagSet(true);
 				break;
 			}
 		}
-		player->IronBallPutFlagSet(false);
+		M_Player->IronBallPutFlagSet(false);
 	}
 }
 void IronBall::IronBallGet()
 {
-	if (player->GetIronBallGetFlag() == true)
+	if (M_Player->GetIronBallGetFlag() == true)
 		{
 			int Number = 0;
 
 			for (int Count = 0; Count < 5; Count++)
 			{
 				if (
-					player->GetPlayerPositionX() < IronBallPosition[Count].x + IronBallRange &&
-					player->GetPlayerPositionX() > IronBallPosition[Count].x - IronBallRange &&
-					player->GetPlayerPositionZ() < IronBallPosition[Count].z + IronBallRange &&
-					player->GetPlayerPositionZ() > IronBallPosition[Count].z - IronBallRange &&
-					ShowFlag[Count] == true
+					M_Player->GetPlayerPositionX() < M_IronBallPosition[Count].x + S_IronBallInformation.IronBallRange &&
+					M_Player->GetPlayerPositionX() > M_IronBallPosition[Count].x - S_IronBallInformation.IronBallRange &&
+					M_Player->GetPlayerPositionZ() < M_IronBallPosition[Count].z + S_IronBallInformation.IronBallRange &&
+					M_Player->GetPlayerPositionZ() > M_IronBallPosition[Count].z - S_IronBallInformation.IronBallRange &&
+					M_ShowFlag[Count] == true
 					)
 				{
 					Number = Count;
-					ShowFlag[Number] = false;
-					player->IronBallCountPlus();
-					player->IronBallGetAnimationFlagSet(true);
-					IronBallPosition[Count].x = Grid_ExemptPosition_X;
-					IronBallPosition[Count].z = Grid_ExemptPosition_Z;
+					M_ShowFlag[Number] = false;
+					M_Player->IronBallCountPlus();
+					M_Player->IronBallGetAnimationFlagSet(true);
+					M_IronBallPosition[Count].x = S_GridPosition.M_GridExemptPositionX;
+					M_IronBallPosition[Count].z = S_GridPosition.M_GridExemptPositionZ;
 					break;
 				}
 			}
 
-			player->IronBallGetFlagSet(false);
+			M_Player->IronBallGetFlagSet(false);
 		}
 }
 void IronBall::IronBallMapSet(int PlayerMap,bool Flag)
 {
-	if (Flag == Get)
+	if (Flag == false)
 	{
 		for (int Count = 0; Count < 5; Count++)
 		{
-			if (IronBallFlag[Count] == true && IronBallMap[Count] == PlayerMap)
+			if (M_IronBallFlag[Count] == true && M_IronBallMap[Count] == PlayerMap)
 			{
-				IronBallMap[Count] = 100;
-				IronBallFlag[Count] = false;
+				M_IronBallMap[Count] = 100;
+				M_IronBallFlag[Count] = false;
 				break;
 			}
 		}
 	}else {
-	if (Flag == Put)
+	if (Flag == true)
 	{
 		for (int Count = 0; Count < 5; Count++)
 		{
-			if (IronBallFlag[Count] == false)
+			if (M_IronBallFlag[Count] == false)
 			{
-				IronBallMap[Count] = PlayerMap;
-				IronBallFlag[Count] = true;
+				M_IronBallMap[Count] = PlayerMap;
+				M_IronBallFlag[Count] = true;
 				break;
 			}
 		}
@@ -225,26 +225,26 @@ void IronBall::Update()
 		
 	for (int Count = 0; Count < 5; Count++)
 	{
-		IronBallModel[Count].SetPosition(IronBallPosition[Count]);
-		IronBallModel[Count].Update();
+		M_IronBallModel[Count].SetPosition(M_IronBallPosition[Count]);
+		M_IronBallModel[Count].Update();
 	}
-	IronBoxModel.SetPosition(IronBoxPosition);
-	IronBoxModel.Update();
+	M_IronBoxModel.SetPosition(M_IronBoxPosition);
+	M_IronBoxModel.Update();
 }
 void IronBall::Render(RenderContext& rc)
 {
-	if (IronBoxFlag == false)
+	if (M_IronBoxFlag == false)
 	{
-		IronBoxModel.Draw(rc);
+		M_IronBoxModel.Draw(rc);
 	}
 
 	for (int Count = 0; Count < 5; Count++)
 	{
-		if (ShowFlag[Count] == true)
+		if (M_ShowFlag[Count] == true)
 		{
-			if (IronBoxFlag == true)
+			if (M_IronBoxFlag == true)
 			{
-				IronBallModel[Count].Draw(rc);
+				M_IronBallModel[Count].Draw(rc);
 			}
 		}
 	}

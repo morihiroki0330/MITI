@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "Box.h"
-#include "Number_Storage.h"
 #include "Player.h"
 #include "Game.h"
+#include "NumberStorage.h"
 Box::Box()
 {
 	InitKabeBox();
@@ -11,37 +11,37 @@ Box::Box()
 }
 bool Box::Start()
 {
-	player = FindGO<Player>("player");
-	game = FindGO<Game>("game");
+	M_Player = FindGO<Player>("player");
+	M_Game = FindGO<Game>("game");
 	return true;
 }
 
 void Box::InitKabeBox()
 {
-	KabePosition[StageBehindUp] = { -1057.0f, 0.0f, 0.0f };
-	KabeRotation[StageBehindUp] = { 0.0f, 0.0f, 0.0f, 1.0f };
-	KabeScale[StageBehindUp] = { 270.0f, 270.0f, 1920.0f };
+	M_KabePosition[STAGEBEHIND_UP] = { -1057.0f, 0.0f, 0.0f };
+	M_KabeRotation[STAGEBEHIND_UP] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	M_KabeScale[STAGEBEHIND_UP] = { 270.0f, 270.0f, 1920.0f };
 	
-	KabePosition[StageBehindDown] = { 1057.0f, 0.0, 0.0f };
-	KabeRotation[StageBehindDown] = { 0.0f, 0.0f, 0.0f, 1.0f };
-	KabeScale[StageBehindDown] = { 270.0f, 270.0f, 1920.0f };
+	M_KabePosition[STAGEBEHIND_DOWN] = { 1057.0f, 0.0, 0.0f };
+	M_KabeRotation[STAGEBEHIND_DOWN] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	M_KabeScale[STAGEBEHIND_DOWN] = { 270.0f, 270.0f, 1920.0f };
 
-	KabePosition[StageBehindRight] = { 0.0f, 0.0, 1057.0f };
-	KabeRotation[StageBehindRight] = { 0.0f, 90.0f, 0.0f, 1.0f };
-	KabeScale[StageBehindRight] = { 1920.0f, 270.0f, 270.0f };
+	M_KabePosition[STAGEBEHIND_RIGHT] = { 0.0f, 0.0, 1057.0f };
+	M_KabeRotation[STAGEBEHIND_RIGHT] = { 0.0f, 90.0f, 0.0f, 1.0f };
+	M_KabeScale[STAGEBEHIND_RIGHT] = { 1920.0f, 270.0f, 270.0f };
 
-	KabePosition[StageBehindLeft] = { 0.0f, 0.0, -1057.0f };
-	KabeRotation[StageBehindLeft] = { 0.0f, 90.0f, 0.0f, 1.0f };
-	KabeScale[StageBehindLeft] = { 1920.0f, 270.0f, 270.0f };
+	M_KabePosition[STAGEBEHIND_LEFT] = { 0.0f, 0.0, -1057.0f };
+	M_KabeRotation[STAGEBEHIND_LEFT] = { 0.0f, 90.0f, 0.0f, 1.0f };
+	M_KabeScale[STAGEBEHIND_LEFT] = { 1920.0f, 270.0f, 270.0f };
 	
-	KabeBox[StageBehindUp].CreateBox(KabePosition[StageBehindUp], KabeRotation[StageBehindUp], KabeScale[StageBehindUp]);
-	KabeBox[StageBehindDown].CreateBox(KabePosition[StageBehindDown], KabeRotation[StageBehindDown], KabeScale[StageBehindDown]);
-	KabeBox[StageBehindRight].CreateBox(KabePosition[StageBehindRight], KabeRotation[StageBehindRight], KabeScale[StageBehindRight]);
-	KabeBox[StageBehindLeft].CreateBox(KabePosition[StageBehindLeft], KabeRotation[StageBehindLeft], KabeScale[StageBehindLeft]);
+	M_KabeBox[STAGEBEHIND_UP].CreateBox(M_KabePosition[STAGEBEHIND_UP], M_KabeRotation[STAGEBEHIND_UP], M_KabeScale[STAGEBEHIND_UP]);
+	M_KabeBox[STAGEBEHIND_DOWN].CreateBox(M_KabePosition[STAGEBEHIND_DOWN], M_KabeRotation[STAGEBEHIND_DOWN], M_KabeScale[STAGEBEHIND_DOWN]);
+	M_KabeBox[STAGEBEHIND_RIGHT].CreateBox(M_KabePosition[STAGEBEHIND_RIGHT], M_KabeRotation[STAGEBEHIND_RIGHT], M_KabeScale[STAGEBEHIND_RIGHT]);
+	M_KabeBox[STAGEBEHIND_LEFT].CreateBox(M_KabePosition[STAGEBEHIND_LEFT], M_KabeRotation[STAGEBEHIND_LEFT], M_KabeScale[STAGEBEHIND_LEFT]);
 }
 void Box::InitKaidanBox()
 {
-	KaidanBox.CreateBox({ Grid_ExemptPosition_X,Grid_ExemptPosition_Y,Grid_ExemptPosition_Z }, Quaternion::Identity, Vector3::One * 150.0f);
+	M_KaidanBox.CreateBox({S_GridPosition.M_GridExemptPositionX, S_GridPosition.M_GridExemptPositionY, S_GridPosition.M_GridExemptPositionZ}, Quaternion::Identity, Vector3::One * 150.0f);
 }
 void Box::InitBlock()
 {
@@ -49,7 +49,7 @@ void Box::InitBlock()
 	{
 		for (int X = 0; X < 10; X++)
 		{
-			BlockBox[Y][X].CreateBox({ Grid_ExemptPosition_X,Grid_ExemptPosition_Y,Grid_ExemptPosition_Z }, Quaternion::Identity, Vector3::One * 270.0f);
+			M_BlockBox[Y][X].CreateBox({S_GridPosition.M_GridExemptPositionX, S_GridPosition.M_GridExemptPositionY, S_GridPosition.M_GridExemptPositionZ}, Quaternion::Identity, Vector3::One * 270.0f);
 		}
 	}
 }

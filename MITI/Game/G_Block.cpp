@@ -3,16 +3,16 @@
 #include "G_WeightBoard.h"
 #include "Box.h"
 #include "Stage.h"
-#include "Number_Storage.h"
+#include "NumberStorage.h"
 G_Block::G_Block()
 {
 	InitModel();
 }
 bool G_Block::Start()
 {
-	weightboard = FindGO<G_WeightBoard>("weightboard");
-	box = FindGO<Box>("box");
-	stage = FindGO<Stage>("stage");
+	M_WeightBoard = FindGO<G_WeightBoard>("weightboard");
+	M_Box = FindGO<Box>("box");
+	M_Stage = FindGO<Stage>("stage");
 	return true;
 }
 
@@ -22,111 +22,109 @@ void G_Block::InitModel()
 	{
 		for (int X = 0; X < 10; X++)
 		{
-			BlockModel[Y][X].Init("Assets/modelData/isi.tkm", BlockLight);
-			IceBlockModel[Y][X].Init("Assets/modelData/ice1.tkm", BlockLight);
-			GroundBlockModel[Y][X].Init("Assets/modelData/ground1.tkm", BlockLight);
-			DeleteBlockModel[Y][X].Init("Assets/modelData/DeleteBlock.tkm", BlockLight);
+			M_BlockModel[Y][X].Init("Assets/modelData/isi.tkm", M_BlockLight);
+			M_IceBlockModel[Y][X].Init("Assets/modelData/ice1.tkm", M_BlockLight);
+			M_GroundBlockModel[Y][X].Init("Assets/modelData/ground1.tkm", M_BlockLight);
+			M_DeleteBlockModel[Y][X].Init("Assets/modelData/DeleteBlock.tkm", M_BlockLight);
 
-			SkeletonBlockModel[Y][X].Init("Assets/modelData/SkeletonBlock/S_Block.tkm", BlockLight);
-			SkeletonIceBlockModel[Y][X].Init("Assets/modelData/SkeletonBlock/S_Ice.tkm", BlockLight);
-			SkeletonGroundBlockModel[Y][X].Init("Assets/modelData/SkeletonBlock/S_Ground.tkm", BlockLight);
-			SkeletonDeleteBlockModel[Y][X].Init("Assets/modelData/SkeletonBlock/S_Delete.tkm", BlockLight);
+			M_SkeletonBlockModel[Y][X].Init("Assets/modelData/SkeletonBlock/S_Block.tkm", M_BlockLight);
+			M_SkeletonIceBlockModel[Y][X].Init("Assets/modelData/SkeletonBlock/S_Ice.tkm", M_BlockLight);
+			M_SkeletonGroundBlockModel[Y][X].Init("Assets/modelData/SkeletonBlock/S_Ground.tkm", M_BlockLight);
+			M_SkeletonDeleteBlockModel[Y][X].Init("Assets/modelData/SkeletonBlock/S_Delete.tkm", M_BlockLight);
 
-			BlockPhysicsStaticObject[Y][X].CreateFromModel(BlockModel[Y][X].GetModel(), BlockModel[Y][X].GetModel().GetWorldMatrix());
+			M_BlockPhysicsStaticObject[Y][X].CreateFromModel(M_BlockModel[Y][X].GetModel(), M_BlockModel[Y][X].GetModel().GetWorldMatrix());
 
-			BlockModel[Y][X].SetPosition({Grid_ExemptPosition_X,Grid_ExemptPosition_Y,Grid_ExemptPosition_Z});
-			IceBlockModel[Y][X].SetPosition({Grid_ExemptPosition_X,Grid_ExemptPosition_Y,Grid_ExemptPosition_Z});
-			GroundBlockModel[Y][X].SetPosition({Grid_ExemptPosition_X,Grid_ExemptPosition_Y,Grid_ExemptPosition_Z});
-			DeleteBlockModel[Y][X].SetPosition({Grid_ExemptPosition_X,Grid_ExemptPosition_Y,Grid_ExemptPosition_Z});
+			M_BlockModel[Y][X].SetPosition({ S_GridPosition.M_GridExemptPositionX, S_GridPosition.M_GridExemptPositionY, S_GridPosition.M_GridExemptPositionZ });
+			M_IceBlockModel[Y][X].SetPosition({ S_GridPosition.M_GridExemptPositionX, S_GridPosition.M_GridExemptPositionY, S_GridPosition.M_GridExemptPositionZ });
+			M_GroundBlockModel[Y][X].SetPosition({ S_GridPosition.M_GridExemptPositionX, S_GridPosition.M_GridExemptPositionY, S_GridPosition.M_GridExemptPositionZ });
+			M_DeleteBlockModel[Y][X].SetPosition({ S_GridPosition.M_GridExemptPositionX, S_GridPosition.M_GridExemptPositionY, S_GridPosition.M_GridExemptPositionZ });
 
-			SkeletonBlockModel[Y][X].SetPosition({Grid_ExemptPosition_X,Grid_ExemptPosition_Y,Grid_ExemptPosition_Z});
-			SkeletonIceBlockModel[Y][X].SetPosition({Grid_ExemptPosition_X,Grid_ExemptPosition_Y,Grid_ExemptPosition_Z});
-			SkeletonGroundBlockModel[Y][X].SetPosition({Grid_ExemptPosition_X,Grid_ExemptPosition_Y,Grid_ExemptPosition_Z});
-			SkeletonDeleteBlockModel[Y][X].SetPosition({Grid_ExemptPosition_X,Grid_ExemptPosition_Y,Grid_ExemptPosition_Z});
+			M_SkeletonBlockModel[Y][X].SetPosition({S_GridPosition.M_GridExemptPositionX,S_GridPosition.M_GridExemptPositionY,S_GridPosition.M_GridExemptPositionZ});
+			M_SkeletonIceBlockModel[Y][X].SetPosition({S_GridPosition.M_GridExemptPositionX,S_GridPosition.M_GridExemptPositionY,S_GridPosition.M_GridExemptPositionZ});
+			M_SkeletonGroundBlockModel[Y][X].SetPosition({S_GridPosition.M_GridExemptPositionX,S_GridPosition.M_GridExemptPositionY,S_GridPosition.M_GridExemptPositionZ});
+			M_SkeletonDeleteBlockModel[Y][X].SetPosition({S_GridPosition.M_GridExemptPositionX,S_GridPosition.M_GridExemptPositionY,S_GridPosition.M_GridExemptPositionZ});
 
-			BlockPhysicsStaticObject[Y][X].SetPosition({Grid_ExemptPosition_X,Grid_ExemptPosition_Y,Grid_ExemptPosition_Z});
+			M_BlockPhysicsStaticObject[Y][X].SetPosition({S_GridPosition.M_GridExemptPositionX,S_GridPosition.M_GridExemptPositionY,S_GridPosition.M_GridExemptPositionZ});
 
-			BlockModel[Y][X].Update();
-			IceBlockModel[Y][X].Update();
-			GroundBlockModel[Y][X].Update();
-			DeleteBlockModel[Y][X].Update();
+			M_BlockModel[Y][X].Update();
+			M_IceBlockModel[Y][X].Update();
+			M_GroundBlockModel[Y][X].Update();
+			M_DeleteBlockModel[Y][X].Update();
 
-			SkeletonBlockModel[Y][X].Update();
-			SkeletonIceBlockModel[Y][X].Update();
-			SkeletonGroundBlockModel[Y][X].Update();
-			SkeletonDeleteBlockModel[Y][X].Update();
+			M_SkeletonBlockModel[Y][X].Update();
+			M_SkeletonIceBlockModel[Y][X].Update();
+			M_SkeletonGroundBlockModel[Y][X].Update();
+			M_SkeletonDeleteBlockModel[Y][X].Update();
 		}
 	}
 	
 }
-
 void G_Block::BlockOn(int Y, int X)
 {
-	NonBlock[Y][X] = true;
+	M_NonBlock[Y][X] = true;
 }
 void G_Block::BlockSetPosition(int Y, int X, Vector3 Position)
 {
-	BlockPosition[Y][X].x = Position.x;
-	BlockPosition[Y][X].y = 150.0f;
-	BlockPosition[Y][X].z = Position.z;
+	M_BlockPosition[Y][X].x = Position.x;
+	M_BlockPosition[Y][X].y = 150.0f;
+	M_BlockPosition[Y][X].z = Position.z;
 }
-
 void G_Block::NonBlockUpdate()
 {
 	for (int Y = 0; Y < 10; Y++)
 	{
 		for (int X = 0; X < 10; X++)
 		{
-			if (NonBlock[Y][X] == true)
+			if (M_NonBlock[Y][X] == true)
 			{
-				BlockModel[Y][X].SetPosition(BlockPosition[Y][X]);
-				BlockPhysicsStaticObject[Y][X].SetPosition(BlockPosition[Y][X]);
-				box->BlockBoxSetPosition(Y, X, BlockPosition[Y][X]);
-				BlockModel[Y][X].Update();
+				M_BlockModel[Y][X].SetPosition(M_BlockPosition[Y][X]);
+				M_BlockPhysicsStaticObject[Y][X].SetPosition(M_BlockPosition[Y][X]);
+				M_Box->BlockBoxSetPosition(Y, X, M_BlockPosition[Y][X]);
+				M_BlockModel[Y][X].Update();
 			}
 		}
 	}
 }
-void G_Block::WeightBoardOn_Update()
+void G_Block::WeightBoardOnUpdate()
 {
 	for (int Y = 0; Y < 10; Y++)
 	{
 		for (int X = 0; X < 10; X++)
 		{
-			if (weightboard->GetSwitchOnFlag(Y, X) == true)
+			if (M_WeightBoard->GetSwitchOnFlag(Y, X) == true)
 			{
-				for (int Count = 1; Count <= weightboard->GetLinkCount(Y,X); Count++)
+				for (int Count = 1; Count <= M_WeightBoard->GetLinkCount(Y,X); Count++)
 				{
-					if (weightboard->GetLinkObject(Y, X, Count) == Block)
+					if (M_WeightBoard->GetLinkObject(Y, X, Count) == NONBLOCK)
 					{
-						weightboard->GetLinkNumberY(Y, X, Count);
-						BlockModel[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].SetPosition(BlockPosition[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)]);
-						BlockModel[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].Update();
-						BlockPhysicsStaticObject[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].SetPosition(BlockPosition[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)]);
-						box->BlockBoxSetPosition(weightboard->GetLinkNumberY(Y, X, Count), weightboard->GetLinkNumberX(Y, X, Count), BlockPosition[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)]);
+						M_WeightBoard->GetLinkNumberY(Y, X, Count);
+						M_BlockModel[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].SetPosition(M_BlockPosition[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)]);
+						M_BlockModel[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].Update();
+						M_BlockPhysicsStaticObject[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].SetPosition(M_BlockPosition[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)]);
+						M_Box->BlockBoxSetPosition(M_WeightBoard->GetLinkNumberY(Y, X, Count), M_WeightBoard->GetLinkNumberX(Y, X, Count), M_BlockPosition[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)]);
 					}else {
-					if (weightboard->GetLinkObject(Y, X, Count) == IceBlock)
+					if (M_WeightBoard->GetLinkObject(Y, X, Count) == ICEBLOCK)
 					{
-						stage->GroundDataSet(weightboard->GetLinkNumberY(Y, X, Count), weightboard->GetLinkNumberX(Y, X, Count), ICE);
-						IceBlockModel[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].SetPosition({ BlockPosition[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].x,-55.0f,BlockPosition[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].z });
-						IceBlockModel[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].Update();
-						BlockPhysicsStaticObject[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].SetPosition({ BlockPosition[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].x,-50.0f,BlockPosition[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].z });
+						M_Stage->GroundDataSet(M_WeightBoard->GetLinkNumberY(Y, X, Count), M_WeightBoard->GetLinkNumberX(Y, X, Count), ICE);
+						M_IceBlockModel[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].SetPosition({ M_BlockPosition[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].x,-55.0f,M_BlockPosition[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].z });
+						M_IceBlockModel[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].Update();
+						M_BlockPhysicsStaticObject[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].SetPosition({ M_BlockPosition[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].x,-50.0f,M_BlockPosition[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].z });
 					}else {
-					if (weightboard->GetLinkObject(Y, X, Count) == GroundBlock)
+					if (M_WeightBoard->GetLinkObject(Y, X, Count) == GROUNDBLOCK)
 					{
-						stage->GroundDataSet(weightboard->GetLinkNumberY(Y, X, Count), weightboard->GetLinkNumberX(Y, X, Count), GROUND);
-						GroundBlockModel[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].SetPosition({ BlockPosition[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].x,-55.0f,BlockPosition[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].z });
-						GroundBlockModel[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].Update();
-						BlockPhysicsStaticObject[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].SetPosition({ BlockPosition[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].x,-50.0f,BlockPosition[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].z });
+						M_Stage->GroundDataSet(M_WeightBoard->GetLinkNumberY(Y, X, Count), M_WeightBoard->GetLinkNumberX(Y, X, Count), GROUND);
+						M_GroundBlockModel[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].SetPosition({ M_BlockPosition[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].x,-55.0f,M_BlockPosition[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].z });
+						M_GroundBlockModel[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].Update();
+						M_BlockPhysicsStaticObject[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].SetPosition({ M_BlockPosition[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].x,-50.0f,M_BlockPosition[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].z });
 						
 					}else
 					{
-					if (weightboard->GetLinkObject(Y, X, Count) == DeleteBlock)
+					if (M_WeightBoard->GetLinkObject(Y, X, Count) == DELETEBLOCK)
 					{
-						SkeletonDeleteBlockModel[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].SetPosition(BlockPosition[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)]);
-						SkeletonDeleteBlockModel[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].Update();
-						BlockPhysicsStaticObject[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].SetPosition({ Grid_ExemptPosition_X,Grid_ExemptPosition_Y,Grid_ExemptPosition_Z });
-						box->BlockBoxSetPosition(weightboard->GetLinkNumberY(Y, X, Count), weightboard->GetLinkNumberX(Y, X, Count), { Grid_ExemptPosition_X, Grid_ExemptPosition_Y, Grid_ExemptPosition_Z });
+						M_SkeletonDeleteBlockModel[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].SetPosition(M_BlockPosition[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)]);
+						M_SkeletonDeleteBlockModel[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].Update();
+						M_BlockPhysicsStaticObject[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].SetPosition({ S_GridPosition.M_GridExemptPositionX,S_GridPosition.M_GridExemptPositionY,S_GridPosition.M_GridExemptPositionZ });
+						M_Box->BlockBoxSetPosition(M_WeightBoard->GetLinkNumberY(Y, X, Count), M_WeightBoard->GetLinkNumberX(Y, X, Count), { S_GridPosition.M_GridExemptPositionX, S_GridPosition.M_GridExemptPositionY, S_GridPosition.M_GridExemptPositionZ });
 					}
 					}
 					}
@@ -137,43 +135,43 @@ void G_Block::WeightBoardOn_Update()
 	}
 
 }
-void G_Block::WeightBoardOff_Update()
+void G_Block::WeightBoardOffUpdate()
 {
 	for (int Y = 0; Y < 10; Y++)
 	{
 		for (int X = 0; X < 10; X++)
 		{
-			if (weightboard->GetSwitchOnFlag(Y, X) == false)
+			if (M_WeightBoard->GetSwitchOnFlag(Y, X) == false)
 			{
-				for (int Count = 1; Count <= weightboard->GetLinkCount(Y,X); Count++)
+				for (int Count = 1; Count <= M_WeightBoard->GetLinkCount(Y,X); Count++)
 				{
-					if (weightboard->GetLinkObject(Y, X, Count) == Block)
+					if (M_WeightBoard->GetLinkObject(Y, X, Count) == NONBLOCK)
 					{
-						SkeletonBlockModel[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].SetPosition(BlockPosition[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)]);
-						SkeletonBlockModel[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].Update();
-						BlockPhysicsStaticObject[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].SetPosition({ Grid_ExemptPosition_X,Grid_ExemptPosition_Y,Grid_ExemptPosition_Z });
-						box->BlockBoxSetPosition(weightboard->GetLinkNumberY(Y, X, Count), weightboard->GetLinkNumberX(Y, X, Count), { Grid_ExemptPosition_X, Grid_ExemptPosition_Y, Grid_ExemptPosition_Z });
+						M_SkeletonBlockModel[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].SetPosition(M_BlockPosition[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)]);
+						M_SkeletonBlockModel[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].Update();
+						M_BlockPhysicsStaticObject[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].SetPosition({ S_GridPosition.M_GridExemptPositionX,S_GridPosition.M_GridExemptPositionY,S_GridPosition.M_GridExemptPositionZ });
+						M_Box->BlockBoxSetPosition(M_WeightBoard->GetLinkNumberY(Y, X, Count), M_WeightBoard->GetLinkNumberX(Y, X, Count), { S_GridPosition.M_GridExemptPositionX, S_GridPosition.M_GridExemptPositionY, S_GridPosition.M_GridExemptPositionZ });
 					}else {
-					if (weightboard->GetLinkObject(Y, X, Count) == IceBlock)
+					if (M_WeightBoard->GetLinkObject(Y, X, Count) == ICEBLOCK)
 					{
-						stage->GroundDataSet(weightboard->GetLinkNumberY(Y, X, Count), weightboard->GetLinkNumberX(Y, X, Count), HOLE);
-						SkeletonIceBlockModel[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].SetPosition({ BlockPosition[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].x,-50.0f,BlockPosition[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].z });
-						SkeletonIceBlockModel[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].Update();
-						BlockPhysicsStaticObject[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].SetPosition({ Grid_ExemptPosition_X,Grid_ExemptPosition_Y,Grid_ExemptPosition_Z });
+						M_Stage->GroundDataSet(M_WeightBoard->GetLinkNumberY(Y, X, Count), M_WeightBoard->GetLinkNumberX(Y, X, Count), HOLE);
+						M_SkeletonIceBlockModel[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].SetPosition({ M_BlockPosition[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].x,-50.0f,M_BlockPosition[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].z });
+						M_SkeletonIceBlockModel[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].Update();
+						M_BlockPhysicsStaticObject[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].SetPosition({ S_GridPosition.M_GridExemptPositionX,S_GridPosition.M_GridExemptPositionY,S_GridPosition.M_GridExemptPositionZ });
 					}else {
-					if (weightboard->GetLinkObject(Y, X, Count) == GroundBlock)
+					if (M_WeightBoard->GetLinkObject(Y, X, Count) == GROUNDBLOCK)
 					{
-						stage->GroundDataSet(weightboard->GetLinkNumberY(Y, X, Count), weightboard->GetLinkNumberX(Y, X, Count), HOLE);
-						SkeletonGroundBlockModel[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].SetPosition({ BlockPosition[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].x,-50.0f,BlockPosition[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].z });
-						SkeletonGroundBlockModel[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].Update();
-						BlockPhysicsStaticObject[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].SetPosition({ Grid_ExemptPosition_X,Grid_ExemptPosition_Y,Grid_ExemptPosition_Z });
+						M_Stage->GroundDataSet(M_WeightBoard->GetLinkNumberY(Y, X, Count), M_WeightBoard->GetLinkNumberX(Y, X, Count), HOLE);
+						M_SkeletonGroundBlockModel[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].SetPosition({ M_BlockPosition[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].x,-50.0f,M_BlockPosition[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].z });
+						M_SkeletonGroundBlockModel[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].Update();
+						M_BlockPhysicsStaticObject[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].SetPosition({ S_GridPosition.M_GridExemptPositionX,S_GridPosition.M_GridExemptPositionY,S_GridPosition.M_GridExemptPositionZ });
 					}else {
-					if (weightboard->GetLinkObject(Y, X, Count) == DeleteBlock)
+					if (M_WeightBoard->GetLinkObject(Y, X, Count) == DELETEBLOCK)
 					{
-						DeleteBlockModel[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].SetPosition(BlockPosition[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)]);
-						DeleteBlockModel[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].Update();
-						BlockPhysicsStaticObject[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].SetPosition(BlockPosition[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)]);
-						box->BlockBoxSetPosition(weightboard->GetLinkNumberY(Y, X, Count), weightboard->GetLinkNumberX(Y, X, Count), BlockPosition[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)]);
+						M_DeleteBlockModel[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].SetPosition(M_BlockPosition[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)]);
+						M_DeleteBlockModel[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].Update();
+						M_BlockPhysicsStaticObject[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].SetPosition(M_BlockPosition[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)]);
+						M_Box->BlockBoxSetPosition(M_WeightBoard->GetLinkNumberY(Y, X, Count), M_WeightBoard->GetLinkNumberX(Y, X, Count), M_BlockPosition[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)]);
 					}
 					}
 					}
@@ -187,8 +185,8 @@ void G_Block::WeightBoardOff_Update()
 void G_Block::Update()
 {
 	NonBlockUpdate();
-	WeightBoardOn_Update();
-	WeightBoardOff_Update();
+	WeightBoardOnUpdate();
+	WeightBoardOffUpdate();
 }
 void G_Block::Render(RenderContext& rc)
 {
@@ -196,29 +194,29 @@ void G_Block::Render(RenderContext& rc)
 	{
 		for (int X = 0; X < 10; X++)
 		{
-			if(NonBlock[Y][X]==true)
+			if(M_NonBlock[Y][X]==true)
 			{ 
-				BlockModel[Y][X].Draw(rc);
+				M_BlockModel[Y][X].Draw(rc);
 			}else{
-				if (weightboard->GetSwitchOnFlag(Y, X) == true)
+				if (M_WeightBoard->GetSwitchOnFlag(Y, X) == true)
 				{
-					for (int Count = 1; Count <= weightboard->GetLinkCount(Y,X); Count++)
+					for (int Count = 1; Count <= M_WeightBoard->GetLinkCount(Y,X); Count++)
 					{	
-						if (weightboard->GetLinkObject(Y, X, Count) == Block)
+						if (M_WeightBoard->GetLinkObject(Y, X, Count) == NONBLOCK)
 						{
-							BlockModel[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].Draw(rc);
+							M_BlockModel[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].Draw(rc);
 						}else {
-						if (weightboard->GetLinkObject(Y, X, Count) == IceBlock)
+						if (M_WeightBoard->GetLinkObject(Y, X, Count) == ICEBLOCK)
 						{
-							IceBlockModel[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].Draw(rc);
+							M_IceBlockModel[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].Draw(rc);
 						}else {
-						if (weightboard->GetLinkObject(Y, X, Count) == GroundBlock)
+						if (M_WeightBoard->GetLinkObject(Y, X, Count) == GROUNDBLOCK)
 						{
-							GroundBlockModel[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].Draw(rc);
+							M_GroundBlockModel[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].Draw(rc);
 						}else {
-						if (weightboard->GetLinkObject(Y, X, Count) == DeleteBlock)
+						if (M_WeightBoard->GetLinkObject(Y, X, Count) == DELETEBLOCK)
 						{
-							SkeletonDeleteBlockModel[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].Draw(rc);
+							M_SkeletonDeleteBlockModel[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].Draw(rc);
 						}
 						}
 						}
@@ -226,25 +224,25 @@ void G_Block::Render(RenderContext& rc)
 						
 					}
 				}else {
-				if (weightboard->GetSwitchOnFlag(Y, X) == false)
+				if (M_WeightBoard->GetSwitchOnFlag(Y, X) == false)
 				{
-					for (int Count = 1; Count <= weightboard->GetLinkCount(Y,X); Count++)
+					for (int Count = 1; Count <= M_WeightBoard->GetLinkCount(Y,X); Count++)
 					{
-						if (weightboard->GetLinkObject(Y, X, Count) == DeleteBlock)
+						if (M_WeightBoard->GetLinkObject(Y, X, Count) == DELETEBLOCK)
 						{
-							DeleteBlockModel[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].Draw(rc);
+							M_DeleteBlockModel[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].Draw(rc);
 						}else {
-						if (weightboard->GetLinkObject(Y, X, Count) == Block)
+						if (M_WeightBoard->GetLinkObject(Y, X, Count) == NONBLOCK)
 						{
-							SkeletonBlockModel[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].Draw(rc);
+							M_SkeletonBlockModel[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].Draw(rc);
 						}else {
-						if (weightboard->GetLinkObject(Y, X, Count) == IceBlock)
+						if (M_WeightBoard->GetLinkObject(Y, X, Count) == ICEBLOCK)
 						{
-							SkeletonIceBlockModel[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].Draw(rc);
+							M_SkeletonIceBlockModel[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].Draw(rc);
 						}else {
-						if (weightboard->GetLinkObject(Y, X, Count) == GroundBlock)
+						if (M_WeightBoard->GetLinkObject(Y, X, Count) == GROUNDBLOCK)
 						{
-							SkeletonGroundBlockModel[weightboard->GetLinkNumberY(Y, X, Count)][weightboard->GetLinkNumberX(Y, X, Count)].Draw(rc);
+							M_SkeletonGroundBlockModel[M_WeightBoard->GetLinkNumberY(Y, X, Count)][M_WeightBoard->GetLinkNumberX(Y, X, Count)].Draw(rc);
 						}
 						}
 						}

@@ -1,4 +1,5 @@
 #pragma once
+#include "NumberStorage.h"
 class Player;
 class IronBall;
 class Stage;
@@ -23,42 +24,54 @@ public:
 
 	void Update();
 
-	void LevelUp() { Level += 1; }
-	void ClearFlagSet(bool Flag) { ClearFlag = Flag; }
-	void GameOverFlagSet(bool Flag) { GameOverFlag = Flag; }
-	void GameClearFlagSet(bool Flag) { GameClearFlag = Flag; }
-	void CreateFlagSet(bool Flag) { CreateFlag = Flag; }
-	void DeleteFlagSet(bool Flag) { DeleteFlag = Flag; }
+	void LevelUp() { M_Level += 1; }
+	void ClearFlagSet(bool Flag) { M_ClearFlag = Flag; }
+	void GameOverFlagSet(bool Flag) { M_GameOverFlag = Flag; }
+	void GameClearFlagSet(bool Flag) { M_GameClearFlag = Flag; }
+	void CreateFlagSet(bool Flag) { M_CreateFlag = Flag; }
+	void DeleteFlagSet(bool Flag) { M_DeleteFlag = Flag; }
 	void Delete() { DeleteGO(this); }
 
 	
-	int GetLevel() { return Level; }
-	bool GetClearFlag() { return ClearFlag; }
-	bool GetGameOverFlag() { return GameOverFlag; }
-	bool GetGameClearFlag() { return GameClearFlag; }
-	bool GetCreateFlag() { return CreateFlag; }
-	bool GetDeleteFlag() { return DeleteFlag; }
+	int GetLevel() { return M_Level; }
+	bool GetClearFlag() { return M_ClearFlag; }
+	bool GetGameOverFlag() { return M_GameOverFlag; }
+	bool GetGameClearFlag() { return M_GameClearFlag; }
+	bool GetCreateFlag() { return M_CreateFlag; }
+	bool GetDeleteFlag() { return M_DeleteFlag; }
 
 private:
+	int M_Level = 0;
+	int M_Level_Max = 9;
 	
-	int Level = 0;
-	int Level_Max = 9;
+	bool M_ClearFlag = false;
+	bool M_GameOverFlag = false;
+	bool M_GameClearFlag = false;
+	bool M_CreateFlag = false;
 	
-	bool ClearFlag = false;
-	bool GameOverFlag = false;
-	bool GameClearFlag = false;
-	bool CreateFlag = false;
-	
-	bool BgmSet = true;
-	bool DeleteFlag = false;
+	bool M_BgmSet = true;
+	bool M_DeleteFlag = false;
 
-	SoundSource* BGM = nullptr;
-	IronBall* ironball = nullptr;
-	Player* player = nullptr;
-	Stage* stage = nullptr;
-	UI* ui = nullptr;
-	Box* box = nullptr;
-	Fade* fade = nullptr;
-	GameCamera* gamecamera = nullptr;
+	bool M_Flag = false;
+
+	SoundSource* M_BGM = nullptr;
+	IronBall* M_IronBall = nullptr;
+	Player* M_Player = nullptr;
+	Stage* M_Stage = nullptr;
+	UI* M_Ui = nullptr;
+	Box* M_Box = nullptr;
+	Fade* M_Fade = nullptr;
+	GameCamera* M_GameCamera = nullptr;
+
+	TextureHeight S_TextureHeight;
+	TextureWide S_TextureWide;
+	Color S_Color;
+	FadeInformation S_FadeInformation;
+	GridPosition S_GridPosition;
+	SoundSetting S_SoundSetting;
+	PlayerInformation S_PlayerInformation;
+	BlockInformation S_BlockInformation;
+	WorldInformation S_WorldInformation;
+	IronBallInformation S_IronBallInformation;
 };
 

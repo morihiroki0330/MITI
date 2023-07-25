@@ -1,41 +1,41 @@
 #include "stdafx.h"
 #include "G_Kaidan.h"
 #include "Box.h"
-#include "Number_Storage.h"
+#include "NumberStorage.h"
 G_Kaidan::G_Kaidan()
 {
 	InitModel();
 }
 bool G_Kaidan::Start()
 {
-	box = FindGO<Box>("box");
+	M_Box = FindGO<Box>("box");
 	return true;
 }
 
 void G_Kaidan::InitModel()
 {
-	KaidanModel.Init("Assets/modelData/kaidan3.tkm", KaidanLight);
-	KaidanModel.SetPosition({ Grid_ExemptPosition_X, Grid_ExemptPosition_Y, Grid_ExemptPosition_Z });
-	KaidanModel.SetRotation(KaidanRotation);
-	KaidanModel.SetScale(KaidanScale);
-	KaidanModel.Update();
+	M_KaidanModel.Init("Assets/modelData/kaidan3.tkm", M_KaidanLight);
+	M_KaidanModel.SetPosition({ S_GridPosition.M_GridExemptPositionX, S_GridPosition.M_GridExemptPositionY, S_GridPosition.M_GridExemptPositionZ });
+	M_KaidanModel.SetRotation(M_KaidanRotation);
+	M_KaidanModel.SetScale(M_KaidanScale);
+	M_KaidanModel.Update();
 }
 
 void G_Kaidan::Map_SetPosition(Vector3 Position)
 {
-	KaidanPosition.x = Position.x;
-	KaidanPosition.y = 20.0f;
-	KaidanPosition.z = Position.z;
+	M_KaidanPosition.x = Position.x;
+	M_KaidanPosition.y = 20.0f;
+	M_KaidanPosition.z = Position.z;
 }
 
 void G_Kaidan::Update()
 {
-	KaidanModel.SetRotation(KaidanRotation);
-	KaidanModel.SetPosition(KaidanPosition);
-	box->KaidanBoxSetPosition(KaidanPosition);
-	KaidanModel.Update();
+	M_KaidanModel.SetRotation(M_KaidanRotation);
+	M_KaidanModel.SetPosition(M_KaidanPosition);
+	M_Box->KaidanBoxSetPosition(M_KaidanPosition);
+	M_KaidanModel.Update();
 }
 void G_Kaidan::Render(RenderContext& rc)
 {
-	KaidanModel.Draw(rc);
+	M_KaidanModel.Draw(rc);
 }

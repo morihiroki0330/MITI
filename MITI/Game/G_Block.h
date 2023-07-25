@@ -1,4 +1,5 @@
 #pragma once
+#include "NumberStorage.h"
 class G_WeightBoard;
 class Box;
 class Stage;
@@ -14,30 +15,41 @@ public:
 	void BlockSetPosition(int Y, int X, Vector3 Position);
 
 	void NonBlockUpdate();
-	void WeightBoardOn_Update();
-	void WeightBoardOff_Update();
+	void WeightBoardOnUpdate();
+	void WeightBoardOffUpdate();
 
 	void Update();
 	void Render(RenderContext& rc);
 private:
-	ModelRender BlockModel[10][10];
-	ModelRender IceBlockModel[10][10];
-	ModelRender GroundBlockModel[10][10];
-	ModelRender DeleteBlockModel[10][10];
+	ModelRender M_BlockModel[10][10];
+	ModelRender M_IceBlockModel[10][10];
+	ModelRender M_GroundBlockModel[10][10];
+	ModelRender M_DeleteBlockModel[10][10];
 
-	ModelRender SkeletonIceBlockModel[10][10];
-	ModelRender SkeletonBlockModel[10][10];
-	ModelRender SkeletonGroundBlockModel[10][10];
-	ModelRender SkeletonDeleteBlockModel[10][10];
+	ModelRender M_SkeletonIceBlockModel[10][10];
+	ModelRender M_SkeletonBlockModel[10][10];
+	ModelRender M_SkeletonGroundBlockModel[10][10];
+	ModelRender M_SkeletonDeleteBlockModel[10][10];
 
-	Vector3 BlockPosition[10][10];
-	AllLight BlockLight;
-	PhysicsStaticObjectPos BlockPhysicsStaticObject[10][10];
+	Vector3 M_BlockPosition[10][10];
+	AllLight M_BlockLight;
+	PhysicsStaticObjectPos M_BlockPhysicsStaticObject[10][10];
 
-	G_WeightBoard* weightboard = nullptr;
-	Box* box = nullptr;
-	Stage* stage = nullptr;
+	G_WeightBoard* M_WeightBoard = nullptr;
+	Box* M_Box = nullptr;
+	Stage* M_Stage = nullptr;
 
-	bool NonBlock[10][10];
+	bool M_NonBlock[10][10];
+
+	TextureHeight S_TextureHeight;
+	TextureWide S_TextureWide;
+	Color S_Color;
+	FadeInformation S_FadeInformation;
+	GridPosition S_GridPosition;
+	SoundSetting S_SoundSetting;
+	PlayerInformation S_PlayerInformation;
+	BlockInformation S_BlockInformation;
+	WorldInformation S_WorldInformation;
+	IronBallInformation S_IronBallInformation;
 };
 

@@ -3,7 +3,7 @@
 #include "Story.h"
 #include "Bgm.h"
 #include "Fade.h"
-#include "Number_Storage.h"
+#include "NumberStorage.h"
 #include "sound/SoundEngine.h"
 Title::Title()
 {
@@ -12,52 +12,52 @@ Title::Title()
 }
 Title::~Title()
 {
-	DeleteGO(BGM);
+	DeleteGO(M_BGM);
 }
 bool Title::Start()
 {
-	fade = FindGO<Fade>("fade");
-	fade->StartFadeIn();
+	M_Fade = FindGO<Fade>("fade");
+	M_Fade->StartFadeIn();
 	return true;
 }
 
 void Title::InitTexture()
 {
-	TitleTexture.Init("Assets/sprite/RoM_Title3.DDS", ScreenWide, ScreenHeight);
-	AbuttonTexture.Init("Assets/sprite/PRESS_A.DDS", ScreenWide, ScreenHeight);
+	M_TitleTexture.Init("Assets/sprite/RoM_Title3.DDS", S_TextureWide.M_ScreenWide, S_TextureHeight.M_ScreenHeight);
+	M_AbuttonTexture.Init("Assets/sprite/PRESS_A.DDS", S_TextureWide.M_ScreenWide, S_TextureHeight.M_ScreenHeight);
 }
 void Title::InitSound()
 {
-	BGM = NewGO<SoundSource>(0);
-	BGM->SoundSet(B_TITLE , BgmVolume , Loop);
+	M_BGM = NewGO<SoundSource>(0);
+	M_BGM->SoundSet(BGM_TITLE , S_SoundSetting.M_BgmVolume , S_SoundSetting.M_Loop);
 }
 
 void Title::ScreenChange()
 {
-	if (fade->IsFade() == false && ClassDelete == true)
+	if (M_Fade->IsFade() == false && M_ClassDelete == true)
 	{
 		NewGO<Story>(0, "story");
 		DeleteGO(this);
 	}else {
-	if (g_pad[0]->IsTrigger(enButtonA) && ClassDelete == false && fade->IsFade() == false)
+	if (g_pad[0]->IsTrigger(enButtonA) && M_ClassDelete == false && M_Fade->IsFade() == false)
 	{
 		SoundSource* SE = NewGO<SoundSource>(0);
-		SE->SoundSet(S_TITLEBUTTON , BgmVolume , LoopNot);
-		fade->StartFadeOut();
-		PressAbutton = true;
-		ClassDelete = true;
+		SE->SoundSet(SE_TITLEBUTTON , S_SoundSetting.M_BgmVolume , S_SoundSetting.M_LoopNot);
+		M_Fade->StartFadeOut();
+		M_PressAbutton = true;
+		M_ClassDelete = true;
 	}
 	}
 }
 
 void Title::Update()
 {
-	fade->ButtonFade(AbuttonTexture, PressAbutton);
+	M_Fade->ButtonFade(M_AbuttonTexture, M_PressAbutton);
 	ScreenChange();
 }
 
 void Title::Render(RenderContext& rc)
 {
-	TitleTexture.Draw(rc);
-	AbuttonTexture.Draw(rc);
+	M_TitleTexture.Draw(rc);
+	M_AbuttonTexture.Draw(rc);
 }

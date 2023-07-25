@@ -1,39 +1,39 @@
 #pragma once
+#include "NumberStorage.h"
 class Box;
 class Stage;
 class Game;
 class IronBall;
 enum PlayerDirection
 {
-	PlayerDirectionUp,
-	PlayerDirectionDown,
-	PlayerDirectionRight,
-	PlayerDirectionLeft
+	PLAYERDIRECTION_UP,
+	PLAYERDIRECTION_DOWN,
+	PLAYERDIRECTION_RIGHT,
+	PLAYERDIRECTION_LEFT
 };
 enum DirectionController
 {
-	Non,
-	MoveUp,
-	MoveDown,
-	MoveRight,
-	MoveLeft
+	MOVE_UP,
+	MOVE_DOWN,
+	MOVE_RIGHT,
+	MOVE_LEFT
 };
 enum EnAnimationClip 
 {		
-	enAnimationClip_Idle,
-	enAnimationClip_Walk,
-	enAnimationClip_Fall,
-	enAnimationClip_Put,
-	enAnimationClip_Slip,
-	enAnimationClip_Num
+	ANIMATIONClLIP_IDLE,
+	ANIMATIONClLIP_WALK,
+	ANIMATIONClLIP_FALL,
+	ANIMATIONClLIP_PUT,
+	ANIMATIONClLIP_SLIP,
+	ANIMATIONClLIP_NUM
 };
 enum AnimationNumber 
 {
-	PlayerAnimationIdle,
-	PlayerAnimationWalk,
-	PlayerAnimationFall,
-	PlayerAnimationPut,
-	PlayerAnimationSlip
+	PLAYERANIMATION_IDLE,
+	PLAYERANIMATION_WALK,
+	PLAYERANIMATION_FALL,
+	PLAYERANIMATION_PUT,
+	PLAYERANIMATION_SLIP
 };
 class Player : public IGameObject
 {
@@ -46,7 +46,7 @@ public:
 	void InitModel();
 	void InitSound();
 	void InitSetPosition();
-	void InitIronBallCount(int Count) { IronBallCount = Count; }
+	void InitIronBallCount(int Count) { M_IronBallCount = Count; }
 	void LevelSet();
 
 	void Update();
@@ -59,83 +59,92 @@ public:
 	void PlayerMapSet();
 	void PlayerGameOver();
 	void PlayerGameClear();
-	
+
 	void PlayerAnimation();
 	void PlayerManageState();
 
-	void IronBallCountPlus() { IronBallCount++; }
-	void IronBallCountMinus() { IronBallCount--; }
-	void IronBallPutFlagSet(bool Flag) { IronBallPutFlag = Flag; }
-	void IronBallGetFlagSet(bool Flag) { IronBallGetFlag = Flag; }
-	void IronBallPutAnimationFlagSet(bool Flag) { IronBallPutAnimationFlag = Flag; }
-	void IronBallGetAnimationFlagSet(bool Flag) { IronBallGetAnimationFlag = Flag; }
+	void IronBallCountPlus() { M_IronBallCount++; }
+	void IronBallCountMinus() { M_IronBallCount--; }
+	void IronBallPutFlagSet(bool Flag) { M_IronBallPutFlag = Flag; }
+	void IronBallGetFlagSet(bool Flag) { M_IronBallGetFlag = Flag; }
+	void IronBallPutAnimationFlagSet(bool Flag) { M_IronBallPutAnimationFlag = Flag; }
+	void IronBallGetAnimationFlagSet(bool Flag) { M_IronBallGetAnimationFlag = Flag; }
 
 	void Sound();
 	void WalkSound();
 	void IceWalkSound();
 
-	void PlayerSlipFlagSet(bool Flag) { PlayerSlipFlag = Flag; }
+	void PlayerSlipFlagSet(bool Flag) { M_PlayerSlipFlag = Flag; }
 	void PlayerOnIceFloor();
 
 	void PlayerCollisionBlock();
-	void PlayerCollisionFlagSet(bool Flag) { PlayerCollisionFlag = Flag; }
+	void PlayerCollisionFlagSet(bool Flag) { M_PlayerCollisionFlag = Flag; }
 
-	int GetIronBallCount() { return IronBallCount; }
-	bool GetIronBallPutFlag() { return IronBallPutFlag; }
-	bool GetIronBallGetFlag() { return IronBallGetFlag; }
+	int GetIronBallCount() { return M_IronBallCount; }
+	bool GetIronBallPutFlag() { return M_IronBallPutFlag; }
+	bool GetIronBallGetFlag() { return M_IronBallGetFlag; }
 
-	int GetPlayerMap() { return PlayerMap; }
-	bool GetPlayerSlipFlag() { return PlayerSlipFlag; }
-	bool GetPlayerCollisionFlag() { return PlayerCollisionFlag; }
+	int GetPlayerMap() { return M_PlayerMap; }
+	bool GetPlayerSlipFlag() { return M_PlayerSlipFlag; }
+	bool GetPlayerCollisionFlag() { return M_PlayerCollisionFlag; }
 
-	float GetPlayerMoveSpeedX() { return PlayerMoveSpeed.x; }
-	float GetPlayerMoveSpeedY() { return PlayerMoveSpeed.y; }
-	float GetPlayerMoveSpeedZ() { return PlayerMoveSpeed.z; }
+	float GetPlayerMoveSpeedX() { return M_PlayerMoveSpeed.x; }
+	float GetPlayerMoveSpeedY() { return M_PlayerMoveSpeed.y; }
+	float GetPlayerMoveSpeedZ() { return M_PlayerMoveSpeed.z; }
 
-	float GetPlayerPositionX() { return PlayerPosition.x; }
-	float GetPlayerPositionY() { return PlayerPosition.y; }
-	float GetPlayerPositionZ() { return PlayerPosition.z; }
+	float GetPlayerPositionX() { return M_PlayerPosition.x; }
+	float GetPlayerPositionY() { return M_PlayerPosition.y; }
+	float GetPlayerPositionZ() { return M_PlayerPosition.z; }
 
 	int GetDirectionController(Vector3 Pos);
 private:
-	ModelRender PlayerModel;
-	Quaternion PlayerRotation;
-	AllLight PlayerLight;
-	CharacterController PlayerController;
-	Vector3 PlayerPosition;
-	Vector3 PlayerMoveSpeed;
-	Vector3 ControllerStickLeft;
-	Vector3 PlayerSetPosition[10][10];
-	AnimationClip PlayerAnimationClips[enAnimationClip_Num];	
+	ModelRender M_PlayerModel;
+	Quaternion M_PlayerRotation;
+	AllLight M_PlayerLight;
+	CharacterController M_PlayerController;
+	Vector3 M_PlayerPosition;
+	Vector3 M_PlayerMoveSpeed;
+	Vector3 M_ControllerStickLeft;
+	Vector3 M_PlayerSetPosition[10][10];
+	AnimationClip M_PlayerAnimationClips[ANIMATIONClLIP_NUM];
 
-	int PlayerState = 0;
-	int Frame = 0;
-	int IronBallCount = 0;
-	int PlayerMap = 0;
-	int PlayerMoveMap = 0;
-	int EnterDirection = 0;
+	int M_PlayerState = 0;
+	int M_Frame = 0;
+	int M_IronBallCount = 0;
+	int M_PlayerMap = 0;
+	int M_PlayerMoveMap = 0;
+	int M_EnterDirection = 0;
 
-	bool IronBallGetFlag = false;
-	bool IronBallPutFlag = false;
+	bool M_IronBallGetFlag = false;
+	bool M_IronBallPutFlag = false;
 
-	bool IronBallGetAnimationFlag = false;
-	bool IronBallPutAnimationFlag = false;
+	bool M_IronBallGetAnimationFlag = false;
+	bool M_IronBallPutAnimationFlag = false;
 
-	bool PlayerSlipFlag = false;
-	bool PlayerCollisionFlag = false;
+	bool M_PlayerSlipFlag = false;
+	bool M_PlayerCollisionFlag = false;
 
-	bool FallSet = false;
-	bool BgmSet = false;
+	bool M_FallSet = false;
+	bool M_BgmSet = false;
 
-	bool MoveFlag = false;
+	bool M_MoveFlag = false;
 	
-	Box* box = nullptr;
-	Stage* stage = nullptr;
-	Game* game = nullptr;
-	IronBall* ironball = nullptr;
-	SoundSource* WalkSe = nullptr;
-	SoundSource* IceWalkSe = nullptr;
+	Box* M_Box = nullptr;
+	Stage* M_Stage = nullptr;
+	Game* M_Game = nullptr;
+	IronBall* M_IronBall = nullptr;
+	SoundSource* M_WalkSe = nullptr;
+	SoundSource* M_IceWalkSe = nullptr;
 
-
+	TextureHeight S_TextureHeight;
+	TextureWide S_TextureWide;
+	Color S_Color;
+	FadeInformation S_FadeInformation;
+	GridPosition S_GridPosition;
+	SoundSetting S_SoundSetting;
+	PlayerInformation S_PlayerInformation;
+	BlockInformation S_BlockInformation;
+	WorldInformation S_WorldInformation;
+	IronBallInformation S_IronBallInformation;
 };
 
