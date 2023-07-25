@@ -20,7 +20,7 @@ private:
 	Quaternion M_KaidanRotation;
 	AllLight M_KaidanLight;
 
-	Box* M_Box = nullptr;
+	Box* P_Box = nullptr;
 
 	TextureHeight S_TextureHeight;
 	TextureWide S_TextureWide;

@@ -20,10 +20,10 @@ private:
 	SpriteRender M_GameclearTexture;
 	SpriteRender M_AbuttonTexture;
 
-	SoundSource* M_BGM = nullptr;
-	Fade* M_Fade = nullptr;
-	Story* M_Story = nullptr;
-	Title* M_Title = nullptr;
+	SoundSource* P_BGM = nullptr;
+	Fade* P_Fade = nullptr;
+	Story* P_Story = nullptr;
+	Title* P_Title = nullptr;
 
 	bool M_BgmSet = true;
 	bool M_ClassDelete = false;

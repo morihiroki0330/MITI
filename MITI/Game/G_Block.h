@@ -35,9 +35,9 @@ private:
 	AllLight M_BlockLight;
 	PhysicsStaticObjectPos M_BlockPhysicsStaticObject[10][10];
 
-	G_WeightBoard* M_WeightBoard = nullptr;
-	Box* M_Box = nullptr;
-	Stage* M_Stage = nullptr;
+	G_WeightBoard* P_WeightBoard = nullptr;
+	Box* P_Box = nullptr;
+	Stage* P_Stage = nullptr;
 
 	bool M_NonBlock[10][10];
 

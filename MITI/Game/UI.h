@@ -51,9 +51,9 @@ private:
 	int M_TimerOver = 0;
 	int M_TimerLimit = 100;
 
-	Player* M_Player = nullptr;
-	Game* M_Game = nullptr;
-	IronBall* M_IronBall = nullptr;
+	Player* P_Player = nullptr;
+	Game* P_Game = nullptr;
+	IronBall* P_IronBall = nullptr;
 
 	TextureHeight S_TextureHeight;
 	TextureWide S_TextureWide;

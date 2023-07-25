@@ -8,7 +8,7 @@ G_Kaidan::G_Kaidan()
 }
 bool G_Kaidan::Start()
 {
-	M_Box = FindGO<Box>("box");
+	P_Box = FindGO<Box>("box");
 	return true;
 }
 
@@ -32,7 +32,7 @@ void G_Kaidan::Update()
 {
 	M_KaidanModel.SetRotation(M_KaidanRotation);
 	M_KaidanModel.SetPosition(M_KaidanPosition);
-	M_Box->KaidanBoxSetPosition(M_KaidanPosition);
+	P_Box->KaidanBoxSetPosition(M_KaidanPosition);
 	M_KaidanModel.Update();
 }
 void G_Kaidan::Render(RenderContext& rc)

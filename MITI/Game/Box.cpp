@@ -11,8 +11,8 @@ Box::Box()
 }
 bool Box::Start()
 {
-	M_Player = FindGO<Player>("player");
-	M_Game = FindGO<Game>("game");
+	P_Player = FindGO<Player>("player");
+	P_Game = FindGO<Game>("game");
 	return true;
 }
 

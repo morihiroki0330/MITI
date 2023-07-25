@@ -24,8 +24,8 @@ private:
 	AllLight M_IceFloorLight;
 	bool M_IceFloorOn[10][10];
 
-	Player* M_Player = nullptr;
-	Stage* M_Stage = nullptr;
+	Player* P_Player = nullptr;
+	Stage* P_Stage = nullptr;
 
 	TextureHeight S_TextureHeight;
 	TextureWide S_TextureWide;

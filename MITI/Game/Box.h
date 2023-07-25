@@ -3,10 +3,10 @@
 #include "physics/PhysicsGhostObject.h"
 enum StageBehind 
 {
-	STAGEBEHIND_UP,
-	STAGEBEHIND_DOWN,
-	STAGEBEHIND_RIGHT,
-	STAGEBEHIND_LEFT
+	STAGEBEHIND_UP = 0,
+	STAGEBEHIND_DOWN = 1,
+	STAGEBEHIND_RIGHT = 2,
+	STAGEBEHIND_LEFT = 3
 };
 class Player;
 class Game;
@@ -35,8 +35,8 @@ private:
 	Quaternion M_KabeRotation[4];
 	Vector3 M_KabeScale[4];
 
-	Player* M_Player = nullptr;
-	Game* M_Game = nullptr;
+	Player* P_Player = nullptr;
+	Game* P_Game = nullptr;
 
 	TextureHeight S_TextureHeight;
 	TextureWide S_TextureWide;

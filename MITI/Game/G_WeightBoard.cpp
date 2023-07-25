@@ -15,10 +15,10 @@ G_WeightBoard::G_WeightBoard()
 }
 bool G_WeightBoard::Start()
 {
-	M_WeightBoard = FindGO<G_WeightBoard>("weightboard");
-	M_IronBall = FindGO<IronBall>("ironball");
-	M_Stage = FindGO<Stage>("stage");
-	M_Player = FindGO<Player>("player");
+	P_WeightBoard = FindGO<G_WeightBoard>("weightboard");
+	P_IronBall = FindGO<IronBall>("ironball");
+	P_Stage = FindGO<Stage>("stage");
+	P_Player = FindGO<Player>("player");
 	return true;
 }
 void G_WeightBoard::WeightBoardOnTrue(int Y, int X)
@@ -67,11 +67,11 @@ void G_WeightBoard::LinkNumberSet(int Y, int X, int W, int Number)
 }
 void G_WeightBoard::Sound()
 {
-	if (M_BgmSet[(M_Player->GetPlayerMap() / 10)][(M_Player->GetPlayerMap() % 10)] == true && M_HitFlag[(M_Player->GetPlayerMap() / 10)][(M_Player->GetPlayerMap() % 10)] == false)
+	if (M_BgmSet[(P_Player->GetPlayerMap() / 10)][(P_Player->GetPlayerMap() % 10)] == true && M_HitFlag[(P_Player->GetPlayerMap() / 10)][(P_Player->GetPlayerMap() % 10)] == false)
 	{
 		SoundSource* SE = NewGO<SoundSource>(0);
 		SE->SoundSet(SE_WEIGHTBOARD, S_SoundSetting.M_BgmVolume , S_SoundSetting.M_LoopNot);
-		M_HitFlag[(M_Player->GetPlayerMap() / 10)][(M_Player->GetPlayerMap() % 10)] = true;
+		M_HitFlag[(P_Player->GetPlayerMap() / 10)][(P_Player->GetPlayerMap() % 10)] = true;
 	}
 }
 void G_WeightBoard::WeightBoardOnPlayer()
@@ -82,10 +82,10 @@ void G_WeightBoard::WeightBoardOnPlayer()
 		{
 			if (M_WeightBoardOn[Y][X] == true)
 			{
-				if (M_Stage->GetSkyData(M_Player->GetPlayerMap()) == WEIGHTBOARD)
+				if (P_Stage->GetSkyData(P_Player->GetPlayerMap()) == WEIGHTBOARD)
 				{
-					M_SwitchOnFlag[(M_Player->GetPlayerMap() / 10)][(M_Player->GetPlayerMap() % 10)] = true;
-					M_BgmSet[(M_Player->GetPlayerMap() / 10)][(M_Player->GetPlayerMap() % 10)] = true;
+					M_SwitchOnFlag[(P_Player->GetPlayerMap() / 10)][(P_Player->GetPlayerMap() % 10)] = true;
+					M_BgmSet[(P_Player->GetPlayerMap() / 10)][(P_Player->GetPlayerMap() % 10)] = true;
 				}else {
 					M_SwitchOnFlag[Y][X] = false;
 					M_BgmSet[Y][X] = false;
@@ -94,7 +94,7 @@ void G_WeightBoard::WeightBoardOnPlayer()
 
 				for (int W = 0; W < 5; W++)
 				{
-					if (M_IronBall->WeightBoardOn(Y, X) == true)
+					if (P_IronBall->WeightBoardOn(Y, X) == true)
 					{
 						M_SwitchOnFlag[Y][X] = true;
 						break;

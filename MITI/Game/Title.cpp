@@ -12,12 +12,12 @@ Title::Title()
 }
 Title::~Title()
 {
-	DeleteGO(M_BGM);
+	DeleteGO(P_BGM);
 }
 bool Title::Start()
 {
-	M_Fade = FindGO<Fade>("fade");
-	M_Fade->StartFadeIn();
+	P_Fade = FindGO<Fade>("fade");
+	P_Fade->StartFadeIn();
 	return true;
 }
 
@@ -28,22 +28,22 @@ void Title::InitTexture()
 }
 void Title::InitSound()
 {
-	M_BGM = NewGO<SoundSource>(0);
-	M_BGM->SoundSet(BGM_TITLE , S_SoundSetting.M_BgmVolume , S_SoundSetting.M_Loop);
+	P_BGM = NewGO<SoundSource>(0);
+	P_BGM->SoundSet(BGM_TITLE , S_SoundSetting.M_BgmVolume , S_SoundSetting.M_Loop);
 }
 
 void Title::ScreenChange()
 {
-	if (M_Fade->IsFade() == false && M_ClassDelete == true)
+	if (P_Fade->IsFade() == false && M_ClassDelete == true)
 	{
 		NewGO<Story>(0, "story");
 		DeleteGO(this);
 	}else {
-	if (g_pad[0]->IsTrigger(enButtonA) && M_ClassDelete == false && M_Fade->IsFade() == false)
+	if (g_pad[0]->IsTrigger(enButtonA) && M_ClassDelete == false && P_Fade->IsFade() == false)
 	{
 		SoundSource* SE = NewGO<SoundSource>(0);
 		SE->SoundSet(SE_TITLEBUTTON , S_SoundSetting.M_BgmVolume , S_SoundSetting.M_LoopNot);
-		M_Fade->StartFadeOut();
+		P_Fade->StartFadeOut();
 		M_PressAbutton = true;
 		M_ClassDelete = true;
 	}
@@ -52,7 +52,7 @@ void Title::ScreenChange()
 
 void Title::Update()
 {
-	M_Fade->ButtonFade(M_AbuttonTexture, M_PressAbutton);
+	P_Fade->ButtonFade(M_AbuttonTexture, M_PressAbutton);
 	ScreenChange();
 }
 

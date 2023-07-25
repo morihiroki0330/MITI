@@ -13,13 +13,13 @@ GameClear::GameClear()
 }
 GameClear::~GameClear()
 {
-	DeleteGO(M_BGM);
+	DeleteGO(P_BGM);
 }
 bool GameClear::Start()
 {
 
-	M_Fade = FindGO<Fade>("fade");
-	M_Fade->StartFadeIn();
+	P_Fade = FindGO<Fade>("fade");
+	P_Fade->StartFadeIn();
 	return true;
 }
 
@@ -30,14 +30,14 @@ void GameClear::InitTexture()
 }
 void GameClear::InitSound()
 {
-	M_BGM = NewGO<SoundSource>(0);
-	M_BGM->SoundSet(BGM_GAMECLEAR , S_SoundSetting.M_BgmVolume , S_SoundSetting.M_Loop);
+	P_BGM = NewGO<SoundSource>(0);
+	P_BGM->SoundSet(BGM_GAMECLEAR , S_SoundSetting.M_BgmVolume , S_SoundSetting.M_Loop);
 }
 
 void GameClear::Update()
 {
-	M_Fade->ButtonFade(M_AbuttonTexture, M_PressAbutton);
-	if (M_Fade->IsFade() == false && M_ClassDelete == true)
+	P_Fade->ButtonFade(M_AbuttonTexture, M_PressAbutton);
+	if (P_Fade->IsFade() == false && M_ClassDelete == true)
 	{
 		NewGO<Story>(0, "story");
 		DeleteGO(this);
@@ -46,7 +46,7 @@ void GameClear::Update()
 	{
 		SoundSource* SE = NewGO<SoundSource>(0);
 		SE->SoundSet(SE_BUTTON, S_SoundSetting.M_BgmVolume, S_SoundSetting.M_LoopNot);
-		M_Fade->StartFadeOut();
+		P_Fade->StartFadeOut();
 		M_PressAbutton = true;
 		M_ClassDelete = true;
 	}

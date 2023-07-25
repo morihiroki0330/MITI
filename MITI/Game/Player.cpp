@@ -17,15 +17,15 @@ Player::Player()
 }
 Player::~Player()
 {
-	DeleteGO(M_WalkSe);
-	DeleteGO(M_IceWalkSe);
+	DeleteGO(P_WalkSe);
+	DeleteGO(P_IceWalkSe);
 }
 bool Player::Start()
 {
-	M_Box = FindGO<Box>("box");
-	M_Game = FindGO<Game>("game");
-	M_Stage = FindGO<Stage>("stage");
-	M_IronBall = FindGO<IronBall>("ironball");
+	P_Box = FindGO<Box>("box");
+	P_Game = FindGO<Game>("game");
+	P_Stage = FindGO<Stage>("stage");
+	P_IronBall = FindGO<IronBall>("ironball");
 	LevelSet();
 	return true;
 }
@@ -49,13 +49,13 @@ void Player::InitModel()
 }
 void Player::InitSound()
 {
-	M_WalkSe = NewGO<SoundSource>(0);
-	M_WalkSe->Init(SE_WALK);
-	M_WalkSe->SetVolume(0.2f);
+	P_WalkSe = NewGO<SoundSource>(0);
+	P_WalkSe->Init(SE_WALK);
+	P_WalkSe->SetVolume(0.2f);
 
-	M_IceWalkSe = NewGO<SoundSource>(0);
-	M_IceWalkSe->Init(SE_ICEWALK);
-	M_IceWalkSe->SetVolume(0.2f);
+	P_IceWalkSe = NewGO<SoundSource>(0);
+	P_IceWalkSe->Init(SE_ICEWALK);
+	P_IceWalkSe->SetVolume(0.2f);
 }
 void Player::InitSetPosition()
 {
@@ -71,7 +71,7 @@ void Player::InitSetPosition()
 }
 void Player::LevelSet()
 {
-	switch (M_Game->GetLevel())
+	switch (P_Game->GetLevel())
 	{
 	case LEVEL0:
 		M_PlayerPosition = M_PlayerSetPosition[5][1];
@@ -125,12 +125,12 @@ void Player::PlayerGameOver()
 
 	if (M_PlayerPosition.y <= S_WorldInformation.M_UnderLimit)
 	{
-		M_Game->GameOverFlagSet(true);
+		P_Game->GameOverFlagSet(true);
 	}
 }
 void Player::PlayerGameClear()
 {
-	if (M_Game->GetClearFlag() == true && M_BgmSet == false)
+	if (P_Game->GetClearFlag() == true && M_BgmSet == false)
 	{
 		SoundSource* SE = NewGO<SoundSource>(0);
 		SE->SoundSet(SE_KAIDAN, S_SoundSetting.M_BgmVolume, S_SoundSetting.M_LoopNot);
@@ -169,12 +169,12 @@ void Player::WalkSound()
 {
 	if ((M_PlayerMoveSpeed.x < S_PlayerInformation.M_MinMoveSpeed || M_PlayerMoveSpeed.x > S_PlayerInformation.M_MinMoveSpeed || M_PlayerMoveSpeed.z > S_PlayerInformation.M_MinMoveSpeed || M_PlayerMoveSpeed.z < S_PlayerInformation.M_MinMoveSpeed) && GetPlayerSlipFlag() == false)
 	{
-		M_WalkSe->Play(true);
+		P_WalkSe->Play(true);
 
 	}else {
 	if (M_PlayerMoveSpeed.x == S_PlayerInformation.M_MinMoveSpeed || M_PlayerMoveSpeed.z == S_PlayerInformation.M_MinMoveSpeed)
 	{
-		M_WalkSe->Pause();
+		P_WalkSe->Pause();
 	}
 	}
 }
@@ -182,11 +182,11 @@ void Player::IceWalkSound()
 {
 	if (GetPlayerSlipFlag() == true)
 	{
-		M_IceWalkSe->Play(true);
+		P_IceWalkSe->Play(true);
 	}else {
 	if (GetPlayerSlipFlag() == false)
 	{
-		M_IceWalkSe->Pause();
+		P_IceWalkSe->Pause();
 	}
 	}
 }
@@ -237,7 +237,7 @@ void Player::PlayerToMove()
 			{
 				M_PlayerMoveSpeed.x = S_PlayerInformation.M_MinMoveSpeed;
 			}
-			if (M_IronBallPutAnimationFlag == true || M_IronBallGetAnimationFlag == true || M_Game->GetClearFlag() == true)
+			if (M_IronBallPutAnimationFlag == true || M_IronBallGetAnimationFlag == true || P_Game->GetClearFlag() == true)
 			{
 				M_PlayerMoveSpeed.x = S_PlayerInformation.M_MinMoveSpeed;
 				M_PlayerMoveSpeed.z = S_PlayerInformation.M_MinMoveSpeed;
@@ -250,7 +250,7 @@ void Player::PlayerToMove()
 		{
 			M_PlayerMoveSpeed.z = S_PlayerInformation.M_MinMoveSpeed;
 			M_PlayerMoveSpeed.x = (-13.0f + M_IronBallCount / 4);
-			if (M_Stage->GetGroundData(M_PlayerMap,PLAYERDIRECTION_UP) == ICE || M_Stage->GetGroundData(M_PlayerMap,PLAYERDIRECTION_UP) == HOLE)
+			if (P_Stage->GetGroundData(M_PlayerMap,PLAYERDIRECTION_UP) == ICE || P_Stage->GetGroundData(M_PlayerMap,PLAYERDIRECTION_UP) == HOLE)
 			{
 				M_PlayerSlipFlag = true;
 			}
@@ -259,7 +259,7 @@ void Player::PlayerToMove()
 		{
 			M_PlayerMoveSpeed.z = S_PlayerInformation.M_MinMoveSpeed;
 			M_PlayerMoveSpeed.x = (13.0f + M_IronBallCount / 4);
-			if (M_Stage->GetGroundData(M_PlayerMap,PLAYERDIRECTION_DOWN) == ICE || M_Stage->GetGroundData(M_PlayerMap,PLAYERDIRECTION_DOWN) == HOLE)
+			if (P_Stage->GetGroundData(M_PlayerMap,PLAYERDIRECTION_DOWN) == ICE || P_Stage->GetGroundData(M_PlayerMap,PLAYERDIRECTION_DOWN) == HOLE)
 			{
 				M_PlayerSlipFlag = true;
 			}
@@ -268,7 +268,7 @@ void Player::PlayerToMove()
 		{
 			M_PlayerMoveSpeed.x = S_PlayerInformation.M_MinMoveSpeed;
 			M_PlayerMoveSpeed.z = (13.0f - M_IronBallCount / 4);
-			if (M_Stage->GetGroundData(M_PlayerMap,PLAYERDIRECTION_RIGHT) == ICE || M_Stage->GetGroundData(M_PlayerMap,PLAYERDIRECTION_RIGHT) == HOLE)
+			if (P_Stage->GetGroundData(M_PlayerMap,PLAYERDIRECTION_RIGHT) == ICE || P_Stage->GetGroundData(M_PlayerMap,PLAYERDIRECTION_RIGHT) == HOLE)
 			{
 				M_PlayerSlipFlag = true;
 			}
@@ -277,7 +277,7 @@ void Player::PlayerToMove()
 		{
 			M_PlayerMoveSpeed.x = S_PlayerInformation.M_MinMoveSpeed;
 			M_PlayerMoveSpeed.z = (-13.0f - M_IronBallCount / 4);
-			if (M_Stage->GetGroundData(M_PlayerMap,PLAYERDIRECTION_LEFT) == ICE || M_Stage->GetGroundData(M_PlayerMap,PLAYERDIRECTION_LEFT) == HOLE)
+			if (P_Stage->GetGroundData(M_PlayerMap,PLAYERDIRECTION_LEFT) == ICE || P_Stage->GetGroundData(M_PlayerMap,PLAYERDIRECTION_LEFT) == HOLE)
 			{
 				M_PlayerSlipFlag = true;
 			}
@@ -298,19 +298,19 @@ void Player::PlayerCollisionBlock()
 		switch (M_EnterDirection)
 		{
 		case PLAYERDIRECTION_LEFT:
-			if (M_Box->BlockIsSelf((M_PlayerMap / 10), (M_PlayerMap % 10) - 1, contactObject) == true)
+			if (P_Box->BlockIsSelf((M_PlayerMap / 10), (M_PlayerMap % 10) - 1, contactObject) == true)
 			{
 				PlayerCollisionFlagSet(true);
 				PlayerSlipFlagSet(false);
 			}else {
-			if (M_Box->KabeIsSelf(STAGEBEHIND_LEFT,contactObject) == true)
+			if (P_Box->KabeIsSelf(STAGEBEHIND_LEFT,contactObject) == true)
 			{
 				PlayerCollisionFlagSet(true);
 				PlayerSlipFlagSet(false);
 			}else {
-			if (M_Box->KaidanIsSelf(contactObject) == true)
+			if (P_Box->KaidanIsSelf(contactObject) == true)
 			{
-				M_Game->ClearFlagSet(true);
+				P_Game->ClearFlagSet(true);
 				PlayerCollisionFlagSet(true);
 				PlayerSlipFlagSet(false);
 			}
@@ -318,19 +318,19 @@ void Player::PlayerCollisionBlock()
 			}
 			break;
 		case PLAYERDIRECTION_RIGHT:
-			if (M_Box->BlockIsSelf((M_PlayerMap / 10), (M_PlayerMap % 10) + 1, contactObject) == true)
+			if (P_Box->BlockIsSelf((M_PlayerMap / 10), (M_PlayerMap % 10) + 1, contactObject) == true)
 			{
 				PlayerCollisionFlagSet(true);
 				PlayerSlipFlagSet(false);
 			}else {
-			if (M_Box->KabeIsSelf(STAGEBEHIND_RIGHT, contactObject) == true)
+			if (P_Box->KabeIsSelf(STAGEBEHIND_RIGHT, contactObject) == true)
 			{
 				PlayerCollisionFlagSet(true);
 				PlayerSlipFlagSet(false);
 			}else {
-			if (M_Box->KaidanIsSelf(contactObject) == true)
+			if (P_Box->KaidanIsSelf(contactObject) == true)
 			{
-				M_Game->ClearFlagSet(true);
+				P_Game->ClearFlagSet(true);
 				PlayerCollisionFlagSet(true);
 				PlayerSlipFlagSet(false);
 			}
@@ -338,19 +338,19 @@ void Player::PlayerCollisionBlock()
 			}
 			break;
 		case PLAYERDIRECTION_UP:
-			if (M_Box->BlockIsSelf((M_PlayerMap / 10) - 1, (M_PlayerMap % 10), contactObject) == true)
+			if (P_Box->BlockIsSelf((M_PlayerMap / 10) - 1, (M_PlayerMap % 10), contactObject) == true)
 			{
 				PlayerCollisionFlagSet(true);
 				PlayerSlipFlagSet(false);
 			}else {
-			if (M_Box->KabeIsSelf(STAGEBEHIND_UP, contactObject) == true)
+			if (P_Box->KabeIsSelf(STAGEBEHIND_UP, contactObject) == true)
 			{
 				PlayerCollisionFlagSet(true);
 				PlayerSlipFlagSet(false);
 			}else {
-			if (M_Box->KaidanIsSelf(contactObject) == true)
+			if (P_Box->KaidanIsSelf(contactObject) == true)
 			{
-				M_Game->ClearFlagSet(true);
+				P_Game->ClearFlagSet(true);
 				PlayerCollisionFlagSet(true);
 				PlayerSlipFlagSet(false);
 			}
@@ -358,19 +358,19 @@ void Player::PlayerCollisionBlock()
 			}
 			break;
 		case PLAYERDIRECTION_DOWN:
-			if (M_Box->BlockIsSelf((M_PlayerMap / 10) + 1, (M_PlayerMap % 10), contactObject) == true)
+			if (P_Box->BlockIsSelf((M_PlayerMap / 10) + 1, (M_PlayerMap % 10), contactObject) == true)
 			{
 				PlayerCollisionFlagSet(true);
 				PlayerSlipFlagSet(false);
 			}else {
-			if (M_Box->KabeIsSelf(STAGEBEHIND_DOWN, contactObject) == true)
+			if (P_Box->KabeIsSelf(STAGEBEHIND_DOWN, contactObject) == true)
 			{
 				PlayerCollisionFlagSet(true);
 				PlayerSlipFlagSet(false);
 			}else {
-			if (M_Box->KaidanIsSelf(contactObject) == true)
+			if (P_Box->KaidanIsSelf(contactObject) == true)
 			{
-				M_Game->ClearFlagSet(true);
+				P_Game->ClearFlagSet(true);
 				PlayerCollisionFlagSet(true);
 				PlayerSlipFlagSet(false);				
 			}
@@ -389,31 +389,31 @@ void Player::PlayerToRotation()
 }
 void Player::PlayerToIronBall()
 {
-	if (g_pad[0]->IsTrigger(enButtonA) && M_IronBallCount < M_IronBall->GetIronBallMax() && M_IronBallCount >= M_IronBall->GetIronBallMin() && M_Stage->GetGroundData(M_PlayerMap) == GROUND)
+	if (g_pad[0]->IsTrigger(enButtonA) && M_IronBallCount < P_IronBall->GetIronBallMax() && M_IronBallCount >= P_IronBall->GetIronBallMin() && P_Stage->GetGroundData(M_PlayerMap) == GROUND)
 	{
-		if (M_IronBall->GetBallMap(M_PlayerMap) == true)
+		if (P_IronBall->GetBallMap(M_PlayerMap) == true)
 		{
 			SoundSource* SE = NewGO<SoundSource>(0);
 			SE->SoundSet(SE_IRONBALLGET, S_SoundSetting.M_BgmVolume, S_SoundSetting.M_LoopNot);
 			M_IronBallGetFlag = true;
-			M_IronBall->IronBallMapSet(M_PlayerMap,false);
+			P_IronBall->IronBallMapSet(M_PlayerMap,false);
 		}
 	}
 
-	if (g_pad[0]->IsTrigger(enButtonB) && M_IronBallCount > M_IronBall->GetIronBallMin() && M_IronBallCount <= M_IronBall->GetIronBallMax() && M_Stage->GetGroundData(M_PlayerMap) == GROUND)
+	if (g_pad[0]->IsTrigger(enButtonB) && M_IronBallCount > P_IronBall->GetIronBallMin() && M_IronBallCount <= P_IronBall->GetIronBallMax() && P_Stage->GetGroundData(M_PlayerMap) == GROUND)
 	{
-		if (M_IronBall->GetBallMap(M_PlayerMap) == false)
+		if (P_IronBall->GetBallMap(M_PlayerMap) == false)
 		{
 			SoundSource* SE = NewGO<SoundSource>(0);
 			SE->SoundSet(SE_IRONBALLPUT, S_SoundSetting.M_BgmVolume, S_SoundSetting.M_LoopNot);
 			M_IronBallPutFlag = true;
-			M_IronBall->IronBallMapSet(M_PlayerMap,true);
+			P_IronBall->IronBallMapSet(M_PlayerMap,true);
 		}
 	}
 }
 void Player::PlayerOnIceFloor()
 {
-	if (M_Stage->GetGroundData(GetPlayerMap()) == GROUND) { PlayerSlipFlagSet(false); }
+	if (P_Stage->GetGroundData(GetPlayerMap()) == GROUND) { PlayerSlipFlagSet(false); }
 }
 
 void Player::PlayerManageState()

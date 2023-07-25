@@ -6,34 +6,34 @@ class Game;
 class IronBall;
 enum PlayerDirection
 {
-	PLAYERDIRECTION_UP,
-	PLAYERDIRECTION_DOWN,
-	PLAYERDIRECTION_RIGHT,
-	PLAYERDIRECTION_LEFT
+	PLAYERDIRECTION_UP = 0,
+	PLAYERDIRECTION_DOWN = 1,
+	PLAYERDIRECTION_RIGHT = 2,
+	PLAYERDIRECTION_LEFT = 3
 };
 enum DirectionController
 {
-	MOVE_UP,
-	MOVE_DOWN,
-	MOVE_RIGHT,
-	MOVE_LEFT
+	MOVE_UP = 0,
+	MOVE_DOWN = 1,
+	MOVE_RIGHT = 2,
+	MOVE_LEFT = 3
 };
 enum EnAnimationClip 
 {		
-	ANIMATIONClLIP_IDLE,
-	ANIMATIONClLIP_WALK,
-	ANIMATIONClLIP_FALL,
-	ANIMATIONClLIP_PUT,
-	ANIMATIONClLIP_SLIP,
-	ANIMATIONClLIP_NUM
+	ANIMATIONClLIP_IDLE = 0,
+	ANIMATIONClLIP_WALK = 1,
+	ANIMATIONClLIP_FALL = 2,
+	ANIMATIONClLIP_PUT = 3,
+	ANIMATIONClLIP_SLIP = 4,
+	ANIMATIONClLIP_NUM = 5
 };
 enum AnimationNumber 
 {
-	PLAYERANIMATION_IDLE,
-	PLAYERANIMATION_WALK,
-	PLAYERANIMATION_FALL,
-	PLAYERANIMATION_PUT,
-	PLAYERANIMATION_SLIP
+	PLAYERANIMATION_IDLE = 0,
+	PLAYERANIMATION_WALK = 1,
+	PLAYERANIMATION_FALL = 2,
+	PLAYERANIMATION_PUT = 3,
+	PLAYERANIMATION_SLIP = 4
 };
 class Player : public IGameObject
 {
@@ -129,12 +129,12 @@ private:
 
 	bool M_MoveFlag = false;
 	
-	Box* M_Box = nullptr;
-	Stage* M_Stage = nullptr;
-	Game* M_Game = nullptr;
-	IronBall* M_IronBall = nullptr;
-	SoundSource* M_WalkSe = nullptr;
-	SoundSource* M_IceWalkSe = nullptr;
+	Box* P_Box = nullptr;
+	Stage* P_Stage = nullptr;
+	Game* P_Game = nullptr;
+	IronBall* P_IronBall = nullptr;
+	SoundSource* P_WalkSe = nullptr;
+	SoundSource* P_IceWalkSe = nullptr;
 
 	TextureHeight S_TextureHeight;
 	TextureWide S_TextureWide;

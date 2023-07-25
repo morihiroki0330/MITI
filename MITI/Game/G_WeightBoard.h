@@ -38,11 +38,11 @@ private:
 	PhysicsStaticObjectPos M_WeightBoardPhysicsStaticObject[10][10];
 	AllLight M_WeightBoardLight;
 
-	Player* M_Player = nullptr;
-	IronBall* M_IronBall = nullptr;
-	G_Block* M_Block = nullptr;
-	Stage* M_Stage = nullptr;
-	G_WeightBoard* M_WeightBoard = nullptr;
+	Player* P_Player = nullptr;
+	IronBall* P_IronBall = nullptr;
+	G_Block* P_Block = nullptr;
+	Stage* P_Stage = nullptr;
+	G_WeightBoard* P_WeightBoard = nullptr;
 
 	bool M_BgmSet[10][10];
 	bool M_HitFlag[10][10];

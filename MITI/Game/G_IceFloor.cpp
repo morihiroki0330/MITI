@@ -10,8 +10,8 @@ G_IceFloor::G_IceFloor()
 }
 bool G_IceFloor::Start()
 {
-	M_Player = FindGO<Player>("player");
-	M_Stage = FindGO<Stage>("stage");
+	P_Player = FindGO<Player>("player");
+	P_Stage = FindGO<Stage>("stage");
 	return true;
 }
 
@@ -48,7 +48,7 @@ void G_IceFloor::IceFloorSetPosition(int Y, int X, Vector3 Position)
 }
 void G_IceFloor::IceFloorOnPlayer()
 {
-	if (M_Stage->GetGroundData(M_Player->GetPlayerMap()) == ICE) { M_Player->PlayerSlipFlagSet(true); }
+	if (P_Stage->GetGroundData(P_Player->GetPlayerMap()) == ICE) { P_Player->PlayerSlipFlagSet(true); }
 }
 
 void G_IceFloor::Update()

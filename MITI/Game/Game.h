@@ -54,14 +54,14 @@ private:
 
 	bool M_Flag = false;
 
-	SoundSource* M_BGM = nullptr;
-	IronBall* M_IronBall = nullptr;
-	Player* M_Player = nullptr;
-	Stage* M_Stage = nullptr;
-	UI* M_Ui = nullptr;
-	Box* M_Box = nullptr;
-	Fade* M_Fade = nullptr;
-	GameCamera* M_GameCamera = nullptr;
+	SoundSource* P_BGM = nullptr;
+	IronBall* P_IronBall = nullptr;
+	Player* P_Player = nullptr;
+	Stage* P_Stage = nullptr;
+	UI* P_Ui = nullptr;
+	Box* P_Box = nullptr;
+	Fade* P_Fade = nullptr;
+	GameCamera* P_GameCamera = nullptr;
 
 	TextureHeight S_TextureHeight;
 	TextureWide S_TextureWide;

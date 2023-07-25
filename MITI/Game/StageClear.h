@@ -21,9 +21,9 @@ private:
 	SpriteRender M_StageclearTexture;
 	SpriteRender M_AbuttonTexture;
 
-	SoundSource* M_BGM = nullptr;
-	Game* M_Game = nullptr;
-	Fade* M_Fade = nullptr;
+	SoundSource* P_BGM = nullptr;
+	Game* P_Game = nullptr;
+	Fade* P_Fade = nullptr;
 
 	bool M_BgmSet = true;
 	bool M_ClassDelete = false;

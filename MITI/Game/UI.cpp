@@ -6,9 +6,9 @@
 #include "NumberStorage.h"
 UI::UI() 
 {
-	M_Player = FindGO<Player>("player");
-	M_Game = FindGO<Game>("game");
-	M_IronBall = FindGO<IronBall>("ironball");
+	P_Player = FindGO<Player>("player");
+	P_Game = FindGO<Game>("game");
+	P_IronBall = FindGO<IronBall>("ironball");
 	InitTexture();
 	InitPosition();
 	InitUpdate();
@@ -101,7 +101,7 @@ void UI::Time()
 {
 	M_Timer++;
 	M_TimerOver = M_TimerLimit - M_Timer / 60;
-	if (M_TimerOver <= 0){ M_Game->GameOverFlagSet(true); }
+	if (M_TimerOver <= 0){ P_Game->GameOverFlagSet(true); }
 
 	swprintf_s(M_Clock, 256, L"%d", M_TimerOver);
 	M_TimerFont.SetText(M_Clock);
@@ -110,22 +110,22 @@ void UI::Time()
 }
 void UI::Button()
 {
-	if (M_Player->GetIronBallCount() < M_IronBall->GetIronBallMax() && M_Player->GetIronBallCount() >= M_IronBall->GetIronBallMin())
+	if (P_Player->GetIronBallCount() < P_IronBall->GetIronBallMax() && P_Player->GetIronBallCount() >= P_IronBall->GetIronBallMin())
 	{ 
 		M_AbuttonTexture.SetMulColor(M_AbuttonCollar_TRUE);
 	}
 
-	if (M_Player->GetIronBallCount() >= M_IronBall->GetIronBallMax())
+	if (P_Player->GetIronBallCount() >= P_IronBall->GetIronBallMax())
 	{ 
 		M_AbuttonTexture.SetMulColor(M_AbuttonCollar_FALSE);
 	}
 
-	if (M_Player->GetIronBallCount() <= M_IronBall->GetIronBallMax() && M_Player->GetIronBallCount() >= M_IronBall->GetIronBallMin())
+	if (P_Player->GetIronBallCount() <= P_IronBall->GetIronBallMax() && P_Player->GetIronBallCount() >= P_IronBall->GetIronBallMin())
 	{
 		M_BbuttonTexture.SetMulColor(M_BbuttonCollar_TRUE);
 	}
 
-	if (M_Player->GetIronBallCount() <= M_IronBall->GetIronBallMin())
+	if (P_Player->GetIronBallCount() <= P_IronBall->GetIronBallMin())
 	{
 		M_BbuttonTexture.SetMulColor(M_BbuttonCollar_FALSE);
 	}
@@ -138,15 +138,15 @@ void UI::Update()
 	M_AbuttonTexture.Update();
 	M_BbuttonTexture.Update();
 
-	M_IronBallCountTexture[M_Player->GetIronBallCount()].Update();
+	M_IronBallCountTexture[P_Player->GetIronBallCount()].Update();
 
-	if (M_Player->GetPlayerMoveSpeedX() < 0.0f) { M_ControllerUpTexture.Update(); }
+	if (P_Player->GetPlayerMoveSpeedX() < 0.0f) { M_ControllerUpTexture.Update(); }
 	else {
-	if (M_Player->GetPlayerMoveSpeedX() > 0.0f) { M_ControllerDownTexture.Update(); }
+	if (P_Player->GetPlayerMoveSpeedX() > 0.0f) { M_ControllerDownTexture.Update(); }
 	else {
-	if (M_Player->GetPlayerMoveSpeedZ() > 0.0f) { M_ControllerRightTexture.Update(); }
+	if (P_Player->GetPlayerMoveSpeedZ() > 0.0f) { M_ControllerRightTexture.Update(); }
 	else {
-	if (M_Player->GetPlayerMoveSpeedZ() < 0.0f){ M_ControllerLeftTexture.Update();}
+	if (P_Player->GetPlayerMoveSpeedZ() < 0.0f){ M_ControllerLeftTexture.Update();}
 	else { M_ControllerNonTexture.Update();}
 	}
 	}
@@ -159,16 +159,16 @@ void UI::Render(RenderContext& rc)
 	M_AbuttonTexture.Draw(rc);
 	M_BbuttonTexture.Draw(rc);
 
-	M_IronBallCountTexture[M_Player->GetIronBallCount()].Draw(rc);
-	M_StageCountTexture[M_Game->GetLevel()].Draw(rc);
+	M_IronBallCountTexture[P_Player->GetIronBallCount()].Draw(rc);
+	M_StageCountTexture[P_Game->GetLevel()].Draw(rc);
 
-	if (M_Player->GetPlayerMoveSpeedX() < 0.0f) { M_ControllerUpTexture.Draw(rc);}
+	if (P_Player->GetPlayerMoveSpeedX() < 0.0f) { M_ControllerUpTexture.Draw(rc);}
 	else {
-	if (M_Player->GetPlayerMoveSpeedX() > 0.0f) { M_ControllerDownTexture.Draw(rc);}
+	if (P_Player->GetPlayerMoveSpeedX() > 0.0f) { M_ControllerDownTexture.Draw(rc);}
 	else {
-	if (M_Player->GetPlayerMoveSpeedZ() > 0.0f) { M_ControllerRightTexture.Draw(rc);}
+	if (P_Player->GetPlayerMoveSpeedZ() > 0.0f) { M_ControllerRightTexture.Draw(rc);}
 	else {
-	if (M_Player->GetPlayerMoveSpeedZ() < 0.0f) { M_ControllerLeftTexture.Draw(rc);}
+	if (P_Player->GetPlayerMoveSpeedZ() < 0.0f) { M_ControllerLeftTexture.Draw(rc);}
 	else { M_ControllerNonTexture.Draw(rc);}
 	}
 	}

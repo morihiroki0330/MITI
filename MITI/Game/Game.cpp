@@ -25,7 +25,7 @@ Game::~Game()
 }
 bool Game::Start()
 {
-	M_Fade = FindGO<Fade>("fade");
+	P_Fade = FindGO<Fade>("fade");
 	InitWorld();
 	ClassCreate();
 	return true;
@@ -39,28 +39,28 @@ void Game::InitWorld()
 
 void Game::ClassCreate()
 {
-	M_Stage = NewGO<Stage>(0, "stage");
-	M_Player = NewGO<Player>(0, "player");
-	M_GameCamera = NewGO<GameCamera>(0, "gamecamera");
-	M_IronBall = NewGO<IronBall>(0, "ironball");
-	M_Ui = NewGO<UI>(0, "ui");
-	M_Box = NewGO<Box>(0, "box");
+	P_Stage = NewGO<Stage>(0, "stage");
+	P_Player = NewGO<Player>(0, "player");
+	P_GameCamera = NewGO<GameCamera>(0, "gamecamera");
+	P_IronBall = NewGO<IronBall>(0, "ironball");
+	P_Ui = NewGO<UI>(0, "ui");
+	P_Box = NewGO<Box>(0, "box");
 
-	M_BGM = NewGO<SoundSource>(0);
-	M_BGM->SoundSet(BGM_STAGE , S_SoundSetting.M_BgmVolume , S_SoundSetting.M_Loop);
+	P_BGM = NewGO<SoundSource>(0);
+	P_BGM->SoundSet(BGM_STAGE , S_SoundSetting.M_BgmVolume , S_SoundSetting.M_Loop);
 
 	DeleteFlagSet(false);
 	M_Flag = true;
-	M_Fade->StartFadeIn();
+	P_Fade->StartFadeIn();
 }
 void Game::ClassDelete()
 {
-	DeleteGO(M_Player);
-	DeleteGO(M_IronBall);
-	DeleteGO(M_Stage);
-	DeleteGO(M_Ui);
-	DeleteGO(M_Box);
-	DeleteGO(M_BGM);
+	DeleteGO(P_Player);
+	DeleteGO(P_IronBall);
+	DeleteGO(P_Stage);
+	DeleteGO(P_Ui);
+	DeleteGO(P_Box);
+	DeleteGO(P_BGM);
 	M_Flag = false;
 }
 
@@ -68,10 +68,10 @@ void Game::Over()
 {
 	if (GetDeleteFlag() == false)
 	{
-		M_Fade->StartFadeOut();
+		P_Fade->StartFadeOut();
 		DeleteFlagSet(true);
 	}else {
-	if (M_Fade->IsFade() == false && M_DeleteFlag == true)
+	if (P_Fade->IsFade() == false && M_DeleteFlag == true)
 	{
 		NewGO<GameOver>(0, "gameover");
 		ClassDelete();
@@ -85,10 +85,10 @@ void Game::Clear()
 	{
 		if (GetDeleteFlag() == false)
 		{
-			M_Fade->StartFadeOut();
+			P_Fade->StartFadeOut();
 			DeleteFlagSet(true);
 		}else {
-		if (M_Fade->IsFade() == false && GetDeleteFlag() == true)
+		if (P_Fade->IsFade() == false && GetDeleteFlag() == true)
 		{
 			NewGO<GameClear>(0, "gameclear");
 			GameClearFlagSet(true);
@@ -99,10 +99,10 @@ void Game::Clear()
 	}else {
 		if (GetDeleteFlag() == false)
 		{
-			M_Fade->StartFadeOut();
+			P_Fade->StartFadeOut();
 			DeleteFlagSet(true);
 		}else {
-		if (M_Fade->IsFade() == false && GetDeleteFlag() == true)
+		if (P_Fade->IsFade() == false && GetDeleteFlag() == true)
 		{
 			NewGO<StageClear>(0, "stageclear");
 			ClassDelete();

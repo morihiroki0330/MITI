@@ -46,9 +46,9 @@ private:
 	int M_IronBallMax = 5;
 	int M_IronBallMin = 0;
 
-	Player* M_Player = nullptr;
-	Game* M_Game = nullptr;
-	Stage* M_Stage = nullptr;
+	Player* P_Player = nullptr;
+	Game* P_Game = nullptr;
+	Stage* P_Stage = nullptr;
 
 	TextureHeight S_TextureHeight;
 	TextureWide S_TextureWide;

@@ -19,9 +19,9 @@ private:
 	SpriteRender M_TitleTexture;
 	SpriteRender M_AbuttonTexture;
 
-	SoundSource* M_BGM = nullptr;
-	Story* M_Story = nullptr;
-	Fade* M_Fade = nullptr;
+	SoundSource* P_BGM = nullptr;
+	Story* P_Story = nullptr;
+	Fade* P_Fade = nullptr;
 
 	bool M_BgmSet = true;
 	bool M_ClassDelete = false;

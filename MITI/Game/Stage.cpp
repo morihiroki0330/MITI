@@ -40,14 +40,12 @@ Stage::~Stage()
 
 bool Stage::Start()
 {
-	M_Game = FindGO<Game>("game");
+	P_Game = FindGO<Game>("game");
 
 	StageOrderSet();
 	LevelSet();
 	MapToCopy();
-	MapSetGround();
-	MapSetSky();
-	//MapSet();
+	MapSet();
 	return true;
 }
 
@@ -94,16 +92,16 @@ void Stage::MapToCopy()
 	{
 		for (int X = 0; X < 10; X++)
 		{
-			M_MapData[Y][X].M_Ice_On = M_Level[M_StageOrder[M_Game->GetLevel()]][Y][X].M_Ice_On;
+			M_MapData[Y][X].M_IceOn = M_Level[M_StageOrder[P_Game->GetLevel()]][Y][X].M_IceOn;
 
-			M_MapData[Y][X].M_Block_On = M_Level[M_StageOrder[M_Game->GetLevel()]][Y][X].M_Block_On;
-			M_MapData[Y][X].M_NonBlock_On = M_Level[M_StageOrder[M_Game->GetLevel()]][Y][X].M_NonBlock_On;
+			M_MapData[Y][X].M_BlockOn = M_Level[M_StageOrder[P_Game->GetLevel()]][Y][X].M_BlockOn;
+			M_MapData[Y][X].M_NonBlockOn = M_Level[M_StageOrder[P_Game->GetLevel()]][Y][X].M_NonBlockOn;
 
-			M_MapData[Y][X].M_Hole_On = M_Level[M_StageOrder[M_Game->GetLevel()]][Y][X].M_Hole_On;
+			M_MapData[Y][X].M_HoleOn = M_Level[M_StageOrder[P_Game->GetLevel()]][Y][X].M_HoleOn;
 
-			M_MapData[Y][X].M_WeightBoard_On = M_Level[M_StageOrder[M_Game->GetLevel()]][Y][X].M_WeightBoard_On;
+			M_MapData[Y][X].M_WeightBoardOn = M_Level[M_StageOrder[P_Game->GetLevel()]][Y][X].M_WeightBoardOn;
 
-			M_MapData[Y][X].M_Kaidan_On = M_Level[M_StageOrder[M_Game->GetLevel()]][Y][X].M_Kaidan_On;
+			M_MapData[Y][X].M_KaidanOn = M_Level[M_StageOrder[P_Game->GetLevel()]][Y][X].M_KaidanOn;
 		}
 	}
 }
@@ -121,7 +119,7 @@ void Stage::LevelSet()
 int Stage::LevelIceSet()
 {
 	const char* FilePath = nullptr;
-	switch (M_Game->GetLevel())
+	switch (P_Game->GetLevel())
 	{
 	case LEVEL0:
 		FilePath = "Assets/Level/Level0/Ice.txt";
@@ -201,7 +199,7 @@ int Stage::LevelIceSet()
 						{
 							int Count = atoi(Value);
 							X = Count;
-							M_Level[LevelValue][Y][X].M_Ice_On = true;
+							M_Level[LevelValue][Y][X].M_IceOn = true;
 						}
 					}
 				}
@@ -214,7 +212,7 @@ int Stage::LevelIceSet()
 int Stage::LevelHoleSet()
 {
 	const char* FilePath = nullptr;
-	switch (M_Game->GetLevel())
+	switch (P_Game->GetLevel())
 	{
 	case LEVEL0:
 		FilePath = "Assets/Level/Level0/Hole.txt";
@@ -294,7 +292,7 @@ int Stage::LevelHoleSet()
 						{
 							int Count = atoi(Value);
 							X = Count;
-							M_Level[LevelValue][Y][X].M_Hole_On = true;
+							M_Level[LevelValue][Y][X].M_HoleOn = true;
 						}
 					}
 				}
@@ -307,7 +305,7 @@ int Stage::LevelHoleSet()
 int Stage::LevelBlockSet()
 {
 	const char* FilePath = nullptr;
-	switch (M_Game->GetLevel())
+	switch (P_Game->GetLevel())
 	{
 	case LEVEL0:
 		FilePath = "Assets/Level/Level0/Block.txt";
@@ -365,7 +363,7 @@ int Stage::LevelBlockSet()
 		else {
 			if (Value[0] == 'N')
 			{
-				M_Level[LevelValue][Y][X].M_NonBlock_On = true;
+				M_Level[LevelValue][Y][X].M_NonBlockOn = true;
 			}
 			else {
 				if (LevelValue == 99)
@@ -392,7 +390,7 @@ int Stage::LevelBlockSet()
 							{
 								int Count = atoi(Value);
 								X = Count;
-								M_Level[LevelValue][Y][X].M_Block_On = true;
+								M_Level[LevelValue][Y][X].M_BlockOn = true;
 							}
 						}
 					}
@@ -406,7 +404,7 @@ int Stage::LevelBlockSet()
 int Stage::LevelKaidanSet()
 {
 	const char* FilePath = nullptr;
-	switch (M_Game->GetLevel())
+	switch (P_Game->GetLevel())
 	{
 	case LEVEL0:
 		FilePath = "Assets/Level/Level0/Kaidan.txt";
@@ -486,7 +484,7 @@ int Stage::LevelKaidanSet()
 						{
 							int Count = atoi(Value);
 							X = Count;
-							M_Level[LevelValue][Y][X].M_Kaidan_On = true;
+							M_Level[LevelValue][Y][X].M_KaidanOn = true;
 						}
 					}
 				}
@@ -499,7 +497,7 @@ int Stage::LevelKaidanSet()
 int Stage::LevelWeightBoardSet()
 {
 	const char* FilePath = nullptr;
-	switch (M_Game->GetLevel())
+	switch (P_Game->GetLevel())
 	{
 	case LEVEL0:
 		FilePath = "Assets/Level/Level0/WeightBoard.txt";
@@ -611,7 +609,7 @@ int Stage::LevelWeightBoardSet()
 							{
 								int Count = atoi(Value);
 								X = Count;
-								M_Level[LevelValue][Y][X].M_WeightBoard_On = true;
+								M_Level[LevelValue][Y][X].M_WeightBoardOn = true;
 							}
 						}
 					}
@@ -650,7 +648,7 @@ int Stage::LevelWeightBoardSet()
 								{
 									int Count = atoi(Value);
 									Number1 = Count;
-									M_Level[LevelValue][Y][X].M_WeightBoard_LinkNumber[Order] = (Number10 * 10) + Number1;
+									M_Level[LevelValue][Y][X].M_WeightBoardLinkNumber[Order] = (Number10 * 10) + Number1;
 								}
 							}
 						}
@@ -678,9 +676,9 @@ int Stage::LevelWeightBoardSet()
 								{
 									int Count = atoi(Value);
 									LinkObject = Count;
-									M_Level[LevelValue][Y][X].M_WeightBoard_LinkObject[Order] = LinkObject;
+									M_Level[LevelValue][Y][X].M_WeightBoardLinkObject[Order] = LinkObject;
 									LinkCount++;
-									M_Level[LevelValue][Y][X].M_WeightBoard_LinkCount = LinkCount;
+									M_Level[LevelValue][Y][X].M_WeightBoardLinkCount = LinkCount;
 								}
 							}
 						}
@@ -704,11 +702,11 @@ void Stage::MapSetGround()
 	{
 		for (int X = 0; X < 10; X++)
 		{
-			if (M_MapData[Y][X].M_Hole_On == true)
+			if (M_MapData[Y][X].M_HoleOn == true)
 			{
 				GroundDataSet(Y, X, HOLE);
 			}else {
-			if (M_MapData[Y][X].M_Ice_On == true)
+			if (M_MapData[Y][X].M_IceOn == true)
 			{
 				M_Map.M_Ice->IceFloorOnTrue(Y, X);
 				M_Map.M_Ice->IceFloorSetPosition(Y, X, M_MapPosition[Y][X]);
@@ -728,28 +726,28 @@ void Stage::MapSetSky()
 	{
 		for (int X = 0; X < 10; X++)
 		{
-			if (M_MapData[Y][X].M_Kaidan_On == true)
+			if (M_MapData[Y][X].M_KaidanOn == true)
 			{
 				M_Map.M_Kaidan->Map_SetPosition(M_MapPosition[Y][X]);
 				SkyDataSet(Y, X, KAIDAN);
 			}
 			else {
-				if (M_MapData[Y][X].M_WeightBoard_On == true)
+				if (M_MapData[Y][X].M_WeightBoardOn == true)
 				{
-					for (int W = 1; W < M_Level[M_StageOrder[M_Game->GetLevel()]][Y][X].M_WeightBoard_LinkCount + 1; W++)
+					for (int W = 1; W < M_Level[M_StageOrder[P_Game->GetLevel()]][Y][X].M_WeightBoardLinkCount + 1; W++)
 					{
-						M_Map.M_Weightboard->LinkNumberSet(Y, X, W, M_Level[M_StageOrder[M_Game->GetLevel()]][Y][X].M_WeightBoard_LinkNumber[W]);
-						M_Map.M_Weightboard->LinkObjectSet(Y, X, W, M_Level[M_StageOrder[M_Game->GetLevel()]][Y][X].M_WeightBoard_LinkObject[W]);
+						M_Map.M_Weightboard->LinkNumberSet(Y, X, W, M_Level[M_StageOrder[P_Game->GetLevel()]][Y][X].M_WeightBoardLinkNumber[W]);
+						M_Map.M_Weightboard->LinkObjectSet(Y, X, W, M_Level[M_StageOrder[P_Game->GetLevel()]][Y][X].M_WeightBoardLinkObject[W]);
 					}
-					M_Map.M_Weightboard->LinkCountSet(Y, X, M_Level[M_StageOrder[M_Game->GetLevel()]][Y][X].M_WeightBoard_LinkCount);
+					M_Map.M_Weightboard->LinkCountSet(Y, X, M_Level[M_StageOrder[P_Game->GetLevel()]][Y][X].M_WeightBoardLinkCount);
 					M_Map.M_Weightboard->WeightBoardOnTrue(Y, X);
 					M_Map.M_Weightboard->WeightBoardSetPosition(Y, X, M_MapPosition[Y][X]);
 					SkyDataSet(Y, X, WEIGHTBOARD);
 				}
 				else {
-					if (M_MapData[Y][X].M_Block_On == true)
+					if (M_MapData[Y][X].M_BlockOn == true)
 					{
-						if (M_MapData[Y][X].M_NonBlock_On == true) { M_Map.M_Block->BlockOn(Y, X); }
+						if (M_MapData[Y][X].M_NonBlockOn == true) { M_Map.M_Block->BlockOn(Y, X); }
 						M_Map.M_Block->BlockSetPosition(Y, X, M_MapPosition[Y][X]);
 						SkyDataSet(Y, X, BLOCK);
 					}
