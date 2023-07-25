@@ -3,9 +3,7 @@
 #include "Player.h"
 #include "Game.h"
 #include "Stage.h"
-#include "NumberStorage.h"
 #include "Bgm.h"
-#include "G_WeightBoard.h"
 IronBall::IronBall()
 {
 	InitModel();
@@ -15,7 +13,6 @@ IronBall::IronBall()
 bool IronBall::Start()
 {
 	P_Game = FindGO<Game>("game");
-	P_Stage = FindGO<Stage>("stage");
 	P_Player = FindGO<Player>("player");
 	LevelSet();
 	return true;

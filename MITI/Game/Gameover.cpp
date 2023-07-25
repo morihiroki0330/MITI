@@ -3,7 +3,6 @@
 #include "Game.h"
 #include "Bgm.h"
 #include "Fade.h"
-#include "NumberStorage.h"
 #include "sound/SoundEngine.h"
 GameOver::GameOver()
 {

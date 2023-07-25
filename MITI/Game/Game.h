@@ -11,7 +11,6 @@ class Fade;
 class Game : public IGameObject
 {
 public:
-	~Game();
 	bool Start();
 
 	void InitWorld();
@@ -32,17 +31,15 @@ public:
 	void DeleteFlagSet(bool Flag) { M_DeleteFlag = Flag; }
 	void Delete() { DeleteGO(this); }
 
-	
 	int GetLevel() { return M_Level; }
 	bool GetClearFlag() { return M_ClearFlag; }
 	bool GetGameOverFlag() { return M_GameOverFlag; }
 	bool GetGameClearFlag() { return M_GameClearFlag; }
 	bool GetCreateFlag() { return M_CreateFlag; }
 	bool GetDeleteFlag() { return M_DeleteFlag; }
-
 private:
 	int M_Level = 0;
-	int M_Level_Max = 9;
+	int M_LevelMax = 9;
 	
 	bool M_ClearFlag = false;
 	bool M_GameOverFlag = false;
@@ -63,15 +60,6 @@ private:
 	Fade* P_Fade = nullptr;
 	GameCamera* P_GameCamera = nullptr;
 
-	TextureHeight S_TextureHeight;
-	TextureWide S_TextureWide;
-	Color S_Color;
-	FadeInformation S_FadeInformation;
-	GridPosition S_GridPosition;
 	SoundSetting S_SoundSetting;
-	PlayerInformation S_PlayerInformation;
-	BlockInformation S_BlockInformation;
-	WorldInformation S_WorldInformation;
-	IronBallInformation S_IronBallInformation;
 };
 

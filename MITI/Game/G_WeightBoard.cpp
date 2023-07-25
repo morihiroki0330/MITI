@@ -2,10 +2,8 @@
 #include "G_WeightBoard.h"
 #include "Player.h"
 #include "IronBall.h"
-#include "G_Block.h"
 #include "Stage.h"
 #include "Bgm.h"
-#include "NumberStorage.h"
 #include "sound/SoundEngine.h"
 #include "sound/SoundSource.h"
 G_WeightBoard::G_WeightBoard()
@@ -15,7 +13,6 @@ G_WeightBoard::G_WeightBoard()
 }
 bool G_WeightBoard::Start()
 {
-	P_WeightBoard = FindGO<G_WeightBoard>("weightboard");
 	P_IronBall = FindGO<IronBall>("ironball");
 	P_Stage = FindGO<Stage>("stage");
 	P_Player = FindGO<Player>("player");

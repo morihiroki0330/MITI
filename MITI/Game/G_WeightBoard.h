@@ -40,9 +40,7 @@ private:
 
 	Player* P_Player = nullptr;
 	IronBall* P_IronBall = nullptr;
-	G_Block* P_Block = nullptr;
 	Stage* P_Stage = nullptr;
-	G_WeightBoard* P_WeightBoard = nullptr;
 
 	bool M_BgmSet[10][10];
 	bool M_HitFlag[10][10];
@@ -54,15 +52,7 @@ private:
 	int M_LinkCount[10][10];
 	int M_LinkObject[10][10][10];
 
-	TextureHeight S_TextureHeight;
-	TextureWide S_TextureWide;
-	Color S_Color;
-	FadeInformation S_FadeInformation;
 	GridPosition S_GridPosition;
 	SoundSetting S_SoundSetting;
-	PlayerInformation S_PlayerInformation;
-	BlockInformation S_BlockInformation;
-	WorldInformation S_WorldInformation;
-	IronBallInformation S_IronBallInformation;
 };
 

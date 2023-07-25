@@ -2,8 +2,6 @@
 #include "NumberStorage.h"
 class Player;
 class Game;
-class Stage;
-class G_WeightBoard;
 class IronBall : public IGameObject
 {
 public:
@@ -48,17 +46,9 @@ private:
 
 	Player* P_Player = nullptr;
 	Game* P_Game = nullptr;
-	Stage* P_Stage = nullptr;
 
-	TextureHeight S_TextureHeight;
-	TextureWide S_TextureWide;
-	Color S_Color;
-	FadeInformation S_FadeInformation;
 	GridPosition S_GridPosition;
 	SoundSetting S_SoundSetting;
-	PlayerInformation S_PlayerInformation;
-	BlockInformation S_BlockInformation;
-	WorldInformation S_WorldInformation;
 	IronBallInformation S_IronBallInformation;
 };
 

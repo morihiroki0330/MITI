@@ -2,7 +2,6 @@
 #include "G_IceFloor.h"
 #include "Player.h"
 #include "Stage.h"
-#include "NumberStorage.h"
 G_IceFloor::G_IceFloor()
 {
 	InitModel();

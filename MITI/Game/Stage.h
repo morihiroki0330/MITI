@@ -1,5 +1,4 @@
 #pragma once
-#include "NumberStorage.h"
 class G_IceFloor;
 class G_WeightBoard;
 class G_Wall;
@@ -7,7 +6,6 @@ class G_Hole;
 class G_Block;
 class G_Kaidan;
 class G_Ground;
-class Player;
 class Game;
 struct MapChipData
 {
@@ -25,13 +23,13 @@ struct MapChipData
 };
 struct MapChip
 {
-	G_IceFloor* M_Ice;
-	G_WeightBoard* M_Weightboard;
-	G_Wall* M_Wall;
-	G_Hole* M_Hole;
-	G_Block* M_Block;
-	G_Kaidan* M_Kaidan;
-	G_Ground* M_Ground;
+	G_IceFloor* P_Ice;
+	G_WeightBoard* P_Weightboard;
+	G_Wall* P_Wall;
+	G_Hole* P_Hole;
+	G_Block* P_Block;
+	G_Kaidan* P_Kaidan;
+	G_Ground* P_Ground;
 };
 enum StageOrder
 {
@@ -107,23 +105,12 @@ public:
 	int GetGroundData(int Map, int Direction = 4);
 	int GetSkyData(int Map, int Direction = 4);
 private:
-	MapChip M_Map;
+	MapChip S_Map;
 	Vector3 M_MapPosition[10][10];
-	MapChipData M_MapData[10][10];
-	MapChipData M_Level[10][10][10];
+	MapChipData S_MapData[10][10];
+	MapChipData S_Level[10][10][10];
 
 	Game* P_Game = nullptr;
 
 	int M_StageOrder[10];
-
-	TextureHeight S_TextureHeight;
-	TextureWide S_TextureWide;
-	Color S_Color;
-	FadeInformation S_FadeInformation;
-	GridPosition S_GridPosition;
-	SoundSetting S_SoundSetting;
-	PlayerInformation S_PlayerInformation;
-	BlockInformation S_BlockInformation;
-	WorldInformation S_WorldInformation;
-	IronBallInformation S_IronBallInformation;
 };

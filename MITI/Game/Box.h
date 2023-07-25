@@ -8,13 +8,10 @@ enum StageBehind
 	STAGEBEHIND_RIGHT = 2,
 	STAGEBEHIND_LEFT = 3
 };
-class Player;
-class Game;
 class Box : public IGameObject
 {
 public:
 	Box();
-	bool Start();
 	void InitKabeBox();
 	void InitKaidanBox();
 	void InitBlock();
@@ -35,18 +32,6 @@ private:
 	Quaternion M_KabeRotation[4];
 	Vector3 M_KabeScale[4];
 
-	Player* P_Player = nullptr;
-	Game* P_Game = nullptr;
-
-	TextureHeight S_TextureHeight;
-	TextureWide S_TextureWide;
-	Color S_Color;
-	FadeInformation S_FadeInformation;
 	GridPosition S_GridPosition;
-	SoundSetting S_SoundSetting;
-	PlayerInformation S_PlayerInformation;
-	BlockInformation S_BlockInformation;
-	WorldInformation S_WorldInformation;
-	IronBallInformation S_IronBallInformation;
 };
 

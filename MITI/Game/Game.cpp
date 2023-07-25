@@ -13,16 +13,6 @@
 #include "Fade.h"
 #include "sound/SoundEngine.h"
 #include "NumberStorage.h"
-Game::~Game()
-{
-	/*DeleteGO(player);
-	DeleteGO(gamecamera);
-	DeleteGO(stage);
-	DeleteGO(ironball);
-	DeleteGO(ui);
-	DeleteGO(box);
-	DeleteGO(BGM);*/
-}
 bool Game::Start()
 {
 	P_Fade = FindGO<Fade>("fade");
@@ -81,7 +71,7 @@ void Game::Over()
 }
 void Game::Clear()
 {
-	if (M_Level_Max == M_Level)
+	if (M_LevelMax == M_Level)
 	{
 		if (GetDeleteFlag() == false)
 		{

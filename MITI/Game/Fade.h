@@ -1,11 +1,5 @@
 #pragma once
 #include "NumberStorage.h"
-enum EnState 
-{
-	ENSTATE_FADEIN = 1,			
-	ENSTATE_FADEOUT = 2,		
-	ENSTATE_IDLE = 3,			
-};
 class Fade : public IGameObject
 {
 public:
@@ -18,7 +12,12 @@ public:
 	const float GetCurrentAlpha() const{return M_Alpha;}
 	void ButtonFade(SpriteRender& Button , bool Press_Button);
 private:
-	
+	enum EnState 
+	{
+		ENSTATE_FADEIN = 1,			
+		ENSTATE_FADEOUT = 2,		
+		ENSTATE_IDLE = 3,			
+	};
 	SpriteRender M_FadeTexture;
 	EnState M_State = ENSTATE_IDLE;
 	Vector4 M_ButtonCollar = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -33,11 +32,5 @@ private:
 	TextureWide S_TextureWide;
 	Color S_Color;
 	FadeInformation S_FadeInformation;
-	GridPosition S_GridPosition;
-	SoundSetting S_SoundSetting;
-	PlayerInformation S_PlayerInformation;
-	BlockInformation S_BlockInformation;
-	WorldInformation S_WorldInformation;
-	IronBallInformation S_IronBallInformation;
 };
 

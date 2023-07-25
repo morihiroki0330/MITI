@@ -4,7 +4,6 @@
 #include "Story.h"
 #include "Bgm.h"
 #include "Fade.h"
-#include "NumberStorage.h"
 #include "sound/SoundEngine.h"
 GameClear::GameClear()
 {
@@ -17,7 +16,6 @@ GameClear::~GameClear()
 }
 bool GameClear::Start()
 {
-
 	P_Fade = FindGO<Fade>("fade");
 	P_Fade->StartFadeIn();
 	return true;

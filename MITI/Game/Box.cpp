@@ -1,19 +1,11 @@
 #include "stdafx.h"
 #include "Box.h"
-#include "Player.h"
-#include "Game.h"
 #include "NumberStorage.h"
 Box::Box()
 {
 	InitKabeBox();
 	InitKaidanBox();
 	InitBlock();
-}
-bool Box::Start()
-{
-	P_Player = FindGO<Player>("player");
-	P_Game = FindGO<Game>("game");
-	return true;
 }
 
 void Box::InitKabeBox()

@@ -5,7 +5,6 @@
 #include "Game.h"
 #include "Bgm.h"
 #include "IronBall.h"
-#include "NumberStorage.h"
 #include "sound/SoundEngine.h"
 #include "sound/SoundSource.h"
 Player::Player()
