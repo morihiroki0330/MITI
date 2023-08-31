@@ -11,8 +11,8 @@
 #include "Box.h"
 #include "Bgm.h"
 #include "Fade.h"
+#include "PauseWindow.h"
 #include "sound/SoundEngine.h"
-#include "NumberStorage.h"
 bool Game::Start()
 {
 	P_Fade = FindGO<Fade>("fade");
@@ -20,7 +20,6 @@ bool Game::Start()
 	ClassCreate();
 	return true;
 }
-
 void Game::InitWorld()
 {
 	PhysicsWorld::GetInstance()->SetGravity({ 0.0f,-180.0f,0.0f });
@@ -36,11 +35,11 @@ void Game::ClassCreate()
 	P_Ui = NewGO<UI>(0, "ui");
 	P_Box = NewGO<Box>(0, "box");
 
-	P_BGM = NewGO<SoundSource>(0);
-	P_BGM->SoundSet(BGM_STAGE , S_SoundSetting.M_BgmVolume , S_SoundSetting.M_Loop);
+	P_Bgm = NewGO<SoundSource>(0);
+	P_Bgm->SoundSet(BGM_STAGE , S_SoundSetting.M_BgmVolume , S_SoundSetting.M_Loop);
 
 	DeleteFlagSet(false);
-	M_Flag = true;
+	M_FlagDecision = true;
 	P_Fade->StartFadeIn();
 }
 void Game::ClassDelete()
@@ -50,54 +49,54 @@ void Game::ClassDelete()
 	DeleteGO(P_Stage);
 	DeleteGO(P_Ui);
 	DeleteGO(P_Box);
-	DeleteGO(P_BGM);
-	M_Flag = false;
+	DeleteGO(P_Bgm);
+	M_FlagDecision = false;
 }
 
 void Game::Over()
 {
-	if (GetDeleteFlag() == false)
+	if (!GetDeleteFlag())
 	{
 		P_Fade->StartFadeOut();
 		DeleteFlagSet(true);
 	}else {
-	if (P_Fade->IsFade() == false && M_DeleteFlag == true)
-	{
-		NewGO<GameOver>(0, "gameover");
-		ClassDelete();
-		GameOverFlagSet(false);
-	}
+		if (!P_Fade->IsFade() && M_DeleteFlagDecision)
+		{
+			NewGO<GameOver>(0, "gameover");
+			ClassDelete();
+			GameOverFlagSet(false);
+		}
 	}
 }
 void Game::Clear()
 {
 	if (M_LevelMax == M_Level)
 	{
-		if (GetDeleteFlag() == false)
+		if (!GetDeleteFlag())
 		{
 			P_Fade->StartFadeOut();
 			DeleteFlagSet(true);
 		}else {
-		if (P_Fade->IsFade() == false && GetDeleteFlag() == true)
-		{
-			NewGO<GameClear>(0, "gameclear");
-			GameClearFlagSet(true);
-			ClassDelete();
-			ClearFlagSet(false);
-		}
+			if (!P_Fade->IsFade() && GetDeleteFlag())
+			{
+				NewGO<GameClear>(0, "gameclear");
+				GameClearFlagSet(true);
+				ClassDelete();
+				ClearFlagSet(false);
+			}
 		}
 	}else {
-		if (GetDeleteFlag() == false)
+		if (!GetDeleteFlag())
 		{
 			P_Fade->StartFadeOut();
 			DeleteFlagSet(true);
 		}else {
-		if (P_Fade->IsFade() == false && GetDeleteFlag() == true)
-		{
-			NewGO<StageClear>(0, "stageclear");
-			ClassDelete();
-			ClearFlagSet(false);
-		}
+			if (!P_Fade->IsFade() && GetDeleteFlag())
+			{
+				NewGO<StageClear>(0, "stageclear");
+				ClassDelete();
+				ClearFlagSet(false);
+			}
 		}
 	}
 
@@ -105,13 +104,18 @@ void Game::Clear()
 
 void Game::Update()
 {
-	if (GetGameOverFlag() == true) { Over(); }
-	if (GetClearFlag() == true) { Clear(); }
-	if (GetCreateFlag() == true) { ClassCreate(); CreateFlagSet(false); }
+	if (GetGameOverFlag()) { Over(); }
+	if (GetClearFlag()) { Clear(); }
+	if (GetCreateFlag()) { ClassCreate(); CreateFlagSet(false); }
 	
-	if (g_pad[0]->IsTrigger(enButtonY) && M_Flag == true)
+	if (g_pad[0]->IsTrigger(enButtonY) && !M_PauseFlagDecision)
 	{
-		M_Flag = false;
-		GameOverFlagSet(true);
+		NewGO<PauseWindow>(2, "pause");
+		M_PauseFlagDecision = true;
+	}else {
+		if (g_pad[0]->IsTrigger(enButtonY) && M_PauseFlagDecision)
+		{
+			M_PauseFlagDecision = false;
+		}
 	}
 }

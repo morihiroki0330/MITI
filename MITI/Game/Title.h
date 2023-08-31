@@ -19,22 +19,14 @@ private:
 	SpriteRender M_TitleTexture;
 	SpriteRender M_AbuttonTexture;
 
-	SoundSource* P_BGM = nullptr;
+	SoundSource* P_Bgm = nullptr;
 	Story* P_Story = nullptr;
 	Fade* P_Fade = nullptr;
 
-	bool M_BgmSet = true;
-	bool M_ClassDelete = false;
-	bool M_PressAbutton = false;
+	bool M_ClassDeleteDecision = false;
+	bool M_PressAbuttonDecision = false;
 
 	TextureHeight S_TextureHeight;
 	TextureWide S_TextureWide;
-	Color S_Color;
-	FadeInformation S_FadeInformation;
-	GridPosition S_GridPosition;
 	SoundSetting S_SoundSetting;
-	PlayerInformation S_PlayerInformation;
-	BlockInformation S_BlockInformation;
-	WorldInformation S_WorldInformation;
-	IronBallInformation S_IronBallInformation;
 };

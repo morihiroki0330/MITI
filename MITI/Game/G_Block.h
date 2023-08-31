@@ -21,25 +21,28 @@ public:
 	void Update();
 	void Render(RenderContext& rc);
 private:
-	ModelRender M_BlockModel[10][10];
-	ModelRender M_IceBlockModel[10][10];
-	ModelRender M_GroundBlockModel[10][10];
-	ModelRender M_DeleteBlockModel[10][10];
+	
+	ModelRender M_BlockModel[M_Ymas][M_Xmas];
+	ModelRender M_IceBlockModel[M_Ymas][M_Xmas];
+	ModelRender M_GroundBlockModel[M_Ymas][M_Xmas];
+	ModelRender M_DeleteBlockModel[M_Ymas][M_Xmas];
+		
+	ModelRender M_SkeletonIceBlockModel[M_Ymas][M_Xmas];
+	ModelRender M_SkeletonBlockModel[M_Ymas][M_Xmas];
+	ModelRender M_SkeletonGroundBlockModel[M_Ymas][M_Xmas];
+	ModelRender M_SkeletonDeleteBlockModel[M_Ymas][M_Xmas];
+	
+	Vector3 M_BlockPosition[M_Ymas][M_Xmas];
 
-	ModelRender M_SkeletonIceBlockModel[10][10];
-	ModelRender M_SkeletonBlockModel[10][10];
-	ModelRender M_SkeletonGroundBlockModel[10][10];
-	ModelRender M_SkeletonDeleteBlockModel[10][10];
-
-	Vector3 M_BlockPosition[10][10];
 	AllLight M_BlockLight;
-	PhysicsStaticObjectPos M_BlockPhysicsStaticObject[10][10];
+
+	PhysicsStaticObjectPos M_BlockPhysicsStaticObject[M_Ymas][M_Xmas];
+
+	bool M_NonBlockDecision[M_Ymas][M_Xmas];
 
 	G_WeightBoard* P_WeightBoard = nullptr;
 	Box* P_Box = nullptr;
 	Stage* P_Stage = nullptr;
-
-	bool M_NonBlock[10][10];
 
 	GridPosition S_GridPosition;
 };

@@ -3,7 +3,6 @@
 #include "Story.h"
 #include "Bgm.h"
 #include "Fade.h"
-#include "NumberStorage.h"
 #include "sound/SoundEngine.h"
 Title::Title()
 {
@@ -12,7 +11,7 @@ Title::Title()
 }
 Title::~Title()
 {
-	DeleteGO(P_BGM);
+	DeleteGO(P_Bgm);
 }
 bool Title::Start()
 {
@@ -28,34 +27,35 @@ void Title::InitTexture()
 }
 void Title::InitSound()
 {
-	P_BGM = NewGO<SoundSource>(0);
-	P_BGM->SoundSet(BGM_TITLE , S_SoundSetting.M_BgmVolume , S_SoundSetting.M_Loop);
+	P_Bgm = NewGO<SoundSource>(0);
+	P_Bgm->SoundSet(BGM_TITLE , S_SoundSetting.M_BgmVolume , S_SoundSetting.M_Loop);
 }
 
 void Title::ScreenChange()
 {
-	if (P_Fade->IsFade() == false && M_ClassDelete == true)
+	if (!P_Fade->IsFade() && M_ClassDeleteDecision)
 	{
 		NewGO<Story>(0, "story");
 		DeleteGO(this);
-	}else {
-	if (g_pad[0]->IsTrigger(enButtonA) && M_ClassDelete == false && P_Fade->IsFade() == false)
-	{
-		SoundSource* SE = NewGO<SoundSource>(0);
-		SE->SoundSet(SE_TITLEBUTTON , S_SoundSetting.M_BgmVolume , S_SoundSetting.M_LoopNot);
-		P_Fade->StartFadeOut();
-		M_PressAbutton = true;
-		M_ClassDelete = true;
-	}
+	}else{
+		if (g_pad[0]->IsTrigger(enButtonA) && !M_ClassDeleteDecision && !P_Fade->IsFade())
+		{
+			SoundSource* P_Se = NewGO<SoundSource>(0);
+			P_Se->SoundSet(SE_TITLEBUTTON , S_SoundSetting.M_BgmVolume , S_SoundSetting.M_LoopNot);
+
+			P_Fade->StartFadeOut();
+
+			M_PressAbuttonDecision = true;
+			M_ClassDeleteDecision = true;
+		}
 	}
 }
 
 void Title::Update()
 {
-	P_Fade->ButtonFade(M_AbuttonTexture, M_PressAbutton);
+	P_Fade->ButtonFade(M_AbuttonTexture, M_PressAbuttonDecision);
 	ScreenChange();
 }
-
 void Title::Render(RenderContext& rc)
 {
 	M_TitleTexture.Draw(rc);

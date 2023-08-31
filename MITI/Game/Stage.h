@@ -1,4 +1,5 @@
 #pragma once
+#include "NumberStorage.h"
 class G_IceFloor;
 class G_WeightBoard;
 class G_Wall;
@@ -33,29 +34,29 @@ struct MapChip
 };
 enum StageOrder
 {
-	STAGE0 = 0,
-	STAGE1 = 1,
-	STAGE2 = 2,
-	STAGE3 = 3,
-	STAGE4 = 4,
-	STAGE5 = 5,
-	STAGE6 = 6,
-	STAGE7 = 7,
-	STAGE8 = 8,
-	STAGE9 = 9
+	STAGE0,
+	STAGE1,
+	STAGE2,
+	STAGE3,
+	STAGE4,
+	STAGE5,
+	STAGE6,
+	STAGE7,
+	STAGE8,
+	STAGE9
 };
 enum LevelOrder
 {
-	LEVEL0 = 0,
-	LEVEL1 = 1,
-	LEVEL2 = 2,
-	LEVEL3 = 3,
-	LEVEL4 = 4,
-	LEVEL5 = 5,
-	LEVEL6 = 6,
-	LEVEL7 = 7,
-	LEVEL8 = 8,
-	LEVEL9 = 9
+	LEVEL0,
+	LEVEL1,
+	LEVEL2,
+	LEVEL3,
+	LEVEL4,
+	LEVEL5,
+	LEVEL6,
+	LEVEL7,
+	LEVEL8,
+	LEVEL9
 };
 enum MapchipNumber
 {
@@ -69,12 +70,12 @@ enum MapchipNumber
 };
 enum LinkObject
 {
-	NONBLOCK = 1,
-	GROUNDBLOCK = 2,
-	ICEBLOCK = 3,
-	DELETEBLOCK = 4
+	NOTBLOCK,
+	NONBLOCK,
+	GROUNDBLOCK,
+	ICEBLOCK,
+	DELETEBLOCK
 };
-
 class Stage : public IGameObject
 {
 public:
@@ -106,9 +107,9 @@ public:
 	int GetSkyData(int Map, int Direction = 4);
 private:
 	MapChip S_Map;
-	Vector3 M_MapPosition[10][10];
-	MapChipData S_MapData[10][10];
-	MapChipData S_Level[10][10][10];
+	Vector3 M_MapPosition[M_Ymas][M_Xmas];
+	MapChipData S_MapData[M_Ymas][M_Xmas];
+	MapChipData S_Level[M_Ymas][M_Xmas][10];
 
 	Game* P_Game = nullptr;
 

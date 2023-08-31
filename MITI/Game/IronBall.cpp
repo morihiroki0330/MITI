@@ -8,7 +8,6 @@ IronBall::IronBall()
 {
 	InitModel();
 	InitSetPosition();
-	InitLight();
 }
 bool IronBall::Start()
 {
@@ -20,12 +19,12 @@ bool IronBall::Start()
 
 void IronBall::InitModel()
 {
-	for (int Count = 0; Count < 5; Count++)
+	for (int i = 0; i < 5; i++)
 	{
-		M_IronBallModel[Count].Init("Assets/modelData/tekyu/tekyu8.tkm", M_IronBallLight);
-		M_IronBallModel[Count].SetScale({ 1.5f, 1.5f, 1.5f });
-		M_IronBallMap[Count] = 100;
-		M_IronBallFlag[Count] = false;
+		M_IronBallModel[i].Init("Assets/modelData/tekyu/tekyu8.tkm", M_IronBallLight);
+		M_IronBallModel[i].SetScale({ 1.5f, 1.5f, 1.5f });
+		M_IronBallMap[i] = M_Ymas * M_Xmas;
+		M_IronBallFlag[i] = false;
 	}
 		M_IronBoxModel.Init("Assets/modelData/tekyu-box.tkm", M_IronBoxLight);
 }
@@ -40,16 +39,6 @@ void IronBall::InitSetPosition()
 			M_IronBoxSetPosition[Y][X].z = (X * 192.0f) + -865.0f;
 		}
 	}
-}
-void IronBall::InitLight()
-{
-	M_IronBallLight.DirectionLight_D.x = 0.0f;
-	M_IronBallLight.DirectionLight_D.y = -1.0f;
-	M_IronBallLight.DirectionLight_D.z = 0.0f;
-
-	M_IronBallLight.DirectionLight_C.x = 1.8f;
-	M_IronBallLight.DirectionLight_C.y = 1.8f;
-	M_IronBallLight.DirectionLight_C.z = 1.8f;
 }
 void IronBall::LevelSet()
 {
@@ -102,10 +91,10 @@ void IronBall::LevelSet()
 
 void IronBall::IronBoxToGet()
 {
-	if (M_IronBoxMap == P_Player->GetPlayerMap() && M_IronBoxFlag == false)
+	if (M_IronBoxMap == P_Player->GetPlayerMap() && !M_IronBoxFlag)
 	{
-		SoundSource* SE = NewGO<SoundSource>(0, "se");
-		SE->SoundSet(SE_BOXGET , S_SoundSetting.M_BgmVolume , S_SoundSetting.M_LoopNot);
+		SoundSource* P_Se = NewGO<SoundSource>(0, "se");
+		P_Se->SoundSet(SE_BOXGET , S_SoundSetting.M_BgmVolume , S_SoundSetting.M_LoopNot);
 		P_Player->InitIronBallCount(M_IronBallMax);
 		M_IronBoxFlag = true;
 	}
@@ -113,9 +102,9 @@ void IronBall::IronBoxToGet()
 
 bool IronBall::GetBallMap(int PlayerMap)
 {
-	for (int Count = 0; Count < 5; Count++)
+	for (int i = 0; i < 5; i++)
 	{
-		if (M_IronBallMap[Count] == PlayerMap)
+		if (M_IronBallMap[i] == PlayerMap)
 		{
 			return true;
 		}
@@ -124,9 +113,9 @@ bool IronBall::GetBallMap(int PlayerMap)
 }
 bool IronBall::WeightBoardOn(int Y, int X)
 {
-	for (int Count = 0; Count < 5; Count++)
+	for (int i = 0; i < 5; i++)
 	{
-		if (M_IronBallMap[Count] == (Y * 10) + X)
+		if (M_IronBallMap[i] == (Y * 10) + X)
 		{
 			return true;
 		}
@@ -136,17 +125,17 @@ bool IronBall::WeightBoardOn(int Y, int X)
 
 void IronBall::IronBallPut()
 {
-	if (P_Player->GetIronBallPutFlag() == true)
+	if (P_Player->GetIronBallPutFlag())
 	{
-		for (int Count = 0; Count < 5; Count++)
+		for (int i = 0; i < 5; i++)
 		{
-			if (M_ShowFlag[Count] == false)
+			if (!M_ShowFlag[i])
 			{
-				M_IronBallPosition[Count].x = M_IronBoxSetPosition[P_Player->GetPlayerMap() / 10][P_Player->GetPlayerMap() % 10].x;
-				M_IronBallPosition[Count].y = M_IronBoxSetPosition[P_Player->GetPlayerMap() / 10][P_Player->GetPlayerMap() % 10].y;
-				M_IronBallPosition[Count].z = M_IronBoxSetPosition[P_Player->GetPlayerMap() / 10][P_Player->GetPlayerMap() % 10].z;
+				M_IronBallPosition[i].x = M_IronBoxSetPosition[P_Player->GetPlayerMap() / 10][P_Player->GetPlayerMap() % 10].x;
+				M_IronBallPosition[i].y = M_IronBoxSetPosition[P_Player->GetPlayerMap() / 10][P_Player->GetPlayerMap() % 10].y;
+				M_IronBallPosition[i].z = M_IronBoxSetPosition[P_Player->GetPlayerMap() / 10][P_Player->GetPlayerMap() % 10].z;
 
-				M_ShowFlag[Count] = true;
+				M_ShowFlag[i] = true;
 				P_Player->IronBallCountMinus();
 				P_Player->IronBallPutAnimationFlagSet(true);
 				break;
@@ -157,26 +146,26 @@ void IronBall::IronBallPut()
 }
 void IronBall::IronBallGet()
 {
-	if (P_Player->GetIronBallGetFlag() == true)
+	if (P_Player->GetIronBallGetFlag())
 		{
 			int Number = 0;
 
-			for (int Count = 0; Count < 5; Count++)
+			for (int i = 0; i < 5; i++)
 			{
 				if (
-					P_Player->GetPlayerPositionX() < M_IronBallPosition[Count].x + S_IronBallInformation.IronBallRange &&
-					P_Player->GetPlayerPositionX() > M_IronBallPosition[Count].x - S_IronBallInformation.IronBallRange &&
-					P_Player->GetPlayerPositionZ() < M_IronBallPosition[Count].z + S_IronBallInformation.IronBallRange &&
-					P_Player->GetPlayerPositionZ() > M_IronBallPosition[Count].z - S_IronBallInformation.IronBallRange &&
-					M_ShowFlag[Count] == true
+					P_Player->GetPlayerPositionX() < M_IronBallPosition[i].x + S_IronBallInformation.IronBallRange &&
+					P_Player->GetPlayerPositionX() > M_IronBallPosition[i].x - S_IronBallInformation.IronBallRange &&
+					P_Player->GetPlayerPositionZ() < M_IronBallPosition[i].z + S_IronBallInformation.IronBallRange &&
+					P_Player->GetPlayerPositionZ() > M_IronBallPosition[i].z - S_IronBallInformation.IronBallRange &&
+					M_ShowFlag[i]
 					)
 				{
-					Number = Count;
+					Number = i;
 					M_ShowFlag[Number] = false;
 					P_Player->IronBallCountPlus();
 					P_Player->IronBallGetAnimationFlagSet(true);
-					M_IronBallPosition[Count].x = S_GridPosition.M_GridExemptPositionX;
-					M_IronBallPosition[Count].z = S_GridPosition.M_GridExemptPositionZ;
+					M_IronBallPosition[i].x = S_GridPosition.M_GridExemptPositionX;
+					M_IronBallPosition[i].z = S_GridPosition.M_GridExemptPositionZ;
 					break;
 				}
 			}
@@ -186,30 +175,30 @@ void IronBall::IronBallGet()
 }
 void IronBall::IronBallMapSet(int PlayerMap,bool Flag)
 {
-	if (Flag == false)
+	if (!Flag)
 	{
-		for (int Count = 0; Count < 5; Count++)
+		for (int i = 0; i < 5; i++)
 		{
-			if (M_IronBallFlag[Count] == true && M_IronBallMap[Count] == PlayerMap)
+			if (M_IronBallFlag[i] && M_IronBallMap[i] == PlayerMap)
 			{
-				M_IronBallMap[Count] = 100;
-				M_IronBallFlag[Count] = false;
+				M_IronBallMap[i] = M_Ymas * M_Xmas;
+				M_IronBallFlag[i] = false;
 				break;
 			}
 		}
 	}else {
-	if (Flag == true)
-	{
-		for (int Count = 0; Count < 5; Count++)
+		if (Flag)
 		{
-			if (M_IronBallFlag[Count] == false)
+			for (int i = 0; i < 5; i++)
 			{
-				M_IronBallMap[Count] = PlayerMap;
-				M_IronBallFlag[Count] = true;
-				break;
+				if (!M_IronBallFlag[i])
+				{
+					M_IronBallMap[i] = PlayerMap;
+					M_IronBallFlag[i] = true;
+					break;
+				}
 			}
 		}
-	}
 	}
 }
 
@@ -220,28 +209,28 @@ void IronBall::Update()
 	IronBallPut();
 	IronBallGet();
 		
-	for (int Count = 0; Count < 5; Count++)
+	for (int i = 0; i < 5; i++)
 	{
-		M_IronBallModel[Count].SetPosition(M_IronBallPosition[Count]);
-		M_IronBallModel[Count].Update();
+		M_IronBallModel[i].SetPosition(M_IronBallPosition[i]);
+		M_IronBallModel[i].Update();
 	}
 	M_IronBoxModel.SetPosition(M_IronBoxPosition);
 	M_IronBoxModel.Update();
 }
 void IronBall::Render(RenderContext& rc)
 {
-	if (M_IronBoxFlag == false)
+	if (!M_IronBoxFlag)
 	{
 		M_IronBoxModel.Draw(rc);
 	}
 
-	for (int Count = 0; Count < 5; Count++)
+	for (int i = 0; i < 5; i++)
 	{
-		if (M_ShowFlag[Count] == true)
+		if (M_ShowFlag[i])
 		{
-			if (M_IronBoxFlag == true)
+			if (M_IronBoxFlag)
 			{
-				M_IronBallModel[Count].Draw(rc);
+				M_IronBallModel[i].Draw(rc);
 			}
 		}
 	}

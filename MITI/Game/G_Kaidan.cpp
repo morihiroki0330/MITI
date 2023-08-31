@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "G_Kaidan.h"
 #include "Box.h"
-#include "NumberStorage.h"
 G_Kaidan::G_Kaidan()
 {
 	InitModel();
@@ -11,7 +10,6 @@ bool G_Kaidan::Start()
 	P_Box = FindGO<Box>("box");
 	return true;
 }
-
 void G_Kaidan::InitModel()
 {
 	M_KaidanModel.Init("Assets/modelData/kaidan3.tkm", M_KaidanLight);
@@ -20,13 +18,12 @@ void G_Kaidan::InitModel()
 	M_KaidanModel.Update();
 }
 
-void G_Kaidan::Map_SetPosition(Vector3 Position)
+void G_Kaidan::MapSetPosition(Vector3 Position)
 {
 	M_KaidanPosition.x = Position.x;
 	M_KaidanPosition.y = 20.0f;
 	M_KaidanPosition.z = Position.z;
 }
-
 void G_Kaidan::Update()
 {
 	M_KaidanModel.SetPosition(M_KaidanPosition);

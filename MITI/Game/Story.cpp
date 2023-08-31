@@ -50,7 +50,7 @@ void Story::InitTexture()
 
 void Story::TriangleMove()
 {
-	if (Word->GetMessageOkuriFlag() == false) 
+	if (!Word->GetMessageOkuriFlag()) 
 	{
 		
 		switch (TriangleUpAndDown)
@@ -80,11 +80,11 @@ void Story::TriangleMove()
 }
 void Story::TextOkuri()
 {
-	if (g_pad[0]->IsTrigger(enButtonA) && EndText == false)
+	if (g_pad[0]->IsTrigger(enButtonA) && !EndText)
 	{
 
-		SoundSource* SE = NewGO<SoundSource>(0);
-		SE->SoundSet(SE_TEXTBUTTON, S_SoundSetting.M_BgmVolume, S_SoundSetting.M_LoopNot);
+		SoundSource* P_Se = NewGO<SoundSource>(0);
+		P_Se->SoundSet(SE_TEXTBUTTON, S_SoundSetting.M_BgmVolume, S_SoundSetting.M_LoopNot);
 		TextNumber++;
 		PlaySe();
 		TextUpdate();
@@ -95,7 +95,7 @@ void Story::TextSpeed()
 	if (BackgroundAlpha < 0.0f)
 	{
 		Word->TextOkuriUpdate(g_gameTime->GetFrameDeltaTime() * TextSpeedMagnification);
-		if (g_pad[0]->IsPress(enButtonX) == true) 
+		if (g_pad[0]->IsPress(enButtonX)) 
 		{
 			TextSpeedMagnification = TextDoubleSpeed;
 		}else {
@@ -109,8 +109,8 @@ void Story::TextSpeed()
 }
 void Story::BackGroundFadeOut()
 {
-	if (EndText == true && BackgroundAlpha <= 1.0f) {
-		if (Clear == true) {
+	if (EndText && BackgroundAlpha <= 1.0f) {
+		if (Clear) {
 			BackgroundAlpha += 0.02f;
 		}
 		else {
@@ -120,7 +120,7 @@ void Story::BackGroundFadeOut()
 }
 void Story::TextPostProcessing()
 {
-	if (EndText == true && BackgroundAlpha > 1.0f && Clear == false && fade->IsFade() == false)
+	if (EndText && BackgroundAlpha > 1.0f && !Clear && !fade->IsFade())
 	{
 		if (game == NULL) 
 		{
@@ -137,7 +137,7 @@ void Story::TextPostProcessing()
 }
 void Story::EndPostProcessing()
 {
-	if (BackgroundAlpha > 1.0f && Clear == true && EndText == true)
+	if (BackgroundAlpha > 1.0f && Clear && EndText)
 	{
 		Clear = false;
 		NewGO<Title>(0, "title");
@@ -174,33 +174,33 @@ void Story::PlaySe()
 {
 	if (StoryNumber == Chapter4 && TextNumber == 2)
 	{
-		SoundSource* SE = NewGO<SoundSource>(0);
-		SE->SoundSet(SE_QUESTION, S_SoundSetting.M_BgmVolume, S_SoundSetting.M_LoopNot);
+		SoundSource* P_Se = NewGO<SoundSource>(0);
+		P_Se->SoundSet(SE_QUESTION, S_SoundSetting.M_BgmVolume, S_SoundSetting.M_LoopNot);
 	}
 
 	if (StoryNumber == Chapter7 && TextNumber == 1)
 	{
-		SoundSource* SE = NewGO<SoundSource>(0);
-		SE->SoundSet(BGM_TRAIN, S_SoundSetting.M_BgmVolume, S_SoundSetting.M_LoopNot);
+		SoundSource* P_Se = NewGO<SoundSource>(0);
+		P_Se->SoundSet(BGM_TRAIN, S_SoundSetting.M_BgmVolume, S_SoundSetting.M_LoopNot);
 	}
 
 	if (StoryNumber == Chapter8 && TextNumber == 3)
 	{
-		SoundSource* SE = NewGO<SoundSource>(0);
-		SE->SoundSet(SE_QUESTION, S_SoundSetting.M_BgmVolume, S_SoundSetting.M_LoopNot);
+		SoundSource* P_Se = NewGO<SoundSource>(0);
+		P_Se->SoundSet(SE_QUESTION, S_SoundSetting.M_BgmVolume, S_SoundSetting.M_LoopNot);
 	}
 
 	if (StoryNumber == Chapter9 && TextNumber == 4)
 	{
-		SoundSource* SE = NewGO<SoundSource>(0);
-		SE->SoundSet(BGM_HEART, S_SoundSetting.M_BgmVolume, S_SoundSetting.M_LoopNot);
+		SoundSource* P_Se = NewGO<SoundSource>(0);
+		P_Se->SoundSet(BGM_HEART, S_SoundSetting.M_BgmVolume, S_SoundSetting.M_LoopNot);
 	}
 }
 
 void Story::TextUpdate()
 {
 	int Len;
-	if (StoryNumber == Chapter0 && Clear == false) 
+	if (StoryNumber == Chapter0 && !Clear) 
 	{
 		switch (TextNumber)
 		{
@@ -476,7 +476,7 @@ void Story::TextUpdate()
 		}
 	}
 
-	if (StoryNumber == Chapter9 && game->GetGameClearFlag() == true)
+	if (StoryNumber == Chapter9 && game->GetGameClearFlag())
 	{
 			switch (TextNumber)
 			{
@@ -522,7 +522,7 @@ void Story::TextUpdate()
 
 void Story::StorySwitch()
 {
-	if (StoryNumber == Chapter0 && Clear == false) 
+	if (StoryNumber == Chapter0 && !Clear) 
 	{
 		BGM = NewGO<SoundSource>(0);
 		BGM->SoundSet(SE_QUESTION2, S_SoundSetting.M_BgmVolume, S_SoundSetting.M_Loop);
@@ -634,7 +634,7 @@ void Story::StorySwitch()
 		
 	}
 
-	if (Clear == true)
+	if (Clear)
 	{
 		BGM = NewGO<SoundSource>(0);
 		BGM->SoundSet(BGM_WELCOME, S_SoundSetting.M_BgmVolume, S_SoundSetting.M_Loop);

@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "Stage.h"
-
 #include "G_IceFloor.h"
 #include "G_WeightBoard.h"
 #include "G_Wall.h"
@@ -8,10 +7,8 @@
 #include "G_Block.h"
 #include "G_Kaidan.h"
 #include "G_Ground.h"
-
 #include "Player.h"
 #include "Game.h"
-
 Stage::Stage()
 {
 	for (int Y = 0; Y < 10; Y++)
@@ -75,7 +72,6 @@ void Stage::StageOrderSet()
 	M_StageOrder[STAGE9] = { LEVEL9 };
 }
 
-
 void Stage::GroundDataSet(int Y, int X, int Data)
 {
 	S_MapData[Y][X].M_GroundData = Data;
@@ -84,7 +80,6 @@ void Stage::SkyDataSet(int Y, int X, int Data)
 {
 	S_MapData[Y][X].M_SkyData = Data;
 }
-
 
 void Stage::MapToCopy()
 {
@@ -105,7 +100,6 @@ void Stage::MapToCopy()
 		}
 	}
 }
-
 
 void Stage::LevelSet()
 {
@@ -552,7 +546,7 @@ int Stage::LevelWeightBoardSet()
 	while (fgets(Value, 2, FilePointer) != NULL)
 	{
 
-		if (MiddleReset == true)
+		if (MiddleReset)
 		{
 			Order = 99;
 			Number10 = 99;
@@ -561,7 +555,7 @@ int Stage::LevelWeightBoardSet()
 			MiddleReset = false;
 		}
 		else {
-			if (FullReset == true)
+			if (FullReset)
 			{
 				Step1 = false;
 				Step2 = false;
@@ -578,7 +572,7 @@ int Stage::LevelWeightBoardSet()
 			}
 		}
 
-		if (Step1 == false)
+		if (!Step1)
 		{
 			if (Value[0] == 'X')
 			{
@@ -617,7 +611,7 @@ int Stage::LevelWeightBoardSet()
 			}
 		}
 		else {
-			if (Step1 == true && Step2 == false)
+			if (Step1 && !Step2)
 			{
 				if (Value[0] == 'Y')
 				{
@@ -656,7 +650,7 @@ int Stage::LevelWeightBoardSet()
 				}
 			}
 			else {
-				if (Step1 == true && Step2 == true && Step3 == false)
+				if (Step1 && Step2 && !Step3)
 				{
 					if (Value[0] == 'Z')
 					{
@@ -690,7 +684,6 @@ int Stage::LevelWeightBoardSet()
 	fclose(FilePointer);
 }
 
-
 void Stage::MapSet()
 {
 	MapSetGround();
@@ -702,20 +695,20 @@ void Stage::MapSetGround()
 	{
 		for (int X = 0; X < 10; X++)
 		{
-			if (S_MapData[Y][X].M_HoleOn == true)
+			if (S_MapData[Y][X].M_HoleOn)
 			{
 				GroundDataSet(Y, X, HOLE);
 			}else {
-			if (S_MapData[Y][X].M_IceOn == true)
-			{
-				S_Map.P_Ice->IceFloorOnTrue(Y, X);
-				S_Map.P_Ice->IceFloorSetPosition(Y, X, M_MapPosition[Y][X]);
-				GroundDataSet(Y, X, ICE);
-			}else {
-				S_Map.P_Ground->GroundOnTrue(Y, X);
-				S_Map.P_Ground->GroundSetPosition(Y, X, M_MapPosition[Y][X]);
-				GroundDataSet(Y, X, GROUND);
-			}
+				if (S_MapData[Y][X].M_IceOn)
+				{
+					S_Map.P_Ice->IceFloorOnTrue(Y, X);
+					S_Map.P_Ice->IceFloorSetPosition(Y, X, M_MapPosition[Y][X]);
+					GroundDataSet(Y, X, ICE);
+				}else {
+					S_Map.P_Ground->GroundOnTrue(Y, X);
+					S_Map.P_Ground->GroundSetPosition(Y, X, M_MapPosition[Y][X]);
+					GroundDataSet(Y, X, GROUND);
+				}
 			}
 		}
 	}
@@ -726,13 +719,13 @@ void Stage::MapSetSky()
 	{
 		for (int X = 0; X < 10; X++)
 		{
-			if (S_MapData[Y][X].M_KaidanOn == true)
+			if (S_MapData[Y][X].M_KaidanOn)
 			{
-				S_Map.P_Kaidan->Map_SetPosition(M_MapPosition[Y][X]);
+				S_Map.P_Kaidan->MapSetPosition(M_MapPosition[Y][X]);
 				SkyDataSet(Y, X, KAIDAN);
 			}
 			else {
-				if (S_MapData[Y][X].M_WeightBoardOn == true)
+				if (S_MapData[Y][X].M_WeightBoardOn)
 				{
 					for (int W = 1; W < S_Level[M_StageOrder[P_Game->GetLevel()]][Y][X].M_WeightBoardLinkCount + 1; W++)
 					{
@@ -745,18 +738,16 @@ void Stage::MapSetSky()
 					SkyDataSet(Y, X, WEIGHTBOARD);
 				}
 				else {
-					if (S_MapData[Y][X].M_BlockOn == true)
+					if (S_MapData[Y][X].M_BlockOn)
 					{
-						if (S_MapData[Y][X].M_NonBlockOn == true) { S_Map.P_Block->BlockOn(Y, X); }
+						if (S_MapData[Y][X].M_NonBlockOn) { S_Map.P_Block->BlockOn(Y, X); }
 						S_Map.P_Block->BlockSetPosition(Y, X, M_MapPosition[Y][X]);
-						SkyDataSet(Y, X, BLOCK);
 					}
 				}
 			}
 		}
 	}
 }
-
 int Stage::GetGroundData(int Map, int Direction)
 {
 	switch (Direction)
@@ -784,7 +775,6 @@ int Stage::GetGroundData(int Map, int Direction)
 		break;
 	}
 }
-
 int Stage::GetSkyData(int Map, int Direction)
 {
 	switch (Direction)

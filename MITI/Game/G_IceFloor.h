@@ -9,7 +9,7 @@ public:
 	bool Start();
 
 	void InitModel();
-	void InitPhysicsStaticObject();
+	
 
 	void IceFloorOnPlayer();
 	void IceFloorOnTrue(int Y, int X);
@@ -18,11 +18,15 @@ public:
 	void Update();
 	void Render(RenderContext& rc);
 private:
-	ModelRender M_IceFloorModel[10][10];
-	Vector3 M_IceFloorPosition[10][10];
-	PhysicsStaticObjectPos M_IceFloorPhysicsStaticObject[10][10];
+	ModelRender M_IceFloorModel[M_Ymas][M_Xmas];
+
+	Vector3 M_IceFloorPosition[M_Ymas][M_Xmas];
+
+	PhysicsStaticObjectPos M_IceFloorPhysicsStaticObject[M_Ymas][M_Xmas];
+
 	AllLight M_IceFloorLight;
-	bool M_IceFloorOn[10][10];
+
+	bool M_IceFloorOn[M_Ymas][M_Xmas];
 
 	Player* P_Player = nullptr;
 	Stage* P_Stage = nullptr;

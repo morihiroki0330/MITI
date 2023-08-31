@@ -10,7 +10,6 @@ public:
 
 	void InitModel();
 	void InitSetPosition();
-	void InitLight();
 	void LevelSet();
 
 	void Update();
@@ -26,20 +25,21 @@ public:
 	int GetIronBallMax() { return M_IronBallMax; }
 	int GetIronBallMin() { return M_IronBallMin; }
 private:
-	ModelRender M_IronBallModel[5];
-	Vector3 M_IronBallPosition[5];
-
+	ModelRender M_IronBallModel[M_IronBallCount];
 	ModelRender M_IronBoxModel;
+
 	Vector3 M_IronBoxPosition;
-	Vector3 M_IronBoxSetPosition[10][10];
+	Vector3 M_IronBoxSetPosition[M_Ymas][M_Xmas];
+	Vector3 M_IronBallPosition[M_IronBallCount];
 	
 	AllLight M_IronBallLight;
 	AllLight M_IronBoxLight;
 
-	int M_ShowFlag[5];
 	bool M_IronBoxFlag = false;
-	int M_IronBallMap[5];
-	bool M_IronBallFlag[5];
+	bool M_IronBallFlag[M_IronBallCount];
+	
+	int M_ShowFlag[M_IronBallCount];
+	int M_IronBallMap[M_IronBallCount];
 	int M_IronBoxMap = 0;
 	int M_IronBallMax = 5;
 	int M_IronBallMin = 0;

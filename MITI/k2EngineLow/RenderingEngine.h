@@ -10,11 +10,6 @@ namespace nsK2EngineLow
 	class RenderingEngine : public Noncopyable
 	{
 	public:
-		RenderingEngine();
-		~RenderingEngine();
-
-		void Update();
-
 		enum EnEvent
 		{
 			enEventReInitIBLTexture,

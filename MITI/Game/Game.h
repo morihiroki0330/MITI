@@ -24,34 +24,37 @@ public:
 	void Update();
 
 	void LevelUp() { M_Level += 1; }
-	void ClearFlagSet(bool Flag) { M_ClearFlag = Flag; }
-	void GameOverFlagSet(bool Flag) { M_GameOverFlag = Flag; }
-	void GameClearFlagSet(bool Flag) { M_GameClearFlag = Flag; }
-	void CreateFlagSet(bool Flag) { M_CreateFlag = Flag; }
-	void DeleteFlagSet(bool Flag) { M_DeleteFlag = Flag; }
+	void ClearFlagSet(bool Flag) { M_ClearFlagDecision = Flag; }
+	void GameOverFlagSet(bool Flag) { M_GameOverFlagDecision = Flag; }
+	void GameClearFlagSet(bool Flag) { M_GameClearFlagDecision = Flag; }
+	void CreateFlagSet(bool Flag) { M_CreateFlagDecision = Flag; }
+	void DeleteFlagSet(bool Flag) { M_DeleteFlagDecision = Flag; }
 	void Delete() { DeleteGO(this); }
 
 	int GetLevel() { return M_Level; }
-	bool GetClearFlag() { return M_ClearFlag; }
-	bool GetGameOverFlag() { return M_GameOverFlag; }
-	bool GetGameClearFlag() { return M_GameClearFlag; }
-	bool GetCreateFlag() { return M_CreateFlag; }
-	bool GetDeleteFlag() { return M_DeleteFlag; }
+	bool GetClearFlag() { return M_ClearFlagDecision; }
+	bool GetGameOverFlag() { return M_GameOverFlagDecision; }
+	bool GetGameClearFlag() { return M_GameClearFlagDecision; }
+	bool GetCreateFlag() { return M_CreateFlagDecision; }
+	bool GetDeleteFlag() { return M_DeleteFlagDecision; }
+	bool GetPauseFlag() { return M_PauseFlagDecision; }
 private:
 	int M_Level = 0;
 	int M_LevelMax = 9;
 	
-	bool M_ClearFlag = false;
-	bool M_GameOverFlag = false;
-	bool M_GameClearFlag = false;
-	bool M_CreateFlag = false;
+	bool M_ClearFlagDecision = false;
+	bool M_GameOverFlagDecision = false;
+	bool M_GameClearFlagDecision = false;
+	bool M_CreateFlagDecision = false;
 	
-	bool M_BgmSet = true;
-	bool M_DeleteFlag = false;
+	bool M_BgmSetDecision = true;
+	bool M_DeleteFlagDecision = false;
 
-	bool M_Flag = false;
+	bool M_FlagDecision = false;
 
-	SoundSource* P_BGM = nullptr;
+	bool M_PauseFlagDecision = false;
+
+	SoundSource* P_Bgm = nullptr;
 	IronBall* P_IronBall = nullptr;
 	Player* P_Player = nullptr;
 	Stage* P_Stage = nullptr;

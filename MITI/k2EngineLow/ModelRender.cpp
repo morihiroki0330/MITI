@@ -4,15 +4,6 @@
 
 namespace nsK2EngineLow
 {
-	ModelRender::ModelRender()
-	{
-
-	}
-
-	ModelRender::~ModelRender()
-	{
-
-	}
 
 	void ModelRender::Init
 	(
@@ -21,10 +12,8 @@ namespace nsK2EngineLow
 		AnimationClip* animationClips,
 		int numAnimationClips,
 		EnModelUpAxis enModelUpAxis
-		
 	)
 	{
-		//モデル・アニメーションのパス
 		m_modelInitData.m_tkmFilePath = filePath;
 		m_modelInitData.m_fxFilePath = "Assets/shader/model.fx";
 		m_modelInitData.m_modelUpAxis = enModelUpAxis;
@@ -36,8 +25,9 @@ namespace nsK2EngineLow
 			m_modelInitData.m_vsSkinEntryPointFunc = "VSSkinMain";
 		}
 
-		//ライトのパス
 		SetDirectionLight(light.DirectionLight_D, light.DirectionLight_C);
+		SetPositionLight(light.Point_C, light.Point_P, light.Point_R);
+		SetCommonLight(light.ambientlight);
 
 		m_modelInitData.m_expandConstantBuffer = &m_light;
 		m_modelInitData.m_expandConstantBufferSize = sizeof(m_light);
@@ -57,7 +47,8 @@ namespace nsK2EngineLow
 	{
 		m_animationClips = animationClips;
 		m_numAnimationClips = numAnimationClips;
-		if (m_animationClips != nullptr) {
+		if (m_animationClips != nullptr) 
+		{
 			m_animation.Init(m_skeleton,
 				m_animationClips,
 				numAnimationClips);

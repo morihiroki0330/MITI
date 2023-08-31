@@ -11,7 +11,7 @@ GameOver::GameOver()
 }
 GameOver::~GameOver()
 {
-	DeleteGO(P_BGM);
+	DeleteGO(P_Bgm);
 	P_Game->CreateFlagSet(true);
 }
 bool GameOver::Start()
@@ -29,25 +29,25 @@ void GameOver::InitTexture()
 }
 void GameOver::InitSound()
 {
-	P_BGM = NewGO<SoundSource>(0);
-	P_BGM->SoundSet(BGM_GAMEOVER, S_SoundSetting.M_BgmVolume, S_SoundSetting.M_Loop);
+	P_Bgm = NewGO<SoundSource>(0);
+	P_Bgm->SoundSet(BGM_GAMEOVER, S_SoundSetting.M_BgmVolume, S_SoundSetting.M_Loop);
 }
 
 void GameOver::Update()
 {
-	P_Fade->ButtonFade(M_AbuttonTexture, M_PressAbutton);
-	if (P_Fade->IsFade() == false && M_ClassDelete == true)
+	P_Fade->ButtonFade(M_AbuttonTexture, M_PressAbuttonDecision);
+	if (!P_Fade->IsFade() && M_ClassDeleteDecision)
 	{
 		DeleteGO(this);
 	}
 	else {
-		if (g_pad[0]->IsTrigger(enButtonA) && M_ClassDelete == false)
+		if (g_pad[0]->IsTrigger(enButtonA) && !M_ClassDeleteDecision)
 		{
-			SoundSource* SE = NewGO<SoundSource>(0);
-			SE->SoundSet(SE_BUTTON, S_SoundSetting.M_BgmVolume, S_SoundSetting.M_LoopNot);
+			SoundSource* P_Se = NewGO<SoundSource>(0);
+			P_Se->SoundSet(SE_BUTTON, S_SoundSetting.M_BgmVolume, S_SoundSetting.M_LoopNot);
 			P_Fade->StartFadeOut();
-			M_PressAbutton = true;
-			M_ClassDelete = true;
+			M_PressAbuttonDecision = true;
+			M_ClassDeleteDecision = true;
 		}
 	}
 }
